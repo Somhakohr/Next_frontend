@@ -43,7 +43,7 @@ export default function Footer() {
                     <h4 className="font-bold text-xl mt-2 mb-4">Company</h4>
                     <ul>
                         {quicklinks.map((quicklinks) => (
-                            <li className="mb-3">
+                            <li className="mb-3" key={quicklinks.toString()}>
                                 <Link href={quicklinks.url} className="hover:text-[#6D27F9] font-medium">
                                     {quicklinks.text}
                                 </Link>
@@ -55,7 +55,7 @@ export default function Footer() {
                     <h4 className="font-bold text-xl mt-2 mb-4">Follow Us</h4>
                     <ul>
                         {followUs.map((followUs) => (
-                            <li className="mb-3">
+                            <li className="mb-3" key={followUs.toString()}>
                                 <Link href={followUs.url} className="hover:text-[#6D27F9] inline-flex items-center font-medium">
                                     <span className="inline-block w-[30px] mr-2 text-center text-2xl">
                                     {followUs.icon}

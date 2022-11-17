@@ -18,16 +18,15 @@ export default function Header() {
                     <Link href="/" className="max-w-[260px] w-full inline-block">
                         <img src="/images/logo.png" alt="Somhako" />
                     </Link>
-                    <div className="border rounded overflow-hidden font-medium bg-white">
+                    <ul className="border rounded overflow-hidden font-medium bg-white flex">
                         {authAction.map((authAction) => (
-                            <>
-                            <Link href={authAction.url} className="px-5 py-[13px] leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">
-                                {authAction.text}
-                            </Link>
-                            <span className="leading-none last:hidden">|</span>
-                            </>
+                            <li key={authAction.toString()} className="last:border-l">
+                                <Link href={authAction.url} className="px-5 py-[13px] leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">
+                                    {authAction.text}
+                                </Link>
+                            </li>
                         ))}
-                    </div>
+                    </ul>
                 </div>
             </div>
         </>
