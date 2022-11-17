@@ -10,7 +10,11 @@ module.exports = {
       center: true,
       padding: '1rem',
     },
-    extend: {},
+    extend: {
+      boxShadow: {
+        'normal': '0 0px 10px rgba(0, 0, 0, 0.15)',
+      }
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),

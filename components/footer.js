@@ -15,22 +15,22 @@ export default function Footer() {
         {
             url: '#',
             text: 'LinkedIn',
-            icon: <i class="fa-brands fa-linkedin-in"></i>
+            icon: <i className="fa-brands fa-linkedin-in"></i>
         },
         {
             url: '#',
             text: 'Discord',
-            icon: <i class="fa-brands fa-discord"></i>
+            icon: <i className="fa-brands fa-discord"></i>
         },
         {
             url: '#',
             text: 'Twitter',
-            icon: <i class="fa-brands fa-twitter"></i>
+            icon: <i className="fa-brands fa-twitter"></i>
         }
     ];
     return (
     <>
-    <div className="bg-[#7733ff0d]">
+    <div className="bg-[#f1f1f1] relative">
         <div className="py-8">
             <div className="container flex flex-wrap">
                 <div className="w-full lg:w-3/12 mb-4">
@@ -42,8 +42,8 @@ export default function Footer() {
                 <div className="w-full md:w-4/12 lg:w-3/12 lg:pl-20 mb-4">
                     <h4 className="font-bold text-xl mt-2 mb-4">Company</h4>
                     <ul>
-                        {quicklinks.map((quicklinks) => (
-                            <li className="mb-3" key={quicklinks.toString()}>
+                        {quicklinks.map((quicklinks, i) => (
+                            <li className="mb-3" key={i}>
                                 <Link href={quicklinks.url} className="hover:text-[#6D27F9] font-medium">
                                     {quicklinks.text}
                                 </Link>
@@ -54,8 +54,8 @@ export default function Footer() {
                 <div className="w-full md:w-4/12 lg:w-3/12 mb-4">
                     <h4 className="font-bold text-xl mt-2 mb-4">Follow Us</h4>
                     <ul>
-                        {followUs.map((followUs) => (
-                            <li className="mb-3" key={followUs.toString()}>
+                        {followUs.map((followUs, i) => (
+                            <li className="mb-3" key={i}>
                                 <Link href={followUs.url} className="hover:text-[#6D27F9] inline-flex items-center font-medium">
                                     <span className="inline-block w-[30px] mr-2 text-center text-2xl">
                                     {followUs.icon}
@@ -70,8 +70,8 @@ export default function Footer() {
                     <h4 className="font-bold text-xl mt-2 mb-4">Newsletter</h4>
                     <form>
                         <div className="iconGroup mb-4">
-                            <input type="email" placeholder="Email Address" className="w-full rounded" />
-                            <i class="fa-solid fa-envelope iconGroup__icon"></i>
+                            <input type="email" placeholder="Email Address" className="w-full rounded border-slate-300" />
+                            <i className="fa-solid fa-envelope iconGroup__icon"></i>
                         </div>
                         <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">Submit</button>
                     </form>

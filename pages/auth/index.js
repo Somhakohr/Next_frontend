@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-export default function Auth() {
+export default function SignIn() {
     return (
     <>
     <Head>
