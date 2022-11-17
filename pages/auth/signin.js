@@ -1,11 +1,29 @@
 import Head from "next/head";
 import Image from 'next/image';
 import Link from 'next/link'
+import React from "react";
+import Slider from "react-slick";
 import Graphic_1 from '../../public/images/graphic-1.png';
 import Google_Icon from '../../public/images/google-icon.png';
 import Facebook_Icon from '../../public/images/facebook-icon.png';
+import slide_1 from '../../public/images/slide-1.png';
+import slide_2 from '../../public/images/slide-2.png';
+import slide_3 from '../../public/images/slide-3.png';
+import slide_4 from '../../public/images/slide-4.png';
 
 export default function SignIn() {
+  const settings = {
+    dots: true,
+    arrows: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    adaptiveHeight: false,
+    fade: true,
+    autoplay: true,
+    autoplaySpeed: 2000,
+  };
   return (
     <>
       <Head>
@@ -15,42 +33,55 @@ export default function SignIn() {
       </Head>
       <main className="bg-[#FAF8FF]">
         <section className="py-12">
-          <div className="container flex">
-              <div className="pr-20 lg:w-[40%]">
-                  <div className="bg-white shadow-normal rounded-[30px] py-4 px-8">
-                      Test
+          <div className="container flex flex-wrap">
+              <div className="mb-6 lg:mb-0 lg:pr-20 w-full lg:w-[40%] hidden lg:block">
+                  <div className="bg-white shadow-normal rounded-[30px] mx-auto max-w-[500px] lg:max-w-[100%] py-4 px-8 pb-14">
+                    <Slider {...settings}>
+                      <div>
+                        <Image src={slide_1} className="w-full" alt="Slide 1" />
+                      </div>
+                      <div>
+                        <Image src={slide_2} className="w-full" alt="Slide 2" />
+                      </div>
+                      <div>
+                        <Image src={slide_3} className="w-full" alt="Slide 3" />
+                      </div>
+                      <div>
+                        <Image src={slide_4} className="w-full" alt="Slide 4" />
+                      </div>
+                    </Slider>
                   </div>
               </div>
-              <div className="lg:w-[60%]">
-                  <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] py-10 px-20">
+              <div className="w-full lg:w-[60%]">
+                  <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] p-8 lg:py-10 lg:px-20">
                       <h1 className="font-medium text-3xl flex items-center mb-12">
                         Sign in
-                        <Image src={Graphic_1} className="ml-4" width={60} />
+                        <Image src={Graphic_1} className="ml-4" width={60} alt="SignIn" />
                       </h1>
                       <form className="mb-16">
                         <div className="inputField mb-6">
-                          <label for="email" className="font-medium mb-2 leading-none inline-block">Email</label>
+                          <label htmlFor="email" className="font-medium mb-2 leading-none inline-block">Email</label>
                           <input id="email" type="email" className="w-full rounded border-slate-300" />
                         </div>
                         <div className="inputField mb-6">
-                          <label for="password" className="font-medium mb-2 leading-none inline-block">Password</label>
+                          <label htmlFor="password" className="font-medium mb-2 leading-none inline-block">Password</label>
                           <input id="password" type="password" className="w-full rounded border-slate-300" />
                         </div>
-                        <div className="flex items-center justify-between">
-                          <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]">Sign In</button>
-                          <Link href="#" className="hover:underline">Forgot Password</Link>
+                        <div className="flex flex-wrap items-center justify-between">
+                          <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]">Sign In</button>
+                          <Link href="#" className="my-4 hover:underline">Forgot Password</Link>
                         </div>
                       </form>
                       <div className="relative mb-8">
                         <hr className="border-slate-600" />
-                        <span className="absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-5">Or Sign In With</span>
+                        <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or Sign In With</span>
                       </div>
                       <div className="flex items-center justify-center">
                         <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2">
-                          <Image src={Google_Icon} width={15} />
+                          <Image src={Google_Icon} width={15} alt="Google" />
                         </div>
                         <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2">
-                          <Image src={Facebook_Icon} width={15} />
+                          <Image src={Facebook_Icon} width={15} alt="Facebook" />
                         </div>
                       </div>
                   </div>

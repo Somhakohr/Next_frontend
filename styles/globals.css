@@ -59,3 +59,17 @@ i.fa-solid {
 .iconGroup input {
   padding-left: 40px;
 }
+
+.slick-dots li button:before {
+  font-size: 18px !important;
+}
+.slick-dots li button::before {
+  color: rgb(211, 211, 211) !important;
+  opacity: 1 !important;
+}
+.slick-dots li.slick-active button::before, .slick-dots li:hover button::before {
+  color: var(--primary) !important;
+}
+.slick-dots li:focus button::before {
+  color: inherit !important;
+}

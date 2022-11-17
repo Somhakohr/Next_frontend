@@ -2,6 +2,8 @@ import '../styles/globals.css'
 import Head from 'next/head'
 import Header from '../components/header'
 import Footer from '../components/footer'
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 
 function MyApp({ Component, pageProps }) {

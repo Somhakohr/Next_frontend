@@ -73,7 +73,7 @@ export default function Footer() {
                             <input type="email" placeholder="Email Address" className="w-full rounded border-slate-300" />
                             <i className="fa-solid fa-envelope iconGroup__icon"></i>
                         </div>
-                        <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">Submit</button>
+                        <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">Submit</button>
                     </form>
                 </div>
             </div>
