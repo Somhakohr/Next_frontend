@@ -25,18 +25,18 @@ export default function SignIn() {
                         Sign in
                       </h1>
                       <form className="mb-16">
-                        <div className="inputField mb-6">
+                        <div className="mb-6">
                           <label htmlFor="email" className="font-medium mb-2 leading-none inline-block">Email</label>
                           <input id="email" type="email" className="w-full rounded-full border-slate-300" />
                         </div>
-                        <div className="inputField mb-6">
+                        <div className="mb-6">
                           <label htmlFor="password" className="font-medium mb-2 leading-none inline-block">Password</label>
                           <input id="password" type="password" className="w-full rounded-full border-slate-300" />
                         </div>
                         <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
-                          <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]">
+                          <button type="submit" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]">
                             Sign in
-                            <i class="fa-solid fa-arrow-right-to-bracket ml-2"></i>
+                            <i className="fa-solid fa-arrow-right-to-bracket ml-2"></i>
                           </button>
                           <Link href="/auth/forgot-password" className="my-3 inline-block text-[#6D27F9] hover:underline">Forgot Password</Link>
                         </div>

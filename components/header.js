@@ -24,7 +24,7 @@ export default function Header() {
                         <img src="/images/logo.png" alt="Somhako" />
                     </Link>
                     <button type="button" onClick={() => setOpen(true)} className="lg:hidden text-2xl">
-                        <i class="fa-solid fa-bars"></i>
+                        <i className="fa-solid fa-bars"></i>
                     </button>
                     <ul className="hidden lg:flex border rounded overflow-hidden font-medium bg-white">
                         {authAction.map((authAction, i) => (

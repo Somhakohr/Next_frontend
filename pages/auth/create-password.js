@@ -21,16 +21,16 @@ export default function ForgotPassword() {
                         Create Password
                       </h1>
                       <form>
-                        <div className="inputField mb-6">
+                        <div className="mb-6">
                           <label htmlFor="newpassword" className="font-medium mb-2 leading-none inline-block">New Password</label>
                           <input id="newpassword" type="password" className="w-full rounded-full border-slate-300" />
                         </div>
-                        <div className="inputField mb-6">
+                        <div className="mb-6">
                           <label htmlFor="confirmnewpassword" className="font-medium mb-2 leading-none inline-block">Confirm New Password</label>
                           <input id="confirmnewpassword" type="password" className="w-full rounded-full border-slate-300" />
                         </div>
                         <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
-                          <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]">
+                          <button type="submit" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]">
                             Submit
                           </button>
                         </div>
