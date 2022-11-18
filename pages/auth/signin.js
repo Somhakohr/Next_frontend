@@ -1,28 +1,11 @@
 import Head from "next/head";
 import Image from 'next/image';
 import Link from 'next/link'
-import React from "react";
-import Slider from "react-slick";
+import Auth_Slider from "./auth-slider";
 import Google_Icon from '../../public/images/google-icon.png';
 import Facebook_Icon from '../../public/images/facebook-icon.png';
-import slide_1 from '../../public/images/slide-1.png';
-import slide_2 from '../../public/images/slide-2.png';
-import slide_3 from '../../public/images/slide-3.png';
-import slide_4 from '../../public/images/slide-4.png';
 
 export default function SignIn() {
-  const settings = {
-    dots: true,
-    arrows: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    adaptiveHeight: false,
-    fade: true,
-    autoplay: true,
-    autoplaySpeed: 5000,
-  };
   return (
     <>
       <Head>
@@ -34,25 +17,10 @@ export default function SignIn() {
         <section className="py-12">
           <div className="mx-auto max-w-[1200px] w-full px-4 flex flex-wrap items-center">
               <div className="mb-6 lg:mb-0 lg:pr-20 w-full lg:w-[40%] hidden lg:block">
-                  <div className="bg-white shadow-normal rounded-[30px] mx-auto max-w-[500px] lg:max-w-[100%] py-4 px-8 pb-14">
-                    <Slider {...settings}>
-                      <div>
-                        <Image src={slide_1} className="w-full" alt="Slide 1" />
-                      </div>
-                      <div>
-                        <Image src={slide_2} className="w-full" alt="Slide 2" />
-                      </div>
-                      <div>
-                        <Image src={slide_3} className="w-full" alt="Slide 3" />
-                      </div>
-                      <div>
-                        <Image src={slide_4} className="w-full" alt="Slide 4" />
-                      </div>
-                    </Slider>
-                  </div>
+                <Auth_Slider />
               </div>
               <div className="w-full lg:w-[60%]">
-                  <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] p-10 lg:px-24">
+                  <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] p-10 lg:px-24 min-h-[550px] flex flex-col justify-center">
                       <h1 className="font-medium text-3xl mb-12">
                         Sign in
                       </h1>
