@@ -2,9 +2,11 @@ import Link from 'next/link'
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import useAuth from '../hooks/useAuth'
 
 export default function Header() {
     const [open, setOpen] = useState(false)
+    const {isauth,setIsAuth} = useAuth();
     const authAction = [
         {
             url: '/auth/signin',
@@ -26,6 +28,11 @@ export default function Header() {
                     <button type="button" onClick={() => setOpen(true)} className="lg:hidden text-2xl">
                         <i className="fa-solid fa-bars"></i>
                     </button>
+                    { isauth ? 
+                    <>
+                    </>
+                    :
+                    <>
                     <ul className="hidden lg:flex border rounded overflow-hidden font-medium bg-white">
                         {authAction.map((authAction, i) => (
                             <li key={i} className="last:border-l">
@@ -35,6 +42,9 @@ export default function Header() {
                             </li>
                         ))}
                     </ul>
+                    </>
+                    }
+                    
                 </div>
             </div>
             <Transition.Root show={open} as={Fragment}>

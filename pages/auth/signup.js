@@ -6,8 +6,24 @@ import graphic_1 from '../../public/images/graphic-1.png';
 import graphic_2 from '../../public/images/graphic-2.png';
 import Google_Icon from '../../public/images/google-icon.png';
 import Facebook_Icon from '../../public/images/facebook-icon.png';
+import {react,useState,useEffect} from "react";
 
 export default function SignUp() {
+  const [section, setSection] = useState(0);
+  const [choice, setChoice] = useState(0);
+
+  function validateChoice() {
+    return choice!=0;
+  }
+
+  function creatAccBtn() {
+    setSection(choice);
+  }
+
+  function resetFun() {
+    setSection(0);
+  }
+
   return (
     <>
       <Head>
@@ -23,40 +39,13 @@ export default function SignUp() {
               </div>
               <div className="w-full lg:w-[60%]">
                   <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] p-10 lg:px-16 min-h-[550px] flex flex-col justify-center">
-                      <aside>
-                        <h2 className="font-medium text-3xl mb-12 text-center">
-                          How do you want to Signup us?
-                        </h2>
-                        <div className="mb-16">
-                          <div className="flex items-center justify-between w-full max-w-[500px] mx-auto mb-8">
-                            <label htmlFor="organisation" className="rounded w-full max-w-[47%] bg-gradient-to-r from-[#A382E5] to-[#60C3E2] relative p-4 flex flex-col items-center text-center cursor-pointer">
-                              <Image src={graphic_1} alt="Organisation" width={80} className="mb-3" />
-                              <span className="mb-3 text-white">Signup as organisation</span>
-                              <input id="organisation" type="radio" name="singupAs" />
-                            </label>
-                            <label htmlFor="candidate" className="rounded w-full max-w-[47%] bg-gradient-to-r from-[#A382E5] to-[#60C3E2] relative p-4 flex flex-col items-center text-center cursor-pointer">
-                              <Image src={graphic_2} alt="Candidate" width={80} className="mb-3" />
-                              <span className="mb-3 text-white">Signup as candidate</span>
-                              <input id="candidate" type="radio" name="singupAs" />
-                            </label>
-                          </div>
-                          <div className="text-center">
-                            <button type="button" disabled="disabled" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[230px] transition-all hover:from-[#391188] hover:to-[#391188]">
-                              Create Account
-                            </button>
-                          </div>
-                        </div>
-                        <div className="relative mb-8">
-                          <hr className="border-slate-600" />
-                          <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Already have an Account</span>
-                        </div>
-                        <div className="text-center">
-                          <Link href="/auth/signin" className="text-[#6D27F9] hover:underline">Sign In</Link>
-                        </div>
-                      </aside>
+                    {section>0?
+                      <>
+                      {section==1?
+                      <>
                       <aside>
                         <h1 className="font-medium text-3xl mb-12">
-                          Sign up as organisation
+                          Sign up as organisation &nbsp;<span onClick={resetFun}>Go Back</span>
                         </h1>
                         <form>
                           <div className="flex flex-wrap justify-between">
@@ -100,9 +89,13 @@ export default function SignUp() {
                           </div>
                         </form>
                       </aside>
+                      </>
+                      :<></>}
+                      {section==2?
+                      <>
                       <aside>
                         <h1 className="font-medium text-3xl mb-12">
-                          Sign up as candidate
+                          Sign up as candidate&nbsp;<span onClick={resetFun}>Go Back</span>
                         </h1>
                         <form className="mb-16">
                           <div className="flex flex-wrap justify-between">
@@ -155,6 +148,44 @@ export default function SignUp() {
                           </div>
                         </div>
                       </aside>
+                      </>
+                      :<></>}
+                      </>
+                    :
+                    <>                    
+                      <aside>
+                        <h2 className="font-medium text-3xl mb-12 text-center">
+                          How do you want to Signup us?
+                        </h2>
+                        <div className="mb-16">
+                          <div className="flex items-center justify-between w-full max-w-[500px] mx-auto mb-8">
+                            <label htmlFor="organisation" className="rounded w-full max-w-[47%] bg-gradient-to-r from-[#A382E5] to-[#60C3E2] relative p-4 flex flex-col items-center text-center cursor-pointer">
+                              <Image src={graphic_1} alt="Organisation" width={80} className="mb-3" />
+                              <span className="mb-3 text-white">Signup as organisation</span>
+                              <input id="organisation" type="radio" name="singupAs" value={1} onChange={(e) => setChoice(1)}/>
+                            </label>
+                            <label htmlFor="candidate" className="rounded w-full max-w-[47%] bg-gradient-to-r from-[#A382E5] to-[#60C3E2] relative p-4 flex flex-col items-center text-center cursor-pointer">
+                              <Image src={graphic_2} alt="Candidate" width={80} className="mb-3" />
+                              <span className="mb-3 text-white">Signup as candidate</span>
+                              <input id="candidate" type="radio" name="singupAs" value={2} onChange={(e) => setChoice(2)}/>
+                            </label>
+                          </div>
+                          <div className="text-center">
+                            <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[230px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!validateChoice()} onClick={creatAccBtn}>
+                              Create Account
+                            </button>
+                          </div>
+                        </div>
+                        <div className="relative mb-8">
+                          <hr className="border-slate-600" />
+                          <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Already have an Account</span>
+                        </div>
+                        <div className="text-center">
+                          <Link href="/auth/signin" className="text-[#6D27F9] hover:underline">Sign In</Link>
+                        </div>
+                      </aside>
+                    </>}    
+                    
                   </div>
               </div>
           </div>
