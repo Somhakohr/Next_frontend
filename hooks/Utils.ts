@@ -5,9 +5,7 @@ export namespace JwtUtils {
     // offset by 60 seconds, so we will check if the token is "almost expired".
     const currentTime = Math.round(Date.now() / 1000 + 60);
     const decoded = jwt.decode(token);
-    // console.log(decoded);
-    // console.log(token);
-
+    
     console.log(`Current time + 60 seconds: ${new Date(currentTime * 1000)}`);
     console.log(`Token lifetime: ${new Date(decoded["exp"] * 1000)}`);
 

@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import NextAuth from "next-auth";
 import { NextAuthOptions } from "next-auth";
-import Providers from "next-auth/react";
 import axios from "axios";
 import { JwtUtils, UrlUtils } from "../../../hooks/Utils";
 import GoogleProvider from "next-auth/providers/google";
@@ -32,7 +31,7 @@ namespace NextAuthUtils {
 }
 
 const settings: NextAuthOptions = {
-  secret: 'LlKq6ZtYbr+hTC073mAmAh9/h2HwMfsFo4hrfCx5mLg=',
+  secret: process.env.SESSION_SECRET,
   session: {
     jwt: true,
     maxAge: 24 * 60 * 60, // 24 hours
@@ -43,8 +42,8 @@ const settings: NextAuthOptions = {
   debug: process.env.NODE_ENV === "development",
   providers: [
     GoogleProvider({
-      clientId: '916596861237-rucbipi8kd899rjoqds3u69c8lugenun.apps.googleusercontent.com',
-      clientSecret: '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',
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
     LinkedInProvider({
       clientId: process.env.LINKEDIN_CLIENT_ID,
@@ -65,17 +64,9 @@ const settings: NextAuthOptions = {
             }
         });
 
-
-        console.log("user",user);
-        console.log("------------");
-        console.log("account",account);
-        console.log("------------");
-
         if (account.provider === "google") {
           const accessToken = account.access_token;
           const idToken = account.id_token;
-          console.log(accessToken);
-          console.log(idToken);
 
           await axiosInstance.post('/auth/signin/'+account.provider+'/', {
             access_token: accessToken,
@@ -140,8 +131,6 @@ const settings: NextAuthOptions = {
     },
 
     async session({ session, token }) {
-      console.log("sess",session);
-      console.log(token);
       session.accessToken = token.accessToken;
       return session;
     },
