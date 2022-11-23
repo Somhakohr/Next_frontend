@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import React from "react";
 import Slider from "react-slick";
-import slide_1 from '../../public/images/slide-1.png';
-import slide_2 from '../../public/images/slide-2.png';
-import slide_3 from '../../public/images/slide-3.png';
-import slide_4 from '../../public/images/slide-4.png';
+import slide_1 from '../public/images/slide-1.png';
+import slide_2 from '../public/images/slide-2.png';
+import slide_3 from '../public/images/slide-3.png';
+import slide_4 from '../public/images/slide-4.png';
 
 export default function AuthSlider() {
     const settings = {

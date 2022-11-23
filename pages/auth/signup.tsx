@@ -1,12 +1,13 @@
 import Head from "next/head";
 import Image from 'next/image';
 import Link from 'next/link'
-import Auth_Slider from "./auth-slider";
+import Auth_Slider from "../../components/auth-slider";
 import graphic_1 from '../../public/images/graphic-1.png';
 import graphic_2 from '../../public/images/graphic-2.png';
 import Google_Icon from '../../public/images/google-icon.png';
 import Facebook_Icon from '../../public/images/facebook-icon.png';
-import {react,useState,useEffect} from "react";
+import React from "react";
+import { useState,useEffect } from "react";
 
 export default function SignUp() {
   const [section, setSection] = useState(0);

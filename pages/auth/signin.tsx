@@ -1,10 +1,11 @@
 import Head from "next/head";
 import Image from 'next/image';
 import Link from 'next/link'
-import Auth_Slider from "./auth-slider";
+import AuthSlider from "../../components/auth-slider";
 import Google_Icon from '../../public/images/google-icon.png';
 import Facebook_Icon from '../../public/images/facebook-icon.png';
-import {react,useState,useEffect} from "react";
+import React from "react";
+import { useState,useEffect } from "react";
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import useAuth from "../../hooks/useAuth";
@@ -221,7 +222,7 @@ export default function SignIn() {
         <section className="py-12">
           <div className="mx-auto max-w-[1200px] w-full px-4 flex flex-wrap items-center">
               <div className="mb-6 lg:mb-0 lg:pr-20 w-full lg:w-[40%] hidden lg:block">
-                <Auth_Slider />
+                <AuthSlider />
               </div>
               <div className="w-full lg:w-[60%]">
                   <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] p-10 lg:px-24 min-h-[550px] flex flex-col justify-center">

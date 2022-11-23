@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Auth_Slider from "./auth-slider";
+import Auth_Slider from "../../components/auth-slider";
 
 export default function ForgotPassword() {
   return (

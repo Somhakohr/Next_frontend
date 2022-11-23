@@ -1,10 +1,10 @@
 import '../styles/globals.css'
 import Head from 'next/head'
-import Header from '../components/header'
-import Footer from '../components/footer'
+import Header from '../components/header';
+import Footer from '../components/footer';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {react,useState,useEffect} from "react";
+import React from 'react';
 import AuthProvider from '../context/AuthContext/AuthProvider';
 
 
