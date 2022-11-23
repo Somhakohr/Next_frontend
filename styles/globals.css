@@ -9,7 +9,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     font-family: Lexend;
-  color: #333;
+  color: #111;
 }
 
 a {
@@ -83,4 +83,21 @@ i.fa-solid {
 }
 .slick-dots li:focus button::before {
   color: inherit !important;
+}
+.sliderArrows button.slick-arrow {
+  top: inherit;
+  bottom: -40px;
+}
+.sliderArrows button.slick-arrow::before {
+  color: black;
+}
+.sliderArrows {
+  margin-bottom: 40px;
+}
+.sliderArrows button.slick-prev {
+  left: inherit;
+  right: 30px;
+}
+.sliderArrows button.slick-next {
+  right: 0;
 }
