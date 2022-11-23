@@ -41,44 +41,44 @@ export default function SignIn() {
     return email.length > 0 && password.length >= 8;
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    console.log(email);
-    console.log(password);
+  // async function handleSubmit(event) {
+  //   event.preventDefault();
+  //   console.log(email);
+  //   console.log(password);
 
-    await axiosInstance.post('/auth/login/', {
-        email: email,
-        password: password,
-    }).then((response)=>{
-      console.log(response);
-      setIsAuth(true);     
-      router.push('/');
-       // localStorage.setItem('access_token', response.data.tokens.access);
-      // localStorage.setItem('refresh_token', response.data.tokens.refresh);
-      // setIsAuth(true);
-    }).catch((err)=>{
-      setIsAuth(false);
-      // console.log(err);
-      // setIsAuth(false);
-    });
+  //   await axiosInstance.post('/auth/login/', {
+  //       email: email,
+  //       password: password,
+  //   }).then((response)=>{
+  //     console.log(response);
+  //     setIsAuth(true);     
+  //     router.push('/');
+  //      // localStorage.setItem('access_token', response.data.tokens.access);
+  //     // localStorage.setItem('refresh_token', response.data.tokens.refresh);
+  //     // setIsAuth(true);
+  //   }).catch((err)=>{
+  //     setIsAuth(false);
+  //     // console.log(err);
+  //     // setIsAuth(false);
+  //   });
 
 
-    // try {
-    //     const response = axiosInstance.post('/auth/login/', {
-    //         email: email,
-    //         password: password
-    //     });
-    //     console.log(response);
-    //     axiosInstance.defaults.headers['Authorization'] = "JWT " + response.data.tokens.access;
-    //     console.log(response.data);
-    //     localStorage.setItem('access_token', response.data.tokens.access);
-    //     localStorage.setItem('refresh_token', response.data.tokens.refresh);
-    //     return data;
-    // } catch (error) {
-    //     // throw error;
-    //     console.log(error)
-    // }
-  }
+  //   // try {
+  //   //     const response = axiosInstance.post('/auth/login/', {
+  //   //         email: email,
+  //   //         password: password
+  //   //     });
+  //   //     console.log(response);
+  //   //     axiosInstance.defaults.headers['Authorization'] = "JWT " + response.data.tokens.access;
+  //   //     console.log(response.data);
+  //   //     localStorage.setItem('access_token', response.data.tokens.access);
+  //   //     localStorage.setItem('refresh_token', response.data.tokens.refresh);
+  //   //     return data;
+  //   // } catch (error) {
+  //   //     // throw error;
+  //   //     console.log(error)
+  //   // }
+  // }
 
   return (
     <>
@@ -229,14 +229,16 @@ export default function SignIn() {
                       <h1 className="font-medium text-3xl mb-12">
                         Sign in
                       </h1>
-                      <form className="mb-16" onSubmit={handleSubmit}>
+
+                      <form className="mb-16" action="http://localhost:3000/api/auth/callback/credentials" method="POST">
+                      <input type="hidden" name="csrfToken" value="4ebe09e5178698c31f2a48e7aea7aedd1ec6bd79ae2b6a4ee8e8332dd9ba1cfc" />
                         <div className="mb-6">
                           <label htmlFor="email" className="font-medium mb-2 leading-none inline-block">Email</label>
-                          <input id="email" type="email" className="w-full rounded-full border-slate-300" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                          <input type="email" name="email" id="input-email-for-credentials-provider" className="w-full rounded-full border-slate-300" value={email} onChange={(e) => setEmail(e.target.value)}/>
                         </div>
                         <div className="mb-6">
                           <label htmlFor="password" className="font-medium mb-2 leading-none inline-block">Password</label>
-                          <input id="password" type="password" className="w-full rounded-full border-slate-300" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                          <input type="password" name="password" id="input-password-for-credentials-provider" className="w-full rounded-full border-slate-300" value={password} onChange={(e) => setPassword(e.target.value)} />
                         </div>
                         <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
                           <button type="submit" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!validateForm()}>
@@ -254,13 +256,23 @@ export default function SignIn() {
                         <hr className="border-slate-600" />
                         <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or sign in with</span>
                       </div>
+                      
                       <div className="flex items-center justify-center">
-                        <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2">
-                          <Image src={Google_Icon} width={15} alt="Google" />
-                        </div>
-                        <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2">
-                          <Image src={Facebook_Icon} width={15} alt="Facebook" />
-                        </div>
+                        <form action="http://localhost:3000/api/auth/signin/google" method="POST">
+                          <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2">
+                            <input type="hidden" name="csrfToken" value="4ebe09e5178698c31f2a48e7aea7aedd1ec6bd79ae2b6a4ee8e8332dd9ba1cfc" />
+                            <input type="hidden" name="callbackUrl" value="http://localhost:3000/" />
+                            <button type="submit"><Image src={Google_Icon} width={15} alt="Google" /></button>
+                          </div>
+                        </form>
+
+                        <form action="http://localhost:3000/api/auth/signin/github" method="POST">
+                          <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2">
+                            <input type="hidden" name="csrfToken" value="4ebe09e5178698c31f2a48e7aea7aedd1ec6bd79ae2b6a4ee8e8332dd9ba1cfc" />
+                            <input type="hidden" name="callbackUrl" value="http://localhost:3000/" />
+                            <button type="submit"><Image src={Facebook_Icon} width={15} alt="GitHub" /></button>
+                          </div>
+                        </form>
                       </div>
                   </div>
               </div>

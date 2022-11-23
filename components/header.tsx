@@ -1,12 +1,14 @@
-import Link from 'next/link'
-import { Fragment, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
-import useAuth from '../hooks/useAuth'
+import Link from 'next/link';
+import { Fragment, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { signOut } from "next-auth/react";
+import { useAuth22 } from '../hooks/useStore';
 
 export default function Header() {
     const [open, setOpen] = useState(false)
-    const {isauth,setIsAuth} = useAuth();
+    // const {isauth,setIsAuth} = useAuth();
+    const { session } = useAuth22(3 * 60);
     const authAction = [
         {
             url: '/auth/signin',
@@ -28,8 +30,13 @@ export default function Header() {
                     <button type="button" onClick={() => setOpen(true)} className="lg:hidden text-2xl">
                         <i className="fa-solid fa-bars"></i>
                     </button>
-                    { isauth ? 
+                    { session ? 
                     <>
+                     <ul className="hidden lg:flex border rounded overflow-hidden font-medium bg-white">
+                     <li className="last:border-l"><p className="px-5 py-[13px] leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">{session.user.email}</p></li>
+                     <li className="last:border-l"><button onClick={() => signOut()} className="px-5 py-[13px] leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">Sign out</button></li>
+                     {/* {session.accessToken && <li className="last:border-l"><p className="px-5 py-[13px] leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">User has access token</p></li>} */}
+                     </ul>
                     </>
                     :
                     <>

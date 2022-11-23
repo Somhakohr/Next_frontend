@@ -5,6 +5,8 @@ import axios from "axios";
 import { JwtUtils, UrlUtils } from "../../../hooks/Utils";
 import GoogleProvider from "next-auth/providers/google";
 import LinkedInProvider from "next-auth/providers/linkedin";
+import GitHubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 namespace NextAuthUtils {
   export const refreshToken = async function (refreshToken) {
@@ -30,6 +32,16 @@ namespace NextAuthUtils {
   };
 }
 
+const axiosInstance = axios.create({
+  baseURL: 'http://127.0.0.1:8000/api/',
+  timeout: 5000,
+  headers: {
+      // 'Authorization': "JWT " + access_token,
+      'Content-Type': 'application/json',
+      'accept': 'application/json'
+  }
+});
+
 const settings: NextAuthOptions = {
   secret: process.env.SESSION_SECRET,
   session: {
@@ -48,21 +60,38 @@ const settings: NextAuthOptions = {
     LinkedInProvider({
       clientId: process.env.LINKEDIN_CLIENT_ID,
       clientSecret: process.env.LINKEDIN_CLIENT_SECRET
+    }),
+    GitHubProvider({
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET
+    }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email", placeholder: "email" },
+        password: { label: "Password", type: "password" }
+      },
+      async authorize(credentials, req) {
+        const user = {id: "1",email: credentials.email, password: credentials.password }
+        if (user) {
+        return user;
+        }
+        else{
+          return null
+        }
+      }
     })
   ],
   callbacks: {
     async jwt({token, user, account, profile, isNewUser}) {
+      
+      console.log("acc",account);
+      console.log("user",user);
+      console.log("token",token);
+      
       if (user) {
 
-        const axiosInstance = axios.create({
-            baseURL: 'http://127.0.0.1:8000/api/',
-            timeout: 5000,
-            headers: {
-                // 'Authorization': "JWT " + access_token,
-                'Content-Type': 'application/json',
-                'accept': 'application/json'
-            }
-        });
+       
 
         if (account.provider === "google") {
           const accessToken = account.access_token;
@@ -101,9 +130,64 @@ const settings: NextAuthOptions = {
             console.log(err);
           });
         }
+        else if (account.provider === "github") {
+          console.log("naman",account);
+          const accessToken = account.access_token;
+          // const idToken = account.id_token;
+
+          await axiosInstance.post('/auth/signin/'+account.provider+'/', {
+            access_token: accessToken,
+            // id_token: idToken,
+          }).then((response)=>{
+            const { access_token, refresh_token } = response.data;
+            token = {
+              ...token,
+              accessToken: access_token,
+              refreshToken: refresh_token,
+            };
+            return token;
+          }).catch((err)=>{
+            console.log(err);
+          });
+        }
+        else if (account.provider === "credentials") {
+          await axiosInstance.post('/auth/login/', {
+              email: user.email,
+              password: user.password,
+          }).then((response)=>{
+            console.log(response);
+            const { access, refresh } = response.data.tokens;
+            token = {
+              ...token,
+              accessToken: access,
+              refreshToken: refresh,
+            };
+            return token;
+          }).catch((err)=>{
+            console.log(err);
+          });
+          // console.log("naman",account);
+          // const accessToken = account.access_token;
+          // // const idToken = account.id_token;
+
+          // await axiosInstance.post('/auth/signin/'+account.provider+'/', {
+          //   access_token: accessToken,
+          //   // id_token: idToken,
+          // }).then((response)=>{
+          //   const { access_token, refresh_token } = response.data;
+          //   token = {
+          //     ...token,
+          //     accessToken: access_token,
+          //     refreshToken: refresh_token,
+          //   };
+          //   return token;
+          // }).catch((err)=>{
+          //   console.log(err);
+          // });
+        }
       }
       
-
+      console.log("nextoken",token);
       if (JwtUtils.isJwtExpired(token.accessToken as string)) {
         const [
           newAccessToken,
