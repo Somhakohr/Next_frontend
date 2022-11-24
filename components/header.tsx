@@ -1,9 +1,11 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog, Transition, Menu } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { signOut } from "next-auth/react";
 import { useAuth22 } from '../hooks/useStore';
+import UserImg from '../public/images/user-image.png';
 
 export default function Header() {
     const [open, setOpen] = useState(false)
@@ -21,10 +23,18 @@ export default function Header() {
     ];
     return (
         <>
-            <div className="h-[68px]"></div>
+            { session ? 
+                <>
+                    <div className="h-[65px] lg:h-[91px]"></div>
+                </> 
+                : 
+                <>
+                    <div className="h-[68px]"></div>
+                </> 
+            }
             <div className="bg-[#FAF8FF] shadow-md py-3 absolute w-full top-0 left-0">
                 <div className="w-full max-w-[1600px] mx-auto px-4 lg:px-10 flex flex-wrap items-center justify-between">
-                    <Link href="/" className="max-w-[260px] w-full inline-block">
+                    <Link href="/" className="max-w-[200px] md:max-w-[260px] w-full inline-block">
                         <img src="/images/logo.png" alt="Somhako" />
                     </Link>
                     <button type="button" onClick={() => setOpen(true)} className="lg:hidden text-2xl">
@@ -32,26 +42,76 @@ export default function Header() {
                     </button>
                     { session ? 
                     <>
-                     <ul className="hidden lg:flex border rounded overflow-hidden font-medium bg-white">
-                     <li className="last:border-l"><p className="px-5 py-[13px] leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">{session.user.email}</p></li>
-                     <li className="last:border-l"><button onClick={() => signOut()} className="px-5 py-[13px] leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">Sign out</button></li>
-                     {/* {session.accessToken && <li className="last:border-l"><p className="px-5 py-[13px] leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">User has access token</p></li>} */}
-                     </ul>
+                        <div className="hidden lg:flex border border-slate-300 bg-white rounded items-center">
+                            <Menu as="div" className="relative last:border-l w-[60px] text-center py-3">
+                                <Menu.Button className="align-middle">
+                                    <span className="relative">
+                                        <i className="fa-solid fa-bell text-2xl"></i>
+                                        <span className="absolute right-[-10px] top-[-10px] bg-[#6D27F9] text-white w-[20px] h-[20px] rounded-full flex items-center justify-center text-[10px]">10</span>
+                                    </span>
+                                </Menu.Button>
+                                <Transition
+                                    as={Fragment}
+                                    enter="transition ease-out duration-100"
+                                    enterFrom="transform opacity-0 scale-95"
+                                    enterTo="transform opacity-100 scale-100"
+                                    leave="transition ease-in duration-75"
+                                    leaveFrom="transform opacity-100 scale-100"
+                                    leaveTo="transform opacity-0 scale-95"
+                                >
+                                    <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <div className="p-3">
+                                            <h3 className="text-center">Notifications</h3>
+                                        </div>
+                                    </Menu.Items>
+                                </Transition>
+                            </Menu>
+                            <Menu as="div" className="relative last:border-l p-2">
+                                <Menu.Button className="align-middle">
+                                    <Image src={UserImg} alt={session.user.name} className="w-[50px] h-[50px] rounded-full object-cover" />
+                                </Menu.Button>
+                                <Transition
+                                    as={Fragment}
+                                    enter="transition ease-out duration-100"
+                                    enterFrom="transform opacity-0 scale-95"
+                                    enterTo="transform opacity-100 scale-100"
+                                    leave="transition ease-in duration-75"
+                                    leaveFrom="transform opacity-100 scale-100"
+                                    leaveTo="transform opacity-0 scale-95"
+                                >
+                                    <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <ul className="overflow-hidden rounded-lg">
+                                            <li className="py-2 px-4 capitalize bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white text-center">
+                                                {session.user.name}
+                                            </li>
+                                            <li>
+                                                <button type="button" className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">My Dashboard</button>
+                                            </li>
+                                            <li>
+                                                <button type="button" className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">Account Settings</button>
+                                            </li>
+                                            <li>
+                                                <button type="button" className="py-2 px-6 rounded text-sm text-center mx-auto block mb-2 transition-all text-red-600 hover:bg-red-600 hover:text-white" onClick={() => signOut()} >Log out</button>
+                                            </li>
+                                        </ul>
+                                    </Menu.Items>
+                                </Transition>
+                            </Menu>
+                        </div>
                     </>
                     :
                     <>
-                    <ul className="hidden lg:flex border rounded overflow-hidden font-medium bg-white">
-                        {authAction.map((authAction, i) => (
-                            <li key={i} className="last:border-l">
-                                <Link href={authAction.url} className="px-5 py-[13px] leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">
-                                    {authAction.text}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
+                        <ul className="hidden lg:flex border rounded overflow-hidden font-medium bg-white">
+                            {authAction.map((authAction, i) => (
+                                <li key={i} className="last:border-l">
+                                    <Link href={authAction.url} className="px-5 py-[13px] leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">
+                                        {authAction.text}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
                     </>
                     }
-                    
                 </div>
             </div>
             <Transition.Root show={open} as={Fragment}>
@@ -102,20 +162,83 @@ export default function Header() {
                                 </Transition.Child>
                                 <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
                                     <div className="px-4 sm:px-6 text-center">
-                                        <Link href="/" className="max-w-[260px] w-full inline-block">
+                                        <Link href="/" className="max-w-[200px] md:max-w-[260px] w-full inline-block">
                                             <img src="/images/logo.png" alt="Somhako" />
                                         </Link>
                                     </div>
                                     <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                                        <ul className="border rounded overflow-hidden font-medium bg-white flex justify-center">
-                                            {authAction.map((authAction, i) => (
-                                                <li key={i} className="last:border-l w-[50%]">
-                                                    <Link href={authAction.url} className="w-full text-center px-5 py-[13px] leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">
-                                                        {authAction.text}
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                        </ul>
+                                    { session ? 
+                                        <>
+                                            <div className="flex justify-center border border-slate-300 bg-white rounded items-center">
+                                                <Menu as="div" className="relative last:border-l w-[60px] text-center py-3">
+                                                    <Menu.Button className="align-middle">
+                                                        <span className="relative">
+                                                            <i className="fa-solid fa-bell text-2xl"></i>
+                                                            <span className="absolute right-[-10px] top-[-10px] bg-[#6D27F9] text-white w-[20px] h-[20px] rounded-full flex items-center justify-center text-[10px]">10</span>
+                                                        </span>
+                                                    </Menu.Button>
+                                                    <Transition
+                                                        as={Fragment}
+                                                        enter="transition ease-out duration-100"
+                                                        enterFrom="transform opacity-0 scale-95"
+                                                        enterTo="transform opacity-100 scale-100"
+                                                        leave="transition ease-in duration-75"
+                                                        leaveFrom="transform opacity-100 scale-100"
+                                                        leaveTo="transform opacity-0 scale-95"
+                                                    >
+                                                        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                            <div className="p-3">
+                                                                <h3 className="text-center">Notifications</h3>
+                                                            </div>
+                                                        </Menu.Items>
+                                                    </Transition>
+                                                </Menu>
+                                                <Menu as="div" className="relative last:border-l p-2">
+                                                    <Menu.Button className="align-middle">
+                                                        <Image src={UserImg} alt={session.user.name} className="w-[50px] h-[50px] rounded-full object-cover" />
+                                                    </Menu.Button>
+                                                    <Transition
+                                                        as={Fragment}
+                                                        enter="transition ease-out duration-100"
+                                                        enterFrom="transform opacity-0 scale-95"
+                                                        enterTo="transform opacity-100 scale-100"
+                                                        leave="transition ease-in duration-75"
+                                                        leaveFrom="transform opacity-100 scale-100"
+                                                        leaveTo="transform opacity-0 scale-95"
+                                                    >
+                                                        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                            <ul className="overflow-hidden rounded-lg">
+                                                                <li className="py-2 px-4 capitalize bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white text-center">
+                                                                    {session.user.name}
+                                                                </li>
+                                                                <li>
+                                                                    <button type="button" className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">My Dashboard</button>
+                                                                </li>
+                                                                <li>
+                                                                    <button type="button" className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">Account Settings</button>
+                                                                </li>
+                                                                <li>
+                                                                    <button type="button" className="py-2 px-6 rounded text-sm text-center mx-auto block mb-2 transition-all text-red-600 hover:bg-red-600 hover:text-white" onClick={() => signOut()} >Log out</button>
+                                                                </li>
+                                                            </ul>
+                                                        </Menu.Items>
+                                                    </Transition>
+                                                </Menu>
+                                            </div>
+                                        </>
+                                        :
+                                        <>
+                                            <ul className="flex justify-center border rounded overflow-hidden font-medium bg-white">
+                                                {authAction.map((authAction, i) => (
+                                                    <li key={i} className="last:border-l">
+                                                        <Link href={authAction.url} className="px-5 py-[13px] leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">
+                                                            {authAction.text}
+                                                        </Link>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </>
+                                        }
                                     </div>
                                 </div>
                             </Dialog.Panel>

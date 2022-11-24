@@ -34,7 +34,7 @@ export default function Footer() {
         <div className="py-8">
             <div className="container flex flex-wrap">
                 <div className="w-full lg:w-3/12 mb-4">
-                    <Link href="/" className="max-w-[260px] w-full inline-block mb-4">
+                    <Link href="/" className="max-w-[200px] lg:max-w-[260px] w-full inline-block mb-4">
                         <img src="/images/logo.png" alt="Somhako" />
                     </Link>
                     <p>SOMHAKO is the first protocol-based, composable, and decentralized social graph uniting the entire HR industry. By indexing and syncing candidate data on the blockchain network.</p>
