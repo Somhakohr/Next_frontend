@@ -7,20 +7,14 @@ import toastcomp from "../components/toast";
 
 function Home(props) {
   const { session } = props;
-  
-  const notify = () => toastcomp("abc","error");
-  const notify2 = () => signIn('credentials', { redirect: false, password: 'Admin@001',email: 'npdoshi3@gmail.com', })
-  const notify3 = () => signIn('google',{ redirect: false })
   return (
     <>
     <section className="py-4">
         <div className="container">
-          
-        <button onClick={notify3}>Notify !</button>
           Homepage
         </div>
       </section>
-    {
+    {/* {
       session?
       <>
        Signed in as {session.user.email} <br />
@@ -32,7 +26,7 @@ function Home(props) {
       <button onClick={() => signIn()}>Sign in</button>
       <pre>{"User is not logged in"}</pre>
       </>
-    }
+    } */}
     </>
   )
 }
