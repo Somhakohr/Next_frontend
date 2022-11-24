@@ -4,6 +4,8 @@ import { Session } from 'next-auth';
 import { useEffect } from "react";
 import useSwr, { mutate } from "swr";
 
+import { useRouter } from "next/router";
+import axios from 'axios';
 const sessionUrl = "/api/auth/session";
 
 async function fetchSession(url: string) {
@@ -23,10 +25,19 @@ async function fetchSession(url: string) {
 }
 
 const useStore = () => {
-    const [isauth,setIsAuth] = useState(false);
-    
-
-    return {isauth,setIsAuth};
+    // const [isauth,setIsAuth] = useState(false);
+    const router = useRouter();
+    const axiosInstance = axios.create({
+      baseURL: 'http://127.0.0.1:8000/api/',
+      timeout: 5000,
+      headers: {
+          // 'Authorization': "JWT " + access_token,
+          'Content-Type': 'application/json',
+          'accept': 'application/json'
+      }
+    });
+    return {router,axiosInstance};
+    // return {isauth,setIsAuth,router};
 };
 
 export function useAuth22(refreshInterval?: number) {
