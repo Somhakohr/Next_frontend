@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import Slider from "react-slick";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 import JobCard from "../../components/job-card";
 import userImg from "../../public/images/user-image.png";
 import medal from "../../public/images/medal.png";
@@ -159,20 +161,64 @@ export default function Candidate() {
                         </div>
                         <div className="mb-8 py-4 px-8 bg-white shadow-normal rounded-[20px]">
                             <h2 className="font-semibold text-xl text-3xl mb-10">Talent Center</h2>
-                            <div className="flex flex-wrap m-[-15px]">
-                                <div className="p-[15px] w-full md:max-w-[50%]">
-                                    <JobCard />
-                                </div>
-                                <div className="p-[15px] w-full md:max-w-[50%]">
-                                    <JobCard />
-                                </div>
-                                <div className="p-[15px] w-full md:max-w-[50%]">
-                                    <JobCard />
-                                </div>
-                                <div className="p-[15px] w-full md:max-w-[50%]">
-                                    <JobCard />
-                                </div>
-                            </div>
+                            <Tabs>
+                                <TabList>
+                                    <Tab>Job Listing</Tab>
+                                    <Tab>Applied Jobs</Tab>
+                                    <Tab>Recommended Jobs</Tab>
+                                </TabList>
+                                <TabPanel>
+                                    <div className="flex flex-wrap mx-[-15px]">
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                                            <JobCard />
+                                        </div>
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                                            <JobCard />
+                                        </div>
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                                            <JobCard />
+                                        </div>
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                                            <JobCard />
+                                        </div>
+                                    </div>
+                                    <div className="text-center">
+                                        <Link href="#" className="inline-block bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">View More</Link>
+                                    </div>
+                                </TabPanel>
+                                <TabPanel>
+                                    <div className="flex flex-wrap mx-[-15px]">
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                                            <JobCard />
+                                        </div>
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                                            <JobCard />
+                                        </div>
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                                            <JobCard />
+                                        </div>
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                                            <JobCard />
+                                        </div>
+                                    </div>
+                                </TabPanel>
+                                <TabPanel>
+                                    <div className="flex flex-wrap mx-[-15px]">
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                                            <JobCard />
+                                        </div>
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                                            <JobCard />
+                                        </div>
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                                            <JobCard />
+                                        </div>
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                                            <JobCard />
+                                        </div>
+                                    </div>
+                                </TabPanel>
+                            </Tabs>
                         </div>
                     </div>
                     <div className="w-full lg:w-[40%]">
