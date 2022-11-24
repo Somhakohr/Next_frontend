@@ -82,7 +82,7 @@ export default function Header() {
                                     <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                         <ul className="overflow-hidden rounded-lg">
                                             <li className="py-2 px-4 capitalize bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white text-center">
-                                                {session.user.name}
+                                                <b>Hello,</b> {session.user.name}
                                             </li>
                                             <li>
                                                 <button type="button" className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">My Dashboard</button>
