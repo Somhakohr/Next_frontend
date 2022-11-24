@@ -57,10 +57,10 @@ const settings: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
-    LinkedInProvider({
-      clientId: process.env.LINKEDIN_CLIENT_ID,
-      clientSecret: process.env.LINKEDIN_CLIENT_SECRET
-    }),
+    // LinkedInProvider({
+    //   clientId: process.env.LINKEDIN_CLIENT_ID,
+    //   clientSecret: process.env.LINKEDIN_CLIENT_SECRET
+    // }),
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET
@@ -112,24 +112,24 @@ const settings: NextAuthOptions = {
             console.log(err);
           });
         }
-        else if(account.provider === "linkedin"){
-          const accessToken = account.access_token;
-          // const idToken = account.id_token;
-          // console.log("link",account);
-          await axiosInstance.post('/auth/signin/'+account.provider+'/', {
-            access_token: accessToken,
-          }).then((response)=>{
-            const { access_token, refresh_token } = response.data;
-            token = {
-              ...token,
-              accessToken: access_token,
-              refreshToken: refresh_token,
-            };
-            return token;
-          }).catch((err)=>{
-            console.log(err);
-          });
-        }
+        // else if(account.provider === "linkedin"){
+        //   const accessToken = account.access_token;
+        //   // const idToken = account.id_token;
+        //   // console.log("link",account);
+        //   await axiosInstance.post('/auth/signin/'+account.provider+'/', {
+        //     access_token: accessToken,
+        //   }).then((response)=>{
+        //     const { access_token, refresh_token } = response.data;
+        //     token = {
+        //       ...token,
+        //       accessToken: access_token,
+        //       refreshToken: refresh_token,
+        //     };
+        //     return token;
+        //   }).catch((err)=>{
+        //     console.log(err);
+        //   });
+        // }
         else if (account.provider === "github") {
           console.log("naman",account);
           const accessToken = account.access_token;
@@ -166,24 +166,6 @@ const settings: NextAuthOptions = {
           }).catch((err)=>{
             console.log(err);
           });
-          // console.log("naman",account);
-          // const accessToken = account.access_token;
-          // // const idToken = account.id_token;
-
-          // await axiosInstance.post('/auth/signin/'+account.provider+'/', {
-          //   access_token: accessToken,
-          //   // id_token: idToken,
-          // }).then((response)=>{
-          //   const { access_token, refresh_token } = response.data;
-          //   token = {
-          //     ...token,
-          //     accessToken: access_token,
-          //     refreshToken: refresh_token,
-          //   };
-          //   return token;
-          // }).catch((err)=>{
-          //   console.log(err);
-          // });
         }
       }
       
