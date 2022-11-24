@@ -8,11 +8,97 @@ import Google_Icon from '../../public/images/google-icon.png';
 import Facebook_Icon from '../../public/images/facebook-icon.png';
 import React from "react";
 import { useState,useEffect } from "react";
+import useStore from "../../hooks/useStore";
+import toastcomp from "../../components/toast";
 
 export default function SignUp() {
   const [section, setSection] = useState(0);
   const [choice, setChoice] = useState(0);
+  const {axiosInstance,router} = useStore();
 
+  //candidate state
+  const [firstname,setFirstName] = useState('');
+  const [lastname,setLastName] = useState('');
+  const [email,setEmail] = useState('');
+  const [phone,setPhone] = useState('');
+  const [password,setPassword] = useState('');
+  const [password2,setPassword2] = useState('');
+  
+  //org state
+  const [cname,setCName] = useState('');
+  const [name,setName] = useState('');
+  const [cemail,setCEmail] = useState('');
+  const [ctype,setCType] = useState('Agency');
+  const [cpassword,setCPassword] = useState('');
+  const [cpassword2,setCPassword2] = useState('');
+
+  function validateCForm() {
+    return email.length > 0 && password.length >= 8 && password2 == password && firstname.length > 0 && lastname.length > 0 && phone.length == 10;
+  }
+
+  function validateOForm() {
+    return cemail.length > 0 && cpassword.length >= 8 && cpassword2 == cpassword && name.length > 0 && cname.length > 0 && ctype.length > 0;
+  }
+
+  async function handleCandClick(event) {
+    event.preventDefault();
+
+    await axiosInstance.post('/auth/candidateregister/', {
+        email: email,
+        password: password,
+        password2: password2,
+        mobile: phone,
+        first_name: firstname,
+        last_name: lastname
+    }).then((response)=>{
+      router.push("/");
+      toastcomp("Successfully Registerd","success")
+      setTimeout(() => {
+        toastcomp("We Send Verification Email","info")
+      }, 100);
+    }).catch((err)=>{
+      // console.log(err);
+      if(err.response.data.errors.email){
+        err.response.data.errors.email.map((text) =>
+          toastcomp(text,"error")
+        );
+        return false;
+      }      
+    });
+  }
+
+  async function handleOrgClick(event) {
+    event.preventDefault();
+    await axiosInstance.post('/auth/orgregister/', {
+        email: cemail,
+        password: cpassword,
+        password2: cpassword2,
+        name: name,
+        company_name: cname,
+        company_type: ctype
+    }).then((response)=>{
+      router.push("/");
+      toastcomp("Successfully Registerd","success")
+      setTimeout(() => {
+        toastcomp("We Send Verification Email","info")
+      }, 100);
+    }).catch((err)=>{
+      // console.log(err);
+      if(err.response.data.errors.non_field_errors){
+        err.response.data.errors.non_field_errors.map((text) =>
+          toastcomp(text,"error")
+        );
+        return false;
+      }
+      if(err.response.data.errors.email){
+        err.response.data.errors.email.map((text) =>
+          toastcomp(text,"error")
+        );
+        return false;
+      }      
+    });
+  }
+  
   function validateChoice() {
     return choice!=0;
   }
@@ -53,21 +139,21 @@ export default function SignUp() {
                           <div className="flex flex-wrap justify-between">
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="companyname" className="font-medium mb-2 leading-none inline-block">Company Name</label>
-                              <input id="companyname" type="text" className="w-full rounded-full border-slate-300" />
+                              <input id="companyname" type="text" className="w-full rounded-full border-slate-300" value={cname} onChange={(e) => setCName(e.target.value)} />
                             </div>
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="fullname" className="font-medium mb-2 leading-none inline-block">Your Name</label>
-                              <input id="fullname" type="text" className="w-full rounded-full border-slate-300" />
+                              <input id="fullname" type="text" className="w-full rounded-full border-slate-300" value={name} onChange={(e) => setName(e.target.value)}/>
                             </div>
                           </div>
                           <div className="flex flex-wrap justify-between">
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="email" className="font-medium mb-2 leading-none inline-block">Email</label>
-                              <input id="email" type="email" className="w-full rounded-full border-slate-300" />
+                              <input id="email" type="email" className="w-full rounded-full border-slate-300" value={cemail} onChange={(e) => setCEmail(e.target.value)}/>
                             </div>
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="accounttype" className="font-medium mb-2 leading-none inline-block">Account Type</label>
-                              <select id="accounttype" className="w-full rounded-full border-slate-300">
+                              <select id="accounttype" className="w-full rounded-full border-slate-300" value={ctype} onChange={(e) => setCType(e.target.value)}>
                                 <option value="Agency">Agency</option>
                                 <option value="Corporate">Corporate</option>
                               </select>
@@ -76,15 +162,15 @@ export default function SignUp() {
                           <div className="flex flex-wrap justify-between">
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="password" className="font-medium mb-2 leading-none inline-block">Password</label>
-                              <input id="password" type="password" className="w-full rounded-full border-slate-300" />
+                              <input id="password" type="password" className="w-full rounded-full border-slate-300" value={cpassword} onChange={(e) => setCPassword(e.target.value)} />
                             </div>
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="confirmpassword" className="font-medium mb-2 leading-none inline-block">Confirm Password</label>
-                              <input id="confirmpassword" type="password" className="w-full rounded-full border-slate-300" />
+                              <input id="confirmpassword" type="password" className="w-full rounded-full border-slate-300" value={cpassword2} onChange={(e) => setCPassword2(e.target.value)} />
                             </div>
                           </div>
                           <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
-                            <button type="submit" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]">
+                            <button type="submit" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!validateOForm()} onClick={(e) => handleOrgClick(e)}>
                               Submit
                             </button>
                             <span>Already have an account? <Link href="/auth/signin" className="my-3 inline-block text-[#6D27F9] hover:underline">Sign In</Link></span>
@@ -104,35 +190,35 @@ export default function SignUp() {
                           <div className="flex flex-wrap justify-between">
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="fname" className="font-medium mb-2 leading-none inline-block">First Name</label>
-                              <input id="fname" type="text" className="w-full rounded-full border-slate-300" />
+                              <input id="fname" type="text" className="w-full rounded-full border-slate-300"  value={firstname} onChange={(e) => setFirstName(e.target.value)} />
                             </div>
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="lname" className="font-medium mb-2 leading-none inline-block">Last Name</label>
-                              <input id="lname" type="text" className="w-full rounded-full border-slate-300" />
+                              <input id="lname" type="text" className="w-full rounded-full border-slate-300" value={lastname} onChange={(e) => setLastName(e.target.value)}/>
                             </div>
                           </div>
                           <div className="flex flex-wrap justify-between">
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="cand_email" className="font-medium mb-2 leading-none inline-block">Email</label>
-                              <input id="cand_email" type="email" className="w-full rounded-full border-slate-300" />
+                              <input id="cand_email" type="email" className="w-full rounded-full border-slate-300" value={email} onChange={(e) => setEmail(e.target.value)} />
                             </div>
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="phone" className="font-medium mb-2 leading-none inline-block">Phone</label>
-                              <input id="phone" type="number" className="w-full rounded-full border-slate-300" />
+                              <input id="phone" type="number" className="w-full rounded-full border-slate-300" value={phone} onChange={(e) => setPhone(e.target.value)}/>
                             </div>
                           </div>
                           <div className="flex flex-wrap justify-between">
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="cand_password" className="font-medium mb-2 leading-none inline-block">Password</label>
-                              <input id="cand_password" type="password" className="w-full rounded-full border-slate-300" />
+                              <input id="cand_password" type="password" className="w-full rounded-full border-slate-300"  value={password} onChange={(e) => setPassword(e.target.value)} />
                             </div>
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="cand_confirmpassword" className="font-medium mb-2 leading-none inline-block">Confirm Password</label>
-                              <input id="cand_confirmpassword" type="password" className="w-full rounded-full border-slate-300" />
+                              <input id="cand_confirmpassword" type="password" className="w-full rounded-full border-slate-300" value={password2} onChange={(e) => setPassword2(e.target.value)}/>
                             </div>
                           </div>
                           <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
-                            <button type="submit" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]">
+                            <button type="submit" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!validateCForm()} onClick={(e) => handleCandClick(e)}>
                               Submit
                             </button>
                             <span>Already have an account? <Link href="/auth/signin" className="my-3 inline-block text-[#6D27F9] hover:underline">Sign In</Link></span>

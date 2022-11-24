@@ -74,7 +74,13 @@ const settings: NextAuthOptions = {
       async authorize(credentials, req) {
         const user = {id: "1",email: credentials.email, password: credentials.password }
         if (user) {
-        return user;
+        // return user;
+          // const res = await axiosInstance.post('/auth/login/', {
+          //   email: user.email,
+          //   password: user.password,
+          // });
+          // console.log(res);
+          return user;
         }
         else{
           return null
@@ -90,8 +96,6 @@ const settings: NextAuthOptions = {
       console.log("token",token);
       
       if (user) {
-
-       
 
         if (account.provider === "google") {
           const accessToken = account.access_token;
