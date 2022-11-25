@@ -1,3 +1,6 @@
+import Image from "next/image";
+import userImg from "../../public/images/user-image.png";
+
 export default function Candidate() {
     return (
         <>
@@ -13,6 +16,18 @@ export default function Candidate() {
                             </h1>
                         </div>
                         <form className="mb-16">
+                            <div className="mb-6">
+                                <div className="relative inline-block">
+                                    <Image
+                                        src={userImg}
+                                        alt="User"
+                                        className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
+                                    />
+                                    <button type="button" className="absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white">
+                                        <i className="fa-solid fa-plus text-xl"></i>
+                                    </button>
+                                </div>
+                            </div>
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="fname" className="font-medium mb-2 leading-none inline-block">First Name</label>
