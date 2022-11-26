@@ -5,7 +5,7 @@ export default function JobListing() {
     const [sidebarToggle, setsidebarToggle] = useState(false);
     return (
         <>
-            <main className="bg-[#FAF8FF] py-8">
+            <main className="py-8">
                 <section className="container flex flex-wrap">
                     <div className={sidebarToggle ? 'fixed z-[9] left-0 top-0 w-full h-full bg-[#0000006b] block' : 'fixed z-[9] left-0 top-0 w-full h-full bg-[#0000006b] hidden'}></div>
                     <div className={sidebarToggle ? 'w-full lg:max-w-[300px] p-4 lg:p-0 fixed z-10 lg:static right-0 bottom-0 text-right lg:text-left' : 'w-auto lg:max-w-[300px] p-4 lg:p-0 fixed z-10 lg:static right-0 bottom-0 text-right lg:text-left'}>
