@@ -15,7 +15,7 @@ export default function JobCard() {
                         <h5 className="font-medium text-sm">Google</h5>
                     </div>
                 </div>
-                <div className="text-[#787878] text-sm flex flex-wrap border-b border-slate-300">
+                <div className="text-[#787878] text-[12px] flex flex-wrap border-b border-slate-300">
                     <p className="w-full sm:max-w-[50%] mb-3">
                         Place: Bangalore
                     </p>
@@ -29,7 +29,7 @@ export default function JobCard() {
                         Rs 550000/Yearly
                     </p>
                 </div>
-                <div className="flex items-center justify-between pt-4 text-sm">
+                <div className="flex items-center justify-between pt-4 text-[12px]">
                     <p>
                         5 days ago
                     </p>

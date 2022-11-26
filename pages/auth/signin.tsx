@@ -89,7 +89,7 @@ export default function SignIn() {
             </div>
             <div className="w-full lg:w-[60%]">
               <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] p-10 lg:px-24 min-h-[550px] flex flex-col justify-center">
-                <h1 className="font-medium text-3xl mb-12">
+                <h1 className="font-medium text-xl md:text-3xl mb-12">
                   Sign in
                 </h1>
 

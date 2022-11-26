@@ -11,7 +11,7 @@ export default function Candidate() {
                             <button type="button" className="rounded-full bg-black text-white p-4 mr-4 w-[25px] h-[25px] flex items-center justify-center">
                                 <i className="fa-solid fa-arrow-left"></i>
                             </button>
-                            <h1 className="font-medium text-3xl">
+                            <h1 className="font-medium text-xl md:text-3xl">
                                 Account Settings
                             </h1>
                         </div>
@@ -23,9 +23,10 @@ export default function Candidate() {
                                         alt="User"
                                         className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
                                     />
-                                    <button type="button" className="absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white">
+                                    <label htmlFor="uploadImage" className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white">
                                         <i className="fa-solid fa-plus text-xl"></i>
-                                    </button>
+                                        <input type="file" id="uploadImage" className="absolute left-0 top-0 z-20" hidden />
+                                    </label>
                                 </div>
                             </div>
                             <div className="flex flex-wrap justify-between">

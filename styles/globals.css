@@ -61,10 +61,10 @@ i.fa-solid {
 }
 .iconGroup .iconGroup__icon {
   position: absolute;
-  left: 14px;
+  left: 18px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 20px;
+  font-size: 15px;
   color: var(--primary);
 }
 .iconGroup input {

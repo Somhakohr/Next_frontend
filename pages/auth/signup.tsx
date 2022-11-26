@@ -131,7 +131,7 @@ export default function SignUp() {
                       {section==1?
                       <>
                       <aside>
-                        <h1 className="font-medium text-3xl mb-12 flex flex-wrap items-center justify-between md:flex-row-reverse">
+                        <h1 className="font-medium text-xl md:text-3xl mb-12 flex flex-wrap items-center justify-between md:flex-row-reverse">
                           <button type="button" className="my-2 border border-[#6D27F9] text-[#6D27F9] text-sm font-medium rounded-full py-1.5 px-4 transition-all hover:bg-gray-900 hover:border-gray-900 hover:text-white" onClick={resetFun}>Go Back</button>
                           <span>Sign up as organisation</span>
                         </h1>
@@ -182,7 +182,7 @@ export default function SignUp() {
                       {section==2?
                       <>
                       <aside>
-                        <h1 className="font-medium text-3xl mb-12 flex flex-wrap items-center justify-between md:flex-row-reverse">
+                        <h1 className="font-medium text-xl md:text-3xl mb-12 flex flex-wrap items-center justify-between md:flex-row-reverse">
                           <button type="button" className="my-2 border border-[#6D27F9] text-[#6D27F9] text-sm font-medium rounded-full py-1.5 px-4 transition-all hover:bg-gray-900 hover:border-gray-900 hover:text-white" onClick={resetFun}>Go Back</button>
                           <span>Sign up as candidate</span>
                         </h1>
@@ -252,7 +252,7 @@ export default function SignUp() {
                     :
                     <>                    
                       <aside>
-                        <h2 className="font-medium text-3xl mb-12 text-center">
+                        <h2 className="font-medium text-xl md:text-3xl mb-12 text-center">
                           How do you want to Signup us?
                         </h2>
                         <div className="mb-16">
