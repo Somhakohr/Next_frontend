@@ -1,16 +1,40 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition, Menu } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { signOut } from "next-auth/react";
-import { useAuth22 } from '../hooks/useStore';
+import useStore, { useAuth22 } from '../hooks/useStore';
 import UserImg from '../public/images/user-image.png';
+import { Router } from 'next/router';
 
 export default function Header() {
     const [open, setOpen] = useState(false)
     // const {isauth,setIsAuth} = useAuth();
-    const { session } = useAuth22(3 * 60);
+    // const { session } = useAuth22(3 * 60);
+    // const [name,setName] = useState('')
+    const {session,username,setUserName,userimg,setUserImg,router} = useStore();
+    console.log(session);    
+    // useEffect(() => {
+    // if(session){
+    //   if(session.type == 'Candidate'){
+    //     if(!session.user.name){
+    //         setUserName(session.userObj.first_name + ' ' + session.userObj.last_name)
+    //     }
+    //     else{
+    //         setUserName(session.user.name)
+    //     }
+
+    //     if(session.profile.profile == '/media/default_image.jpeg' && session.user.image){
+    //         setUserImg(session.user.image);
+    //     }
+    //     else{
+    //         setUserImg('http://127.0.0.1:8000'+session.profile.profile);
+    //     }
+    //   }
+    // }
+    // }, [session])
+    
     const authAction = [
         {
             url: '/auth/signin',
@@ -41,7 +65,9 @@ export default function Header() {
                         <i className="fa-solid fa-bars"></i>
                     </button>
                     { session ? 
-                    <>
+                    <> 
+                        { session.type == 'Candidate' ? 
+                        <>
                         <div className="hidden lg:flex border border-slate-300 bg-white rounded items-center">
                             <Menu as="div" className="relative last:border-l w-[60px] text-center py-3">
                                 <Menu.Button className="align-middle">
@@ -68,7 +94,7 @@ export default function Header() {
                             </Menu>
                             <Menu as="div" className="relative last:border-l p-2">
                                 <Menu.Button className="align-middle">
-                                    <Image src={UserImg} alt={session.user.name} className="w-[50px] h-[50px] rounded-full object-cover" />
+                                    <Image src={userimg} alt={username} width={50} height={50}  className="w-[50px] h-[50px] rounded-full object-cover" />
                                 </Menu.Button>
                                 <Transition
                                     as={Fragment}
@@ -82,13 +108,13 @@ export default function Header() {
                                     <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                         <ul className="overflow-hidden rounded-lg">
                                             <li className="py-2 px-4 capitalize bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white text-center">
-                                                <b>Hello,</b> {session.user.name}
+                                                <b>Hello,</b> {username}
                                             </li>
                                             <li>
-                                                <button type="button" className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">My Dashboard</button>
+                                                <button type="button" onClick={() => router.push('/candidate')} className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">My Dashboard</button>
                                             </li>
                                             <li>
-                                                <button type="button" className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">Account Settings</button>
+                                                <button type="button" onClick={() => router.push('/candidate/account')} className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">Account Settings</button>
                                             </li>
                                             <li>
                                                 <button type="button" className="py-2 px-6 rounded text-sm text-center mx-auto block mb-2 transition-all text-red-600 hover:bg-red-600 hover:text-white" onClick={() => signOut()} >Log out</button>
@@ -98,6 +124,9 @@ export default function Header() {
                                 </Transition>
                             </Menu>
                         </div>
+                        </> 
+                        : 
+                        <></> }
                     </>
                     :
                     <>

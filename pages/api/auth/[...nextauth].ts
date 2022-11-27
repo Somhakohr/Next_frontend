@@ -12,21 +12,26 @@ namespace NextAuthUtils {
   export const refreshToken = async function (refreshToken) {
     try {
       const response = await axios.post(
-        // "http://localhost:8000/api/djrestauth//token/refresh/",
-        UrlUtils.makeUrl(
-          process.env.BACKEND_API_BASE,
-          "djrestauth",
-          "token",
-          "refresh",
-        ),
+        "http://127.0.0.1:8000/api/djrestauth/token/refresh/",
+        // UrlUtils.makeUrl(
+        //   process.env.BACKEND_API_BASE,
+        //   "djrestauth",
+        //   "token",
+        //   "refresh",
+        // ),
         {
           refresh: refreshToken,
         },
       );
-
+      if(response.data.refresh){
       const { access, refresh } = response.data;
       return [access, refresh];
-    } catch {
+      }
+      else{
+        const { access } = response.data;
+        return [access, refreshToken];
+      }
+    } catch(err) {
       return [null, null];
     }
   };
@@ -41,6 +46,8 @@ const axiosInstance = axios.create({
       'accept': 'application/json'
   }
 });
+
+let utype = '',userObj = {},profile = {}
 
 const settings: NextAuthOptions = {
   secret: process.env.SESSION_SECRET,
@@ -90,13 +97,8 @@ const settings: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({token, user, account, profile, isNewUser}) {
-      
-      console.log("acc",account);
-      console.log("user",user);
-      console.log("token",token);
-      
-      if (user) {
 
+      if (user) {
         if (account.provider === "google") {
           const accessToken = account.access_token;
           const idToken = account.id_token;
@@ -111,6 +113,9 @@ const settings: NextAuthOptions = {
               accessToken: access_token,
               refreshToken: refresh_token,
             };
+            utype = ''
+            userObj = {}
+            profile = {}
             return token;
           }).catch((err)=>{
             console.log(err);
@@ -135,7 +140,6 @@ const settings: NextAuthOptions = {
         //   });
         // }
         else if (account.provider === "github") {
-          console.log("naman",account);
           const accessToken = account.access_token;
           // const idToken = account.id_token;
 
@@ -149,6 +153,9 @@ const settings: NextAuthOptions = {
               accessToken: access_token,
               refreshToken: refresh_token,
             };
+            utype = ''
+            userObj = {}
+            profile = {}
             return token;
           }).catch((err)=>{
             console.log(err);
@@ -159,13 +166,16 @@ const settings: NextAuthOptions = {
               email: user.email,
               password: user.password,
           }).then((response)=>{
-            console.log(response);
+            // console.log(response);
             const { access, refresh } = response.data.tokens;
             token = {
               ...token,
               accessToken: access,
               refreshToken: refresh,
             };
+            utype = ''
+            userObj = {}
+            profile = {}
             return token;
           }).catch((err)=>{
             console.log(err);
@@ -173,7 +183,6 @@ const settings: NextAuthOptions = {
         }
       }
       
-      console.log("nextoken",token);
       if (JwtUtils.isJwtExpired(token.accessToken as string)) {
         const [
           newAccessToken,
@@ -199,12 +208,45 @@ const settings: NextAuthOptions = {
       }
       return token;
     },
-
     async session({ session, token }) {
+      
       session.accessToken = token.accessToken;
+      if(utype.length <= 0){
+        const res = await axiosInstance.post('/auth/getusers/', {
+          email: session.user.email,
+        });
+        session.type = res.data.type
+        session.userObj = res.data.userObj[0]
+        utype = res.data.type
+        userObj = res.data.userObj[0]
+
+        //candidateprofile
+        const axiosInstanceAuth = axios.create({
+          baseURL: 'http://127.0.0.1:8000/api/',
+          timeout: 5000,
+          headers: {
+              // 'Authorization': "JWT " + access_token,
+              'Authorization': 'Bearer '+session.accessToken,
+              'Content-Type': 'application/json',
+              'accept': 'application/json'
+          }
+        });
+        const res2 = await axiosInstanceAuth.get('/candidate/candidateprofile/'+userObj.erefid+'/');
+        session.profile = res2.data
+        profile = res2.data
+      }
+      else{
+        session.type = utype
+        session.userObj = userObj
+        session.profile = profile
+      }
       return session;
     },
   },
+  pages: {
+    signIn: '/auth/error',
+    error: '/auth/error',
+  }, 
 };
 
 export default (req: NextApiRequest, res: NextApiResponse) =>

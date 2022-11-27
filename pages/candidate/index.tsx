@@ -15,8 +15,10 @@ import LaunchingGraphic from "../../public/images/Launching-Graphic.png";
 import mediaDashBg from "../../public/images/media-dash-bg.jpg";
 import blogDashBg from "../../public/images/blog-dash-bg.jpg";
 import learningSlide from "../../public/images/learning-slide.png";
+import useStore from "../../hooks/useStore";
 
 export default function Candidate() {
+    const {userimg,username,session} = useStore();
     const learningSlides = [
         {
             url: '#',
@@ -64,13 +66,15 @@ export default function Candidate() {
                             <div className="flex flex-wrap md:items-center items-start justify-between mb-6">
                                 <div className="w-[calc(100%-70px)] flex flex-wrap md:items-center items-start flex-col md:flex-row">
                                     <Image
-                                        src={userImg}
+                                        src={userimg}
                                         alt="User"
+                                        width={100}
+                                        height={100}
                                         className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px] mb-3 md:mb-0"
                                     />
                                     <div className="w-full md:w-[calc(100%-150px)] md:pl-8">
                                         <h2 className="font-semibold text-xl md:text-3xl mb-1">
-                                            Joseph Roger
+                                            {username}
                                         </h2>
                                         <p className="text-[#7E7E7E] font-light text-sm">
                                             Web Development

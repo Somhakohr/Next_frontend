@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 // import { useRouter } from 'next/navigation';
 import useAuth from "../../hooks/useAuth";
-import { getCsrfToken, signIn } from "next-auth/react";
+import { getCsrfToken, getSession, SessionProvider, signIn, useSession } from "next-auth/react";
 import useStore from "../../hooks/useStore";
 import toastcomp from "../../components/toast";
 // import axiosInstance from '../api/axiosApi';
@@ -20,11 +20,11 @@ async function setCSRF(setCsrf) {
   setCsrf(csrfToken);
 }
 
-export default function SignIn() {
+export default function SignIn(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [csrf, setCsrf] = useState('');
-  const {router} = useStore();
+  const {router} = useStore();  
 
   useEffect(() => {
     setCSRF(setCsrf);
@@ -55,7 +55,7 @@ export default function SignIn() {
     }).then(async (response)=>{
       // console.log(response);
       await signIn('credentials', { redirect: false, password: password,email: email, }).then(()=>{
-        router.push("/")
+        router.push("/");
       }) 
       // return true;
     }).catch((err)=>{
