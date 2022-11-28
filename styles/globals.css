@@ -48,6 +48,10 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+input,textarea, select {
+  font-size: 14px !important;
+}
+
 :root {
   --primary: #6D27F9;
 }
@@ -76,7 +80,6 @@ i.fa-solid {
 }
 .candidate_profile .iconGroup.social input {
   padding-left: 60px;
-  font-size: 14px;
   border-color: var(--primary);
 }
 
@@ -125,6 +128,7 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected {
   border-bottom-color: var(--primary);
   color: var(--primary);
   font-weight: 700;
+  background-color: transparent;
 }
 ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   display: none;
@@ -143,6 +147,12 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
 }
 .candidate_profile ul.react-tabs__tab-list li {
   margin: 0 25px;
+}
+.userBgImage {
+  background-image: url('../public/images/can-profile-bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 @media (max-width: 1279.98px) {
