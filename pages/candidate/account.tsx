@@ -1,7 +1,9 @@
 import Image from "next/image";
+import useStore from "../../hooks/useStore";
 import userImg from "../../public/images/user-image.png";
 
 export default function Candidate() {
+    const {userimg,username,session} = useStore();
     return (
         <>
             <main className="py-12">
@@ -19,8 +21,10 @@ export default function Candidate() {
                             <div className="mb-6">
                                 <div className="relative inline-block">
                                     <Image
-                                        src={userImg}
+                                        src={userimg}
                                         alt="User"
+                                        height={100}
+                                        width={100}
                                         className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
                                     />
                                     <label htmlFor="uploadImage" className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white">
@@ -41,7 +45,7 @@ export default function Candidate() {
                             </div>
                             <div className="mb-6">
                                 <label htmlFor="email" className="font-medium mb-2 leading-none inline-block">Email</label>
-                                <input id="email" type="email" className="w-full rounded-full border-slate-300" />
+                                <input id="email" type="email" className="w-full rounded-full border-slate-300" disabled/>
                             </div>
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">

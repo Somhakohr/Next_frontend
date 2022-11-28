@@ -6,7 +6,7 @@ export namespace JwtUtils {
     const currentTime = Math.round(Date.now() / 1000 + 60);
     
     const decoded = jwt.decode(token);
-    console.log("token",token);
+    // console.log("token",token);
     console.log(`Current time + 60 seconds: ${new Date(currentTime * 1000)}`);
     console.log(`Token lifetime: ${new Date(decoded["exp"] * 1000)}`);
 

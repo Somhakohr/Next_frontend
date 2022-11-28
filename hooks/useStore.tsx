@@ -26,6 +26,9 @@ async function fetchSession(url: string) {
 
 const useStore = () => {
     // const [isauth,setIsAuth] = useState(false);
+    const [username,setUserName] = useState('');
+    const [userimg,setUserImg] = useState('');
+    
     const router = useRouter();
     const axiosInstance = axios.create({
       baseURL: 'http://127.0.0.1:8000/api/',
@@ -36,9 +39,32 @@ const useStore = () => {
           'accept': 'application/json'
       }
     });
-    return {router,axiosInstance};
+    const { session } = useAuth22(3 * 60);
+
+    useEffect(() => {
+      if(session){
+        if(session.type == 'Candidate'){
+          if(!session.user.name){
+              setUserName(session.userObj.first_name + ' ' + session.userObj.last_name)
+          }
+          else{
+              setUserName(session.user.name)
+          }
+  
+          if(session.profile.profile == '/media/default_image.jpeg' && session.user.image){
+              setUserImg(session.user.image);
+          }
+          else{
+              setUserImg('http://127.0.0.1:8000'+session.profile.profile);
+          }
+        }
+      }
+      }, [session])
+
+    return {router,axiosInstance,session,username,setUserName,userimg,setUserImg};
     // return {isauth,setIsAuth,router};
 };
+
 
 export function useAuth22(refreshInterval?: number) {
     /*
@@ -61,6 +87,34 @@ export function useAuth22(refreshInterval?: number) {
   
       return () => clearInterval(intervalId);
     }, []);
+
+    // const axiosInstance = axios.create({
+    //   baseURL: 'http://127.0.0.1:8000/api/',
+    //   timeout: 5000,
+    //   headers: {
+    //       // 'Authorization': "JWT " + access_token,
+    //       'Content-Type': 'application/json',
+    //       'accept': 'application/json'
+    //   }
+    // });
+
+    // useEffect(function () {
+    //   if (data) {
+    //     (async () => {
+    //       const res = await axiosInstance.post('/auth/getuser/', {
+    //         email: data.user.email
+    //       });
+    //       console.log(res); 
+    //     })();
+        
+    //   }
+    // }, [data])
+    
+   
+    // const res = axiosInstance.post('/auth/getuser/', {
+    //   email: data.user.email,
+    // });
+    // console.log(res);
   
     return {
       session: data,

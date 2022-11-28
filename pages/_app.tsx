@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }) {
           <link rel="icon" href="/favicon.ico" />
       </Head>
       <ToastContainer />
-      <Header />
+      <Header {...pageProps} />
       <Component {...pageProps} />
       <Footer />
       </AuthProvider>

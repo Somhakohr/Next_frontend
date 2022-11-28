@@ -1,12 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { signOut,signIn } from "next-auth/react";
 import { withAuth } from "../hooks/HOCs";
 import { ToastContainer, toast } from 'react-toastify';
 import toastcomp from "../components/toast";
+import useStore from "../hooks/useStore";
 
 
 function Home(props) {
   const { session } = props;
+  // console.log(session);
+  const {router,setUserObj,setUType,axiosInstance,utype} = useStore();
+  // useEffect(function () {
+  //   console.log("abc", session);
+  //   if (session) {
+  //     axiosInstance.post('/auth/getuser/', {
+  //       email: session.user.email,
+  //     }).then(async (response) => {
+  //       console.log(response);
+  //       if (response.data.user != "no data") {
+  //         setUType(response.data.type);
+  //         setUserObj(response.data.user);
+  //         router.push("/" + utype);
+  //       }
+  //       else {
+  //         setUType('');
+  //         setUserObj({});
+  //       }
+  //     }).catch((err) => {
+  //       console.log(err);
+  //       setUType('');
+  //       setUserObj({});
+  //     });
+  //   }
+
+  // }, [session]);
+  
   return (
     <>
     <section className="py-4">
@@ -14,6 +42,7 @@ function Home(props) {
           Homepage
         </div>
       </section>
+      {session?<>{session.user.email}</>:<></>}
     {/* {
       session?
       <>

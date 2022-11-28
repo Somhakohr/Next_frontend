@@ -1,6 +1,7 @@
 import { Session } from "next-auth";
 import { useEffect } from "react";
 import useSwr, { mutate } from "swr";
+import useStore from "./useStore";
 
 // ### Failed approach using useState() ###
 // export function useAuth(refreshInterval?: number): [Session, boolean] {
@@ -58,7 +59,8 @@ async function fetchSession(url: string) {
 }
 
 // ### useSwr() approach works for now ###
-export function useAuth(refreshInterval?: number) {
+export async function useAuth(refreshInterval?: number) {
+  const {axiosInstance} = useStore();
   /*
     custom hook that keeps the session up-to-date by refreshing it
 
@@ -79,6 +81,14 @@ export function useAuth(refreshInterval?: number) {
 
     return () => clearInterval(intervalId);
   }, []);
+
+  await axiosInstance.post('/auth/getuser/', {
+    email: data.user.email,
+  }).then(async (response) => {
+    console.log(response);
+  }).catch((err) => {
+    console.log(err);
+  });
 
   return {
     session: data,
