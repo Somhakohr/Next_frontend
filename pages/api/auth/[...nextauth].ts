@@ -47,7 +47,7 @@ const axiosInstance = axios.create({
   }
 });
 
-let utype = '',userObj = {},profile = {}
+var utype = '',userObj = {},profile = {}
 
 const settings: NextAuthOptions = {
   secret: process.env.SESSION_SECRET,
@@ -102,7 +102,7 @@ const settings: NextAuthOptions = {
         if (account.provider === "google") {
           const accessToken = account.access_token;
           const idToken = account.id_token;
-
+          console.log(account);
           await axiosInstance.post('/auth/signin/'+account.provider+'/', {
             access_token: accessToken,
             id_token: idToken,

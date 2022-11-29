@@ -44,7 +44,7 @@ const useStore = () => {
     useEffect(() => {
       if(session){
         if(session.type == 'Candidate'){
-          if(!session.user.name){
+          if(session.userObj.first_name){
               setUserName(session.userObj.first_name + ' ' + session.userObj.last_name)
           }
           else{

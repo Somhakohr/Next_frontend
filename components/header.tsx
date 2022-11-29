@@ -10,31 +10,9 @@ import { Router } from 'next/router';
 
 export default function Header() {
     const [open, setOpen] = useState(false)
-    // const {isauth,setIsAuth} = useAuth();
-    // const { session } = useAuth22(3 * 60);
-    // const [name,setName] = useState('')
     const {session,username,setUserName,userimg,setUserImg,router} = useStore();
-    console.log(session);    
-    // useEffect(() => {
-    // if(session){
-    //   if(session.type == 'Candidate'){
-    //     if(!session.user.name){
-    //         setUserName(session.userObj.first_name + ' ' + session.userObj.last_name)
-    //     }
-    //     else{
-    //         setUserName(session.user.name)
-    //     }
-
-    //     if(session.profile.profile == '/media/default_image.jpeg' && session.user.image){
-    //         setUserImg(session.user.image);
-    //     }
-    //     else{
-    //         setUserImg('http://127.0.0.1:8000'+session.profile.profile);
-    //     }
-    //   }
-    // }
-    // }, [session])
-    
+    // console.log(session);    
+       
     const authAction = [
         {
             url: '/auth/signin',
