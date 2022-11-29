@@ -154,6 +154,15 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   background-repeat: no-repeat;
   background-position: center;
 }
+.companyMainImage {
+  background-image: url('../public/images/company-bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.masonary_grid, .masonary_grid > div {
+  gap: 10px !important
+}
 
 @media (max-width: 1279.98px) {
   .candidate_profile ul.react-tabs__tab-list li {
