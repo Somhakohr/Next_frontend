@@ -114,7 +114,7 @@ i.fa-solid {
 .sliderArrows button.slick-next {
   right: 0;
 }
-ul.react-tabs__tab-list {
+.ul.react-tabs__tab-list {
   border: 0;
   margin-bottom: 20px;
 }
@@ -163,6 +163,33 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
 .masonary_grid, .masonary_grid > div {
   gap: 10px !important
 }
+.responsive-table {
+  overflow: auto;
+}
+.responsive-table tbody {
+  display: block;
+  max-height: 200px;
+  overflow: auto;
+}
+.responsive-table thead, .responsive-table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+.orgDashTabs ul.react-tabs__tab-list {
+  border: 0;
+  margin-bottom: 0px;
+}
+.orgDashCards li, .orgDashCards li i {
+  transition: all 0.3s ease;
+}
+.orgDashCards li:hover i {
+  transform: rotate(360deg);
+}
+.orgDashCards li:hover {
+  box-shadow: 0px 10px 10px rgba(0,0,0,0.2);
+}
+
 
 @media (max-width: 1279.98px) {
   .candidate_profile ul.react-tabs__tab-list li {
