@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import userImg from "../../public/images/user-image.png";
 import token from "../../public/images/token.png";
@@ -10,8 +10,48 @@ import certificateGraphic from "../../public/images/certificate-graphic.png";
 import educationGraphic from "../../public/images/education-graphic.png";
 import expGraphic from "../../public/images/exp-graphic.png";
 import achievementsGraphic from "../../public/images/achievements-graphic.png";
+import { useStore } from "../../constants/code";
+import shallow from "zustand/shallow";
 
-export default function CandidateProfile() {
+export default function CandidateProfile(props) {
+
+    const [userName, updateUserName] = useStore(
+        (state) => [state.userName, state.updateUserName],
+        shallow
+    )
+
+    const [userImg, updateUserImg] = useStore(
+        (state) => [state.userImg, state.updateUserImg],
+        shallow
+    )
+
+    const [userType, updateUserType] = useStore(
+        (state) => [state.userType, state.updateUserType],
+        shallow
+    )
+
+    const [userObj, updateUserObj] = useStore(
+        (state) => [state.userObj, state.updateUserObj],
+        shallow
+    )
+
+    const [userProfile, updateUserProfile] = useStore(
+        (state) => [state.userProfile, state.updateUserProfile],
+        shallow
+    )
+    
+    const [accessToken, updateAccessToken] = useStore(
+        (state) => [state.accessToken, state.updateAccessToken],
+        shallow
+    )
+    
+    const [country, updateCountry] = useStore(
+        (state) => [state.country, state.updateCountry],
+        shallow
+    )
+    
+    const { router } = props; 
+
     const [langPopup, langPopupOpen] = useState(false)
     const cancelButtonRef = useRef(null)
     const [socialPopup, socialPopupOpen] = useState(false)
@@ -20,6 +60,22 @@ export default function CandidateProfile() {
     const [educationPopup, educationPopupOpen] = useState(false)
     const [expPopup, expPopupOpen] = useState(false)
     const [achievementsPopup, achievementsPopupOpen] = useState(false)
+
+    //bio state
+    const [title,setTitle] = useState('')
+    const [summary,setSummary] = useState('')
+    const [preJobtype,setPreJobType] = useState('')
+    const [preLocation,setPreLocation] = useState('')
+    const [salary,setSalary] = useState('')
+    const [yearsOfExp,setYearsOfExp] = useState('')
+
+    useEffect(() => {
+        console.log(title)
+        console.log(summary)
+        // userProfile["title"]=title
+    }, [title,summary])
+    
+
     return (
         <>
             <main className="py-8">
@@ -29,43 +85,58 @@ export default function CandidateProfile() {
                             <div className="bg-white shadow-normal rounded-[25px] flex flex-wrap">
                                 <div className="w-[310px] mx-auto p-8">
                                     <div className="userBgImage min-h-[268px] flex items-center justify-center">
-                                        <Image src={userImg} alt="User" className="w-[220px] h-[220px] rounded-full object-cover mx-auto " />
+                                        <Image src={userImg} width={220} height={220} alt="User" className="w-[220px] h-[220px] rounded-full object-cover mx-auto " />
                                     </div>
                                 </div>
                                 <div className="w-full md:max-w-[calc(100%-310px)] p-6 xl:p-8 relative bg-gradient-to-r from-[#A382E5] to-[#60C3E2] rounded-[25px] flex items-center">
                                     <aside>
                                         <h2 className="font-semibold text-xl md:text-3xl mb-2 text-white">
-                                            Joseph Roger
+                                            {userName}
                                         </h2>
                                         <p className="text-white font-light text-sm mb-6">
-                                            Web Development
+                                           {userProfile["title"]}
                                         </p>
                                         <ul className="flex flex-wrap">
+                                            {userObj["email"] &&
                                             <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
                                                 <i className="fa-solid fa-envelope xl:text-xl mr-3"></i>
                                                 <span className="mr-2">:</span>
-                                                <p>xyz@email.com</p>
+                                                <p>{userObj["email"]}</p>
                                             </li>
+                                            }
+
+                                            {userObj["mobile"] &&
                                             <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
                                                 <i className="fa-solid fa-phone xl:text-xl mr-3"></i>
                                                 <span className="mr-2">:</span>
-                                                <p>+91-9856985698</p>
+                                                <p>{userObj["mobile"]}</p>
                                             </li>
+                                            }
+
+                                            {userProfile["salary"] &&
                                             <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
                                                 <i className="fa-solid fa-wallet xl:text-xl mr-3"></i>
                                                 <span className="mr-2">:</span>
-                                                <p>360000-4500008</p>
+                                                <p>{userProfile["salary"]}</p>
                                             </li>
+                                            }
+
+                                            {userProfile["prejobtype"] &&
                                             <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
                                                 <i className="fa-solid fa-briefcase xl:text-xl mr-3"></i>
                                                 <span className="mr-2">:</span>
-                                                <p>Fresher</p>
+                                                <p>{userProfile["prejobtype"]}</p>
                                             </li>
+                                            }
+
+                                            {userProfile["prelocation"] &&
                                             <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
                                                 <i className="fa-solid fa-location-dot xl:text-xl mr-3"></i>
                                                 <span className="mr-2">:</span>
-                                                <p>Remote</p>
+                                                <p>{userProfile["prelocation"]}</p>
                                             </li>
+                                            }
+
                                         </ul>
                                     </aside>
                                 </div>
@@ -81,8 +152,17 @@ export default function CandidateProfile() {
                                 </div>
                                 <div className="bg-gradient-to-r from-[#7fc5f4] to-[#2568C9] rounded-[25px] pt-[6rem] pb-8 px-4 mt-[-40px]">
                                     <div className="bg-gradient-to-r from-[#a1c5fb] to-[#2568C9] rounded-lg shadow-lg p-5 text-white text-center font-semibold">
+                                        {userObj["paddress"]?
+                                        <>
                                         <p className="my-2">Available Coins : 70</p>
                                         <p className="my-2">Remaining Coins : 30</p>
+                                        </>:
+                                        <>
+                                        <p className="my-2">Connect</p>
+                                        <p className="my-2">Wallet</p>
+
+                                        </>}
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -111,11 +191,11 @@ export default function CandidateProfile() {
                                     <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] p-8 mb-6">
                                         <div className="mb-6">
                                             <label htmlFor="title" className="font-medium mb-2 leading-none inline-block">Title</label>
-                                            <input type="text" id="title" placeholder="Ex: Web Developer" className="w-full rounded-full border-slate-300" />
+                                            <input type="text" id="title" value={title} onChange={(e)=>setTitle(e.target.value)} placeholder="Ex: Web Developer" className="w-full rounded-full border-slate-300" />
                                         </div>
                                         <div className="relative">
                                             <label htmlFor="summary" className="font-medium mb-2 leading-none inline-block">Summary</label>
-                                            <textarea id="summary" placeholder="Something about yourself..." className="w-full rounded-[25px] h-[120px] border-slate-300 resize-none pb-6"></textarea>
+                                            <textarea id="summary" placeholder="Something about yourself..." className="w-full rounded-[25px] h-[120px] border-slate-300 resize-none pb-6" value={summary} onChange={(e)=>setSummary(e.target.value)} ></textarea>
                                             <span className="absolute right-3 bottom-3 text-gray-500">20/300</span>
                                         </div>
                                     </div>

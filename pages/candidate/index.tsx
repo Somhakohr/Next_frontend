@@ -15,10 +15,39 @@ import LaunchingGraphic from "../../public/images/Launching-Graphic.png";
 import mediaDashBg from "../../public/images/media-dash-bg.jpg";
 import blogDashBg from "../../public/images/blog-dash-bg.jpg";
 import learningSlide from "../../public/images/learning-slide.png";
-import useStore from "../../hooks/useStore";
+import { useStore } from "../../constants/code";
+import shallow from "zustand/shallow";
 
-export default function Candidate() {
-    const {userimg,username,session,router} = useStore();
+export default function Candidate(props) {
+    // const {userimg,username,session,router} = useStore();
+
+    const [userName, updateUserName] = useStore(
+        (state) => [state.userName, state.updateUserName],
+        shallow
+    )
+
+    const [userImg, updateUserImg] = useStore(
+        (state) => [state.userImg, state.updateUserImg],
+        shallow
+    )
+
+    const [userType, updateUserType] = useStore(
+        (state) => [state.userType, state.updateUserType],
+        shallow
+    )
+
+    const [userObj, updateUserObj] = useStore(
+        (state) => [state.userObj, state.updateUserObj],
+        shallow
+    )
+
+    const [userProfile, updateUserProfile] = useStore(
+        (state) => [state.userProfile, state.updateUserProfile],
+        shallow
+    )
+
+    const { router } = props; 
+
     const learningSlides = [
         {
             url: '#',
@@ -54,15 +83,15 @@ export default function Candidate() {
     };
 
     useEffect(() => {
-      if(!session || session.type != "Candidate"){
+      if(userType != "Candidate"){
         router.push("/");
       }
-    }, [session]);
-    
+    }, [userType]);
+
     return (
         
         <>
-        {session && session.type == "Candidate" ? 
+        {userType == "Candidate" ? 
         <>
         <Head>
             <title>Candidate Dashboard</title>
@@ -76,7 +105,7 @@ export default function Candidate() {
                         <div className="flex flex-wrap md:items-center items-start justify-between mb-6">
                             <div className="w-[calc(100%-70px)] flex flex-wrap md:items-center items-start flex-col md:flex-row">
                                 <Image
-                                    src={userimg}
+                                    src={userImg}
                                     alt="User"
                                     width={100}
                                     height={100}
@@ -84,7 +113,7 @@ export default function Candidate() {
                                 />
                                 <div className="w-full md:w-[calc(100%-150px)] md:pl-8">
                                     <h2 className="font-semibold text-xl md:text-3xl mb-1">
-                                        {username}
+                                        {userName}
                                     </h2>
                                     <p className="text-[#7E7E7E] font-light text-sm">
                                         Web Development
@@ -149,12 +178,12 @@ export default function Candidate() {
                         <div className="flex flex-wrap items-center justify-between mb-10">
                             <h2 className="font-semibold text-xl text-3xl mb-4 md:mb-0">Wallet</h2>
                             <div className="w-full md:max-w-[70%] relative">
-                                {session && session.userObj.paddress ? 
+                                {userObj['paddress'] ? 
                                 <>
                                 <input
                                     readOnly
                                     type="text"
-                                    value={session.userObj.paddress}
+                                    value={userObj['paddress']}
                                     className="w-full rounded-full border-slate-300 focus:border-slate-300 focus:ring-0 focus:outline-0 focus:shadow-none pr-[100px] text-sm text-gray-500"
                                 />
                                 <button

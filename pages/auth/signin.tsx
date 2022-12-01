@@ -7,12 +7,9 @@ import Github_Icon from '../../public/images/github-icon.png';
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-// import { useRouter } from 'next/navigation';
-import useAuth from "../../hooks/useAuth";
+import { useRouter } from 'next/navigation';
 import { getCsrfToken, getSession, SessionProvider, signIn, useSession } from "next-auth/react";
-import useStore from "../../hooks/useStore";
 import toastcomp from "../../components/toast";
-// import axiosInstance from '../api/axiosApi';
 
 async function setCSRF(setCsrf) {
   const csrfToken = await getCsrfToken()
@@ -24,7 +21,7 @@ export default function SignIn(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [csrf, setCsrf] = useState('');
-  const {router} = useStore();  
+  const router = useRouter();  
 
   useEffect(() => {
     setCSRF(setCsrf);

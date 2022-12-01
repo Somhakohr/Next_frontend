@@ -7,15 +7,14 @@ import Github_Icon from '../../public/images/github-icon.png';
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-// import { useRouter } from 'next/navigation';
-import useAuth from "../../hooks/useAuth";
+import { useRouter } from 'next/navigation';
 import { getCsrfToken, signIn } from "next-auth/react";
-import useStore from "../../hooks/useStore";
+// import useStore from "../../hooks/useStore";
 import toastcomp from "../../components/toast";
 
 export default function SignIn() {
   
-  const {router} = useStore();
+  const router = useRouter();
   const [errorMsg,setErrorMsg]=useState('Account already Exist, Try Again');
   const errdict = {
     'OAuthSignin':'Error in constructing an authorization URL',

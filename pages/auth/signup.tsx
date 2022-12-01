@@ -5,16 +5,41 @@ import Auth_Slider from "../../components/auth-slider";
 import graphic_1 from '../../public/images/graphic-1.png';
 import graphic_2 from '../../public/images/graphic-2.png';
 import Google_Icon from '../../public/images/google-icon.png';
-import Facebook_Icon from '../../public/images/facebook-icon.png';
+import Github_Icon from '../../public/images/github-icon.png';
 import React from "react";
 import { useState,useEffect } from "react";
-import useStore from "../../hooks/useStore";
 import toastcomp from "../../components/toast";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { getCsrfToken } from "next-auth/react";
+
+async function setCSRF(setCsrf) {
+  const csrfToken = await getCsrfToken()
+  console.log(csrfToken);
+  setCsrf(csrfToken);
+}
 
 export default function SignUp() {
   const [section, setSection] = useState(0);
   const [choice, setChoice] = useState(0);
-  const {axiosInstance,router} = useStore();
+  const [csrf, setCsrf] = useState('');
+  const router = useRouter(); 
+
+  
+  useEffect(() => {
+    setCSRF(setCsrf);
+  }, []);
+  
+  const axiosInstance = axios.create({
+    baseURL: 'http://127.0.0.1:8000/api/',
+    timeout: 5000,
+    headers: {
+        // 'Authorization': "JWT " + access_token,
+        'Content-Type': 'application/json',
+        'accept': 'application/json'
+    }
+  });
+  // const {axiosInstance,router} = useStore();
 
   //candidate state
   const [firstname,setFirstName] = useState('');
@@ -231,7 +256,7 @@ export default function SignUp() {
                         <div className="flex items-center justify-center">
                           <form action="http://localhost:3000/api/auth/signin/google" method="POST">
                             <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2">
-                              <input type="hidden" name="csrfToken" value="4ebe09e5178698c31f2a48e7aea7aedd1ec6bd79ae2b6a4ee8e8332dd9ba1cfc" />
+                              <input type="hidden" name="csrfToken" value={csrf} />
                               <input type="hidden" name="callbackUrl" value="http://localhost:3000/" />
                               <button type="submit"><Image src={Google_Icon} width={15} alt="Google" /></button>
                             </div>
@@ -239,9 +264,9 @@ export default function SignUp() {
 
                           <form action="http://localhost:3000/api/auth/signin/github" method="POST">
                             <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2">
-                              <input type="hidden" name="csrfToken" value="4ebe09e5178698c31f2a48e7aea7aedd1ec6bd79ae2b6a4ee8e8332dd9ba1cfc" />
+                              <input type="hidden" name="csrfToken" value={csrf} />
                               <input type="hidden" name="callbackUrl" value="http://localhost:3000/" />
-                              <button type="submit"><Image src={Facebook_Icon} width={15} alt="GitHub" /></button>
+                              <button type="submit"><Image src={Github_Icon} width={15} alt="GitHub" /></button>
                             </div>
                           </form>
                         </div>
