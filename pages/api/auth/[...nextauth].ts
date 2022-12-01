@@ -2,11 +2,13 @@ import { NextApiRequest, NextApiResponse } from "next";
 import NextAuth from "next-auth";
 import { NextAuthOptions } from "next-auth";
 import axios from "axios";
-import { JwtUtils, UrlUtils } from "../../../hooks/Utils";
+import { JwtUtils, UrlUtils } from "../../../constants/Utils";
 import GoogleProvider from "next-auth/providers/google";
 import LinkedInProvider from "next-auth/providers/linkedin";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { useStore } from "../../../constants/code";
+import shallow from "zustand/shallow";
 
 namespace NextAuthUtils {
   export const refreshToken = async function (refreshToken) {
@@ -46,8 +48,6 @@ const axiosInstance = axios.create({
       'accept': 'application/json'
   }
 });
-
-var utype = '',userObj = {},profile = {}
 
 const settings: NextAuthOptions = {
   secret: process.env.SESSION_SECRET,
@@ -113,32 +113,11 @@ const settings: NextAuthOptions = {
               accessToken: access_token,
               refreshToken: refresh_token,
             };
-            utype = ''
-            userObj = {}
-            profile = {}
             return token;
           }).catch((err)=>{
             console.log(err);
           });
         }
-        // else if(account.provider === "linkedin"){
-        //   const accessToken = account.access_token;
-        //   // const idToken = account.id_token;
-        //   // console.log("link",account);
-        //   await axiosInstance.post('/auth/signin/'+account.provider+'/', {
-        //     access_token: accessToken,
-        //   }).then((response)=>{
-        //     const { access_token, refresh_token } = response.data;
-        //     token = {
-        //       ...token,
-        //       accessToken: access_token,
-        //       refreshToken: refresh_token,
-        //     };
-        //     return token;
-        //   }).catch((err)=>{
-        //     console.log(err);
-        //   });
-        // }
         else if (account.provider === "github") {
           const accessToken = account.access_token;
           // const idToken = account.id_token;
@@ -153,9 +132,6 @@ const settings: NextAuthOptions = {
               accessToken: access_token,
               refreshToken: refresh_token,
             };
-            utype = ''
-            userObj = {}
-            profile = {}
             return token;
           }).catch((err)=>{
             console.log(err);
@@ -173,9 +149,6 @@ const settings: NextAuthOptions = {
               accessToken: access,
               refreshToken: refresh,
             };
-            utype = ''
-            userObj = {}
-            profile = {}
             return token;
           }).catch((err)=>{
             console.log(err);
@@ -211,35 +184,37 @@ const settings: NextAuthOptions = {
     async session({ session, token }) {
       
       session.accessToken = token.accessToken;
-      if(utype.length <= 0){
-        const res = await axiosInstance.post('/auth/getusers/', {
-          email: session.user.email,
-        });
-        session.type = res.data.type
-        session.userObj = res.data.userObj[0]
-        utype = res.data.type
-        userObj = res.data.userObj[0]
+      // if(utype.length <= 0){
+      //   const res = await axiosInstance.post('/auth/getusers/', {
+      //     email: session.user.email,
+      //   });
+      //   session.type = res.data.type
+      //   session.userObj2 = res.data.userObj2[0]
+      //   utype = res.data.type
+      //   userObj2 = res.data.userObj2[0]
+      //   updateUserObj(userObj2)
 
-        //candidateprofile
-        const axiosInstanceAuth = axios.create({
-          baseURL: 'http://127.0.0.1:8000/api/',
-          timeout: 5000,
-          headers: {
-              // 'Authorization': "JWT " + access_token,
-              'Authorization': 'Bearer '+session.accessToken,
-              'Content-Type': 'application/json',
-              'accept': 'application/json'
-          }
-        });
-        const res2 = await axiosInstanceAuth.get('/candidate/candidateprofile/'+userObj.erefid+'/');
-        session.profile = res2.data
-        profile = res2.data
-      }
-      else{
-        session.type = utype
-        session.userObj = userObj
-        session.profile = profile
-      }
+      //   //candidateprofile
+      //   const axiosInstanceAuth = axios.create({
+      //     baseURL: 'http://127.0.0.1:8000/api/',
+      //     timeout: 5000,
+      //     headers: {
+      //         // 'Authorization': "JWT " + access_token,
+      //         'Authorization': 'Bearer '+session.accessToken,
+      //         'Content-Type': 'application/json',
+      //         'accept': 'application/json'
+      //     }
+      //   });
+      //   const res2 = await axiosInstanceAuth.get('/candidate/candidateprofile/'+userObj2.erefid+'/');
+      //   session.profile = res2.data
+      //   profile = res2.data
+      // }
+      // else{
+      //   session.type = utype
+      //   session.userObj2 = userObj2
+      //   session.profile = profile
+      //   updateUserObj(userObj2)
+      // }
       return session;
     },
   },

@@ -4,15 +4,119 @@ import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition, Menu } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { signOut } from "next-auth/react";
-import useStore, { useAuth22 } from '../hooks/useStore';
+import { useAuth } from '../constants/Hooks';
 import UserImg from '../public/images/user-image.png';
-import { Router } from 'next/router';
+import { Router, useRouter } from 'next/router';
+import shallow from 'zustand/shallow';
+import { useStore } from '../constants/code';
+import { withAuth } from '../constants/HOCs';
+import axios from "axios";
+import { axiosInstance } from '../pages/api/axiosApi';
 
-export default function Header() {
-    const [open, setOpen] = useState(false)
-    const {session,username,setUserName,userimg,setUserImg,router} = useStore();
-    // console.log(session);    
-       
+function Header(props) {
+
+    const { session, router } = props;  
+
+    const [userName, updateUserName] = useStore(
+        (state) => [state.userName, state.updateUserName],
+        shallow
+    )
+
+    const [userImg, updateUserImg] = useStore(
+        (state) => [state.userImg, state.updateUserImg],
+        shallow
+    )
+
+    const [userType, updateUserType] = useStore(
+        (state) => [state.userType, state.updateUserType],
+        shallow
+    )
+
+    const [userObj, updateUserObj] = useStore(
+        (state) => [state.userObj, state.updateUserObj],
+        shallow
+    )
+
+    const [userProfile, updateUserProfile] = useStore(
+        (state) => [state.userProfile, state.updateUserProfile],
+        shallow
+    )
+
+    const [accessToken, updateAccessToken] = useStore(
+        (state) => [state.accessToken, state.updateAccessToken],
+        shallow
+    )
+      
+    const [open, setOpen] = useState(false)   
+
+    function signout() {
+        signOut()
+        updateUserType('')
+        updateUserName('')
+        updateUserImg('')
+        updateUserObj({})
+        updateUserProfile({})
+        updateAccessToken('')
+    }
+            
+    useEffect(() => {
+        async function fetchData() {      
+            const res = await axiosInstance.post('/auth/getusers/', {
+            email: session.user.email,
+            });
+            updateUserType(res.data.type)
+            updateUserObj(res.data.userObj[0])
+        
+            const axiosInstanceAuth = axios.create({
+            baseURL: 'http://127.0.0.1:8000/api/',
+            timeout: 5000,
+            headers: {
+                'Authorization': 'Bearer '+session.accessToken,
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+            });
+            const res2 = await axiosInstanceAuth.get('/candidate/candidateprofile/'+res.data.userObj[0].erefid+'/');
+            // console.log(res2);
+            updateUserProfile(res2.data)            
+        }
+
+        if(session && userType.length <= 0){fetchData();}
+        if(session){updateAccessToken(session.accessToken)}
+
+    }, [session])
+  
+    useEffect(() => {
+        if(userType.length > 0){
+            if(userType == "Candidate"){
+            if(userObj["first_name"]){
+                updateUserName(userObj['first_name']+" "+userObj['last_name']);
+            }
+            else{
+                updateUserName(session.user.name);
+            }
+            if(userProfile['profile']){
+                if(userProfile['profile'] == '/media/default_image.jpeg' && session.user.image){
+                    updateUserImg(session.user.image);
+                }
+                else{
+                    updateUserImg('http://127.0.0.1:8000'+userProfile["profile"]);
+                }
+            }
+            }
+    
+            
+            console.log("-------------------");
+            console.log("userName",userName)
+            console.log("userImg",userImg)
+            console.log("userType",userType)
+            console.log("userObj",userObj)
+            console.log("userProfle",userProfile)
+            console.log("accessToken",accessToken)
+        }
+    }, [userProfile,userType,userObj])
+    
+      
     const authAction = [
         {
             url: '/auth/signin',
@@ -23,9 +127,11 @@ export default function Header() {
             text: 'Sign Up'
         }
     ];
+
+    
     return (
         <>
-            { session ? 
+            { session && userType.length > 0 ? 
                 <>
                     <div className="h-[65px] lg:h-[91px]"></div>
                 </> 
@@ -42,9 +148,9 @@ export default function Header() {
                     <button type="button" onClick={() => setOpen(true)} className="lg:hidden text-2xl">
                         <i className="fa-solid fa-bars"></i>
                     </button>
-                    { session ? 
+                    { session && userType.length > 0 ? 
                     <> 
-                        { session.type == 'Candidate' ? 
+                        { userType == 'Candidate' ? 
                         <>
                         <div className="hidden lg:flex border border-slate-300 bg-white rounded items-center">
                             <Menu as="div" className="relative last:border-l w-[60px] text-center py-3">
@@ -72,7 +178,7 @@ export default function Header() {
                             </Menu>
                             <Menu as="div" className="relative last:border-l p-2">
                                 <Menu.Button className="align-middle">
-                                    <Image src={userimg} alt={username} width={50} height={50}  className="w-[50px] h-[50px] rounded-full object-cover" />
+                                    <Image src={userImg} alt={userName} width={50} height={50}  className="w-[50px] h-[50px] rounded-full object-cover" />
                                 </Menu.Button>
                                 <Transition
                                     as={Fragment}
@@ -86,7 +192,7 @@ export default function Header() {
                                     <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                         <ul className="overflow-hidden rounded-lg">
                                             <li className="py-2 px-4 capitalize bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white text-center">
-                                                <b>Hello,</b> {username}
+                                                <b>Hello,</b> {userName}
                                             </li>
                                             <li>
                                                 <button type="button" onClick={() => router.push('/candidate')} className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">My Dashboard</button>
@@ -95,7 +201,7 @@ export default function Header() {
                                                 <button type="button" onClick={() => router.push('/candidate/account')} className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">Account Settings</button>
                                             </li>
                                             <li>
-                                                <button type="button" className="py-2 px-6 rounded text-sm text-center mx-auto block mb-2 transition-all text-red-600 hover:bg-red-600 hover:text-white" onClick={() => signOut()} >Log out</button>
+                                                <button type="button" className="py-2 px-6 rounded text-sm text-center mx-auto block mb-2 transition-all text-red-600 hover:bg-red-600 hover:text-white" onClick={() => signout()} >Log out</button>
                                             </li>
                                         </ul>
                                     </Menu.Items>
@@ -174,7 +280,7 @@ export default function Header() {
                                         </Link>
                                     </div>
                                     <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                                    { session ? 
+                                    { session && userType.length > 0 ? 
                                         <>
                                             <div className="flex justify-center border border-slate-300 bg-white rounded items-center">
                                                 <Menu as="div" className="relative last:border-l w-[60px] text-center py-3">
@@ -202,7 +308,7 @@ export default function Header() {
                                                 </Menu>
                                                 <Menu as="div" className="relative last:border-l p-2">
                                                     <Menu.Button className="align-middle">
-                                                        <Image src={UserImg} alt={session.user.name} className="w-[50px] h-[50px] rounded-full object-cover" />
+                                                        <Image src={userImg} alt={userName} className="w-[50px] h-[50px] rounded-full object-cover" />
                                                     </Menu.Button>
                                                     <Transition
                                                         as={Fragment}
@@ -216,7 +322,7 @@ export default function Header() {
                                                         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                             <ul className="overflow-hidden rounded-lg">
                                                                 <li className="py-2 px-4 capitalize bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white text-center">
-                                                                    {session.user.name}
+                                                                    {userName}
                                                                 </li>
                                                                 <li>
                                                                     <button type="button" className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">My Dashboard</button>
@@ -225,7 +331,7 @@ export default function Header() {
                                                                     <button type="button" className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">Account Settings</button>
                                                                 </li>
                                                                 <li>
-                                                                    <button type="button" className="py-2 px-6 rounded text-sm text-center mx-auto block mb-2 transition-all text-red-600 hover:bg-red-600 hover:text-white" onClick={() => signOut()} >Log out</button>
+                                                                    <button type="button" className="py-2 px-6 rounded text-sm text-center mx-auto block mb-2 transition-all text-red-600 hover:bg-red-600 hover:text-white" onClick={() => signout()} >Log out</button>
                                                                 </li>
                                                             </ul>
                                                         </Menu.Items>
@@ -258,3 +364,5 @@ export default function Header() {
         </>
     )
 }    
+
+export default withAuth(3 * 60)(Header);
