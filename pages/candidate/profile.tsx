@@ -413,7 +413,7 @@ export default function CandidateProfile() {
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md">
+                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-md">
                             <div className="p-8">
                                 <div className="flex items-center justify-between mb-8">
                                     <h4 className="leading-none font-semibold text-xl">Language</h4>
@@ -473,7 +473,7 @@ export default function CandidateProfile() {
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md">
+                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-md">
                             <div className="p-8">
                                 <div className="flex items-center justify-between mb-8">
                                     <h4 className="leading-none font-semibold text-xl">Social Media</h4>
@@ -532,7 +532,7 @@ export default function CandidateProfile() {
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md">
+                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-md">
                             <div className="p-8">
                                 <div className="flex items-center justify-between mb-8">
                                     <h4 className="leading-none font-semibold text-xl">Add Skills</h4>
@@ -602,7 +602,7 @@ export default function CandidateProfile() {
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl">
+                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-2xl">
                             <div className="p-8">
                                 <div className="flex items-center justify-between mb-8">
                                     <h4 className="leading-none font-semibold text-xl">Add Certificate</h4>
@@ -685,7 +685,7 @@ export default function CandidateProfile() {
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl">
+                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-2xl">
                             <div className="p-8">
                                 <div className="flex items-center justify-between mb-8">
                                     <h4 className="leading-none font-semibold text-xl">Add Education</h4>
@@ -756,7 +756,7 @@ export default function CandidateProfile() {
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl">
+                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-2xl">
                             <div className="p-8">
                                 <div className="flex items-center justify-between mb-8">
                                     <h4 className="leading-none font-semibold text-xl">Add Experience</h4>
@@ -833,7 +833,7 @@ export default function CandidateProfile() {
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl">
+                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-2xl">
                             <div className="p-8">
                                 <div className="flex items-center justify-between mb-8">
                                     <h4 className="leading-none font-semibold text-xl">Add Achievements</h4>
