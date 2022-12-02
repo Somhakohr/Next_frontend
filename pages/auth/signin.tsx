@@ -52,7 +52,8 @@ export default function SignIn(props) {
     }).then(async (response)=>{
       // console.log(response);
       await signIn('credentials', { redirect: false, password: password,email: email, }).then(()=>{
-        router.push("/");
+        
+        router.push("/"+response.data.type.toLowerCase());
       }) 
       // return true;
     }).catch((err)=>{
@@ -122,7 +123,7 @@ export default function SignIn(props) {
                         <form action="http://localhost:3000/api/auth/signin/google" method="POST">
                           <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2">
                             <input type="hidden" name="csrfToken" value={csrf} />
-                            <input type="hidden" name="callbackUrl" value="http://localhost:3000/" />
+                            <input type="hidden" name="callbackUrl" value="http://localhost:3000/candidate" />
                             <button type="submit"><Image src={Google_Icon} width={15} alt="Google" /></button>
                           </div>
                         </form>
@@ -130,7 +131,7 @@ export default function SignIn(props) {
                         <form action="http://localhost:3000/api/auth/signin/github" method="POST">
                           <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2">
                             <input type="hidden" name="csrfToken" value={csrf} />
-                            <input type="hidden" name="callbackUrl" value="http://localhost:3000/" />
+                            <input type="hidden" name="callbackUrl" value="http://localhost:3000/candidate" />
                             <button type="submit"><Image src={Github_Icon} width={15} alt="GitHub" /></button>
                           </div>
                         </form>

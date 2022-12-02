@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { Fragment, useEffect, useRef, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import { Combobox, Dialog, Transition } from '@headlessui/react'
 import userImg from "../../public/images/user-image.png";
 import token from "../../public/images/token.png";
 import skillsGraphic from "../../public/images/skills-graphic.png";
@@ -12,8 +12,10 @@ import expGraphic from "../../public/images/exp-graphic.png";
 import achievementsGraphic from "../../public/images/achievements-graphic.png";
 import { useStore } from "../../constants/code";
 import shallow from "zustand/shallow";
+import { withAuth } from "../../constants/HOCs";
+import { axiosInstance } from "../api/axiosApi";
 
-export default function CandidateProfile(props) {
+function CandidateProfile(props) {
 
     const [userName, updateUserName] = useStore(
         (state) => [state.userName, state.updateUserName],
@@ -49,8 +51,48 @@ export default function CandidateProfile(props) {
         (state) => [state.country, state.updateCountry],
         shallow
     )
+
+    const [cities, updateCities] = useStore(
+        (state) => [state.cities, state.updateCities],
+        shallow
+    )
     
-    const { router } = props; 
+    const { router,session } = props; 
+    
+    // const [selectedPerson, setSelectedPerson] = useState()
+    // const [query, setQuery] = useState('')
+    // var filteredPeople =
+    // query === ''
+    // ? cities
+    // : cities.filter((person) => {
+    //     return person['name'].toLowerCase().includes(query.toLowerCase())
+    //     })
+    function isEmpty(obj) {
+        return Object.keys(obj).length === 0;
+    } 
+
+    useEffect(() => {
+        async function fetchData() {      
+            const res = await axiosInstance.get('/job/load/cities/',);
+            updateCities(res.data)       
+        }
+        if(isEmpty(cities)){
+            fetchData();
+            console.log(cities);
+        }
+
+    }, [])
+
+
+    // useEffect(() => {
+    //     console.log(cities);
+    // }, [cities]);
+
+    useEffect(() => {
+        if(!session){
+          router.push("/");
+        }
+    }, [session]);
 
     const [langPopup, langPopupOpen] = useState(false)
     const cancelButtonRef = useRef(null)
@@ -69,10 +111,21 @@ export default function CandidateProfile(props) {
     const [salary,setSalary] = useState('')
     const [yearsOfExp,setYearsOfExp] = useState('')
 
+    
+    // const people = [
+    //     { id: 1, name: 'Durward Reynolds' },
+    //     { id: 2, name: 'Kenton Towne' },
+    //     { id: 3, name: 'Therese Wunsch' },
+    //     { id: 4, name: 'Benedict Kessler' },
+    //     { id: 5, name: 'Katelyn Rohan' },
+    //   ]
+
+    
+
     useEffect(() => {
         console.log(title)
         console.log(summary)
-        // userProfile["title"]=title
+        userProfile["title"]=title
     }, [title,summary])
     
 
@@ -191,7 +244,7 @@ export default function CandidateProfile(props) {
                                     <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] p-8 mb-6">
                                         <div className="mb-6">
                                             <label htmlFor="title" className="font-medium mb-2 leading-none inline-block">Title</label>
-                                            <input type="text" id="title" value={title} onChange={(e)=>setTitle(e.target.value)} placeholder="Ex: Web Developer" className="w-full rounded-full border-slate-300" />
+                                            <input type="text" id="title" defaultValue={title} onChange={(e)=>setTitle(e.target.value)} placeholder="Ex: Web Developer" className="w-full rounded-full border-slate-300" />
                                         </div>
                                         <div className="relative">
                                             <label htmlFor="summary" className="font-medium mb-2 leading-none inline-block">Summary</label>
@@ -223,10 +276,14 @@ export default function CandidateProfile(props) {
                                             <div className="w-full lg:w-[47%] mb-6">
                                                 <label htmlFor="preferLocation" className="font-medium mb-4 leading-none inline-block">Preferred Location</label>
                                                 <select id="preferLocation" className="w-full rounded-full border-slate-300">
-                                                    <option value="India">India</option>
-                                                    <option value="Japan">Japan</option>
+                                                    <option value="">Select Location</option>
+                                                    
+                                                    {/* { Object.keys(cities).map((key, index) => ( 
+                                                        <option key={key} value={cities[key]}>{cities[key]}</option>
+                                                    ))} */}
                                                 </select>
                                             </div>
+                                            
                                             <div className="w-full lg:w-[47%] mb-6">
                                                 <label htmlFor="salary" className="font-medium mb-4 leading-none inline-block">Salary</label>
                                                 <input id="salary" type="text" placeholder="Ex: 2 Lpa" className="w-full rounded-full border-slate-300" />
@@ -946,3 +1003,5 @@ export default function CandidateProfile(props) {
         </>
     )
 }
+
+export default withAuth(3*60)(CandidateProfile)

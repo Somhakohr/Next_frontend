@@ -5,11 +5,12 @@ import { useEffect, useState } from "react";
 import shallow from "zustand/shallow";
 import toastcomp from "../../components/toast";
 import { useStore } from "../../constants/code";
+import { withAuth } from "../../constants/HOCs";
 import userImg from "../../public/images/user-image.png";
 import { axiosInstance } from "../api/axiosApi";
 
 
-export default function Candidate(props) {
+function CandidateAcc(props) {
 
     const [userName, updateUserName] = useStore(
         (state) => [state.userName, state.updateUserName],
@@ -46,7 +47,19 @@ export default function Candidate(props) {
         shallow
     )
     
-    const { router } = props; 
+    const { router,session } = props; 
+    
+    useEffect(() => {
+        if(!session){
+            router.push("/");
+        }
+        else{
+            setEmail(userObj["email"])
+            setFName(userName.split(" ")[0])
+            setLName(userName.split(" ")[1])
+            if(userObj["mobile"]){setMobile(userObj["mobile"])}
+        }
+    }, [session]);
 
     const [email,setEmail] = useState('');
     const [fname,setFName] = useState('');
@@ -58,22 +71,7 @@ export default function Candidate(props) {
 
     function isEmpty(obj) {
         return Object.keys(obj).length === 0;
-    }
-
-    
-    useEffect(() => {
-        if(userType != "Candidate"){
-            router.push("/");
-        }
-        else{
-            setEmail(userObj["email"])
-            setFName(userName.split(" ")[0])
-            setLName(userName.split(" ")[1])
-            if(userObj["mobile"]){setMobile(userObj["mobile"])}
-        }
-    }, [userType]);
-
-    
+    }   
                 
     useEffect(() => {
         async function fetchData() {      
@@ -88,9 +86,9 @@ export default function Candidate(props) {
     }, [])
 
     useEffect(() => {
-    if(userProfile["country"]){
-        setCountryDrop(userProfile["country"])
-    }
+        if(userProfile["country"]){
+            setCountryDrop(userProfile["country"])
+        }
     }, [userProfile])
     
 
@@ -268,3 +266,5 @@ export default function Candidate(props) {
         
         </>)
 }
+
+export default withAuth(3 * 60)(CandidateAcc)

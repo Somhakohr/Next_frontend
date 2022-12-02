@@ -17,9 +17,9 @@ import blogDashBg from "../../public/images/blog-dash-bg.jpg";
 import learningSlide from "../../public/images/learning-slide.png";
 import { useStore } from "../../constants/code";
 import shallow from "zustand/shallow";
+import { withAuth } from "../../constants/HOCs";
 
-export default function Candidate(props) {
-    // const {userimg,username,session,router} = useStore();
+function Candidate(props) {
 
     const [userName, updateUserName] = useStore(
         (state) => [state.userName, state.updateUserName],
@@ -46,7 +46,7 @@ export default function Candidate(props) {
         shallow
     )
 
-    const { router } = props; 
+    const { router,session } = props; 
 
     const learningSlides = [
         {
@@ -83,10 +83,10 @@ export default function Candidate(props) {
     };
 
     useEffect(() => {
-      if(userType != "Candidate"){
+      if(!session){
         router.push("/");
       }
-    }, [userType]);
+    }, [session]);
 
     return (
         
@@ -358,3 +358,6 @@ export default function Candidate(props) {
         </>)
     
 }
+
+
+export default withAuth(3 * 60)(Candidate)
