@@ -189,7 +189,9 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
 .orgDashCards li:hover {
   box-shadow: 0px 10px 10px rgba(0,0,0,0.2);
 }
-
+.parent:hover .child {
+  display: block;
+}
 
 @media (max-width: 1279.98px) {
   .candidate_profile ul.react-tabs__tab-list li {

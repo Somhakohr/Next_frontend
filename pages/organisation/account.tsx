@@ -165,10 +165,7 @@ export default function OrganisationAccount() {
                                 </div>
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompFundingAmount" className="font-medium mb-2 leading-none inline-block">Funding Amount</label>
-                                    <select id="orgCompFundingAmount" className="w-full rounded-full border-slate-300">
-                                        <option value="Active">Active</option>
-                                        <option value="Inactive">Inactive</option>
-                                    </select>
+                                    <input type="text" id="orgCompFundingAmount" className="w-full rounded-full border-slate-300" />
                                 </div>
                             </div>
                             <div className="mb-6">
@@ -246,11 +243,36 @@ export default function OrganisationAccount() {
                                 columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
                             >
                                 <Masonry className="masonary_grid">
-                                    <Image src={gallery_1} alt="Gallery" className="w-full" />
-                                    <Image src={gallery_2} alt="Gallery" className="w-full" />
-                                    <Image src={gallery_3} alt="Gallery" className="w-full" />
-                                    <Image src={gallery_4} alt="Gallery" className="w-full" />
-                                    <Image src={gallery_5} alt="Gallery" className="w-full" />
+                                    <div className="relative">
+                                        <Image src={gallery_1} alt="Gallery" className="w-full" />
+                                        <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
+                                            <i className="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </div>
+                                    <div className="relative">
+                                        <Image src={gallery_2} alt="Gallery" className="w-full" />
+                                        <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
+                                            <i className="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </div>
+                                    <div className="relative">
+                                        <Image src={gallery_3} alt="Gallery" className="w-full" />
+                                        <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
+                                            <i className="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </div>
+                                    <div className="relative">
+                                        <Image src={gallery_4} alt="Gallery" className="w-full" />
+                                        <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
+                                            <i className="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </div>
+                                    <div className="relative">
+                                        <Image src={gallery_5} alt="Gallery" className="w-full" />
+                                        <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
+                                            <i className="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </div>
                                 </Masonry>
                             </ResponsiveMasonry>
                         </div>
@@ -361,11 +383,36 @@ export default function OrganisationAccount() {
                                         columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
                                     >
                                         <Masonry className="masonary_grid">
-                                            <Image src={gallery_1} alt="Gallery" className="w-full" />
-                                            <Image src={gallery_2} alt="Gallery" className="w-full" />
-                                            <Image src={gallery_3} alt="Gallery" className="w-full" />
-                                            <Image src={gallery_4} alt="Gallery" className="w-full" />
-                                            <Image src={gallery_5} alt="Gallery" className="w-full" />
+                                            <div className="relative">
+                                                <Image src={gallery_1} alt="Gallery" className="w-full" />
+                                                <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
+                                                    <i className="fa-solid fa-xmark"></i>
+                                                </button>
+                                            </div>
+                                            <div className="relative">
+                                                <Image src={gallery_2} alt="Gallery" className="w-full" />
+                                                <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
+                                                    <i className="fa-solid fa-xmark"></i>
+                                                </button>
+                                            </div>
+                                            <div className="relative">
+                                                <Image src={gallery_3} alt="Gallery" className="w-full" />
+                                                <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
+                                                    <i className="fa-solid fa-xmark"></i>
+                                                </button>
+                                            </div>
+                                            <div className="relative">
+                                                <Image src={gallery_4} alt="Gallery" className="w-full" />
+                                                <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
+                                                    <i className="fa-solid fa-xmark"></i>
+                                                </button>
+                                            </div>
+                                            <div className="relative">
+                                                <Image src={gallery_5} alt="Gallery" className="w-full" />
+                                                <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
+                                                    <i className="fa-solid fa-xmark"></i>
+                                                </button>
+                                            </div>
                                         </Masonry>
                                     </ResponsiveMasonry>
                                 </div>
