@@ -53,16 +53,14 @@ export default function OrganisationJobsCard() {
                             <i className="fa-solid fa-trash"></i>
                             <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Delete</span>
                         </button>
-                        {/* <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3">
+                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3">
                             <i className="fa-solid fa-copy"></i>
                             <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Clone</span>
-                        </button> */}
+                        </button>
                     </div>
                     <div className="text-right">
                         <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-medium rounded-full text-[12px] py-2 px-4 transition-all hover:from-[#391188] hover:to-[#391188]">10 Applicants</button>
-                        {/* <span className="py-1.5 px-4 font-medium rounded-full text-[12px] text-[#6D27F9] border border-[#6D27F9]">
-                            Archived
-                        </span> */}
+                        <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-medium rounded-full text-[12px] py-2 px-4 transition-all hover:from-[#391188] hover:to-[#391188]">View Job</button>
                     </div>
                 </div>
             </div>

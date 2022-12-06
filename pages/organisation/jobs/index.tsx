@@ -1,6 +1,8 @@
+import Image from "next/image";
 import Sidebar from "../../../components/org-sidebar";
 import JobsMenu from "../../../components/org-jobs-menu";
 import OrgJobsCard from "../../../components/org-jobs-card";
+import noGraphic from '../../../public/images/no-found-graphic.png';
 
 export default function OrganisationActiveJobs() {
     return (
@@ -36,6 +38,21 @@ export default function OrganisationActiveJobs() {
                                         <OrgJobsCard />
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                            <div className="py-20 px-4 md:px-10">
+                                <aside className="flex flex-wrap items-center justify-center w-full max-w-[500px] mx-auto">
+                                    <article className="w-full md:max-w-[60%] my-6">
+                                        <h4 className="font-bold text-xl md:text-2xl mb-6">
+                                            No Jobs!
+                                        </h4>
+                                        <p className="text-lg font-medium">There are no <span className="text-[#6D27F9]">Active</span> Jobs</p>
+                                    </article>
+                                    <div className="w-full md:max-w-[40%]">
+                                        <Image src={noGraphic} alt="No Data" width={150} />
+                                    </div>
+                                </aside>
                             </div>
                         </div>
                     </div>

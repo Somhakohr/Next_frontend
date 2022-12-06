@@ -149,10 +149,10 @@ export default function Organisation() {
                                     <table className="table-auto min-w-[800px] w-full text-left border-collapse text-[#7e7e7e] text-sm">
                                         <thead className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white">
                                             <tr>
-                                                <th className="py-2 px-3 rounded-tl-md rounded-bl-md">Candidate ID</th>
+                                                <th className="py-2 px-3 ">Candidate ID</th>
                                                 <th className="py-2 px-3">Job ID</th>
                                                 <th className="py-2 px-3">Job Title</th>
-                                                <th className="py-2 px-3 rounded-tr-md rounded-br-md">Interview Date & Time</th>
+                                                <th className="py-2 px-3 ">Interview Date & Time</th>
                                             </tr>
                                         </thead>
                                         <tbody>
