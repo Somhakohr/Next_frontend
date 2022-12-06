@@ -138,7 +138,7 @@ function CandidateAcc(props) {
                     toastcomp("Account Updated :)","success");
                 }).catch((err)=>{
                     console.log(err);
-                    toastcomp("Account Not Updated :)","danger");
+                    toastcomp("Account Not Updated :)","error");
                 });
 
             }
@@ -147,7 +147,7 @@ function CandidateAcc(props) {
             }
 
         }).catch((err)=>{
-            toastcomp("Account Not Updated :)","danger");
+            toastcomp("Account Not Updated :)","error");
         });
     }
 
@@ -171,7 +171,7 @@ function CandidateAcc(props) {
             updateAccessToken('')
             signOut()
         }).catch((err)=>{
-            toastcomp("Account Not Deleted :)","danger");
+            toastcomp("Account Not Deleted :)","error");
         });
         
     }

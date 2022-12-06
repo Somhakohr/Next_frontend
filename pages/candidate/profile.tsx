@@ -79,7 +79,6 @@ function CandidateProfile(props) {
     const [educationPopup, educationPopupOpen] = useState(false)
     const [expPopup, expPopupOpen] = useState(false)
     const [achievementsPopup, achievementsPopupOpen] = useState(false)
-
     //local bio state
     const [title,setTitle] = useState('')
     const [summary,setSummary] = useState('')
@@ -102,6 +101,10 @@ function CandidateProfile(props) {
     //local resume state
     const [resume,setResume] = useState([])
     const [uresume,setUResume] = useState()
+    const [utitle,setUTitle] = useState('')
+    const [urtitle,setURTitle] = useState('')
+    const [furtitle,setFURTitle] = useState('')
+    const [rid,setRId] = useState(0)
     //local skill state
     const [skill,setSkill] = useState([])
     const [stitle,setSTitle] = useState('PHP')
@@ -109,8 +112,33 @@ function CandidateProfile(props) {
     const [sset,setSSet] = useState('Primary')
     //local certification state
     const [cert,setCert] = useState([])
-    
-
+    const [cname,setCName] = useState('')
+    const [corg,setCOrg] = useState('')
+    const [cexp,setCExp] = useState(false)
+    const [cidate,setCIDate] = useState('')
+    const [cedate,setCEDate] = useState('')
+    const [cid,setCId] = useState('')
+    const [curl,setCUrl] = useState('')
+    //local education state
+    const [edu,setEdu] = useState([])
+    const [ename,setEName] = useState('')
+    const [eorg,setEOrg] = useState('')
+    const [esdate,setESDate] = useState('')
+    const [eedate,setEEDate] = useState('')
+    const [eabout,setEAbout] = useState('')
+    //local exp state
+    const [exp,setExp] = useState([])
+    const [exname,setEXName] = useState('')
+    const [exorg,setEXOrg] = useState('')
+    const [exexp,setEXExp] = useState(false)
+    const [exsdate,setEXSDate] = useState('')
+    const [exedate,setEXEDate] = useState('')
+    const [exabout,setEXAbout] = useState('')
+    const [extype,setEXType] = useState('')
+    //local achievment state
+    const [achieve,setAchieve] = useState([])
+    const [amtitle,setAMTitle] = useState('')
+    const [amdesc,setAMDesc] = useState('')
 
     //local fun
     function verifyLangPopup() {
@@ -122,7 +150,19 @@ function CandidateProfile(props) {
     function verifySkillPopup() {
         return stitle.length > 0
     }
-
+    function verifyCertPopup() {
+        return cname.length > 0 && corg.length > 0 && cidate.length > 0 && cid.length > 0 && curl.length > 0 && (cexp || cedate.length > 0)
+    }
+    function verifyEduPopup() {
+        return ename.length > 0 && eorg.length > 0 && esdate.length > 0 && eedate.length > 0 && eabout.length > 0
+    }
+    function verifyExpPopup() {
+        return exname.length > 0 && exorg.length > 0 && exsdate.length > 0 && exabout.length > 0 && extype.length > 0 && (exexp || exedate.length > 0)
+    }
+    function verifyAchievePopup() {
+        return amtitle.length > 0 && amdesc.length > 0
+    }
+    
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
         baseURL: 'http://127.0.0.1:8000/api/',
@@ -139,7 +179,7 @@ function CandidateProfile(props) {
             langPopupOpen(false)
         }).catch((err)=>{
             if(err.message != "Request failed with status code 401"){
-                toastcomp("Lang Not Loaded",'danger')
+                toastcomp("Lang Not Loaded",'error')
             }
             console.log(err)
             langPopupOpen(false)
@@ -151,7 +191,7 @@ function CandidateProfile(props) {
             toastcomp("Spoken Lang Deleted",'success')
             loadLang()
         }).catch((err)=>{
-            toastcomp("Spoken Lang Not Deleted",'danger')
+            toastcomp("Spoken Lang Not Deleted",'error')
             console.log(err)
         })
     }
@@ -161,7 +201,7 @@ function CandidateProfile(props) {
             toastcomp("Spoken Lang Added",'success')
             loadLang()
         }).catch((err)=>{
-            toastcomp("Spoken Lang Not Added",'danger')
+            toastcomp("Spoken Lang Not Added",'error')
             console.log(err)
         })
     }
@@ -172,7 +212,7 @@ function CandidateProfile(props) {
             socialPopupOpen(false)
         }).catch((err)=>{
             if(err.message != "Request failed with status code 401"){
-                toastcomp("Link Not Loaded",'danger')
+                toastcomp("Link Not Loaded",'error')
             }
             console.log(err)
             socialPopupOpen(false)
@@ -184,18 +224,17 @@ function CandidateProfile(props) {
             toastcomp("Social Link Added",'success')
             loadLink()
         }).catch((err)=>{
-            toastcomp("Link Not Added",'danger')
+            toastcomp("Link Not Added",'error')
             console.log(err)
         })
     }
 
-    
     async function loadReume() {
         await axiosInstanceAuth2.get('/candidate/listresume/'+userObj['erefid']+'/').then(async (res)=>{
             setResume(res.data)
         }).catch((err)=>{
             if(err.message != "Request failed with status code 401"){
-                toastcomp("Resume Not Loaded",'danger')
+                toastcomp("Resume Not Loaded",'error')
             }
             console.log(err)
         })
@@ -206,7 +245,17 @@ function CandidateProfile(props) {
             toastcomp("Resume Added",'success')
             loadReume()
         }).catch((err)=>{
-            toastcomp("Resume Not Added",'danger')
+            toastcomp("Resume Not Added",'error')
+            console.log(err)
+        })
+    }
+
+    async function addResumeHeadline(formdata,val) {
+        await axiosInstanceAuth2.put('/candidate/candidateresume/'+userObj['erefid']+'/'+val+'/update/',formdata).then(async (res)=>{
+            toastcomp("Resume Headline Updated",'success')
+            loadReume()
+        }).catch((err)=>{
+            toastcomp("Resume Headline Not Added",'error')
             console.log(err)
         })
     }
@@ -216,7 +265,7 @@ function CandidateProfile(props) {
             toastcomp("Resume Deleted",'success')
             loadReume()
         }).catch((err)=>{
-            toastcomp("Resume Not Deleted",'danger')
+            toastcomp("Resume Not Deleted",'error')
             console.log(err)
         })
     }
@@ -227,7 +276,7 @@ function CandidateProfile(props) {
             skillsPopupOpen(false)
         }).catch((err)=>{
             if(err.message != "Request failed with status code 401"){
-                toastcomp("Skills Not Loaded",'danger')
+                toastcomp("Skills Not Loaded",'error')
             }
             console.log(err)
             skillsPopupOpen(false)
@@ -239,7 +288,7 @@ function CandidateProfile(props) {
             toastcomp("Skill Added",'success')
             loadSkill()
         }).catch((err)=>{
-            toastcomp("Skill Not Added",'danger')
+            toastcomp("Skill Not Added",'error')
             console.log(err)
         })
     }
@@ -249,7 +298,7 @@ function CandidateProfile(props) {
             toastcomp("Skill Deleted",'success')
             loadSkill()
         }).catch((err)=>{
-            toastcomp("Skill Not Deleted",'danger')
+            toastcomp("Skill Not Deleted",'error')
             console.log(err)
         })
     }
@@ -260,12 +309,132 @@ function CandidateProfile(props) {
             certificationPopupOpen(false)
         }).catch((err)=>{
             if(err.message != "Request failed with status code 401"){
-                toastcomp("Certification Not Loaded",'danger')
+                toastcomp("Certification Not Loaded",'error')
             }
             console.log(err)
             certificationPopupOpen(false)
         })
     }
+
+    async function addCertification(formdata) {
+        await axiosInstanceAuth2.post('/candidate/candidatecertificate/'+userObj['erefid']+'/',formdata).then(async (res)=>{
+            toastcomp("Certificate Added",'success')
+            loadCertification()
+        }).catch((err)=>{
+            toastcomp("Certificate Not Added",'error')
+            console.log(err)
+        })
+    }
+    
+    async function deleteCertification(val) {
+        await axiosInstanceAuth2.delete('/candidate/candidatecertificate/'+userObj['erefid']+'/'+val+'/delete/').then(async (res)=>{
+            toastcomp("Certificate Deleted",'success')
+            loadCertification()
+        }).catch((err)=>{
+            toastcomp("Certificate Not Deleted",'error')
+            console.log(err)
+        })
+    }
+
+    async function loadEducation() {
+        await axiosInstanceAuth2.get('/candidate/listeducation/'+userObj['erefid']+'/').then(async (res)=>{
+            setEdu(res.data)
+            educationPopupOpen(false)
+        }).catch((err)=>{
+            if(err.message != "Request failed with status code 401"){
+                toastcomp("Education Not Loaded",'error')
+            }
+            console.log(err)
+            educationPopupOpen(false)
+        })
+    }
+    
+    async function addEducation(formdata) {
+        await axiosInstanceAuth2.post('/candidate/candidateeducation/'+userObj['erefid']+'/',formdata).then(async (res)=>{
+            toastcomp("Education Added",'success')
+            loadEducation()
+        }).catch((err)=>{
+            toastcomp("Education Not Added",'error')
+            console.log(err)
+        })
+    }
+
+    async function deleteEducation(val) {
+        await axiosInstanceAuth2.delete('/candidate/candidateeducation/'+userObj['erefid']+'/'+val+'/delete/').then(async (res)=>{
+            toastcomp("Education Deleted",'success')
+            loadEducation()
+        }).catch((err)=>{
+            toastcomp("Education Not Deleted",'error')
+            console.log(err)
+        })
+    }
+
+    async function loadExperience() {
+        await axiosInstanceAuth2.get('/candidate/listexperience/'+userObj['erefid']+'/').then(async (res)=>{
+            setExp(res.data)
+            expPopupOpen(false)
+        }).catch((err)=>{
+            if(err.message != "Request failed with status code 401"){
+                toastcomp("Exp Not Loaded",'error')
+            }
+            console.log(err)
+            expPopupOpen(false)
+        })
+    }
+    
+    async function addExperience(formdata) {
+        await axiosInstanceAuth2.post('/candidate/candidateexperience/'+userObj['erefid']+'/',formdata).then(async (res)=>{
+            toastcomp("Experience Added",'success')
+            loadExperience()
+        }).catch((err)=>{
+            toastcomp("Experience Not Added",'error')
+            console.log(err)
+        })
+    }
+    
+    async function deleteExperience(val) {
+        await axiosInstanceAuth2.delete('/candidate/candidateexperience/'+userObj['erefid']+'/'+val+'/delete/').then(async (res)=>{
+            toastcomp("Experience Deleted",'success')
+            loadExperience()
+        }).catch((err)=>{
+            toastcomp("Experience Not Deleted",'error')
+            console.log(err)
+        })
+    }
+    
+    async function loadAchieve() {
+        await axiosInstanceAuth2.get('/candidate/listachievement/'+userObj['erefid']+'/').then(async (res)=>{
+            setAchieve(res.data)
+            achievementsPopupOpen(false)
+        }).catch((err)=>{
+            if(err.message != "Request failed with status code 401"){
+                toastcomp("Achieve Not Loaded",'error')
+            }
+            console.log(err)
+            achievementsPopupOpen(false)
+        })
+    }
+
+    async function addAchieve(formdata) {
+        await axiosInstanceAuth2.post('/candidate/candidateachievement/'+userObj['erefid']+'/',formdata).then(async (res)=>{
+            toastcomp("Achievement Added",'success')
+            loadAchieve()
+        }).catch((err)=>{
+            toastcomp("Achievement Not Added",'error')
+            console.log(err)
+        })
+    }
+    
+    async function deleteAchieve(val) {
+        await axiosInstanceAuth2.delete('/candidate/candidateachievement/'+userObj['erefid']+'/'+val+'/delete/').then(async (res)=>{
+            toastcomp("Achievement Deleted",'success')
+            loadAchieve()
+        }).catch((err)=>{
+            toastcomp("Achievement Not Deleted",'error')
+            console.log(err)
+        })
+    }
+    
     //userprofile useeffect to load values
     useEffect(() => {
         
@@ -305,10 +474,12 @@ function CandidateProfile(props) {
         loadReume()
         loadSkill()
         loadCertification()
+        loadEducation()
+        loadExperience()
+        loadAchieve()
       }
     }, [userProfile])
     
-
     //handle update user profile on BIO
     useEffect(() => {
 
@@ -319,7 +490,7 @@ function CandidateProfile(props) {
             }).catch((err)=>{
                 console.log(err)
                 if(err.message != "Request failed with status code 401"){
-                    toastcomp("Profile Not Updated","danger");
+                    toastcomp("Profile Not Updated","error");
                 }
             })
         }
@@ -398,11 +569,31 @@ function CandidateProfile(props) {
       }
     }, [uresume])
 
+    //save resume headline
+    useEffect(() => {
+      if(urtitle != furtitle){
+        const formData = new FormData();
+        formData.append('title',urtitle)
+        addResumeHeadline(formData,rid);
+      }
+    }, [urtitle])
+
+    useEffect(() => {
+      if(resume){
+        resume.map((resume) => (
+            setRId(resume.id),
+            setUTitle(resume.title),
+            setURTitle(resume.title),
+            setFURTitle(resume.title)
+        ))
+      }
+    }, [resume])
+
     //save skill
     function saveSkill(e){
         if(document.getElementById(stitle+"Skill")){
             loadSkill()
-            toastcomp("Skill already exist","danger");
+            toastcomp("Skill already exist","error");
         }
         else {
         const formData = new FormData();
@@ -412,6 +603,72 @@ function CandidateProfile(props) {
         addSkill(formData);
         // setSTitle('')
         }
+    }
+    
+    //save certificate
+    function saveCert(e){
+        const formData = new FormData();
+        formData.append('title',cname)
+        formData.append('company',corg)
+        formData.append('yearofissue',cidate)
+        if(!cexp){formData.append('yearofexp',cedate)}
+        else{formData.append('yearofexp','')}
+        formData.append('creid',cid)
+        formData.append('creurl',curl)
+        addCertification(formData);
+        setCName('')
+        setCOrg('')
+        setCIDate('')
+        setCEDate('')
+        setCId('')
+        setCUrl('')
+        setCExp(false)
+    }
+    
+    //save education
+    function saveEdu(e){
+        const formData = new FormData();
+        formData.append('title',ename)
+        formData.append('college',eorg)
+        formData.append('yearofjoin',esdate)
+        formData.append('yearofend',eedate)
+        formData.append('edubody',eabout)
+        addEducation(formData);
+        setEName('')
+        setEOrg('')
+        setESDate('')
+        setEEDate('')
+        setEAbout('')
+    }
+    
+    //save exp
+    function saveExp(e){
+        const formData = new FormData();
+        formData.append('title',exname)
+        formData.append('company',exorg)
+        formData.append('year_of_join',exsdate)
+        if(exexp){ formData.append('year_of_end','') }
+        else{ formData.append('year_of_end',exedate) }
+        formData.append('expbody',exabout)
+        formData.append('type',extype)
+        addExperience(formData);
+        setEXName('')
+        setEXOrg('')
+        setEXExp(false)
+        setEXSDate('')
+        setEXEDate('')
+        setEXAbout('')
+        setEXType('')
+    }
+    
+    //save achieve
+    function saveAchieve(e){
+        const formData = new FormData();
+        formData.append('title',amtitle)
+        formData.append('desc',amdesc)
+        addAchieve(formData);
+        setAMTitle('')
+        setAMDesc('')
     }
     
 
@@ -647,28 +904,30 @@ function CandidateProfile(props) {
                                             <>
                                             {resume.map((resume, i) => (
                                             <div className="flex flex-wrap items-center justify-between" key={i}>
-                                                    <aside className="mr-2" >
-                                                        <p className="text-sm relative pr-6 mb-1">
-                                                            {/* <b className="text-[#7E7E7E]">{(resume.file.split('/')[6])} : </b> */}
-                                                            <span className="text-[#6D27F9]">{resume.file.split('/')[6]}</span>
-                                                            <button type="button" className="absolute right-0 top-0 text-red-500" onClick={(e)=>deleteResume(resume.id)}>
-                                                                <i className="fa-solid fa-trash"></i>
-                                                            </button>
-                                                        </p>
-                                                        <p className="text-[#7e7e7e] text-[12px]">Uploaded on : {resume.date}</p>
-                                                    </aside>
-                                                    <a href={resume.file} target='_blank' className="my-2 text-[#7E7E7E] text-sm" download>
-                                                        Download Resume
-                                                        <i className="fa-solid fa-download text-xl ml-2 text-[#6D27F9]"></i>
-                                                    </a>
+                                                <aside className="mr-2" >
+                                                    <p className="text-sm relative pr-6 mb-1">
+                                                        {/* <b className="text-[#7E7E7E]">{(resume.file.split('/')[6])} : </b> */}
+                                                        <span className="text-[#6D27F9]">{resume.file.split('/')[6]}</span>
+                                                        <button type="button" className="absolute right-0 top-0 text-red-500" onClick={(e)=>deleteResume(resume.id)}>
+                                                            <i className="fa-solid fa-trash"></i>
+                                                        </button>
+                                                    </p>
+                                                    <p className="text-[#7e7e7e] text-[12px]">Uploaded on : {new Date(resume.date).toDateString()}</p>
+                                                </aside>
+                                                <a href={resume.file} target='_blank' className="my-2 text-[#7E7E7E] text-sm" download>
+                                                    Download Resume
+                                                    <i className="fa-solid fa-download text-xl ml-2 text-[#6D27F9]"></i>
+                                                </a>
                                             </div>
                                             ))}
                                             </>
                                             }
+                                            
+
                                         </div>
                                         {resume.length > 0 && <div className="relative">
                                             <label htmlFor="cvHeadline" className="font-medium mb-2 leading-none inline-block">Resume Headline</label>
-                                            <input type="text" id="cvHeadline" placeholder="Ex: Web Developer 5 years of experence" className="w-full rounded-full border-slate-300" />
+                                            <input type="text" id="cvHeadline" placeholder="Ex: Web Developer 5 years of experence" className="w-full rounded-full border-slate-300" value={utitle} onChange={(e)=>setUTitle(e.target.value)} onBlur={(e)=>setURTitle(e.target.value)}  />
                                         </div>}
                                         
                                     </div>
@@ -681,7 +940,7 @@ function CandidateProfile(props) {
                                         </div>
                                         {skill.length > 0 ? 
                                         <>
-                                        <p className="text-[#7E7E7E] mb-2">Skills</p>
+                                        {/* <p className="text-[#7E7E7E] mb-2">Skills</p> */}
                                         <div className="w-full rounded-[25px] border border-slate-300 p-6 min-h-[200px]">
                                             <div className="flex flex-wrap items-start">
                                                 {skill.map((skill, i) => (
@@ -702,7 +961,7 @@ function CandidateProfile(props) {
                                         </> 
                                         : 
                                         <>
-                                        <p className="text-[#7E7E7E] text-sm font-light mb-4">Add skills with relevent expertise</p>
+                                        {/* <p className="text-[#7E7E7E] text-sm font-light mb-4">Add skills with relevent expertise</p> */}
                                         <Image src={skillsGraphic} alt="Skills" className="w-full" />
                                         </>}
                                         
@@ -717,24 +976,29 @@ function CandidateProfile(props) {
                                         </div>
                                         {cert.length > 0 ? 
                                         <>
-                                        <div className="w-full rounded-[20px] bg-[#FAF8FF] border border-slate-200 p-4 md:p-6 md:pr-[110px] pt-[35px] md:pt-6 mb-4 relative overflow-hidden">
-                                            <article>
-                                                <h4 className="font-semibold mb-1 text-lg">Advanced Python</h4>
-                                                <p className="text-[#6D27F9] font-medium mb-2">Google</p>
-                                                <button type="button" className="border border-[#6D27F9] rounded-full py-1.5 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white">Show Certificate</button>
-                                            </article>
-                                            <div className="bg-white shadow-md rounded-tl-[20px] rounded-bl-[20px] absolute right-0 top-[0px] md:top-[15px] p-1.5 md:py-2.5 md:px-4 text-[12px] md:text-sm">
-                                                <button type="button" className="text-[#6D27F9] mx-2">
-                                                    <i className="fa-solid fa-pen-to-square"></i>
-                                                </button>
-                                                <button type="button" className="text-red-500 mx-2">
-                                                    <i className="fa-solid fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
+                                        {cert.map((cert, i) => (
+                                               <div className="w-full rounded-[20px] bg-[#FAF8FF] border border-slate-200 p-4 md:p-6 md:pr-[110px] pt-[35px] md:pt-6 mb-4 relative overflow-hidden" key={i}>
+                                               <article>
+                                                   <h4 className="font-semibold mb-1 text-lg">{cert.title}</h4>
+                                                   <p className="text-[#6D27F9] font-medium mb-2">{cert.company}</p>
+                                                    <p className="text-[#7e7e7e] font-light text-sm mb-2">Issued Date:- {cert.yearofissue} <br/> Expiry Date:- {cert.yearofexp ? cert.yearofexp : <>No Expiry</>}</p>
+                                                    <p className="text-[#7e7e7e] font-light text-sm mb-2">credentials:- {cert.creid}</p>
+                                                   <a type="button" href={cert.creurl} target="_blank" className="border border-[#6D27F9] rounded-full py-1.5 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" >Show Certificate</a>
+                                               </article>
+                                               <div className="bg-white shadow-md rounded-tl-[20px] rounded-bl-[20px] absolute right-0 top-[0px] md:top-[15px] p-1.5 md:py-2.5 md:px-4 text-[12px] md:text-sm">
+                                                   {/* <button type="button" className="text-[#6D27F9] mx-2" value={cert.id}>
+                                                       <i className="fa-solid fa-pen-to-square"></i>
+                                                   </button> */}
+                                                   <button type="button" className="text-red-500 mx-2" onClick={(e)=>deleteCertification(cert.id)}>
+                                                       <i className="fa-solid fa-trash"></i>
+                                                   </button>
+                                               </div>
+                                           </div>      
+                                        ))}
+                                        
                                         </> : 
                                         <>
-                                         <p className="text-[#7E7E7E] text-sm font-light mb-4">Add certifications here</p>
+                                         {/* <p className="text-[#7E7E7E] text-sm font-light mb-4">Add certifications here</p> */}
                                         <Image src={certificateGraphic} alt="Certifications" className="w-full" />
                                         </>}
                                        
@@ -746,25 +1010,36 @@ function CandidateProfile(props) {
                                             <label className="font-medium leading-none inline-block">Education</label>
                                             <button type="button" className="border border-[#6D27F9] rounded-full py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" onClick={() => educationPopupOpen(true)}>Add</button>
                                         </div>
-                                        <p className="text-[#7E7E7E] text-sm font-light mb-4">Add education background</p>
-                                        <Image src={educationGraphic} alt="Education" className="w-full" />
-                                        <div className="w-full rounded-[20px] bg-[#FAF8FF] border border-slate-200 p-4 md:p-6 md:pr-[110px] pt-[35px] md:pt-6 mb-4 relative overflow-hidden">
+                                        {edu.length > 0 ? 
+                                        <>
+                                        {edu.map((edu, i) => (
+                                               
+                                        <div className="w-full rounded-[20px] bg-[#FAF8FF] border border-slate-200 p-4 md:p-6 md:pr-[110px] pt-[35px] md:pt-6 mb-4 relative overflow-hidden" key={i}>
                                             <article>
-                                                <h4 className="font-semibold mb-1 text-lg">Btech</h4>
-                                                <p className="text-[#6D27F9] font-medium mb-2">IT University, Bangalore</p>
-                                                <p className="text-[#7e7e7e] font-light text-sm mb-2">Started Date:- Aug-2011 <br/> End Date:- July-2012</p>
+                                                <h4 className="font-semibold mb-1 text-lg">{edu.title}</h4>
+                                                <p className="text-[#6D27F9] font-medium mb-2">{edu.college}</p>
+                                                <p className="text-[#7e7e7e] font-light text-sm mb-2">Started Date:- {edu.yearofjoin} <br/> End Date:- {edu.yearofend}</p>
                                                 <h6 className="font-medium">About</h6>
-                                                <p className="text-[#7e7e7e] font-light text-sm">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                                <p className="text-[#7e7e7e] font-light text-sm">{edu.edubody}</p>
                                             </article>
                                             <div className="bg-white shadow-md rounded-tl-[20px] rounded-bl-[20px] absolute right-0 top-[0px] md:top-[15px] p-1.5 md:py-2.5 md:px-4 text-[12px] md:text-sm">
-                                                <button type="button" className="text-[#6D27F9] mx-2">
+                                                {/* <button type="button" className="text-[#6D27F9] mx-2">
                                                     <i className="fa-solid fa-pen-to-square"></i>
-                                                </button>
-                                                <button type="button" className="text-red-500 mx-2">
+                                                </button> */}
+                                                <button type="button" className="text-red-500 mx-2" onClick={(e)=>deleteEducation(edu.id)}>
                                                     <i className="fa-solid fa-trash"></i>
                                                 </button>
                                             </div>
                                         </div>
+                                        ))}
+                                        </>
+                                        :
+                                        <>
+                                        {/* <p className="text-[#7E7E7E] text-sm font-light mb-4">Add education background</p> */}
+                                        <Image src={educationGraphic} alt="Education" className="w-full" />
+                                        </>
+                                        } 
+                                        
                                     </div>
                                 </TabPanel>
                                 <TabPanel>
@@ -773,25 +1048,37 @@ function CandidateProfile(props) {
                                             <label className="font-medium leading-none inline-block">Experience</label>
                                             <button type="button" className="border border-[#6D27F9] rounded-full py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" onClick={() => expPopupOpen(true)}>Add</button>
                                         </div>
-                                        <p className="text-[#7E7E7E] text-sm font-light mb-4">Add experience here</p>
-                                        <Image src={expGraphic} alt="Experience" className="w-full" />
-                                        <div className="w-full rounded-[20px] bg-[#FAF8FF] border border-slate-200 p-4 md:p-6 md:pr-[110px] pt-[35px] md:pt-6 mb-4 relative overflow-hidden">
+                                        {exp.length > 0 ? 
+                                        <>
+                                        {exp.map((exp, i) => (
+                                        <div className="w-full rounded-[20px] bg-[#FAF8FF] border border-slate-200 p-4 md:p-6 md:pr-[110px] pt-[35px] md:pt-6 mb-4 relative overflow-hidden" key={i}>
                                             <article>
-                                                <h4 className="font-semibold mb-1 text-lg">Web Developer</h4>
-                                                <p className="text-[#6D27F9] font-medium mb-2">Fintech Info, Bangalore</p>
-                                                <p className="text-[#7e7e7e] font-light text-sm mb-2">Started Date:- Aug-2011 <br/> End Date:- July-2012</p>
+                                                <h4 className="font-semibold mb-1 text-lg">{exp.title}</h4>
+                                                <p className="text-[#6D27F9] font-medium mb-2">{exp.company}</p>
+                                                <p className="text-[#7e7e7e] font-light text-sm mb-2">Started Date:- {exp.year_of_join} <br/> End Date:- {exp.year_of_end ? exp.year_of_end : <>PRESENT</>}</p>
+                                                <p className="text-[#7e7e7e] font-light text-sm mb-2">Type:- {exp.type}</p>
                                                 <h6 className="font-medium">About</h6>
-                                                <p className="text-[#7e7e7e] font-light text-sm">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                                <p className="text-[#7e7e7e] font-light text-sm">{exp.expbody}</p>
                                             </article>
                                             <div className="bg-white shadow-md rounded-tl-[20px] rounded-bl-[20px] absolute right-0 top-[0px] md:top-[15px] p-1.5 md:py-2.5 md:px-4 text-[12px] md:text-sm">
-                                                <button type="button" className="text-[#6D27F9] mx-2">
+                                                {/* <button type="button" className="text-[#6D27F9] mx-2">
                                                     <i className="fa-solid fa-pen-to-square"></i>
-                                                </button>
-                                                <button type="button" className="text-red-500 mx-2">
+                                                </button> */}
+                                                <button type="button" className="text-red-500 mx-2" onClick={(e)=>deleteExperience(exp.id)}>
                                                     <i className="fa-solid fa-trash"></i>
                                                 </button>
                                             </div>
-                                        </div>
+                                        </div>       
+                                        ))}
+                                        
+                                        </>
+                                        :
+                                        <>
+                                        {/* <p className="text-[#7E7E7E] text-sm font-light mb-4">Add experience here</p> */}
+                                        <Image src={expGraphic} alt="Experience" className="w-full" />
+                                        </>
+                                        }
+                                        
                                     </div>
                                 </TabPanel>
                                 <TabPanel>
@@ -800,23 +1087,33 @@ function CandidateProfile(props) {
                                             <label className="font-medium leading-none inline-block">Achievements</label>
                                             <button type="button" className="border border-[#6D27F9] rounded-full py-1 px-8 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" onClick={() => achievementsPopupOpen(true)}>Add</button>
                                         </div>
-                                        <p className="text-[#7E7E7E] text-sm font-light mb-4">Add achievements here</p>
-                                        <Image src={achievementsGraphic} alt="Achievements" className="w-full" />
+                                        {achieve.length > 0 ?
+                                        <>
+                                        {achieve.map((achieve, i) => (
                                         <div className="w-full rounded-[20px] bg-[#FAF8FF] border border-slate-200 p-4 md:p-6 md:pr-[110px] pt-[35px] md:pt-6 mb-4 relative overflow-hidden">
                                             <article>
-                                                <h4 className="font-semibold mb-1 text-lg">Web Developer</h4>
+                                                <h4 className="font-semibold mb-1 text-lg">{achieve.title}</h4>
                                                 <h6 className="font-medium">About</h6>
-                                                <p className="text-[#7e7e7e] font-light text-sm">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                                <p className="text-[#7e7e7e] font-light text-sm">{achieve.desc}</p>
                                             </article>
                                             <div className="bg-white shadow-md rounded-tl-[20px] rounded-bl-[20px] absolute right-0 top-[0px] md:top-[15px] p-1.5 md:py-2.5 md:px-4 text-[12px] md:text-sm">
-                                                <button type="button" className="text-[#6D27F9] mx-2">
+                                                {/* <button type="button" className="text-[#6D27F9] mx-2">
                                                     <i className="fa-solid fa-pen-to-square"></i>
-                                                </button>
-                                                <button type="button" className="text-red-500 mx-2">
+                                                </button> */}
+                                                <button type="button" className="text-red-500 mx-2" onClick={(e)=>deleteAchieve(achieve.id)}>
                                                     <i className="fa-solid fa-trash"></i>
                                                 </button>
                                             </div>
-                                        </div>
+                                        </div>       
+                                        ))}
+                                        </>
+                                        :
+                                        <>
+                                        {/* <p className="text-[#7E7E7E] text-sm font-light mb-4">Add achievements here</p> */}
+                                        <Image src={achievementsGraphic} alt="Achievements" className="w-full" />
+                                        </>}
+                                        
+                                        
                                     </div>
                                 </TabPanel>
                             </Tabs>
@@ -1043,41 +1340,41 @@ function CandidateProfile(props) {
                                     <div className="flex flex-wrap justify-between">
                                         <div className="w-full lg:w-[47%] mb-6">
                                             <label htmlFor="certificateName" className="font-medium mb-2 leading-none inline-block">Name</label>
-                                            <input id="certificateName" type="text" className="w-full rounded-full border-slate-300" />
+                                            <input id="certificateName" type="text" className="w-full rounded-full border-slate-300" value={cname} onChange={(e)=>setCName(e.target.value)} />
                                         </div>
                                         <div className="w-full lg:w-[47%] mb-6">
                                             <label htmlFor="certificateOrg" className="font-medium mb-2 leading-none inline-block">Issuing Organization</label>
-                                            <input id="certificateOrg" type="text" className="w-full rounded-full border-slate-300" />
+                                            <input id="certificateOrg" type="text" className="w-full rounded-full border-slate-300" value={corg} onChange={(e)=>setCOrg(e.target.value)}/>
                                         </div>
                                     </div>
                                     <div className="mb-6">
                                         <label htmlFor="credNotExp" className="text-sm">
-                                            <input type="checkbox" id="credNotExp" className="mr-2 mb-1" />
+                                            <input type="checkbox" id="credNotExp" className="mr-2 mb-1" checked={cexp} onChange={(e)=>setCExp(e.target.checked)} />
                                             This credential does not expire.
                                         </label>
                                     </div>
                                     <div className="flex flex-wrap justify-between">
                                         <div className="w-full lg:w-[47%] mb-6">
                                             <label htmlFor="certificateIssueDate" className="font-medium mb-2 leading-none inline-block">Issue Date</label>
-                                            <input id="certificateIssueDate" type="date" className="w-full rounded-full border-slate-300" />
+                                            <input id="certificateIssueDate" type="date" className="w-full rounded-full border-slate-300" value={cidate} onChange={(e)=>setCIDate(e.target.value)} />
                                         </div>
                                         <div className="w-full lg:w-[47%] mb-6">
                                             <label htmlFor="certificateExpDate" className="font-medium mb-2 leading-none inline-block">Expiration Date</label>
-                                            <input id="certificateExpDate" type="date" className="w-full rounded-full border-slate-300" />
+                                            <input id="certificateExpDate" type="date" className="w-full rounded-full border-slate-300" value={cedate} onChange={(e)=>setCEDate(e.target.value)} disabled={cexp} />
                                         </div>
                                     </div>
                                     <div className="flex flex-wrap justify-between">
                                         <div className="w-full lg:w-[47%] mb-6">
                                             <label htmlFor="certificateCredID" className="font-medium mb-2 leading-none inline-block">Credential ID</label>
-                                            <input id="certificateCredID" type="text" className="w-full rounded-full border-slate-300" />
+                                            <input id="certificateCredID" type="text" className="w-full rounded-full border-slate-300" value={cid} onChange={(e)=>setCId(e.target.value)} />
                                         </div>
                                         <div className="w-full lg:w-[47%] mb-6">
                                             <label htmlFor="certificateCredURL" className="font-medium mb-2 leading-none inline-block">Credential URL</label>
-                                            <input id="certificateCredURL" type="text" className="w-full rounded-full border-slate-300" />
+                                            <input id="certificateCredURL" type="text" className="w-full rounded-full border-slate-300" value={curl} onChange={(e)=>setCUrl(e.target.value)}/>
                                         </div>
                                     </div>
                                     <div className="text-center">
-                                        <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]">
+                                        <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e) => saveCert(e)} disabled={!verifyCertPopup()}>
                                             Save
                                         </button>
                                     </div>
@@ -1126,29 +1423,29 @@ function CandidateProfile(props) {
                                     <div className="flex flex-wrap justify-between">
                                         <div className="w-full lg:w-[47%] mb-6">
                                             <label htmlFor="eduCourseName" className="font-medium mb-2 leading-none inline-block">Course Name</label>
-                                            <input id="eduCourseName" type="text" className="w-full rounded-full border-slate-300" />
+                                            <input id="eduCourseName" type="text" className="w-full rounded-full border-slate-300" value={ename} onChange={(e)=>setEName(e.target.value)}/>
                                         </div>
                                         <div className="w-full lg:w-[47%] mb-6">
                                             <label htmlFor="eduUnivName" className="font-medium mb-2 leading-none inline-block">University Name</label>
-                                            <input id="eduUnivName" type="text" className="w-full rounded-full border-slate-300" />
+                                            <input id="eduUnivName" type="text" className="w-full rounded-full border-slate-300" value={eorg} onChange={(e)=>setEOrg(e.target.value)} />
                                         </div>
                                     </div>
                                     <div className="flex flex-wrap justify-between">
                                         <div className="w-full lg:w-[47%] mb-6">
                                             <label htmlFor="eduStartDate" className="font-medium mb-2 leading-none inline-block">Start Date</label>
-                                            <input id="eduStartDate" type="date" className="w-full rounded-full border-slate-300" />
+                                            <input id="eduStartDate" type="date" className="w-full rounded-full border-slate-300" value={esdate} onChange={(e)=>setESDate(e.target.value)}/>
                                         </div>
                                         <div className="w-full lg:w-[47%] mb-6">
                                             <label htmlFor="eduEndDate" className="font-medium mb-2 leading-none inline-block">End Date</label>
-                                            <input id="eduEndDate" type="date" className="w-full rounded-full border-slate-300" />
+                                            <input id="eduEndDate" type="date" className="w-full rounded-full border-slate-300" value={eedate} onChange={(e)=>setEEDate(e.target.value)} />
                                         </div>
                                     </div>
                                     <div className="mb-6">
                                         <label htmlFor="eduAbout" className="font-medium mb-2 leading-none inline-block">About</label>
-                                        <textarea id="eduAbout" className="w-full rounded-[20px] border-slate-300 resize-none min-h-[120px]"></textarea>
+                                        <textarea id="eduAbout" className="w-full rounded-[20px] border-slate-300 resize-none min-h-[120px]" value={eabout} onChange={(e)=>setEAbout(e.target.value)}></textarea>
                                     </div>
                                     <div className="text-center">
-                                        <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]">
+                                        <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e) => saveEdu(e)} disabled={!verifyEduPopup()}>
                                             Save
                                         </button>
                                     </div>
@@ -1197,35 +1494,39 @@ function CandidateProfile(props) {
                                     <div className="flex flex-wrap justify-between">
                                         <div className="w-full lg:w-[47%] mb-6">
                                             <label htmlFor="expTitle" className="font-medium mb-2 leading-none inline-block">Title</label>
-                                            <input id="expTitle" type="text" className="w-full rounded-full border-slate-300" />
+                                            <input id="expTitle" type="text" className="w-full rounded-full border-slate-300" value={exname} onChange={(e)=>setEXName(e.target.value)}  />
                                         </div>
                                         <div className="w-full lg:w-[47%] mb-6">
                                             <label htmlFor="expCompName" className="font-medium mb-2 leading-none inline-block">Company Name</label>
-                                            <input id="expCompName" type="text" className="w-full rounded-full border-slate-300" />
+                                            <input id="expCompName" type="text" className="w-full rounded-full border-slate-300" value={exorg} onChange={(e)=>setEXOrg(e.target.value)} />
                                         </div>
                                     </div>
-                                    <div className="mb-6">
+                                    <div className="flex flex-wrap justify-between">
                                         <label htmlFor="credNotExp" className="text-sm">
-                                            <input type="checkbox" id="credNotExp" className="mr-2 mb-1" />
-                                            This credential does not expire.
+                                            <input type="checkbox" id="credNotExp" className="mr-2 mb-1" checked={exexp} onChange={(e)=>setEXExp(e.target.checked)}  />
+                                            Currently Working ?
                                         </label>
+                                        <div className="w-full lg:w-[47%] mb-6">
+                                            <label htmlFor="expType" className="font-medium mb-2 leading-none inline-block">Type</label>
+                                            <input id="expType" type="text" className="w-full rounded-full border-slate-300" value={extype} onChange={(e)=>setEXType(e.target.value)} />
+                                        </div>
                                     </div>
                                     <div className="flex flex-wrap justify-between">
                                         <div className="w-full lg:w-[47%] mb-6">
                                             <label htmlFor="expStartDate" className="font-medium mb-2 leading-none inline-block">Start Date</label>
-                                            <input id="expStartDate" type="date" className="w-full rounded-full border-slate-300" />
+                                            <input id="expStartDate" type="date" className="w-full rounded-full border-slate-300" value={exsdate} onChange={(e)=>setEXSDate(e.target.value)}  />
                                         </div>
                                         <div className="w-full lg:w-[47%] mb-6">
                                             <label htmlFor="expEndDate" className="font-medium mb-2 leading-none inline-block">End Date</label>
-                                            <input id="expEndDate" type="date" className="w-full rounded-full border-slate-300" />
+                                            <input id="expEndDate" type="date" className="w-full rounded-full border-slate-300" value={exedate} onChange={(e)=>setEXEDate(e.target.value)} disabled={exexp}/>
                                         </div>
                                     </div>
                                     <div className="mb-6">
                                         <label htmlFor="expAbout" className="font-medium mb-2 leading-none inline-block">About</label>
-                                        <textarea id="expAbout" className="w-full rounded-[20px] border-slate-300 resize-none min-h-[120px]"></textarea>
+                                        <textarea id="expAbout" className="w-full rounded-[20px] border-slate-300 resize-none min-h-[120px]" value={exabout} onChange={(e)=>setEXAbout(e.target.value)}></textarea>
                                     </div>
                                     <div className="text-center">
-                                        <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]">
+                                        <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"  onClick={(e) => saveExp(e)} disabled={!verifyExpPopup()}>
                                             Save
                                         </button>
                                     </div>
@@ -1273,14 +1574,14 @@ function CandidateProfile(props) {
                                 <div>
                                     <div className="mb-6">
                                         <label htmlFor="achieveTitle" className="font-medium mb-2 leading-none inline-block">Title</label>
-                                        <input id="achieveTitle" type="text" className="w-full rounded-full border-slate-300" />
+                                        <input id="achieveTitle" type="text" className="w-full rounded-full border-slate-300" value={amtitle} onChange={(e)=>setAMTitle(e.target.value)}/>
                                     </div>
                                     <div className="mb-6">
                                         <label htmlFor="achieveAbout" className="font-medium mb-2 leading-none inline-block">About</label>
-                                        <textarea id="achieveAbout" className="w-full rounded-[20px] border-slate-300 resize-none min-h-[120px]"></textarea>
+                                        <textarea id="achieveAbout" className="w-full rounded-[20px] border-slate-300 resize-none min-h-[120px]" value={amdesc} onChange={(e)=>setAMDesc(e.target.value)}></textarea>
                                     </div>
                                     <div className="text-center">
-                                        <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]">
+                                        <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e) => saveAchieve(e)} disabled={!verifyAchievePopup()}>
                                             Save
                                         </button>
                                     </div>
