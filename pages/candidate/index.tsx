@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -18,6 +18,7 @@ import learningSlide from "../../public/images/learning-slide.png";
 import { useStore } from "../../constants/code";
 import shallow from "zustand/shallow";
 import { withAuth } from "../../constants/HOCs";
+import axios from "axios";
 
 function Candidate(props) {
 
@@ -45,8 +46,16 @@ function Candidate(props) {
         (state) => [state.userProfile, state.updateUserProfile],
         shallow
     )
+    
+    const [accessToken, updateAccessToken] = useStore(
+        (state) => [state.accessToken, state.updateAccessToken],
+        shallow
+    )
+    
 
     const { router,session } = props; 
+    const [progress,setProgress] = useState(0);
+    const [progressT,setProgressT] = useState('');
 
     const learningSlides = [
         {
@@ -81,12 +90,45 @@ function Candidate(props) {
         autoplay: true,
         autoplaySpeed: 5000,
     };
+    //axios auth var
+    const axiosInstanceAuth2 = axios.create({
+        baseURL: 'http://127.0.0.1:8000/api/',
+        timeout: 5000,
+        headers: {
+            'Authorization': 'Bearer '+accessToken,
+            "Content-Type": "multipart/form-data",
+        }
+    });
 
     useEffect(() => {
       if(!session){
         router.push("/");
       }
     }, [session]);
+
+
+    async function loadProgress() {
+        await axiosInstanceAuth2.get('/candidate/progress/'+userObj['erefid']+'/').then(async (res)=>{
+           setProgress(parseInt(res.data.count))
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }
+
+
+    useEffect(() => {
+        if(userObj){
+            loadProgress()
+        }
+        
+        if(progress > 0 && progress < 11){setProgressT('LOW')}
+        if(progress > 11 && progress < 31){setProgressT('BELOW AVG')}
+        if(progress > 31 && progress < 61){setProgressT('AVG')}
+        if(progress > 61 && progress < 81){setProgressT('GOOD')}
+        if(progress > 81){setProgressT('GREAT')}
+        
+    }, [userObj,progress])
+    
 
     return (
         
@@ -134,12 +176,12 @@ function Candidate(props) {
                                     <p className="flex justify-between mb-2 md:text-lg">
                                         <span>
                                             Profile Completion{" "}
-                                            <span className="font-medium">(GOOD)</span>
+                                            <span className="font-medium">({progressT})</span>
                                         </span>
-                                        <span className="font-semibold">80%</span>
+                                        <span className="font-semibold">{progress}%</span>
                                     </p>
                                     <div className="rounded-full bg-[#FFF0EE] p-1">
-                                        <div className="bg-gradient-to-r from-[#F295EF] to-[#4D94E8] transition-all delay-150 rounded-full w-[80%] h-[25px]"></div>
+                                        <div className={`bg-gradient-to-r from-[#F295EF] to-[#4D94E8] transition-all delay-150 rounded-full w-[${progress}%] h-[25px]`}></div>
                                     </div>
                                 </div>
                                 <p className="text-[#7E7E7E] font-light text-sm">
