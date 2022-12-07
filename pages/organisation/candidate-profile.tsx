@@ -16,43 +16,43 @@ export default function OrganisationCandidateProfileView() {
                     </button>
                     <div className="flex flex-wrap mb-6">
                         <div className="w-full lg:max-w-[75%] xl:max-w-[80%] lg:pr-6 mb-6 lg:mb-0">
-                            <div className="bg-white shadow-normal rounded-[25px] flex flex-wrap">
+                            <div className="bg-white shadow-normal border rounded-[25px] flex flex-wrap">
                                 <div className="w-[310px] mx-auto p-8">
                                     <div className="userBgImage min-h-[268px] flex items-center justify-center">
                                         <Image src={userImg} width={220} height={220} alt="User" className="w-[220px] h-[220px] rounded-full object-cover mx-auto " />
                                     </div>
                                 </div>
-                                <div className="w-full md:max-w-[calc(100%-310px)] p-6 xl:p-8 relative bg-gradient-to-r from-[#A382E5] to-[#60C3E2] rounded-[25px] flex items-center">
-                                    <aside className="w-full">
-                                        <h2 className="font-semibold text-xl md:text-3xl mb-2 text-white">
+                                <div className="w-full md:max-w-[calc(100%-310px)] p-6 xl:p-8 relative bg-white border rounded-[25px] flex items-center">
+                                    <aside className="w-full text-[#7e7e7e]">
+                                        <h2 className="font-semibold text-xl md:text-3xl mb-2">
                                         Joseph Roger
                                         </h2>
-                                        <p className="text-white font-light text-[12px] mb-2">ID-491170</p>
-                                        <p className="text-white font-light text-sm mb-6">
+                                        <p className="font-light text-[12px] mb-2">ID-491170</p>
+                                        <p className="text-sm mb-6">
                                         Web Developer
                                         </p>
-                                        <ul className="flex flex-wrap">
-                                            <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1 break-all">
+                                        <ul className="flex flex-wrap mx-[-10px]">
+                                            <li className="flex items-center w-full sm:max-w-[50%] font-light xl:text-lg mb-3 px-[10px] break-all">
                                                 <i className="fa-solid fa-envelope xl:text-xl mr-3"></i>
                                                 <span className="mr-2">:</span>
                                                 <p>xyz@email.com</p>
                                             </li>
-                                            <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
+                                            <li className="flex items-center w-full sm:max-w-[50%] font-light xl:text-lg mb-3 px-[10px]">
                                                 <i className="fa-solid fa-phone xl:text-xl mr-3"></i>
                                                 <span className="mr-2">:</span>
                                                 <p>91-9865896598</p>
                                             </li>
-                                            <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
+                                            <li className="flex items-center w-full sm:max-w-[50%] font-light xl:text-lg mb-3 px-[10px]">
                                                 <i className="fa-solid fa-wallet xl:text-xl mr-3"></i>
                                                 <span className="mr-2">:</span>
                                                 <p>3000 - 5000 </p>
                                             </li>
-                                            <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
+                                            <li className="flex items-center w-full sm:max-w-[50%] font-light xl:text-lg mb-3 px-[10px]">
                                                 <i className="fa-solid fa-briefcase xl:text-xl mr-3"></i>
                                                 <span className="mr-2">:</span>
                                                 <p>Fresher</p>
                                             </li>
-                                            <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
+                                            <li className="flex items-center w-full sm:max-w-[50%] font-light xl:text-lg mb-3 px-[10px]">
                                                 <i className="fa-solid fa-location-dot xl:text-xl mr-3"></i>
                                                 <span className="mr-2">:</span>
                                                 <p>Remote</p>
@@ -64,7 +64,7 @@ export default function OrganisationCandidateProfileView() {
                         </div>
                         <div className="w-full lg:max-w-[25%] xl:max-w-[20%] bg-white shadow-normal rounded-[25px] overflow-hidden">
                             <div className="p-6 pb-0 shadow-md border-b">
-                                <h4 className="font-semibold text-lg text-center">Follow on:-</h4>
+                                <h4 className="font-semibold text-lg text-center">Social Links</h4>
                                 <ul className="flex flex-wrap text-center">
                                     <li className="w-[50%] p-4">
                                         <Link href="#" target="_blank" className="text-2xl hover:text-[#6D27F9]">
