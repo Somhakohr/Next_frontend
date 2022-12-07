@@ -27,6 +27,11 @@ function Header(props) {
         shallow
     )
 
+    const [userCImg, updateUserCImg] = useStore(
+        (state) => [state.userCImg, state.updateUserCImg],
+        shallow
+    )
+
     const [userType, updateUserType] = useStore(
         (state) => [state.userType, state.updateUserType],
         shallow
@@ -126,6 +131,7 @@ function Header(props) {
                 }
                 if(userProfile['profile']){
                     updateUserImg('http://127.0.0.1:8000'+userProfile["profile"]);
+                    updateUserCImg('http://127.0.0.1:8000'+userProfile["cover"]);
                 }
             }
     

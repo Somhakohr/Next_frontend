@@ -483,7 +483,7 @@ function CandidateProfile(props) {
     //handle update user profile on BIO
     useEffect(() => {
 
-        async function saveProfile() {
+        async function saveProfile(formData) {
             await axiosInstanceAuth2.put('/candidate/candidatebio/'+userObj['erefid']+'/',formData).then(async (res)=>{
                 updateUserProfile(res.data)
                 toastcomp("Profile Updated","success");
@@ -536,7 +536,7 @@ function CandidateProfile(props) {
 
             if(Array.from(formData.keys()).length > 0){
                 console.log("abc")
-                saveProfile()
+                saveProfile(formData)
             }
         }        
 
