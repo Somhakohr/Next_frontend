@@ -259,11 +259,13 @@ function Candidate(props) {
                     <div className="mb-8 py-4 px-8 bg-white shadow-normal rounded-[20px]">
                         <h2 className="font-semibold text-xl text-3xl mb-10">Talent Center</h2>
                         <Tabs>
-                            <TabList>
-                                <Tab>Job Listing</Tab>
-                                <Tab>Applied Jobs</Tab>
-                                <Tab>Recommended Jobs</Tab>
-                            </TabList>
+                            <div className="mb-4">
+                                <TabList>
+                                    <Tab>Job Listing</Tab>
+                                    <Tab>Applied Jobs</Tab>
+                                    <Tab>Recommended Jobs</Tab>
+                                </TabList>
+                            </div>
                             <TabPanel>
                                 <div className="flex flex-wrap mx-[-15px]">
                                     <div className="px-[15px] w-full md:max-w-[50%] mb-6">

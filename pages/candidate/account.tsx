@@ -1,7 +1,9 @@
 import axios from "axios";
+import React from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
 import { signOut } from "next-auth/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import shallow from "zustand/shallow";
 import toastcomp from "../../components/toast";
 import { useStore } from "../../constants/code";
@@ -11,6 +13,9 @@ import { axiosInstance } from "../api/axiosApi";
 
 
 function CandidateAcc(props) {
+
+    const [deletePopup, deletePopupOpen] = useState(false)
+    const cancelButtonRef = useRef(null)
 
     const [userName, updateUserName] = useStore(
         (state) => [state.userName, state.updateUserName],
@@ -254,13 +259,62 @@ function CandidateAcc(props) {
                         <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Delete your account</span>
                     </div>
                     <div className="text-center">
-                        <button type="button" onClick={delacc} className="bg-red-700 text-white font-bold rounded-full py-2.5 px-6 min-w-[200px] transition-all hover:bg-red-900">
+                        <button type="button" onClick={() => deletePopupOpen(true)} className="bg-red-700 text-white font-bold rounded-full py-2.5 px-6 min-w-[200px] transition-all hover:bg-red-900">
                             Delete Account
                         </button>
                     </div>
                 </div>
             </div>
         </main>
+        <Transition.Root show={deletePopup} as={Fragment}>
+            <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={deletePopupOpen}>
+                <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+                >
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                </Transition.Child>
+
+                <div className="fixed inset-0 z-10 overflow-y-auto">
+                <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    enterTo="opacity-100 translate-y-0 sm:scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                    leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    >
+                    <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-md">
+                        <div className="p-8">
+                            <div className="flex items-center justify-between mb-8">
+                                <h4 className="leading-none font-semibold text-xl">Delete Account</h4>
+                                <button type="button" className="leading-none" onClick={() => deletePopupOpen(false)}>
+                                    <i className="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                            <div className="text-center">
+                                <h3 className="font-semidbold text-lg mb-6">Are you sure want to delete your account?</h3>
+                                <div className="flex flex-wrap items-center justify-center">
+                                    <button type="submit" onClick={() => deletePopupOpen(false)} className="border border-[#6D27F9] font-bold rounded-full py-2.5 px-6 my-2 mx-3 md:min-w-[90px] text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white">No</button>
+                                    <button type="submit" onClick={delacc} className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mx-3 md:min-w-[90px] transition-all hover:from-[#391188] hover:to-[#391188]">
+                                    Yes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </Dialog.Panel>
+                    </Transition.Child>
+                </div>
+                </div>
+            </Dialog>
+        </Transition.Root>
         </> 
         : <></>}
         

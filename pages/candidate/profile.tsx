@@ -685,7 +685,7 @@ function CandidateProfile(props) {
                                     </div>
                                 </div>
                                 <div className="w-full md:max-w-[calc(100%-310px)] p-6 xl:p-8 relative bg-gradient-to-r from-[#A382E5] to-[#60C3E2] rounded-[25px] flex items-center">
-                                    <aside>
+                                    <aside className="w-full">
                                         <h2 className="font-semibold text-xl md:text-3xl mb-2 text-white">
                                             {userName}
                                         </h2>
@@ -694,7 +694,7 @@ function CandidateProfile(props) {
                                         </p>
                                         <ul className="flex flex-wrap">
                                             {userObj["email"] &&
-                                            <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
+                                            <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1 break-all">
                                                 <i className="fa-solid fa-envelope xl:text-xl mr-3"></i>
                                                 <span className="mr-2">:</span>
                                                 <p>{userObj["email"]}</p>
@@ -852,7 +852,7 @@ function CandidateProfile(props) {
                                                 {lang.map((lang, i) => (
                                                     <p className="relative bg-[#C9B3FF] rounded-full py-2 px-3 flex items-center text-[14px] mr-2"  key={i}>
                                                         {lang.title}
-                                                        <span className="pl-1 text-[10px] flex text-yellow-300 mt-[2px]">
+                                                        <span className="pl-1 text-[10px] flex text-[#FEF401] mt-[2px]">
                                                             <i className="fa-solid fa-star ml-1"></i>
                                                             {lang.experties == "Limited profeciency" && <i className="fa-solid fa-star ml-1"></i>}
                                                             {lang.experties == "Professional profeciency" && <><i className="fa-solid fa-star ml-1"></i><i className="fa-solid fa-star ml-1"></i></>}
@@ -944,9 +944,9 @@ function CandidateProfile(props) {
                                         <div className="w-full rounded-[25px] border border-slate-300 p-6 min-h-[200px]">
                                             <div className="flex flex-wrap items-start">
                                                 {skill.map((skill, i) => (
-                                                <p className="relative bg-[#289BDC] text-white rounded-full py-2 px-3 flex items-center text-[14px] mr-2 mb-3" key={i}>
+                                                <p className="relative bg-[#C9B3FF] rounded-full py-2 px-3 flex items-center text-[14px] mr-2 mb-3" key={i}>
                                                     {skill.title}
-                                                    <span className="pl-1 text-[10px] flex text-yellow-300 mt-[2px]" id={skill.title+"Skill"}>
+                                                    <span className="pl-1 text-[10px] flex text-[#FEF401] mt-[2px]" id={skill.title+"Skill"}>
                                                         <i className="fa-solid fa-star ml-1"></i>
                                                         {skill.experties == 'Intermediate' && <i className="fa-solid fa-star ml-1"></i>}
                                                         {skill.experties == 'Advance' && <><i className="fa-solid fa-star ml-1"></i><i className="fa-solid fa-star ml-1"></i></>}
