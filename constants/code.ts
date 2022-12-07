@@ -12,6 +12,7 @@ import shallow from 'zustand/shallow'
 type State = {
   userName: string
   userImg: string
+  userCImg: string
   userType: string
   userObj: {}
   userProfile: {}
@@ -23,6 +24,7 @@ type State = {
 type Action = {
   updateUserName: (userName: State['userName']) => void
   updateUserImg: (userImg: State['userImg']) => void
+  updateUserCImg: (userCImg: State['userCImg']) => void
   updateUserType: (userType: State['userType']) => void
   updateUserObj: (userObj: State['userObj']) => void
   updateUserProfile: (userProfile: State['userProfile']) => void
@@ -34,6 +36,7 @@ type Action = {
 export const useStore = create<State & Action>((set) => ({
   userName: '',
   userImg: '',
+  userCImg: '',
   userType: '',
   userObj: {},
   userProfile: {},
@@ -42,6 +45,7 @@ export const useStore = create<State & Action>((set) => ({
   cities: {},
   updateUserName: (userName) => set(() => ({ userName: userName })),
   updateUserImg: (userImg) => set(() => ({ userImg: userImg })),
+  updateUserCImg: (userCImg) => set(() => ({ userCImg: userCImg })),
   updateUserType: (userType) => set(() => ({ userType: userType })),
   updateUserObj: (userObj) => set(() => ({ userObj: userObj })),
   updateUserProfile: (userProfile) => set(() => ({ userProfile: userProfile })),

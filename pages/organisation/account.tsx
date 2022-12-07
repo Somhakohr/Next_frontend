@@ -15,6 +15,7 @@ import { withAuth } from '../../constants/HOCs';
 import shallow from 'zustand/shallow';
 import { useStore } from '../../constants/code';
 import axios from 'axios';
+import toastcomp from '../../components/toast';
 
 function OrganisationAccount(props) {
     const cancelButtonRef = useRef(null)
@@ -31,6 +32,11 @@ function OrganisationAccount(props) {
 
     const [userImg, updateUserImg] = useStore(
         (state) => [state.userImg, state.updateUserImg],
+        shallow
+    )
+
+    const [userCImg, updateUserCImg] = useStore(
+        (state) => [state.userCImg, state.updateUserCImg],
         shallow
     )
 
@@ -53,6 +59,40 @@ function OrganisationAccount(props) {
         (state) => [state.accessToken, state.updateAccessToken],
         shallow
     )
+
+    const [profileimg,setProfileImg] = useState()
+    const [coverimg,setCoverImg] = useState()
+    const [cname,setCName] = useState('')
+    const [ind,setInd] = useState('')
+    const [curl,setCUrl] = useState('')
+    const [fdate,setFDate] = useState('')
+    const [founder,setFounder] = useState('')
+    const [cemail,setCEmail] = useState('')
+    const [lname,setLName] = useState('')
+    const [rname,setRName] = useState('')
+    const [rdes,setRDes] = useState('')
+    const [cstrength,setCStrength] = useState('')
+    const [orgstatus,setOrgStatus] = useState('')
+    const [opestatus,setOpeStatus] = useState('')
+    const [fundround,setFundRound] = useState('')
+    const [fund,setFund] = useState('')
+    const [desc,setDesc] = useState('')
+    const [add,setAdd] = useState('')
+    const [otype,setOType] = useState('')
+
+    const [fcurl,setFCUrl] = useState('')
+    const [ffounder,setFFounder] = useState('')
+    const [fcemail,setFCEmail] = useState('')
+    const [flname,setFLName] = useState('')
+    const [frname,setFRName] = useState('')
+    const [frdes,setFRDes] = useState('')
+    const [ffundround,setFFundRound] = useState('')
+    const [ffund,setFFund] = useState('')
+    const [fdesc,setFDesc] = useState('')
+    const [fadd,setFAdd] = useState('')
+
+
+
      
     
     //axios auth var
@@ -71,6 +111,126 @@ function OrganisationAccount(props) {
       }
     }, [session]);
 
+    useEffect(() => {
+      if(userObj){
+        if(userProfile["company_email"]){setCEmail(userObj["email"]),setFCEmail(userObj["email"])}
+        else{setCEmail(userObj["email"]),setFCEmail(userObj["email"])}
+        setCName(userObj["company_name"])
+        setOType(userObj["company_type"])
+      }
+      if(userProfile){
+        if(userProfile["industry"]){setInd(userProfile["industry"])}
+        if(userProfile["url"]){setCUrl(userProfile["url"]),setFCUrl(userProfile["url"])}
+        if(userProfile["founded_date"]){setFDate(userProfile["founded_date"])}
+        if(userProfile["founders"]){setFounder(userProfile["founders"]),setFFounder(userProfile["founders"])}
+        if(userProfile["legal_name"]){setLName(userProfile["legal_name"]),setFLName(userProfile["legal_name"])}
+        if(userProfile["recuriter_name"]){setRName(userProfile["recuriter_name"]),setFRName(userProfile["recuriter_name"])}
+        if(userProfile["recuriter_designation"]){setRDes(userProfile["recuriter_designation"]),setFRDes(userProfile["recuriter_designation"])}
+        if(userProfile["company_strength"]){setCStrength(userProfile["company_strength"])}
+        if(userProfile["organisation_status"]){setOrgStatus(userProfile["organisation_status"])}
+        if(userProfile["operation_status"]){setOpeStatus(userProfile["operation_status"])}
+        if(userProfile["roundoffund"]){setFundRound(userProfile["roundoffund"]),setFFundRound(userProfile["roundoffund"])}
+        if(userProfile["fund_amount"]){setFund(userProfile["fund_amount"]),setFFund(userProfile["fund_amount"])}
+        if(userProfile["address"]){setAdd(userProfile["address"]),setFAdd(userProfile["address"])}
+        if(userProfile["description"]){setDesc(userProfile["description"]),setFDesc(userProfile["description"])}
+      }
+    }, [userObj,userProfile])
+    
+    async function saveProfile(formData) {
+        await axiosInstanceAuth2.put('/organisation/organisationprofile/'+userObj['orefid']+'/',formData).then(async (res)=>{
+            updateUserProfile(res.data)
+            toastcomp("Profile Updated","success");
+        }).catch((err)=>{
+            console.log(err)
+            if(err.message != "Request failed with status code 401"){
+                toastcomp("Profile Not Updated","error");
+            }
+        })
+    }
+
+    useEffect(() => {
+        
+        if(userProfile){
+
+            console.log("---------");
+            console.log("CNAME",cname);
+            console.log("ind",ind);
+            console.log("curl",curl);
+            console.log("fdate",fdate);
+            console.log("founder",founder);
+            console.log("cemail",cemail);
+            console.log("lname",lname);
+            console.log("rname",rname);
+            console.log("rdes",rdes);
+            console.log("cstrength",cstrength);
+            console.log("orgstatus",orgstatus);
+            console.log("opestatus",opestatus);
+            console.log("fundround",fundround);
+            console.log("fund",fund);
+            console.log("desc",desc);
+            console.log("add",add);
+            console.log("otype",otype);
+
+            var formData = new FormData();
+            if(ind && userProfile["industry"]!=ind){
+                formData.append("industry", ind);
+            }
+            if(curl && userProfile["url"]!=curl){
+                formData.append("url",curl);
+            }
+            if(fdate && userProfile["founded_date"]!=fdate){
+                formData.append("founded_date",fdate);
+            }
+            if(founder && userProfile["founders"]!=founder){
+                formData.append("founders",founder);
+            }
+            if(lname && userProfile["legal_name"]!=lname){
+                formData.append("legal_name",lname);
+            }
+            if(rname && userProfile["recuriter_name"]!=rname){
+                formData.append("recuriter_name",rname);
+            }
+            if(rdes && userProfile["recuriter_designation"]!=rdes){
+                formData.append("recuriter_designation",rdes);
+            }
+            if(cstrength && userProfile["company_strength"]!=cstrength){
+                formData.append("company_strength",cstrength);
+            }
+            if(orgstatus && userProfile["organisation_status"]!=orgstatus){
+                formData.append("organisation_status",orgstatus);
+            }
+            if(opestatus && userProfile["operation_status"]!=opestatus){
+                formData.append("operation_status",opestatus);
+            }
+            if(fundround && userProfile["roundoffund"]!=fundround){
+                formData.append("roundoffund",fundround);
+            }
+            if(fund && userProfile["fund_amount"]!=fund){
+                formData.append("fund_amount",fund);
+            }
+            if(add && userProfile["address"]!=add){
+                formData.append("address",add);
+            }
+            if(desc && userProfile["description"]!=desc){
+                formData.append("description",desc);
+            }
+            if(cemail && userProfile["company_email"]!=cemail){
+                formData.append("company_email",cemail);
+            }
+            if(coverimg){
+                formData.append("cover",coverimg);
+            }
+            if(profileimg){
+                formData.append("profile",profileimg);
+            }
+
+            if(Array.from(formData.keys()).length > 0){
+                saveProfile(formData)
+            }
+        }
+
+
+    }, [cname,ind,fcurl,fdate,ffounder,fcemail,flname,frname,frdes,cstrength,orgstatus,opestatus,ffundround,ffund,fdesc,fadd,otype,coverimg,profileimg])
 
     return (
         <>
@@ -120,7 +280,7 @@ function OrganisationAccount(props) {
                                             />
                                             <label htmlFor="uploadImage" className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white">
                                                 <i className="fa-solid fa-plus text-xl"></i>
-                                                <input type="file" id="uploadImage" className="absolute left-0 top-0 z-20" hidden />
+                                                <input type="file" id="uploadImage" className="absolute left-0 top-0 z-20" hidden accept="image/png, image/jpeg" onChange={(e) => { setProfileImg(e.target.files[0]) }}  />
                                             </label>
                                         </div>
                                     </div>
@@ -128,15 +288,17 @@ function OrganisationAccount(props) {
                                         <div className="relative inline-block">
                                             <p className="text-center mb-2 font-medium">Cover Image</p>
                                             <Image
-                                                src={userImg}
+                                                src={userCImg}
                                                 alt="User"
                                                 height={100}
                                                 width={100}
                                                 className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
                                             />
-                                            <label htmlFor="uploadImage" className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white">
+                                            <label htmlFor="uploadCImage" className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white">
                                                 <i className="fa-solid fa-plus text-xl"></i>
-                                                <input type="file" id="uploadImage" className="absolute left-0 top-0 z-20" hidden />
+                                                <input type="file" id="uploadCImage" className="absolute left-0 top-0 z-20" hidden accept="image/png, image/jpeg" onChange={(e) => {setCoverImg(e.target.files[0]) }} 
+                                                
+                                                />
                                             </label>
                                         </div>
                                     </div>
@@ -146,11 +308,12 @@ function OrganisationAccount(props) {
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompName" className="font-medium mb-2 leading-none inline-block">Company Name</label>
-                                    <input type="text" id="orgCompName" className="w-full rounded-full border-slate-300" />
+                                    <input type="text" id="orgCompName" className="w-full rounded-full border-slate-300" value={cname} onChange={(e)=>setCName(e.target.value)} />
                                 </div>
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompIndustry" className="font-medium mb-2 leading-none inline-block">Industry</label>
-                                    <select id="orgCompIndustry" className="w-full rounded-full border-slate-300">
+                                    <select id="orgCompIndustry" className="w-full rounded-full border-slate-300" value={ind} onChange={(e)=>setInd(e.target.value)}>
+                                        <option value="">Select Industry</option>
                                         <option value="Industry 1">Industry 1</option>
                                         <option value="Industry 2">Industry 2</option>
                                     </select>
@@ -159,41 +322,42 @@ function OrganisationAccount(props) {
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompURL" className="font-medium mb-2 leading-none inline-block">Company URL</label>
-                                    <input type="text" id="orgCompURL" className="w-full rounded-full border-slate-300" />
+                                    <input type="text" id="orgCompURL" className="w-full rounded-full border-slate-300" value={curl} onChange={(e)=>setCUrl(e.target.value)} onBlur={(e)=>setFCUrl(e.target.value)} />
                                 </div>
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompFoundedDate" className="font-medium mb-2 leading-none inline-block">Founded Date</label>
-                                    <input type="date" id="orgCompFoundedDate" className="w-full rounded-full border-slate-300" />
+                                    <input type="date" id="orgCompFoundedDate" className="w-full rounded-full border-slate-300" value={fdate} onChange={(e)=>setFDate(e.target.value)} />
                                 </div>
                             </div>
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompFounders" className="font-medium mb-2 leading-none inline-block">Founders</label>
-                                    <input type="text" id="orgCompFounders" className="w-full rounded-full border-slate-300" />
+                                    <input type="text" id="orgCompFounders" className="w-full rounded-full border-slate-300" value={founder} onChange={(e)=>setFounder(e.target.value)} onBlur={(e)=>setFFounder(e.target.value)} />
                                 </div>
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompEmail" className="font-medium mb-2 leading-none inline-block">Company Email</label>
-                                    <input type="text" id="orgCompEmail" className="w-full rounded-full border-slate-300" />
+                                    <input type="text" id="orgCompEmail" className="w-full rounded-full border-slate-300" value={cemail} onChange={(e)=>setCEmail(e.target.value)}  onBlur={(e)=>setFCEmail(e.target.value)}/>
                                 </div>
                             </div>
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompLegalName" className="font-medium mb-2 leading-none inline-block">Loegal Name</label>
-                                    <input type="text" id="orgCompLegalName" className="w-full rounded-full border-slate-300" />
+                                    <input type="text" id="orgCompLegalName" className="w-full rounded-full border-slate-300" value={lname} onChange={(e)=>setLName(e.target.value)} onBlur={(e)=>setFLName(e.target.value)}/>
                                 </div>
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompRecruiterName" className="font-medium mb-2 leading-none inline-block">Recruiter Name</label>
-                                    <input type="text" id="orgCompRecruiterName" className="w-full rounded-full border-slate-300" />
+                                    <input type="text" id="orgCompRecruiterName" className="w-full rounded-full border-slate-300" value={rname} onChange={(e)=>setRName(e.target.value)}  onBlur={(e)=>setFRName(e.target.value)}/>
                                 </div>
                             </div>
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompRecruiterDesg" className="font-medium mb-2 leading-none inline-block">Recruiter Designation</label>
-                                    <input type="text" id="orgCompRecruiterDesg" className="w-full rounded-full border-slate-300" />
+                                    <input type="text" id="orgCompRecruiterDesg" className="w-full rounded-full border-slate-300" value={rdes} onChange={(e)=>setRDes(e.target.value)} onBlur={(e)=>setFRDes(e.target.value)}/>
                                 </div>
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompStrength" className="font-medium mb-2 leading-none inline-block">Company Strength</label>
-                                    <select id="orgCompStrength" className="w-full rounded-full border-slate-300">
+                                    <select id="orgCompStrength" className="w-full rounded-full border-slate-300" value={cstrength} onChange={(e)=>setCStrength(e.target.value)}>
+                                        <option value="">Select Strength</option>
                                         <option value="0-10">0-10</option>
                                         <option value="10-20">10-20</option>
                                     </select>
@@ -202,14 +366,16 @@ function OrganisationAccount(props) {
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompStatus" className="font-medium mb-2 leading-none inline-block">Organisation Status</label>
-                                    <select id="orgCompStatus" className="w-full rounded-full border-slate-300">
+                                    <select id="orgCompStatus" className="w-full rounded-full border-slate-300" value={orgstatus} onChange={(e)=>setOrgStatus(e.target.value)}>
+                                        <option value="">Select Status</option>
                                         <option value="Public">Public</option>
                                         <option value="Private">Private</option>
                                     </select>
                                 </div>
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompOperation" className="font-medium mb-2 leading-none inline-block">Operation Status</label>
-                                    <select id="orgCompOperation" className="w-full rounded-full border-slate-300">
+                                    <select id="orgCompOperation" className="w-full rounded-full border-slate-300" value={opestatus} onChange={(e)=>setOpeStatus(e.target.value)}>
+                                        <option value="">Select Status</option>
                                         <option value="Active">Active</option>
                                         <option value="Inactive">Inactive</option>
                                     </select>
@@ -218,20 +384,20 @@ function OrganisationAccount(props) {
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompFundingRound" className="font-medium mb-2 leading-none inline-block">Total Round of Funding</label>
-                                    <input type="text" id="orgCompFundingRound" className="w-full rounded-full border-slate-300" />
+                                    <input type="text" id="orgCompFundingRound" className="w-full rounded-full border-slate-300" value={fundround} onChange={(e)=>setFundRound(e.target.value)} onBlur={(e)=>setFFundRound(e.target.value)}/>
                                 </div>
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompFundingAmount" className="font-medium mb-2 leading-none inline-block">Funding Amount</label>
-                                    <input type="text" id="orgCompFundingAmount" className="w-full rounded-full border-slate-300" />
+                                    <input type="text" id="orgCompFundingAmount" className="w-full rounded-full border-slate-300" value={fund} onChange={(e)=>setFund(e.target.value)} onBlur={(e)=>setFFund(e.target.value)}/>
                                 </div>
                             </div>
                             <div className="mb-6">
                                 <label htmlFor="orgCompHeadAddress" className="font-medium mb-2 leading-none inline-block">Headquarters Location Address</label>
-                                <textarea id="orgCompHeadAddress" className="w-full rounded-[25px] resize-none border-slate-300 h-[150px]"></textarea>
+                                <textarea id="orgCompHeadAddress" className="w-full rounded-[25px] resize-none border-slate-300 h-[150px]" value={add} onChange={(e)=>setAdd(e.target.value)}  onBlur={(e)=>setFAdd(e.target.value)}></textarea>
                             </div>
                             <div className="mb-6">
                                 <label htmlFor="orgCompDesc" className="font-medium mb-2 leading-none inline-block">Company Description</label>
-                                <textarea id="orgCompDesc" className="w-full rounded-[25px] resize-none border-slate-300 h-[150px]"></textarea>
+                                <textarea id="orgCompDesc" className="w-full rounded-[25px] resize-none border-slate-300 h-[150px]" value={desc} onChange={(e)=>setDesc(e.target.value)}  onBlur={(e)=>setFDesc(e.target.value)}></textarea>
                             </div>
                         </div>
                         <div className="bg-white shadow-normal rounded-[30px] overflow-hidden p-8 mb-6">
@@ -244,7 +410,7 @@ function OrganisationAccount(props) {
                             </div>
                             <div className="mb-6">
                                 <label htmlFor="orgCompType" className="font-medium mb-2 leading-none inline-block">Organization Type</label>
-                                <select id="orgCompType" className="w-full rounded-full border-slate-300">
+                                <select id="orgCompType" className="w-full rounded-full border-slate-300" value={otype} onChange={(e)=>setOType(e.target.value)}>
                                     <option value="Corporate">Corporate</option>
                                     <option value="Agency">Agency</option>
                                 </select>

@@ -215,7 +215,7 @@ function CandidateAcc(props) {
                                 />
                                 <label htmlFor="uploadImage" className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white">
                                     <i className="fa-solid fa-plus text-xl"></i>
-                                    <input type="file" id="uploadImage" className="absolute left-0 top-0 z-20" hidden accept="image/png, image/gif, image/jpeg" onChange={(e) => {  setPFile(URL.createObjectURL(e.target.files[0])); setFile(e.target.files[0]); }} />
+                                    <input type="file" id="uploadImage" className="absolute left-0 top-0 z-20" hidden accept="image/png, image/jpeg" onChange={(e) => {  setPFile(URL.createObjectURL(e.target.files[0])); setFile(e.target.files[0]); }} />
                                 </label>
                             </div>
                         </div>
