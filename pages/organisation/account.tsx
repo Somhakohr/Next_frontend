@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from "next/image";
-import React from "react"
+import React, { useEffect } from "react"
 import Masonry, {ResponsiveMasonry} from "react-responsive-masonry"
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
@@ -11,14 +11,71 @@ import gallery_2 from '../../public/images/gallery-2.png';
 import gallery_3 from '../../public/images/gallery-3.png';
 import gallery_4 from '../../public/images/gallery-4.png';
 import gallery_5 from '../../public/images/gallery-5.png';
+import { withAuth } from '../../constants/HOCs';
+import shallow from 'zustand/shallow';
+import { useStore } from '../../constants/code';
+import axios from 'axios';
 
-export default function OrganisationAccount() {
+function OrganisationAccount(props) {
     const cancelButtonRef = useRef(null)
     const [socialPopup, socialPopupOpen] = useState(false)
     const [galleryImages, galleryImagesAdd] = useState(false)
     const [changePassword, changePasswordOpen] = useState(false)
+
+    const { router,session } = props; 
+
+    const [userName, updateUserName] = useStore(
+        (state) => [state.userName, state.updateUserName],
+        shallow
+    )
+
+    const [userImg, updateUserImg] = useStore(
+        (state) => [state.userImg, state.updateUserImg],
+        shallow
+    )
+
+    const [userType, updateUserType] = useStore(
+        (state) => [state.userType, state.updateUserType],
+        shallow
+    )
+
+    const [userObj, updateUserObj] = useStore(
+        (state) => [state.userObj, state.updateUserObj],
+        shallow
+    )
+
+    const [userProfile, updateUserProfile] = useStore(
+        (state) => [state.userProfile, state.updateUserProfile],
+        shallow
+    )
+    
+    const [accessToken, updateAccessToken] = useStore(
+        (state) => [state.accessToken, state.updateAccessToken],
+        shallow
+    )
+     
+    
+    //axios auth var
+    const axiosInstanceAuth2 = axios.create({
+        baseURL: 'http://127.0.0.1:8000/api/',
+        timeout: 5000,
+        headers: {
+            'Authorization': 'Bearer '+accessToken,
+            "Content-Type": "multipart/form-data",
+        }
+    });
+
+    useEffect(() => {
+      if(!session){
+        router.push("/");
+      }
+    }, [session]);
+
+
     return (
         <>
+        { userType == "Organisation" &&
+            <>
             <main className="py-8">
                 <div className="container flex flex-wrap items-start">
                     <div className="w-full lg:max-w-[250px] mb-6 lg:mb-0 lg:sticky lg:top-[30px]">
@@ -481,6 +538,11 @@ export default function OrganisationAccount() {
                     </div>
                 </Dialog>
             </Transition.Root>
+            </>
+        }
         </>
     )
 }
+
+
+export default withAuth(3*60)(OrganisationAccount)

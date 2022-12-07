@@ -51,10 +51,7 @@ export default function SignIn(props) {
         password: password,
     }).then(async (response)=>{
       // console.log(response);
-      await signIn('credentials', { redirect: false, password: password,email: email, }).then(()=>{
-        
-        router.push("/"+response.data.type.toLowerCase());
-      }) 
+      await signIn('credentials', { password: password,email: email,callbackUrl: 'http://localhost:3000/'+response.data.type.toLowerCase()+'/' }) 
       // return true;
     }).catch((err)=>{
       console.log(err);
