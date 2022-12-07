@@ -850,7 +850,7 @@ function CandidateProfile(props) {
                                                 {/* <input id="languages" type="text" placeholder="You can add multiple Languages" className="w-full rounded-full border-slate-300" /> */}
                                                 <div className="w-full rounded-[25px] border border-slate-300 p-2 min-h-[42px] relative flex items-start overflow-x-auto">
                                                 {lang.map((lang, i) => (
-                                                    <p className="relative bg-[#289BDC] text-white rounded-full py-2 px-3 flex items-center text-[14px] mr-2"  key={i}>
+                                                    <p className="relative bg-[#C9B3FF] rounded-full py-2 px-3 flex items-center text-[14px] mr-2"  key={i}>
                                                         {lang.title}
                                                         <span className="pl-1 text-[10px] flex text-yellow-300 mt-[2px]">
                                                             <i className="fa-solid fa-star ml-1"></i>
