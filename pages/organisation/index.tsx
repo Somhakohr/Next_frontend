@@ -4,10 +4,66 @@ import Image from 'next/image';
 import Sidebar from "../../components/org-sidebar";
 import JobCard from "../../components/job-card";
 import Token from '../../public/images/token.png';
+import { withAuth } from '../../constants/HOCs';
+import axios from 'axios';
+import { useStore } from '../../constants/code';
+import shallow from 'zustand/shallow';
+import { useEffect } from 'react';
 
-export default function Organisation() {
+function Organisation(props) {
+
+    const { router,session } = props; 
+
+    const [userName, updateUserName] = useStore(
+        (state) => [state.userName, state.updateUserName],
+        shallow
+    )
+
+    const [userImg, updateUserImg] = useStore(
+        (state) => [state.userImg, state.updateUserImg],
+        shallow
+    )
+
+    const [userType, updateUserType] = useStore(
+        (state) => [state.userType, state.updateUserType],
+        shallow
+    )
+
+    const [userObj, updateUserObj] = useStore(
+        (state) => [state.userObj, state.updateUserObj],
+        shallow
+    )
+
+    const [userProfile, updateUserProfile] = useStore(
+        (state) => [state.userProfile, state.updateUserProfile],
+        shallow
+    )
+    
+    const [accessToken, updateAccessToken] = useStore(
+        (state) => [state.accessToken, state.updateAccessToken],
+        shallow
+    )
+     
+    
+    //axios auth var
+    const axiosInstanceAuth2 = axios.create({
+        baseURL: 'http://127.0.0.1:8000/api/',
+        timeout: 5000,
+        headers: {
+            'Authorization': 'Bearer '+accessToken,
+            "Content-Type": "multipart/form-data",
+        }
+    });
+
+    useEffect(() => {
+      if(!session){
+        router.push("/");
+      }
+    }, [session]);
+
     return (
         <>
+        { userType == "Organisation" &&
             <main className="py-8">
                 <div className="container flex flex-wrap items-start">
                     <div className="w-full lg:max-w-[250px] mb-6 lg:mb-0 lg:sticky lg:top-[30px]">
@@ -227,6 +283,9 @@ export default function Organisation() {
                     </div>
                 </div>
             </main>
+        }
         </>
     )
 }
+
+export default withAuth(3*60)(Organisation)
