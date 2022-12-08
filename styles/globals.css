@@ -180,7 +180,6 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
 .parent:hover .child {
   display: block;
 }
-
 .candidate_profile .candidate_profile__tabs {
   border: 1px solid #ddd;
   border-radius: 50px;
@@ -194,4 +193,18 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
 }
 .candidate_profile ul.react-tabs__tab-list {
   margin: 0;
+}
+.jobDetailDesc article ul li {
+  position: relative;
+  padding-left: 20px;
+}
+.jobDetailDesc article ul li::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 20px;
+  background-color: rgba(0,0,0,0.5);
+  position: absolute;
+  left: 0;
+  top: 8px;
 }
