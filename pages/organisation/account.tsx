@@ -98,8 +98,9 @@ function OrganisationAccount(props) {
 
     //local social state
     const [gallery,setGallery] = useState([])
-    const [file,setFile] = useState()    
-    
+    const [file,setFile] = useState([] as any)    
+
+
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
         baseURL: 'http://127.0.0.1:8000/api/',
@@ -115,9 +116,8 @@ function OrganisationAccount(props) {
     }
 
     function verifyGalPopup() {
-       if(file){return true}
-       else{return false}
-    }
+        return file.length > 0
+    }    
 
 
     async function loadLink() {
@@ -169,7 +169,7 @@ function OrganisationAccount(props) {
         await axiosInstanceAuth2.post('/organisation/organisationgallery/'+userObj['orefid']+'/',formdata).then(async (res)=>{
             toastcomp("Gallery Added",'success')
             loadGalllery()
-            setFile()
+            setFile([])
             galleryImagesAdd(false)
         }).catch((err)=>{
             toastcomp("Gallery Not Added",'error')
@@ -187,11 +187,24 @@ function OrganisationAccount(props) {
 
     //save social media link
     function saveGallery(){
-        if(file){
-          const formData = new FormData();
-          formData.append('image',file)
-          addGallery(formData);
+        if(file.length > 0){
+            for(let i=0;i<file.length;i++){
+                const formData = new FormData();
+                formData.append('image',file[i])
+                addGallery(formData);
+            }
         }
+    }
+    
+    function onImageChange(e: any) {
+        setFile([...file,...e.target.files]);
+    }
+
+    function deleteUImage(num) {
+        if(file.length == 1) { setFile([]) }
+        else{file.splice(num,1)}
+        var myElement = document.getElementById(`gallerypopup${num}`);
+        myElement.remove();
     }
 
     useEffect(() => {
@@ -684,43 +697,26 @@ function OrganisationAccount(props) {
                                     <label htmlFor="uploadGallery" className="cursor-pointer w-[150px] h-[150px] rounded-lg bg-gray-200 p-2 flex items-center justify-center flex-col">
                                         <i className="fa-solid fa-upload mb-2 text-4xl"></i>
                                         <span className="text-sm">Upload Photos</span>
-                                        <input type="file" id="uploadGallery" className="hidden" onChange={(e)=>setFile(e.target.files[0])} />
+                                        <input type="file" id="uploadGallery" className="hidden" accept="image/*" onChange={onImageChange} multiple />
                                     </label>
                                 </div>
                                 <div className="w-full mb-6">
-                                    {gallery.length > 0 ?
+                                {file.length > 0 &&
                                     <ResponsiveMasonry columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}>
                                         <Masonry className="masonary_grid">
-                                        {gallery.map((gallery, i) => (
-                                            <div className="relative" key={i}>
-                                                <img src={gallery.image} alt="Gallery" className="w-full" />
-                                                <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded" onClick={(e)=>deleteGallery(gallery.id)}>
-                                                    <i className="fa-solid fa-xmark"></i>
-                                                </button>
-                                            </div>
-                                        ))}
-                                        {file && 
-                                        <div className="relative">
-                                                <img src={URL.createObjectURL(file)} alt="Gallery" className="w-full" />
-                                                <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded"  onClick={(e)=>setFile()}>
-                                                    <i className="fa-solid fa-xmark"></i>
-                                                </button>
-                                            </div>}
-                                        </Masonry>
-                                        </ResponsiveMasonry>    
-                                    :
-                                    <ResponsiveMasonry columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}>
-                                        <Masonry className="masonary_grid">
-                                        {file && 
-                                        <div className="relative">
-                                                <img src={URL.createObjectURL(file)} alt="Gallery" className="w-full" />
-                                                <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
-                                                    <i className="fa-solid fa-xmark"></i>
-                                                </button>
-                                            </div>}
+                                        
+                                            {file.map((imageSrc,i) => (
+                                                <div className="relative" id={`gallerypopup${i}`} key={i}>
+                                                    <img src={URL.createObjectURL(imageSrc)} alt="Gallery" className="w-full" />
+                                                    <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded" onClick={()=>deleteUImage(i)}>
+                                                        <i className="fa-solid fa-xmark"></i>
+                                                    </button>
+                                                </div>
+                                            ))}
                                         </Masonry>
                                     </ResponsiveMasonry>
-                                    }
+                                    
+                                }
                                     {/* <ResponsiveMasonry
                                         columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
                                     >
@@ -759,7 +755,7 @@ function OrganisationAccount(props) {
                                     </ResponsiveMasonry> */}
                                 </div>
                                 <div className="text-center">
-                                    <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!verifyGalPopup()} onClick={(e)=>saveGallery()} >SAVE</button>
+                                    <button type="button" id='disgallery' className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!verifyGalPopup()} onClick={(e)=>saveGallery()} >SAVE</button>
                                 </div>
                             </div>
                         </Dialog.Panel>
