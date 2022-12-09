@@ -274,7 +274,7 @@ export default function JobDetail() {
                         <h2 className="text-white">Similar to this Job</h2>
                     </div>
                     <div className="py-4 px-6 md:px-10">
-                        <div className="flex flex-wrap mx-[-10px]">
+                        {/* <div className="flex flex-wrap mx-[-10px]">
                             <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
                                 <JobCard />
                             </div>
@@ -299,7 +299,7 @@ export default function JobDetail() {
                             <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
                                 <JobCard />
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
            </div>

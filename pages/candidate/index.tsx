@@ -266,7 +266,7 @@ function Candidate(props) {
                                     <Tab>Recommended Jobs</Tab>
                                 </TabList>
                             </div>
-                            <TabPanel>
+                            {/* <TabPanel>
                                 <div className="flex flex-wrap mx-[-15px]">
                                     <div className="px-[15px] w-full md:max-w-[50%] mb-6">
                                         <JobCard />
@@ -316,7 +316,7 @@ function Candidate(props) {
                                         <JobCard />
                                     </div>
                                 </div>
-                            </TabPanel>
+                            </TabPanel> */}
                         </Tabs>
                     </div>
                 </div>

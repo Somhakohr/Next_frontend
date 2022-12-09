@@ -86,7 +86,7 @@ function Organisation(props) {
             setRemainingjob(res.data['Remaining Job'])
             setUpcomingInterview(res.data['Upcoming Interviews'])
             setRecentJob(res.data['Recent Jobs'])
-            console.log(res.data['Upcoming Interviews'])
+            console.log("jobs",res.data['Recent Jobs'])
         }).catch((err)=>{
             console.log(err)
             if(err.message != "Request failed with status code 401"){
@@ -292,30 +292,11 @@ function Organisation(props) {
                                 </div>
                                 <div className="py-6 px-4 md:px-10">
                                     <div className="flex flex-wrap mx-[-10px]">
+                                    {recentJob.map((job, i) => (
                                         <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                            <JobCard />
+                                            <JobCard data={job}/>
                                         </div>
-                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                            <JobCard />
-                                        </div>
-                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                            <JobCard />
-                                        </div>
-                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                            <JobCard />
-                                        </div>
-                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                            <JobCard />
-                                        </div>
-                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                            <JobCard />
-                                        </div>
-                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                            <JobCard />
-                                        </div>
-                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                            <JobCard />
-                                        </div>
+                                    ))}
                                     </div>
                                 </div>
                             </div>
