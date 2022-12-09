@@ -155,7 +155,7 @@ export default function JobDetail() {
                                 <span className="mr-2">Share Job</span>
                                 <i className="fa-solid fa-share text-[#6D27F9]"></i>
                             </button>
-                            <button type="button" className="bg-white py-1.5 px-4 text-sm rounded-full border border-[#6D27F9]">Save Job</button>
+                            <button type="button" className="bg-white py-1.5 px-4 text-sm rounded-full border border-[#6D27F9] hover:bg-[#6D27F9] hover:text-white">Save Job</button>
                         </aside>
                     </div>
                     <button type="button" className="mb-8 bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">Apply Now</button>
