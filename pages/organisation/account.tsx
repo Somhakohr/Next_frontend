@@ -80,6 +80,7 @@ function OrganisationAccount(props) {
     const [add,setAdd] = useState('')
     const [otype,setOType] = useState('')
 
+    const [fcname,setFCName] = useState('')
     const [fcurl,setFCUrl] = useState('')
     const [ffounder,setFFounder] = useState('')
     const [fcemail,setFCEmail] = useState('')
@@ -91,9 +92,13 @@ function OrganisationAccount(props) {
     const [fdesc,setFDesc] = useState('')
     const [fadd,setFAdd] = useState('')
 
+    //local social state
+    const [link,setLink] = useState([])
+    const [atitle,setATitle] = useState('')    
 
-
-     
+    //local social state
+    const [gallery,setGallery] = useState([])
+    const [file,setFile] = useState()    
     
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
@@ -105,6 +110,90 @@ function OrganisationAccount(props) {
         }
     });
 
+    function verifyLinkPopup() {
+        return atitle.length > 0
+    }
+
+    function verifyGalPopup() {
+       if(file){return true}
+       else{return false}
+    }
+
+
+    async function loadLink() {
+        await axiosInstanceAuth2.get('/organisation/organisationlinklist/'+userObj['orefid']+'/').then(async (res)=>{
+            setLink(res.data)
+            socialPopupOpen(false)
+        }).catch((err)=>{
+            if(err.message != "Request failed with status code 401"){
+                toastcomp("Link Not Loaded",'error')
+            }
+            console.log(err)
+            socialPopupOpen(false)
+        })
+    }
+
+    async function addLink(formdata) {
+        await axiosInstanceAuth2.post('/organisation/organisationlink/'+userObj['orefid']+'/',formdata).then(async (res)=>{
+            toastcomp("Social Link Added",'success')
+            loadLink()
+        }).catch((err)=>{
+            toastcomp("Link Not Added",'error')
+            console.log(err)
+        })
+    }
+
+    async function loadGalllery() {
+        await axiosInstanceAuth2.get('/organisation/organisationgallerylist/'+userObj['orefid']+'/').then(async (res)=>{
+            setGallery(res.data)
+        }).catch((err)=>{
+            if(err.message != "Request failed with status code 401"){
+                toastcomp("Gallery Not Loaded",'error')
+            }
+            console.log(err)
+            galleryImagesAdd(false)
+        })
+    }
+
+    async function deleteGallery(val) {
+        await axiosInstanceAuth2.delete('/organisation/organisationgallery/'+userObj['orefid']+'/'+val+'/delete/').then(async (res)=>{
+            toastcomp("Gallery Deleted",'success')
+            loadGalllery()
+        }).catch((err)=>{
+            toastcomp("Gallery Not Deleted",'error')
+            console.log(err)
+        })
+    }
+
+    async function addGallery(formdata) {
+        await axiosInstanceAuth2.post('/organisation/organisationgallery/'+userObj['orefid']+'/',formdata).then(async (res)=>{
+            toastcomp("Gallery Added",'success')
+            loadGalllery()
+            setFile()
+            galleryImagesAdd(false)
+        }).catch((err)=>{
+            toastcomp("Gallery Not Added",'error')
+            console.log(err)
+        })
+    }
+
+    //save social media link
+    function saveLink(e){
+        const formData = new FormData();
+        formData.append('title',atitle)
+        addLink(formData);
+        setATitle('')
+    }
+
+    //save social media link
+    function saveGallery(){
+        if(file){
+          const formData = new FormData();
+          formData.append('image',file)
+          addGallery(formData);
+        }
+    }
+
     useEffect(() => {
       if(!session){
         router.push("/");
@@ -112,13 +201,14 @@ function OrganisationAccount(props) {
     }, [session]);
 
     useEffect(() => {
-      if(userObj){
+
+      if(userObj && userProfile){
         if(userProfile["company_email"]){setCEmail(userObj["email"]),setFCEmail(userObj["email"])}
         else{setCEmail(userObj["email"]),setFCEmail(userObj["email"])}
         setCName(userObj["company_name"])
+        setFCName(userObj["company_name"])
         setOType(userObj["company_type"])
-      }
-      if(userProfile){
+
         if(userProfile["industry"]){setInd(userProfile["industry"])}
         if(userProfile["url"]){setCUrl(userProfile["url"]),setFCUrl(userProfile["url"])}
         if(userProfile["founded_date"]){setFDate(userProfile["founded_date"])}
@@ -133,12 +223,28 @@ function OrganisationAccount(props) {
         if(userProfile["fund_amount"]){setFund(userProfile["fund_amount"]),setFFund(userProfile["fund_amount"])}
         if(userProfile["address"]){setAdd(userProfile["address"]),setFAdd(userProfile["address"])}
         if(userProfile["description"]){setDesc(userProfile["description"]),setFDesc(userProfile["description"])}
+
+        loadLink()
+        loadGalllery()
       }
     }, [userObj,userProfile])
     
     async function saveProfile(formData) {
         await axiosInstanceAuth2.put('/organisation/organisationprofile/'+userObj['orefid']+'/',formData).then(async (res)=>{
             updateUserProfile(res.data)
+            toastcomp("Profile Updated","success");
+        }).catch((err)=>{
+            console.log(err)
+            if(err.message != "Request failed with status code 401"){
+                toastcomp("Profile Not Updated","error");
+            }
+        })
+    }
+    
+    async function saveAccount(formData) {
+        await axiosInstanceAuth2.put('/auth/organizationaccont/'+userObj['orefid']+'/',formData).then(async (res)=>{
+            userObj['company_name']=res.data.company_name
+            userObj["company_type"]=res.data.company_type
             toastcomp("Profile Updated","success");
         }).catch((err)=>{
             console.log(err)
@@ -172,6 +278,7 @@ function OrganisationAccount(props) {
             console.log("otype",otype);
 
             var formData = new FormData();
+            var formData2 = new FormData();
             if(ind && userProfile["industry"]!=ind){
                 formData.append("industry", ind);
             }
@@ -223,14 +330,31 @@ function OrganisationAccount(props) {
             if(profileimg){
                 formData.append("profile",profileimg);
             }
+            if(cname && userObj["company_name"]!=cname){
+                formData2.append("company_name", cname);
+            }
+            if(otype && userObj["company_type"]!=otype){
+                formData2.append("company_type", otype);
+            }
 
             if(Array.from(formData.keys()).length > 0){
                 saveProfile(formData)
             }
+            if(Array.from(formData2.keys()).length > 0){
+                saveAccount(formData2)
+            }
         }
 
 
-    }, [cname,ind,fcurl,fdate,ffounder,fcemail,flname,frname,frdes,cstrength,orgstatus,opestatus,ffundround,ffund,fdesc,fadd,otype,coverimg,profileimg])
+    }, [fcname,otype,ind,fcurl,fdate,ffounder,fcemail,flname,frname,frdes,cstrength,orgstatus,opestatus,ffundround,ffund,fdesc,fadd,coverimg,profileimg])
+
+    useEffect(() => {
+        if(userProfile){
+           
+            
+        }
+    }, [cname,otype])
+    
 
     return (
         <>
@@ -248,7 +372,7 @@ function OrganisationAccount(props) {
                                 </li>
                                 <li className="w-[49%] lg:w-full">
                                     <Link href="#" className="flex items-center py-2 px-3 lg:px-8 hover:bg-[#6D27F9] hover:text-white rounded-lg my-2">
-                                        Organisation Settings
+                                        Social Media
                                     </Link>
                                 </li>
                                 <li className="w-[49%] lg:w-full">
@@ -308,7 +432,7 @@ function OrganisationAccount(props) {
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompName" className="font-medium mb-2 leading-none inline-block">Company Name</label>
-                                    <input type="text" id="orgCompName" className="w-full rounded-full border-slate-300" value={cname} onChange={(e)=>setCName(e.target.value)} />
+                                    <input type="text" id="orgCompName" className="w-full rounded-full border-slate-300" value={cname} onChange={(e)=>setCName(e.target.value)} onBlur={(e)=>setFCName(e.target.value)} />
                                 </div>
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompIndustry" className="font-medium mb-2 leading-none inline-block">Industry</label>
@@ -399,8 +523,15 @@ function OrganisationAccount(props) {
                                 <label htmlFor="orgCompDesc" className="font-medium mb-2 leading-none inline-block">Company Description</label>
                                 <textarea id="orgCompDesc" className="w-full rounded-[25px] resize-none border-slate-300 h-[150px]" value={desc} onChange={(e)=>setDesc(e.target.value)}  onBlur={(e)=>setFDesc(e.target.value)}></textarea>
                             </div>
+                            <div className="mb-6">
+                                <label htmlFor="orgCompType" className="font-medium mb-2 leading-none inline-block">Company Type</label>
+                                <select id="orgCompType" className="w-full rounded-full border-slate-300" value={otype} onChange={(e)=>setOType(e.target.value)}>
+                                    <option value="Corporate">Corporate</option>
+                                    <option value="Agency">Agency</option>
+                                </select>
+                            </div>
                         </div>
-                        <div className="bg-white shadow-normal rounded-[30px] overflow-hidden p-8 mb-6">
+                        {/* <div className="bg-white shadow-normal rounded-[30px] overflow-hidden p-8 mb-6">
                             <div className="mb-6">
                                 <label htmlFor="orgCompDepartment" className="font-medium mb-2 leading-none inline-block">Organization Department</label>
                                 <select id="orgCompDepartment" className="w-full rounded-full border-slate-300">
@@ -415,7 +546,7 @@ function OrganisationAccount(props) {
                                     <option value="Agency">Agency</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> */}
                         <div className="bg-white shadow-normal rounded-[30px] overflow-hidden p-8 mb-6">
                             <div className="md:border border-slate-300 rounded-[30px] md:py-6 md:px-8">
                                 <div className="flex items-center justify-between mb-4">
@@ -423,30 +554,14 @@ function OrganisationAccount(props) {
                                     <button type="button" className="border border-[#6D27F9] rounded-full py-1 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" onClick={() => socialPopupOpen(true)}>Add</button>
                                 </div>
                                 <div className="flex flex-wrap justify-between">
-                                    <div className="w-full lg:w-[47%] mb-6">
+                                    {link.map((link, i) => (
+                                        <div className="w-full lg:w-[47%] mb-6" key={i}>
                                         <div className="iconGroup social">
-                                            <input type="email" value="https://marketplace.somhako.com/dashboard" className="w-full rounded-full border-slate-300 focus:border-slate-300 focus:ring-0 focus:outline-0 focus:shadow-none" readOnly />
-                                            <i className="fa-brands fa-behance iconGroup__icon"></i>
+                                            <input type="text" value={link.title} className="w-full rounded-full border-slate-300 focus:border-slate-300 focus:ring-0 focus:outline-0 focus:shadow-none" readOnly />
+                                            <i className="fa-solid fa-link iconGroup__icon"></i>
                                         </div>
-                                    </div>
-                                    <div className="w-full lg:w-[47%] mb-6">
-                                        <div className="iconGroup social">
-                                            <input type="email" value="https://marketplace.somhako.com/dashboard" className="w-full rounded-full border-slate-300 focus:border-slate-300 focus:ring-0 focus:outline-0 focus:shadow-none" readOnly />
-                                            <i className="fa-brands fa-linkedin-in iconGroup__icon"></i>
                                         </div>
-                                    </div>
-                                    <div className="w-full lg:w-[47%] mb-6">
-                                        <div className="iconGroup social">
-                                            <input type="email" value="https://marketplace.somhako.com/dashboard" className="w-full rounded-full border-slate-300 focus:border-slate-300 focus:ring-0 focus:outline-0 focus:shadow-none" readOnly />
-                                            <i className="fa-brands fa-stack-overflow iconGroup__icon"></i>
-                                        </div>
-                                    </div>
-                                    <div className="w-full lg:w-[47%] mb-6">
-                                        <div className="iconGroup social">
-                                            <input type="email" value="https://marketplace.somhako.com/dashboard" className="w-full rounded-full border-slate-300 focus:border-slate-300 focus:ring-0 focus:outline-0 focus:shadow-none" readOnly />
-                                            <i className="fa-brands fa-github iconGroup__icon"></i>
-                                        </div>
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
@@ -455,49 +570,28 @@ function OrganisationAccount(props) {
                                 <h5 className="font-medium leading-none">Gallery</h5>
                                 <button type="button" className="my-2 border border-[#6D27F9] rounded-full py-1 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" onClick={() => galleryImagesAdd(true)}>Add Images</button>
                             </div>
-                            <div className="md:border border-slate-300 rounded-[30px] md:py-6 md:px-8 min-h-[250px] flex items-center justify-center cursor-pointer" onClick={() => galleryImagesAdd(true)}>
-                                <Image
-                                    src={uploadImages}
-                                    alt="Upload"
-                                    className="w-[100px] xl:w-[150px]"
-                                />
-                            </div>
-                            <ResponsiveMasonry
-                                columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
-                            >
-                                <Masonry className="masonary_grid">
-                                    <div className="relative">
-                                        <Image src={gallery_1} alt="Gallery" className="w-full" />
-                                        <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
-                                            <i className="fa-solid fa-xmark"></i>
-                                        </button>
+                                {gallery.length > 0 ?
+                                <ResponsiveMasonry columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}>
+                                    <Masonry className="masonary_grid">
+                                    {gallery.map((gallery, i) => (
+                                        <div className="relative" key={i}>
+                                            <img src={gallery.image} alt="Gallery" className="w-full" />
+                                            <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded" onClick={(e)=>deleteGallery(gallery.id)}>
+                                                <i className="fa-solid fa-xmark"></i>
+                                            </button>
+                                        </div>
+                                    ))}
+                                    </Masonry>
+                                    </ResponsiveMasonry>
+                                    :
+                                    <div className="md:border border-slate-300 rounded-[30px] md:py-6 md:px-8 min-h-[250px] flex items-center justify-center cursor-pointer" onClick={() => galleryImagesAdd(true)}>
+                                        <Image
+                                            src={uploadImages}
+                                            alt="Upload"
+                                            className="w-[100px] xl:w-[150px]"
+                                        />
                                     </div>
-                                    <div className="relative">
-                                        <Image src={gallery_2} alt="Gallery" className="w-full" />
-                                        <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
-                                            <i className="fa-solid fa-xmark"></i>
-                                        </button>
-                                    </div>
-                                    <div className="relative">
-                                        <Image src={gallery_3} alt="Gallery" className="w-full" />
-                                        <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
-                                            <i className="fa-solid fa-xmark"></i>
-                                        </button>
-                                    </div>
-                                    <div className="relative">
-                                        <Image src={gallery_4} alt="Gallery" className="w-full" />
-                                        <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
-                                            <i className="fa-solid fa-xmark"></i>
-                                        </button>
-                                    </div>
-                                    <div className="relative">
-                                        <Image src={gallery_5} alt="Gallery" className="w-full" />
-                                        <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
-                                            <i className="fa-solid fa-xmark"></i>
-                                        </button>
-                                    </div>
-                                </Masonry>
-                            </ResponsiveMasonry>
+                                }
                         </div>
                     </div>
                 </div>
@@ -537,19 +631,11 @@ function OrganisationAccount(props) {
                                 </div>
                                 <div>
                                     <div className="mb-6">
-                                        <label htmlFor="pickSocial" className="font-medium mb-2 leading-none inline-block">Pick a social media platform</label>
-                                        <select id="pickSocial" className="w-full rounded-full border-slate-300">
-                                            <option value="Github">Github</option>
-                                            <option value="Facebook">Facebook</option>
-                                            <option value="LinkedIn">LinkedIn</option>
-                                        </select>
-                                    </div>
-                                    <div className="mb-6">
                                         <label htmlFor="chooseLangProfeciency" className="font-medium mb-2 leading-none inline-block">Enter social profile url</label>
-                                        <input type="text" placeholder="https//www.xyzurl.com" className="w-full rounded-full border-slate-300" />
+                                        <input type="text" placeholder="https//www.xyzurl.com" className="w-full rounded-full border-slate-300"  value={atitle} onChange={(e)=>setATitle(e.target.value)}/>
                                     </div>
                                     <div className="text-center">
-                                        <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]">
+                                        <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e) => saveLink(e)} disabled={!verifyLinkPopup()}> 
                                             Save
                                         </button>
                                     </div>
@@ -598,11 +684,44 @@ function OrganisationAccount(props) {
                                     <label htmlFor="uploadGallery" className="cursor-pointer w-[150px] h-[150px] rounded-lg bg-gray-200 p-2 flex items-center justify-center flex-col">
                                         <i className="fa-solid fa-upload mb-2 text-4xl"></i>
                                         <span className="text-sm">Upload Photos</span>
-                                        <input type="file" id="uploadGallery" className="hidden" />
+                                        <input type="file" id="uploadGallery" className="hidden" onChange={(e)=>setFile(e.target.files[0])} />
                                     </label>
                                 </div>
                                 <div className="w-full mb-6">
-                                    <ResponsiveMasonry
+                                    {gallery.length > 0 ?
+                                    <ResponsiveMasonry columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}>
+                                        <Masonry className="masonary_grid">
+                                        {gallery.map((gallery, i) => (
+                                            <div className="relative" key={i}>
+                                                <img src={gallery.image} alt="Gallery" className="w-full" />
+                                                <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded" onClick={(e)=>deleteGallery(gallery.id)}>
+                                                    <i className="fa-solid fa-xmark"></i>
+                                                </button>
+                                            </div>
+                                        ))}
+                                        {file && 
+                                        <div className="relative">
+                                                <img src={URL.createObjectURL(file)} alt="Gallery" className="w-full" />
+                                                <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded"  onClick={(e)=>setFile()}>
+                                                    <i className="fa-solid fa-xmark"></i>
+                                                </button>
+                                            </div>}
+                                        </Masonry>
+                                        </ResponsiveMasonry>    
+                                    :
+                                    <ResponsiveMasonry columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}>
+                                        <Masonry className="masonary_grid">
+                                        {file && 
+                                        <div className="relative">
+                                                <img src={URL.createObjectURL(file)} alt="Gallery" className="w-full" />
+                                                <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
+                                                    <i className="fa-solid fa-xmark"></i>
+                                                </button>
+                                            </div>}
+                                        </Masonry>
+                                    </ResponsiveMasonry>
+                                    }
+                                    {/* <ResponsiveMasonry
                                         columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
                                     >
                                         <Masonry className="masonary_grid">
@@ -637,10 +756,10 @@ function OrganisationAccount(props) {
                                                 </button>
                                             </div>
                                         </Masonry>
-                                    </ResponsiveMasonry>
+                                    </ResponsiveMasonry> */}
                                 </div>
                                 <div className="text-center">
-                                    <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">Upload</button>
+                                    <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!verifyGalPopup()} onClick={(e)=>saveGallery()} >SAVE</button>
                                 </div>
                             </div>
                         </Dialog.Panel>
