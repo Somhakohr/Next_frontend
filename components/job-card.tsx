@@ -2,9 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 import googleIcon from "../public/images/google-icon.png";
 import moment from "moment";
+import shallow from "zustand/shallow";
+import { useStore } from "../constants/code";
+import { useRouter } from "next/navigation";
 
 export default function JobCard(props) {
     const {data} = props
+    const [param1, updateParam1] = useStore(
+        (state) => [state.param1, state.updateParam1],
+        shallow
+    )
+    const router = useRouter();
+
+    function viewJob(refid){
+        refid = refid.toUpperCase()
+        updateParam1(refid);
+        router.push(`/organisation/job/preview/${refid}`)
+    }
     return (
         <>
             <div className="bg-[#f4f4f4] p-5 border border-2 border-slate-300 rounded-[25px]">
@@ -37,7 +51,7 @@ export default function JobCard(props) {
                     <p>
                         {moment(data.timestamp).fromNow()}
                     </p>
-                    <Link href={`/organisation?${data.refid}`} className="text-[#6D27F9] hover:underline hover:text-black">View Job</Link>
+                    <button type="button"  onClick={(e)=>viewJob(data.refid)}  className="text-[#6D27F9] hover:underline hover:text-black">View Job</button>
                 </div>
             </div>
         </>

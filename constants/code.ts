@@ -19,6 +19,7 @@ type State = {
   accessToken: string
   country: {}
   cities: {}
+  param1: ''
 }
 
 type Action = {
@@ -31,6 +32,7 @@ type Action = {
   updateAccessToken: (accessToken: State['accessToken']) => void
   updateCountry: (country: State['country']) => void
   updateCities: (cities: State['cities']) => void
+  updateParam1: (param1: State['param1']) => void
 }
 
 export const useStore = create<State & Action>((set) => ({
@@ -43,6 +45,7 @@ export const useStore = create<State & Action>((set) => ({
   accessToken: '',
   country: {},
   cities: {},
+  param1: '',
   updateUserName: (userName) => set(() => ({ userName: userName })),
   updateUserImg: (userImg) => set(() => ({ userImg: userImg })),
   updateUserCImg: (userCImg) => set(() => ({ userCImg: userCImg })),
@@ -52,4 +55,5 @@ export const useStore = create<State & Action>((set) => ({
   updateAccessToken: (accessToken) => set(() => ({ accessToken: accessToken })),
   updateCountry: (country) => set(() => ({ country: country })),
   updateCities: (cities) => set(() => ({ cities: cities })),
+  updateParam1: (param1) => set(() => ({ param1: param1 })),
 }))

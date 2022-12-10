@@ -75,6 +75,13 @@ function OrganisationAllJobs(props) {
     const [lang, setLang] = useState([]) 
     const [alang,setALang] = useState('')
     const [aprof,setAProf] = useState('Elementary profeciency')
+    //local job state
+    const [jobs,setJobs] = useState([])
+    const [active,setActive] = useState(false)
+    const [Archived,setArcheve] = useState(false)
+    const [draft,setDraft] = useState(false)
+    const [review,setReview] = useState(false)
+    const [close,setClose] = useState(false)
 
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
@@ -86,12 +93,39 @@ function OrganisationAllJobs(props) {
         }
     });
 
+    async function loadJobs() {
+        await axiosInstanceAuth2.get('/job/organization/jobs/'+userObj['orefid']+'/',).then(async (res)=>{
+            setJobs(res.data)
+            console.log(res.data)
+        }).catch((err)=>{
+            console.log(err)
+            if(err.message != "Request failed with status code 401"){
+                toastcomp("Job Not Loaded","error");
+            }
+        })
+    }
+
+    useEffect(() => {
+      if(jobs){
+        for(let i=0;i<jobs.length;i++){
+            if(jobs[i].jobStatus == "Active"){setActive(true)}
+            if(jobs[i].jobStatus == "Archived"){setArcheve(true)}
+            if(jobs[i].jobStatus == "Draft"){setDraft(true)}
+            if(jobs[i].jobStatus == "Review"){setReview(true)}
+            if(jobs[i].jobStatus == "Close"){setClose(true)}
+        }
+      }
+    }, [jobs])
+    
 
     useEffect(() => {
         if(!session){
           router.push("/");
         }
-      }, [session]);
+        else if(session && userObj){
+            loadJobs();
+        }
+      }, [session,userObj]);
 
     async function addJob(formdata) {
         await axiosInstanceAuth2.post('/job/create/',formdata).then(async (res)=>{
@@ -445,30 +479,20 @@ function OrganisationAllJobs(props) {
                                 </div>
                             </TabPanel>
                             <TabPanel>
+                                { active ? 
                                 <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
                                     <div className="py-6 px-4 md:px-10">
                                         <div className="flex flex-wrap mx-[-10px]">
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
+                                            {jobs.map((job, i) => (
+                                                job.jobStatus == "Active" && 
+                                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
+                                                    <OrgJobsCard data={job}/>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
+                                :
                                 <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
                                     <div className="py-20 px-4 md:px-10">
                                         <aside className="flex flex-wrap items-center justify-center w-full max-w-[500px] mx-auto">
@@ -484,32 +508,23 @@ function OrganisationAllJobs(props) {
                                         </aside>
                                     </div>
                                 </div>
+                                }
                             </TabPanel>
                             <TabPanel>
+                            { Archived ? 
                                 <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
                                     <div className="py-6 px-4 md:px-10">
                                         <div className="flex flex-wrap mx-[-10px]">
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
+                                            {jobs.map((job, i) => (
+                                                job.jobStatus == "Archived" && 
+                                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
+                                                    <OrgJobsCard data={job}/>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
+                                :
                                 <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
                                     <div className="py-20 px-4 md:px-10">
                                         <aside className="flex flex-wrap items-center justify-center w-full max-w-[500px] mx-auto">
@@ -525,32 +540,23 @@ function OrganisationAllJobs(props) {
                                         </aside>
                                     </div>
                                 </div>
+                                }
                             </TabPanel>
                             <TabPanel>
+                                { draft ? 
                                 <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
                                     <div className="py-6 px-4 md:px-10">
                                         <div className="flex flex-wrap mx-[-10px]">
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
+                                            {jobs.map((job, i) => (
+                                                job.jobStatus == "Draft" && 
+                                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
+                                                    <OrgJobsCard data={job}/>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
+                                :
                                 <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
                                     <div className="py-20 px-4 md:px-10">
                                         <aside className="flex flex-wrap items-center justify-center w-full max-w-[500px] mx-auto">
@@ -566,32 +572,23 @@ function OrganisationAllJobs(props) {
                                         </aside>
                                     </div>
                                 </div>
+                                }
                             </TabPanel>
                             <TabPanel>
+                                { review ? 
                                 <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
                                     <div className="py-6 px-4 md:px-10">
                                         <div className="flex flex-wrap mx-[-10px]">
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
+                                            {jobs.map((job, i) => (
+                                                job.jobStatus == "Review" && 
+                                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
+                                                    <OrgJobsCard data={job}/>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
+                                :
                                 <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
                                     <div className="py-20 px-4 md:px-10">
                                         <aside className="flex flex-wrap items-center justify-center w-full max-w-[500px] mx-auto">
@@ -607,32 +604,23 @@ function OrganisationAllJobs(props) {
                                         </aside>
                                     </div>
                                 </div>
+                                }
                             </TabPanel>
                             <TabPanel>
+                                { close ? 
                                 <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
                                     <div className="py-6 px-4 md:px-10">
                                         <div className="flex flex-wrap mx-[-10px]">
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
-                                            <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                                <OrgJobsCard />
-                                            </div>
+                                            {jobs.map((job, i) => (
+                                                job.jobStatus == "Close" && 
+                                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
+                                                    <OrgJobsCard data={job}/>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
+                                :
                                 <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
                                     <div className="py-20 px-4 md:px-10">
                                         <aside className="flex flex-wrap items-center justify-center w-full max-w-[500px] mx-auto">
@@ -648,6 +636,7 @@ function OrganisationAllJobs(props) {
                                         </aside>
                                     </div>
                                 </div>
+                                }   
                             </TabPanel>
                         </Tabs>
                     </div>
