@@ -16,6 +16,12 @@ import { withAuth } from "../../constants/HOCs";
 import { axiosInstance } from "../api/axiosApi";
 import axios from "axios";
 import toastcomp from "../../components/toast";
+import "@rainbow-me/rainbowkit/styles.css";
+import {
+  ConnectButton,
+  getDefaultWallets,
+  RainbowKitProvider,
+} from "@rainbow-me/rainbowkit";
 
 function CandidateProfile(props) {
 
@@ -754,8 +760,9 @@ function CandidateProfile(props) {
                                         <p className="my-2">Remaining Coins : 30</p>
                                         </>:
                                         <>
-                                        <p className="my-2">Connect</p>
-                                        <p className="my-2">Wallet</p>
+                                        <div>
+                                            <ConnectButton />
+                                        </div>
 
                                         </>}
                                         

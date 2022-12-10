@@ -19,6 +19,12 @@ import { useStore } from "../../constants/code";
 import shallow from "zustand/shallow";
 import { withAuth } from "../../constants/HOCs";
 import axios from "axios";
+import "@rainbow-me/rainbowkit/styles.css";
+import {
+  ConnectButton,
+  getDefaultWallets,
+  RainbowKitProvider,
+} from "@rainbow-me/rainbowkit";
 
 function Candidate(props) {
 
@@ -236,12 +242,15 @@ function Candidate(props) {
                                 </button>
                                 </>: 
                                 <>
-                                <button
+                                {/* <button
                                     type="button"
                                     className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-[7px] px-5 transition-all hover:from-[#391188] hover:to-[#391188] absolute right-0"
                                 >
                                     Connect Wallet
-                                </button>
+                                </button> */}
+                                <div className="text-white font-bold rounded-full py-[7px] px-5 transition-all absolute right-0">
+                                    <ConnectButton />
+                                </div>
                                 </>}
                                 
                             </div>
