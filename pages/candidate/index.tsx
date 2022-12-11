@@ -25,6 +25,8 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
+import { useAccount } from 'wagmi'
+import toastcomp from "../../components/toast";
 
 function Candidate(props) {
 
@@ -57,6 +59,9 @@ function Candidate(props) {
         (state) => [state.accessToken, state.updateAccessToken],
         shallow
     )
+
+    
+    const { address, isConnecting, isDisconnected } = useAccount()
     
 
     const { router,session } = props; 
@@ -117,8 +122,24 @@ function Candidate(props) {
         await axiosInstanceAuth2.get('/candidate/progress/'+userObj['erefid']+'/').then(async (res)=>{
            setProgress(parseInt(res.data.count))
         }).catch((err)=>{
-            console.log(err)
+            if(err.message != "Request failed with status code 401"){
+                // toastcomp("Lang Not Loaded",'error')
+                console.log(err)
+            }
         })
+    }
+
+    async function updateAddress(formData) {
+        await axiosInstanceAuth2.put('/auth/candidateaccont/'+userObj['erefid']+'/',formData).then(async(res2)=>{
+            console.log(res2)
+            userObj["paddress"]=res2.data.paddress
+            toastcomp("Address Updated :)","success");
+        }).catch((err)=>{
+            if(err.message != "Request failed with status code 401"){
+                console.log(err);
+                toastcomp("Address Not Updated :)","error");
+            }
+        });
     }
 
 
@@ -132,8 +153,16 @@ function Candidate(props) {
         if(progress > 31 && progress < 61){setProgressT('AVG')}
         if(progress > 61 && progress < 81){setProgressT('GOOD')}
         if(progress > 81){setProgressT('GREAT')}
+
+        if(address && userObj){
+            if(userObj["paddress"]!=address){
+                var formData = new FormData()
+                formData.append("paddress",address)
+                updateAddress(formData)
+            }
+        }
         
-    }, [userObj,progress])
+    }, [userObj,progress,address])
     
 
     return (
@@ -226,33 +255,9 @@ function Candidate(props) {
                         <div className="flex flex-wrap items-center justify-between mb-10">
                             <h2 className="font-semibold text-xl text-3xl mb-4 md:mb-0">Wallet</h2>
                             <div className="w-full md:max-w-[70%] relative">
-                                {userObj['paddress'] ? 
-                                <>
-                                <input
-                                    readOnly
-                                    type="text"
-                                    value={userObj['paddress']}
-                                    className="w-full rounded-full border-slate-300 focus:border-slate-300 focus:ring-0 focus:outline-0 focus:shadow-none pr-[100px] text-sm text-gray-500"
-                                />
-                                <button
-                                    type="button"
-                                    className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-[7px] px-5 transition-all hover:from-[#391188] hover:to-[#391188] absolute right-0"
-                                >
-                                    Copy
-                                </button>
-                                </>: 
-                                <>
-                                {/* <button
-                                    type="button"
-                                    className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-[7px] px-5 transition-all hover:from-[#391188] hover:to-[#391188] absolute right-0"
-                                >
-                                    Connect Wallet
-                                </button> */}
                                 <div className="text-white font-bold rounded-full py-[7px] px-5 transition-all absolute right-0">
                                     <ConnectButton />
-                                </div>
-                                </>}
-                                
+                                </div>                                
                             </div>
                         </div>
                         <div className="bg-[#f5f5f5] rounded-[20px] p-6 flex flex-wrap justify-between">

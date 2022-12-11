@@ -82,6 +82,7 @@ function OrganisationAllJobs(props) {
     const [draft,setDraft] = useState(false)
     const [review,setReview] = useState(false)
     const [close,setClose] = useState(false)
+    const [jobReload,setJobReload] = useState(false)
 
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
@@ -107,6 +108,11 @@ function OrganisationAllJobs(props) {
 
     useEffect(() => {
       if(jobs){
+        setActive(false)
+        setArcheve(false)
+        setDraft(false)
+        setReview(false)
+        setClose(false)
         for(let i=0;i<jobs.length;i++){
             if(jobs[i].jobStatus == "Active"){setActive(true)}
             if(jobs[i].jobStatus == "Archived"){setArcheve(true)}
@@ -115,7 +121,8 @@ function OrganisationAllJobs(props) {
             if(jobs[i].jobStatus == "Close"){setClose(true)}
         }
       }
-    }, [jobs])
+      if(jobReload){loadJobs();setJobReload(false)}
+    }, [jobs,jobReload])
     
 
     useEffect(() => {
@@ -131,6 +138,7 @@ function OrganisationAllJobs(props) {
         await axiosInstanceAuth2.post('/job/create/',formdata).then(async (res)=>{
             toastcomp("Job Added",'success')
             resetJOBFORM()
+            loadJobs()
         }).catch((err)=>{
             toastcomp("Job Not Added",'error')
             console.log(err)
@@ -486,7 +494,7 @@ function OrganisationAllJobs(props) {
                                             {jobs.map((job, i) => (
                                                 job.jobStatus == "Active" && 
                                                 <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
-                                                    <OrgJobsCard data={job}/>
+                                                    <OrgJobsCard data={job} axiosInstanceAuth2={axiosInstanceAuth2} setJobReload={setJobReload}/>
                                                 </div>
                                             ))}
                                         </div>
@@ -518,7 +526,7 @@ function OrganisationAllJobs(props) {
                                             {jobs.map((job, i) => (
                                                 job.jobStatus == "Archived" && 
                                                 <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
-                                                    <OrgJobsCard data={job}/>
+                                                    <OrgJobsCard data={job} axiosInstanceAuth2={axiosInstanceAuth2} setJobReload={setJobReload}/>
                                                 </div>
                                             ))}
                                         </div>
@@ -550,7 +558,7 @@ function OrganisationAllJobs(props) {
                                             {jobs.map((job, i) => (
                                                 job.jobStatus == "Draft" && 
                                                 <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
-                                                    <OrgJobsCard data={job}/>
+                                                    <OrgJobsCard data={job} axiosInstanceAuth2={axiosInstanceAuth2} setJobReload={setJobReload}/>
                                                 </div>
                                             ))}
                                         </div>
@@ -582,7 +590,7 @@ function OrganisationAllJobs(props) {
                                             {jobs.map((job, i) => (
                                                 job.jobStatus == "Review" && 
                                                 <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
-                                                    <OrgJobsCard data={job}/>
+                                                    <OrgJobsCard data={job} axiosInstanceAuth2={axiosInstanceAuth2} setJobReload={setJobReload}/>
                                                 </div>
                                             ))}
                                         </div>

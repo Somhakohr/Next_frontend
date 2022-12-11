@@ -108,7 +108,7 @@ export default function JobListing() {
                                     </select>
                                 </div>
                                 <div className="overflow-auto lg:max-h-[485px] px-[10px]">
-                                    <div className="flex flex-wrap mx-[-10px]">
+                                    {/* <div className="flex flex-wrap mx-[-10px]">
                                         <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
                                             <JobCard />
                                         </div>
@@ -133,7 +133,7 @@ export default function JobListing() {
                                         <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
                                             <JobCard />
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

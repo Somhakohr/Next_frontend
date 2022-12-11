@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import googleIcon from "../public/images/google-icon.png";
 import organisation from "../pages/organisation";
@@ -8,9 +8,13 @@ import moment from "moment";
 import { useStore } from "../constants/code";
 import shallow from "zustand/shallow";
 import { useRouter } from "next/navigation";
+import toastcomp from "./toast";
+
+
 
 export default function OrganisationJobsCard(props) {
     const [shareJob, shareJobPopupOpen] = useState(false)
+    const [appnum, setAppNum] = useState([])
     const cancelButtonRef = useRef(null)
     const {data} = props
     const router = useRouter();
@@ -20,11 +24,55 @@ export default function OrganisationJobsCard(props) {
         shallow
     )
 
+    const {axiosInstanceAuth2,setJobReload} = props
+
     function viewJob(refid){
         refid = refid.toUpperCase()
         updateParam1(refid);
         router.push(`/organisation/job/preview/${refid}`)
     }
+
+    async function getApplicant() {
+        await axiosInstanceAuth2.get('/job/job/applicant/'+data.user.orefid+'/'+data.refid+'/').then(async (res)=>{
+            setAppNum(res.data)
+        }).catch((err)=>{
+        });
+    }
+
+    async function deleteJob() {
+        await axiosInstanceAuth2.post('/job/closejob/'+data.user.orefid+'/'+data.refid+'/').then(async (res)=>{
+            toastcomp("Job CLosed Successfully","Success")
+            setJobReload(true)
+        }).catch((err)=>{
+            toastcomp("Job Not CLosed","error")
+        });
+    }
+
+    async function archievedJob() {
+        await axiosInstanceAuth2.post('/job/archived/'+data.user.orefid+'/'+data.refid+'/').then(async (res)=>{
+            toastcomp("Job Archived Successfully","Success")
+            setJobReload(true)
+        }).catch((err)=>{
+            toastcomp("Job Not CLosed","error")
+        });
+    }
+
+    async function activateJob() {
+        await axiosInstanceAuth2.post('/job/archivedtoactive/'+data.user.orefid+'/'+data.refid+'/').then(async (res)=>{
+            toastcomp("Job In Review Mode","Success")
+            setJobReload(true)
+        }).catch((err)=>{
+            toastcomp("Job Not In Review Mode","error")
+        });
+    }
+
+    useEffect(() => {
+        if(data.jobStatus == "Active")
+            getApplicant()
+    }, [])
+    
+
+
     return (
         <>
             <div className="bg-[#f4f4f4] border border-2 border-slate-300 rounded-[25px] overflow-hidden">
@@ -34,7 +82,7 @@ export default function OrganisationJobsCard(props) {
                             <Image src={data.org.profile} width={50} height={50} alt="Google" className="w-full" />
                         </div>
                         <div className="pl-3 w-[calc(100%-60px)]">
-                            <h3 className="font-bold text-[15px] mb-1">{data.org.title}</h3>
+                            <h3 className="font-bold text-[15px] mb-1">{data.title}</h3>
                             <div className="flex items-center">
                                 <h5 className="font-medium text-sm my-1 mr-6">{data.user.company_name}</h5>
                                 <div className="flex items-center text-[12px] mt-[2px]">
@@ -67,11 +115,11 @@ export default function OrganisationJobsCard(props) {
 
                         {data.jobStatus == "Active" && 
                         <>
-                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3">
+                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3" onClick={(e)=>archievedJob()}>
                             <i className="fa-regular fa-folder-open"></i>
                             <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Archived</span>
                         </button>
-                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3">
+                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3" onClick={(e)=>deleteJob()}>
                             <i className="fa-solid fa-trash"></i>
                             <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Delete</span>
                         </button>
@@ -80,7 +128,7 @@ export default function OrganisationJobsCard(props) {
                         }
                         {data.jobStatus == "Archived" && 
                         <>
-                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3">
+                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3" onClick={(e)=>activateJob()}>
                             <i className="fa-regular fa-folder-open"></i>
                             <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Activate</span>
                         </button>
@@ -88,7 +136,7 @@ export default function OrganisationJobsCard(props) {
                             <i className="fa-regular fa-edit"></i>
                             <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Edit</span>
                         </button>
-                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3">
+                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3" onClick={(e)=>deleteJob()}>
                             <i className="fa-solid fa-trash"></i>
                             <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Delete</span>
                         </button>
@@ -101,7 +149,7 @@ export default function OrganisationJobsCard(props) {
                             <i className="fa-regular fa-edit"></i>
                             <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Edit</span>
                         </button>
-                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3">
+                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3" onClick={(e)=>deleteJob()}>
                             <i className="fa-solid fa-trash"></i>
                             <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Delete</span>
                         </button>
@@ -119,7 +167,7 @@ export default function OrganisationJobsCard(props) {
                     <div className="text-right">
                         
                         {data.jobStatus == "Active" && 
-                        <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-medium rounded-full text-[12px] py-2 px-4 transition-all hover:from-[#391188] hover:to-[#391188]">10 Applicants</button>
+                        <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-medium rounded-full text-[12px] py-2 px-4 transition-all hover:from-[#391188] hover:to-[#391188]">{appnum.length} Applicants</button>
                         }
                         
                         {data.jobStatus != "Active" && 

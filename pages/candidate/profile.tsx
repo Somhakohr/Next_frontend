@@ -754,18 +754,9 @@ function CandidateProfile(props) {
                                 </div>
                                 <div className="bg-gradient-to-r from-[#7fc5f4] to-[#2568C9] rounded-[25px] pt-[6rem] pb-8 px-4 mt-[-40px]">
                                     <div className="bg-gradient-to-r from-[#a1c5fb] to-[#2568C9] rounded-lg shadow-lg p-5 text-white text-center font-semibold">
-                                        {userObj["paddress"]?
-                                        <>
-                                        <p className="my-2">Available Coins : 70</p>
-                                        <p className="my-2">Remaining Coins : 30</p>
-                                        </>:
-                                        <>
                                         <div>
                                             <ConnectButton />
-                                        </div>
-
-                                        </>}
-                                        
+                                        </div>                                        
                                     </div>
                                 </div>
                             </div>
@@ -773,7 +764,7 @@ function CandidateProfile(props) {
                     </div>
                     <div className="relative pt-12 xl:pt-0 xl:px-20">
                         <div className="absolute left-0 top-[7px]">
-                            <button type="button" className="rounded-full bg-black text-white p-4 mr-4 w-[25px] h-[25px] flex items-center justify-center">
+                            <button type="button" onClick={(e)=>{router.push("/candidate")}} className="rounded-full bg-black text-white p-4 mr-4 w-[25px] h-[25px] flex items-center justify-center">
                                 <i className="fa-solid fa-arrow-left"></i>
                             </button>
                         </div>
