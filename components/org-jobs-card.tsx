@@ -24,7 +24,7 @@ export default function OrganisationJobsCard(props) {
         shallow
     )
 
-    const {axiosInstanceAuth2,setJobReload} = props
+    const {axiosInstanceAuth2,setJobReload,setEditJob} = props
 
     function viewJob(refid){
         refid = refid.toUpperCase()
@@ -132,9 +132,9 @@ export default function OrganisationJobsCard(props) {
                             <i className="fa-regular fa-folder-open"></i>
                             <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Activate</span>
                         </button>
-                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3">
+                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3" onClick={(e)=>{setEditJob(data)}}>
                             <i className="fa-regular fa-edit"></i>
-                            <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Edit</span>
+                            <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child" >Edit</span>
                         </button>
                         <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3" onClick={(e)=>deleteJob()}>
                             <i className="fa-solid fa-trash"></i>
@@ -145,9 +145,9 @@ export default function OrganisationJobsCard(props) {
 
                         {data.jobStatus == "Draft" && 
                         <>
-                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3">
+                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3" onClick={(e)=>{setEditJob(data)}}>
                             <i className="fa-regular fa-edit"></i>
-                            <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Edit</span>
+                            <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child" >Edit</span>
                         </button>
                         <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3" onClick={(e)=>deleteJob()}>
                             <i className="fa-solid fa-trash"></i>
