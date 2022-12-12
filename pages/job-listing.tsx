@@ -1,8 +1,140 @@
-import {useState} from 'react';
+import axios from 'axios';
+import {useEffect, useState} from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import JobCard from "../components/job-card";
+import toastcomp from '../components/toast';
+import { axiosInstance } from './api/axiosApi';
 
 export default function JobListing() {
     const [sidebarToggle, setsidebarToggle] = useState(false);
+    const [joblist,setJobList] = useState([])
+    const [joblist2,setJobList2] = useState([])
+    const [hasMore,setHasMore] = useState(false)
+    const [loader,setLoader] = useState(<h1>Loading...</h1>)
+
+    // const axiosInstance = axios.create({
+    //     baseURL: 'http://127.0.0.1:8000/api/',
+    //     timeout: 5000,
+    //     headers: {
+    //         // 'Authorization': 'Bearer '+accessToken,
+    //         "Content-Type": "multipart/form-data",
+    //     }
+    // });
+
+    // const [accessToken, updateAccessToken] = useStore(
+    //     (state) => [state.accessToken, state.updateAccessToken],
+    //     shallow
+    // )
+    
+    async function loadJobs() {
+        await axiosInstance.get('/job/job/list/').then(async (res)=>{
+            console.log(res)
+            setJobList(res.data)
+            setJobList2(res.data.slice(0, 6))
+        }).catch((err)=>{
+            console.log(err)
+            if(err.message != "Request failed with status code 401"){
+                toastcomp("Job Not Loaded","error");
+            }
+        })
+    }
+
+    function fetchMoreData() {
+        if(joblist2.length == joblist.length){
+            setHasMore(false)
+            setLoader(<h4></h4>);
+        }
+        else{
+            setJobList2(joblist.slice(0,joblist2.length+6))
+        }
+    };
+
+    useEffect(() => {
+      loadJobs()
+    }, [])
+
+    useEffect(() => {
+      if(joblist.length > 0 && joblist2.length > 0 && joblist == joblist2){setHasMore(false);setLoader(<h4></h4>)}
+      else{ setHasMore(true) }
+    }, [joblist,joblist2])
+
+
+
+    //var filter
+    const [search,setSearch] = useState('')
+    const [fsearch,setFSearch] = useState('')
+    const [level,setLevel] = useState('')
+    const [type,setType] = useState('')
+    const [loc,setLoc] = useState('')
+    const [skill,setSkill] = useState('')
+    const [ind,setInd] = useState('')
+    const [dept,setDept] = useState('')
+    const [wtype,setWType] = useState('')
+    const [exp,setExp] = useState('')
+
+    async function filters(query) {
+        // await axiosInstance.get(`/job/job/list/?sJob=${search}&levelFilter=${level}&jtFilter=${type}&locFilter=${loc}&skillFilter=${skill}&indFilter=${ind}&catFilter=${dept}&wpFilter=${wtype}&expFilter=${exp}`).then(async (res)=>{
+        await axiosInstance.get(`/job/job/list/?${query}`).then(async (res)=>{
+            console.log("filter",res)
+            setJobList(res.data)
+            setJobList2(res.data.slice(0, 6))
+        }).catch((err)=>{
+            console.log(err)
+            if(err.message != "Request failed with status code 401"){
+                toastcomp("Job Not Loaded","error");
+            }
+        })
+    }
+
+    useEffect(() => {
+        // var formData = new FormData();
+        let query = ''
+        if(search){if(query==''){
+            query=query+"sJob="+search}
+            else{
+                query=query+"&sJob="+search}}
+        if(level){if(query==''){
+            query=query+"levelFilter="+level}
+            else{
+                query=query+"&levelFilter="+level}}
+        if(type){if(query==''){
+            query=query+"jtFilter="+type}
+            else{
+                query=query+"&jtFilter="+type}}
+        if(loc){if(query==''){
+            query=query+"locFilter="+loc}
+            else{
+                query=query+"&locFilter="+loc}}
+        if(skill){if(query==''){
+            query=query+"skillFilter="+skill}
+            else{
+                query=query+"&skillFilter="+skill}}
+        if(ind){if(query==''){
+            query=query+"indFilter="+ind}
+            else{
+                query=query+"&indFilter="+ind}}
+        if(dept){if(query==''){
+            query=query+"catFilter="+dept}
+            else{
+                query=query+"&catFilter="+dept}}
+        if(wtype){if(query==''){
+            query=query+"wpFilter="+wtype}
+            else{
+                query=query+"&wpFilter="+wtype}}
+        if(exp){if(query==''){
+            query=query+"expFilter="+exp}
+            else{
+                query=query+"&expFilter="+exp}}
+
+        // if(Array.from(formData.keys()).length > 0){
+        //     console.log("abc")
+        //     filters(formData)
+        // }
+        filters(query)
+    }, [fsearch,level,type,loc,skill,ind,dept,wtype,exp])
+    
+    
+
     return (
         <>
             <main className="py-8">
@@ -13,17 +145,18 @@ export default function JobListing() {
                             <form>
                                 <div className="pt-6 px-6">
                                     <div className="iconGroup">
-                                        <input type="search" placeholder="Job title or keyword" className="w-full rounded-full border-[#6D27F9]" />
+                                        <input type="search" placeholder="Job title or keyword" className="w-full rounded-full border-[#6D27F9]" value={search} onChange={(e)=>setSearch(e.target.value)} onBlur={(e)=>setFSearch(e.target.value)} />
                                         <i className="fa-solid fa-search iconGroup__icon"></i>
                                     </div>
                                 </div>
                                 <div className="p-6 max-h-[62vh] lg:max-h-[560px] overflow-y-auto">
                                     <div className="w-full mb-5">
-                                        <select id="joblevel" placeholder="Level" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0">
+                                        <select id="joblevel" placeholder="Level" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0" value={level} onChange={(e)=>setLevel(e.target.value)} >
+                                            <option value="">Select</option>
                                             <option value="Junior">Junior</option>
                                             <option value="Senior">Senior</option>
                                         </select>
-                                        <ul className="pt-4">
+                                        {/* <ul className="pt-4">
                                             <li className="py-2 px-4 flex items-center justify-between text-sm">
                                                 <p>
                                                     Full time <span className="text-[#6D27F9]"> (20) </span>
@@ -40,46 +173,53 @@ export default function JobListing() {
                                                     <i className="fa-solid fa-xmark"></i>
                                                 </span>
                                             </li>
-                                        </ul>
+                                        </ul> */}
                                     </div>
                                     <div className="w-full mb-5">
-                                        <select id="jobtype" placeholder="Job Type" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0">
+                                        <select id="jobtype" placeholder="Job Type" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0" value={type} onChange={(e)=>setType(e.target.value)} >
+                                            <option value="">Select</option>
                                             <option value="Full time">Full time</option>
                                             <option value="Contract">Contract</option>
                                         </select>
                                     </div>
                                     <div className="w-full mb-4">
-                                        <select id="joblocation" placeholder="Location" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0">
+                                        <select id="joblocation" placeholder="Location" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={loc} onChange={(e)=>setLoc(e.target.value)} >
+                                            <option value="">Select</option>
                                             <option value="India">India</option>
                                             <option value="Japan">Japan</option>
                                         </select>
                                     </div>
                                     <div className="w-full mb-4">
-                                        <select id="jobskills" placeholder="Skills" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0">
+                                        <select id="jobskills" placeholder="Skills" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={skill} onChange={(e)=>setSkill(e.target.value)} >
+                                            <option value="">Select</option>
                                             <option value="PHP">PHP</option>
                                             <option value="HTML">HTML</option>
                                         </select>
                                     </div>
                                     <div className="w-full mb-4">
-                                        <select id="jobindustry" placeholder="Industry" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0">
+                                        <select id="jobindustry" placeholder="Industry" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={ind} onChange={(e)=>setInd(e.target.value)} >
+                                            <option value="">Select</option>
                                             <option value="Staffing">Staffing</option>
                                             <option value="Engg">Engg</option>
                                         </select>
                                     </div>
                                     <div className="w-full mb-4">
-                                        <select id="Jobfunctions" placeholder="Functions" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0">
+                                        <select id="Jobfunctions" placeholder="Functions" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={dept} onChange={(e)=>setDept(e.target.value)} >
+                                            <option value="">Select</option>
                                             <option value="Engg">Engg</option>
                                             <option value="Product">Product</option>
                                         </select>
                                     </div>
                                     <div className="w-full mb-4">
-                                        <select id="Jobworkplace" placeholder="Workplace" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0">
+                                        <select id="Jobworkplace" placeholder="Workplace" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={wtype} onChange={(e)=>setWType(e.target.value)} >
+                                            <option value="">Select</option>
                                             <option value="Onsite">Onsite</option>
                                             <option value="Remote">Remote</option>
                                         </select>
                                     </div>
                                     <div className="w-full mb-4">
-                                        <select id="Jobexperience" placeholder="Experience" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0">
+                                        <select id="Jobexperience" placeholder="Experience" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={exp} onChange={(e)=>setExp(e.target.value)} >
+                                            <option value="">Select</option>
                                             <option value="5-10 years">5-10 years</option>
                                             <option value="10-15 years">10-15 years</option>
                                         </select>
@@ -107,33 +247,24 @@ export default function JobListing() {
                                         <option value="Last 1 Hour">Last 1 Hour</option>
                                     </select>
                                 </div>
-                                <div className="overflow-auto lg:max-h-[485px] px-[10px]">
-                                    {/* <div className="flex flex-wrap mx-[-10px]">
-                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                            <JobCard />
+                                <div className="overflow-auto lg:max-h-[485px] px-[10px]" id="scrollableDiv">
+                                <InfiniteScroll
+                                    dataLength={joblist2.length}
+                                    next={fetchMoreData}
+                                    hasMore={hasMore}
+                                    height={485}
+                                    loader={loader}
+                                    scrollableTarget="scrollableDiv"
+                                    >
+                                <div className="flex flex-wrap mx-[-10px]">
+                                
+                                    {joblist2.map((job, i) => (
+                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
+                                        <JobCard data={job} />
                                         </div>
-                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                            <JobCard />
-                                        </div>
-                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                            <JobCard />
-                                        </div>
-                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                            <JobCard />
-                                        </div>
-                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                            <JobCard />
-                                        </div>
-                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                            <JobCard />
-                                        </div>
-                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                            <JobCard />
-                                        </div>
-                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                            <JobCard />
-                                        </div>
-                                    </div> */}
+                                    ))}
+                                </div>
+                                </InfiniteScroll>
                                 </div>
                             </div>
                         </div>
