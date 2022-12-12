@@ -254,11 +254,9 @@ function Candidate(props) {
                     <div className="mb-8 py-4 px-8 bg-white shadow-normal rounded-[20px]">
                         <div className="flex flex-wrap items-center justify-between mb-10">
                             <h2 className="font-semibold text-xl text-3xl mb-4 md:mb-0">Wallet</h2>
-                            <div className="w-full md:max-w-[70%] relative">
-                                <div className="text-white font-bold rounded-full py-[7px] px-5 transition-all absolute right-0">
-                                    <ConnectButton />
-                                </div>                                
-                            </div>
+                            <aside>
+                                <ConnectButton />
+                            </aside>
                         </div>
                         <div className="bg-[#f5f5f5] rounded-[20px] p-6 flex flex-wrap justify-between">
                             <div className="w-full md:max-w-[40%] mb-4 md:mb-0">

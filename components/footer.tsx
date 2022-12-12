@@ -1,6 +1,15 @@
-import Link from 'next/link'
+import Link from 'next/link';
+import shallow from 'zustand/shallow';
+import Logo from "../components/logo";
+import { useStore } from '../constants/code';
 
 export default function Footer() {
+
+    const [userType, updateUserType] = useStore(
+        (state) => [state.userType, state.updateUserType],
+        shallow
+    )
+
     const quicklinks = [
         {
             url: '/contact',
@@ -34,10 +43,8 @@ export default function Footer() {
         <div className="py-8">
             <div className="container flex flex-wrap">
                 <div className="w-full lg:w-3/12 mb-4">
-                    <Link href="/" className="max-w-[200px] lg:max-w-[260px] w-full inline-block mb-4">
-                        <img src="/images/logo.png" alt="Somhako" />
-                    </Link>
-                    <p>SOMHAKO is the first protocol-based, composable, and decentralized social graph uniting the entire HR industry. By indexing and syncing candidate data on the blockchain network.</p>
+                    <Logo userType={userType} />
+                    <p className="pt-4">SOMHAKO is the first protocol-based, composable, and decentralized social graph uniting the entire HR industry. By indexing and syncing candidate data on the blockchain network.</p>
                 </div>
                 <div className="w-full md:w-4/12 lg:w-3/12 lg:pl-20 mb-4">
                     <h4 className="font-bold text-xl mt-2 mb-4">Company</h4>
@@ -93,4 +100,4 @@ export default function Footer() {
     </div>
     </>
     )
-}    
+}
