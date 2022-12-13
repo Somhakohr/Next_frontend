@@ -17,7 +17,7 @@ export default function JobCard(props) {
     function viewJob(refid){
         refid = refid.toUpperCase()
         updateParam1(refid);
-        router.push(`/organisation/job/preview/${refid}`)
+        router.push(`/job-listing/${refid}`)
     }
     return (
         <>
@@ -25,7 +25,7 @@ export default function JobCard(props) {
                 <div className="flex mb-8">
                     <div className="bg-white rounded-full p-2.5 flex items-center justify-center w-[50px] h-[50px]">
                         {data.profile &&
-                        <Image src={`http://127.0.0.1:8000/${data.profile}`} width={50} height={50} alt="Google" className="w-full" />
+                        <Image src={`${data.profile}`} width={50} height={50} alt="Google" className="w-full" />
                         }
                     </div>
                     <div className="pl-3 w-[calc(100%-60px)]">
