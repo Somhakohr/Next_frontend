@@ -148,6 +148,12 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   background-repeat: no-repeat;
   background-position: center;
 }
+.homebanner_slide {
+  background-image: url('../public/images/homebanner-shape.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 .masonary_grid, .masonary_grid > div {
   gap: 10px !important
 }

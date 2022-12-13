@@ -117,7 +117,7 @@ export default function OrganisationJobsCard(props) {
                             <div className="flex items-center">
                                 <h5 className="font-medium text-sm my-1 mr-6">{data.user.company_name}</h5>
                                 <div className="flex items-center text-[12px] mt-[2px]">
-                                    <p className="text-[#7e7e7e] mr-2">{data.refid ? data.refid : <>Not Specified</>}</p>
+                                    <p className="text-[#646464] mr-2">{data.refid ? data.refid : <>Not Specified</>}</p>
                                     <button type="button" onClick={() => shareJobPopupOpen(true)}>
                                         <i className="fa-solid fa-share text-[#6D27F9]"></i>
                                     </button>

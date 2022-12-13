@@ -52,7 +52,7 @@ export default function OrganisationApplicants() {
                                 </aside>
                             </div>
                             <div className="responsive-table">
-                                <table className="table-auto min-w-[800px] w-full text-left border-collapse text-[#7e7e7e] text-[12px]">
+                                <table className="table-auto min-w-[800px] w-full text-left border-collapse text-[#646464] text-[12px]">
                                     <thead className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white">
                                         <tr>
                                             <th className="py-2 px-3 w-[15px]">

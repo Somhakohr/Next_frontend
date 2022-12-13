@@ -16,7 +16,7 @@ export default function Footer() {
             text: 'Contact Us'
         },
         {
-            url: '#',
+            url: '/blog',
             text: 'Blog'
         }
     ];

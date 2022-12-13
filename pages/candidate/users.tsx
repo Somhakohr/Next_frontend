@@ -58,7 +58,7 @@ export default function CandidateUsers() {
                                                 </aside>
                                                 <p className="my-2"><b>ID:</b> {users.jobId}</p>
                                             </div>
-                                            <div className="bg-[#FAF8FF] p-4 text-[#7e7e7e] text-sm">
+                                            <div className="bg-[#FAF8FF] p-4 text-[#646464] text-sm">
                                                 <h6 className="font-bold mb-2 text-black">{users.name}</h6>
                                                 <p className="mb-2">{users.email}</p>
                                                 <ul className="flex flex-wrap mx-[-10px] mb-2">

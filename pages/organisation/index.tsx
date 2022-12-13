@@ -253,7 +253,7 @@ function Organisation(props) {
                                 </div>
                                 <div className="py-6 px-4 md:px-10">
                                     <div className="responsive-table">
-                                        <table className="table-auto min-w-[800px] w-full text-left border-collapse text-[#7e7e7e] text-sm">
+                                        <table className="table-auto min-w-[800px] w-full text-left border-collapse text-[#646464] text-sm">
                                             <thead className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white">
                                                 <tr>
                                                     <th className="py-2 px-3 ">Candidate ID</th>
