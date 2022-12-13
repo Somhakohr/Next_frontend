@@ -208,15 +208,15 @@ function Candidate(props) {
                         <div className="flex flex-wrap justify-between items-start mb-6">
                             <div className="w-full md:w-[65%] md:pr-10 mb-3 md:mb-0">
                                 <div className="w-full max-w-[320px] mb-2">
-                                    <p className="flex justify-between mb-2 md:text-lg">
-                                        <span>
+                                    <p className="flex items-center justify-between mb-2 md:text-lg">
+                                        <span className="text-sm font-semibold">
                                             Profile Completion{" "}
                                             <span className="font-medium">({progressT})</span>
                                         </span>
                                         <span className="font-semibold">{progress}%</span>
                                     </p>
                                     <div className="rounded-full bg-[#FFF0EE] p-1">
-                                        <div className={`bg-gradient-to-r from-[#F295EF] to-[#4D94E8] transition-all delay-150 rounded-full w-[${progress}%] h-[25px]`}></div>
+                                        <div className={`bg-gradient-to-r from-[#F295EF] to-[#4D94E8] transition-all delay-150 rounded-full w-[80%] h-[25px]`} style={{ ["width" as any]: `${progress}%`}}></div>
                                     </div>
                                 </div>
                                 <p className="text-[#7E7E7E] font-light text-sm">

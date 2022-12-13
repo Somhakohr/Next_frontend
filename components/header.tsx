@@ -189,14 +189,14 @@ function Header(props) {
         <>
             { session && userType.length > 0 ? 
                 <>
-                    <div className="h-[65px] lg:h-[91px]"></div>
+                    <div className="min-h-[80px]"></div>
                 </> 
                 : 
                 <>
-                    <div className="h-[68px]"></div>
+                    <div className="min-h-[80px]"></div>
                 </> 
             }
-            <div className="bg-[#FAF8FF] shadow-md py-3 absolute w-full top-0 left-0">
+            <div className="min-h-[80px] flex items-center bg-[#FAF8FF] shadow-md py-3 absolute w-full top-0 left-0">
                 <div className="w-full max-w-[1600px] mx-auto px-4 lg:px-10 flex flex-wrap items-center justify-between">
                     <Logo userType={userType} />
                     { session && userType.length > 0 ? 
@@ -206,8 +206,8 @@ function Header(props) {
                             <Menu as="div" className="relative last:border-l w-[60px] text-center py-3">
                                 <Menu.Button className="align-middle">
                                     <span className="relative">
-                                        <i className="fa-solid fa-bell text-2xl"></i>
-                                        <span className="absolute right-[-10px] top-[-10px] bg-[#6D27F9] text-white w-[20px] h-[20px] rounded-full flex items-center justify-center text-[10px]">10</span>
+                                        <i className="fa-solid fa-bell text-lg"></i>
+                                        <span className="absolute right-[-10px] top-[-8px] bg-[#6D27F9] text-white w-[20px] h-[20px] rounded-full flex items-center justify-center text-[10px]">10</span>
                                     </span>
                                 </Menu.Button>
                                 <Transition
@@ -228,7 +228,7 @@ function Header(props) {
                             </Menu>
                             <Menu as="div" className="relative last:border-l p-2">
                                 <Menu.Button className="align-middle">
-                                    <Image src={userImg} alt={userName} width={50} height={50}  className="w-[50px] h-[50px] rounded-full object-cover" />
+                                    <Image src={userImg} alt={userName} width={35} height={35}  className="rounded-full object-cover" />
                                 </Menu.Button>
                                 <Transition
                                     as={Fragment}
@@ -261,11 +261,11 @@ function Header(props) {
                         } 
                         { userType == 'Organisation' &&
                         <div className="flex border border-slate-300 bg-white rounded items-center">
-                            <Menu as="div" className="relative last:border-l w-[60px] text-center py-3">
+                            <Menu as="div" className="relative last:border-l pr-[20px] pl-[15px] text-center py-3">
                                 <Menu.Button className="align-middle">
                                     <span className="relative">
-                                        <i className="fa-solid fa-bell text-2xl"></i>
-                                        <span className="absolute right-[-10px] top-[-10px] bg-[#6D27F9] text-white w-[20px] h-[20px] rounded-full flex items-center justify-center text-[10px]">10</span>
+                                        <i className="fa-solid fa-bell text-lg"></i>
+                                        <span className="absolute right-[-10px] top-[-8px] bg-[#6D27F9] text-white w-[20px] h-[20px] rounded-full flex items-center justify-center text-[10px]">10</span>
                                     </span>
                                 </Menu.Button>
                                 <Transition
@@ -286,7 +286,7 @@ function Header(props) {
                             </Menu>
                             <Menu as="div" className="relative last:border-l p-2">
                                 <Menu.Button className="align-middle">
-                                    <Image src={userImg} alt={userName} width={50} height={50}  className="w-[50px] h-[50px] rounded-full object-cover" />
+                                    <Image src={userImg} alt={userName} width={35} height={35}  className="rounded-full object-cover" />
                                 </Menu.Button>
                                 <Transition
                                     as={Fragment}
@@ -339,8 +339,8 @@ function Header(props) {
                                 <div className={`md:block absolute md:static top-[100%] right-0 bg-white p-2 md:p-0 shadow-normal md:shadow-none rounded-lg md:rounded-[0px] w-[219px] md:w-auto ${smallMenu ? "block" : "hidden"}`}>
                                     <ul className="flex justify-center border rounded overflow-hidden font-medium bg-white">
                                         {authAction.map((authAction, i) => (
-                                            <li key={i} className="last:border-l">
-                                                <Link href={authAction.url} className="px-5 py-[13px] leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">
+                                            <li key={i} className="last:border-l w-[50%]">
+                                                <Link href={authAction.url} className="py-[15px] px-[10px] leading-none w-full text-center block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">
                                                     {authAction.text}
                                                 </Link>
                                             </li>

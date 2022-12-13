@@ -130,8 +130,8 @@ function Organisation(props) {
                                 <div className="py-6 px-4 md:px-10 orgDashCards">
                                     <TabPanel>
                                         <ul className="flex flex-wrap justify-between">
-                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[${getColor(application)}] p-6 flex flex-col items-center justify-center overflow-hidden`}>
-                                                <div className={`bg-[${getColor(application)}] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`}>
+                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[#ddd] p-6 flex flex-col items-center justify-center overflow-hidden`} style={{ ["border-color" as any]: `${getColor(application)}`}}>
+                                                <div className={`bg-[#ddd] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`} style={{ ["background-color" as any]: `${getColor(application)}`}}>
                                                     <i className="fa-solid fa-window-maximize"></i>
                                                 </div>
                                                 <article className="text-center">
@@ -139,8 +139,8 @@ function Organisation(props) {
                                                     <h5 className="font-light">Application</h5>
                                                 </article>
                                             </li>
-                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[${getColor(shortlisted)}] p-6 flex flex-col items-center justify-center overflow-hidden`}>
-                                                <div className={`bg-[${getColor(shortlisted)}] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`}>
+                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[#ddd] p-6 flex flex-col items-center justify-center overflow-hidden`} style={{ ["border-color" as any]: `${getColor(shortlisted)}`}}>
+                                                <div className={`bg-[#ddd] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`} style={{ ["background-color" as any]: `${getColor(shortlisted)}`}}>
                                                     <i className="fa-solid fa-circle-check"></i>
                                                 </div>
                                                 <article className="text-center">
@@ -148,8 +148,8 @@ function Organisation(props) {
                                                     <h5 className="font-light">Shortlisted</h5>
                                                 </article>
                                             </li>
-                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[${getColor(inreview)}] p-6 flex flex-col items-center justify-center overflow-hidden`}>
-                                                <div className={`bg-[${getColor(inreview)}] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`}>
+                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[#ddd] p-6 flex flex-col items-center justify-center overflow-hidden`} style={{ ["border-color" as any]: `${getColor(inreview)}`}}>
+                                                <div className={`bg-[#ddd] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`} style={{ ["background-color" as any]: `${getColor(inreview)}`}}>
                                                     <i className="fa-solid fa-eye"></i>
                                                 </div>
                                                 <article className="text-center">
@@ -157,8 +157,8 @@ function Organisation(props) {
                                                     <h5 className="font-light">In Review</h5>
                                                 </article>
                                             </li>
-                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[${getColor(interviewscheduled)}] p-6 flex flex-col items-center justify-center overflow-hidden`}>
-                                                <div className={`bg-[${getColor(interviewscheduled)}] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`}>
+                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[#ddd] p-6 flex flex-col items-center justify-center overflow-hidden`} style={{ ["border-color" as any]: `${getColor(interviewscheduled)}`}}>
+                                                <div className={`bg-[#ddd] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`} style={{ ["background-color" as any]: `${getColor(interviewscheduled)}`}}>
                                                     <i className="fa-solid fa-calendar-days"></i>
                                                 </div>
                                                 <article className="text-center">
@@ -166,8 +166,8 @@ function Organisation(props) {
                                                     <h5 className="font-light">Interviews Scheduled</h5>
                                                 </article>
                                             </li>
-                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[${getColor(hire)}] p-6 flex flex-col items-center justify-center overflow-hidden`}>
-                                                <div className={`bg-[${getColor(hire)}] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`}>
+                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[#ddd] p-6 flex flex-col items-center justify-center overflow-hidden`} style={{ ["border-color" as any]: `${getColor(hire)}`}}>
+                                                <div className={`bg-[#ddd] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`} style={{ ["background-color" as any]: `${getColor(hire)}`}}>
                                                     <i className="fa-solid fa-users-rays"></i>
                                                 </div>
                                                 <article className="text-center">
@@ -175,8 +175,8 @@ function Organisation(props) {
                                                     <h5 className="font-light">Hire</h5>
                                                 </article>
                                             </li>
-                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[${getColor(reject)}] p-6 flex flex-col items-center justify-center overflow-hidden`}>
-                                                <div className={`bg-[${getColor(reject)}] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`}>
+                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[#ddd] p-6 flex flex-col items-center justify-center overflow-hidden`} style={{ ["border-color" as any]: `${getColor(reject)}`}}>
+                                                <div className={`bg-[#ddd] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`} style={{ ["background-color" as any]: `${getColor(reject)}`}}>
                                                     <i className="fa-solid fa-eject"></i>
                                                 </div>
                                                 <article className="text-center">
@@ -184,8 +184,8 @@ function Organisation(props) {
                                                     <h5 className="font-light">Rejected</h5>
                                                 </article>
                                             </li>
-                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[${getColor(hold)}] p-6 flex flex-col items-center justify-center overflow-hidden`}>
-                                                <div className={`bg-[${getColor(hold)}] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`}>
+                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[#ddd] p-6 flex flex-col items-center justify-center overflow-hidden`} style={{ ["border-color" as any]: `${getColor(hold)}`}}>
+                                                <div className={`bg-[#ddd] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`} style={{ ["background-color" as any]: `${getColor(hold)}`}}>
                                                     <i className="fa-solid fa-circle-pause"></i>
                                                 </div>
                                                 <article className="text-center">
@@ -204,8 +204,8 @@ function Organisation(props) {
                                     </TabPanel>
                                     <TabPanel>
                                     <ul className="flex flex-wrap justify-between">
-                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[${getColor(archivedjob)}] p-6 flex flex-col items-center justify-center overflow-hidden`}>
-                                                <div className={`bg-[${getColor(archivedjob)}] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`}>
+                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[#ddd] p-6 flex flex-col items-center justify-center overflow-hidden`} style={{ ["border-color" as any]: `${getColor(archivedjob)}`}}>
+                                                <div className={`bg-[#ddd] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`} style={{ ["background-color" as any]: `${getColor(archivedjob)}`}}>
                                                     <i className="fa-solid fa-box-archive"></i>
                                                 </div>
                                                 <article className="text-center">
@@ -213,8 +213,8 @@ function Organisation(props) {
                                                     <h5 className="font-light">Archived Jobs</h5>
                                                 </article>
                                             </li>
-                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[${getColor(reviewjob)}] p-6 flex flex-col items-center justify-center overflow-hidden`}>
-                                                <div className={`bg-[${getColor(reviewjob)}] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`}>
+                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[#ddd] p-6 flex flex-col items-center justify-center overflow-hidden`} style={{ ["border-color" as any]: `${getColor(reviewjob)}`}}>
+                                                <div className={`bg-[#ddd] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`} style={{ ["background-color" as any]: `${getColor(reviewjob)}`}}>
                                                     <i className="fa-solid fa-eye"></i>
                                                 </div>
                                                 <article className="text-center">
@@ -222,8 +222,8 @@ function Organisation(props) {
                                                     <h5 className="font-light">In Review</h5>
                                                 </article>
                                             </li>
-                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[${getColor(closedjob)}] p-6 flex flex-col items-center justify-center overflow-hidden`}>
-                                                <div className={`bg-[${getColor(closedjob)}] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`}>
+                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[#ddd] p-6 flex flex-col items-center justify-center overflow-hidden`} style={{ ["border-color" as any]: `${getColor(closedjob)}`}}>
+                                                <div className={`bg-[#ddd] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`} style={{ ["background-color" as any]: `${getColor(closedjob)}`}}>
                                                     <i className="fa-solid fa-circle-xmark"></i>
                                                 </div>
                                                 <article className="text-center">
@@ -231,8 +231,8 @@ function Organisation(props) {
                                                     <h5 className="font-light">Closed</h5>
                                                 </article>
                                             </li>
-                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[${getColor(remainingjob)}] p-6 flex flex-col items-center justify-center overflow-hidden`}>
-                                                <div className={`bg-[${getColor(remainingjob)}] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`}>
+                                            <li className={`w-full max-w-[48%] md:max-w-[31%] xl:max-w-[23%] mb-5 rounded-lg shadow-lg border-r-[9px] border-r-[#ddd] p-6 flex flex-col items-center justify-center overflow-hidden`} style={{ ["border-color" as any]: `${getColor(remainingjob)}`}}>
+                                                <div className={`bg-[#ddd] rounded-lg p-1 w-[40px] h-[40px] flex items-center justify-center mb-3 text-xl text-white`} style={{ ["background-color" as any]: `${getColor(remainingjob)}`}}>
                                                     <i className="fa-solid fa-circle-notch"></i>
                                                 </div>
                                                 <article className="text-center">
