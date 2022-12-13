@@ -14,6 +14,7 @@ import toastcomp from "./toast";
 
 export default function OrganisationJobsCard(props) {
     const [shareJob, shareJobPopupOpen] = useState(false)
+    const [draftedPopup, draftedPopupOpen] = useState(false)
     const [appnum, setAppNum] = useState([])
     const cancelButtonRef = useRef(null)
     const {data} = props
@@ -25,6 +26,36 @@ export default function OrganisationJobsCard(props) {
     )
 
     const {axiosInstanceAuth2,setJobReload,setEditJob} = props
+
+
+
+    const [title, setTitle] = useState('')
+    const [dept, setDept] = useState('')
+    const [exp, setExp] = useState('')
+    const [type, setType] = useState('')
+    const [level, setLevel] = useState('')
+    const [deadline, setDeadline] = useState('')
+    const [ind, setInd] = useState('')
+    const [desc, setDesc] = useState('')
+    const [res, setRes] = useState('')
+    const [salary, setSalary] = useState('')
+    const [stype, setStype] = useState('')
+    const [scurr, setScurr] = useState('')
+    const [reloc, setReloc] = useState('')
+    const [bonus, setBonus] = useState('')
+    const [stock, setStock] = useState('')
+    const [visa, setVisa] = useState('')
+    const [vacancy, setVacancy] = useState('')
+    const [wtype, setWtype] = useState('')
+    const [loc, setLoc] = useState('')
+    const [rskill, setrSkill] = useState('')
+    const [pskill, setpSkill] = useState('')
+    const [qf, setQf] = useState('')
+    const [lang, setLang] = useState([]) 
+    const [alang,setALang] = useState('')
+    const [aprof,setAProf] = useState('Elementary profeciency')
+
+    
 
     function viewJob(refid){
         refid = refid.toUpperCase()
@@ -145,7 +176,7 @@ export default function OrganisationJobsCard(props) {
 
                         {data.jobStatus == "Draft" && 
                         <>
-                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3" onClick={(e)=>{setEditJob(data)}}>
+                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3" onClick={() => draftedPopupOpen(true)}>
                             <i className="fa-regular fa-edit"></i>
                             <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child" >Edit</span>
                         </button>
@@ -191,7 +222,7 @@ export default function OrganisationJobsCard(props) {
                     </Transition.Child>
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">
-                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
                         <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -237,6 +268,258 @@ export default function OrganisationJobsCard(props) {
                                             </button>
                                         </li>
                                     </ul>
+                                </div>
+                            </div>
+                        </Dialog.Panel>
+                        </Transition.Child>
+                    </div>
+                    </div>
+                </Dialog>
+            </Transition.Root>
+            <Transition.Root show={draftedPopup} as={Fragment}>
+                <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={draftedPopupOpen}>
+                    <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                    >
+                    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 z-10 overflow-y-auto">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
+                        <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        enterTo="opacity-100 translate-y-0 sm:scale-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                        leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        >
+                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-[1100px]">
+                            <div className="p-8">
+                                <div className="flex items-center justify-between mb-8">
+                                    <h4 className="leading-none font-semibold text-xl">Edit Drafted Job</h4>
+                                    <button type="button" className="leading-none" onClick={() => draftedPopupOpen(false)}>
+                                        <i className="fa-solid fa-xmark"></i>
+                                    </button>
+                                </div>
+                                <div>
+                                    <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                        <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
+                                            <h2 className="text-lg font-semibold">Basic Details *</h2>
+                                        </div>
+                                        <div className="py-6 px-4 md:px-10">
+                                            <div className="flex flex-wrap w-full lg:mx-[-15px]">
+                                                <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobTitle" className="font-medium mb-2 leading-none inline-block">Job Title</label>
+                                                    <input id="addJobTitle" type="text" className="w-full rounded-full border-slate-300" value={title} onChange={(e)=>setTitle(e.target.value)} />
+                                                </div>
+                                                <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobDep" className="font-medium mb-2 leading-none inline-block">Department</label>
+                                                    <select id="addJobDep" className="w-full rounded-full border-slate-300" value={dept} onChange={(e)=>setDept(e.target.value)}>
+                                                        <option value="">Select</option>
+                                                        <option value="Department 1">Department 1</option>
+                                                    </select>
+                                                </div>
+                                                <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobExp" className="font-medium mb-2 leading-none inline-block">Experience</label>
+                                                    <select id="addJobExp" className="w-full rounded-full border-slate-300" value={exp} onChange={(e)=>setExp(e.target.value)}>
+                                                        <option value="">Select</option>
+                                                        <option value="Experience 1">Experience 1</option>
+                                                    </select>
+                                                </div>
+                                                <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobType" className="font-medium mb-2 leading-none inline-block">Job Type</label>
+                                                    <select id="addJobType" className="w-full rounded-full border-slate-300" value={type} onChange={(e)=>setType(e.target.value)}>
+                                                        <option value="">Select</option>
+                                                        <option value="JobType 1">JobType 1</option>
+                                                    </select>
+                                                </div>
+                                                <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobExpLevel" className="font-medium mb-2 leading-none inline-block">Experience Level</label>
+                                                    <select id="addJobExpLevel" className="w-full rounded-full border-slate-300" value={level} onChange={(e)=>setLevel(e.target.value)}>
+                                                        <option value="">Select</option>
+                                                        <option value="Experience Level 1">Experience Level 1</option>
+                                                    </select>
+                                                </div>
+                                                <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobDeadLine" className="font-medium mb-2 leading-none inline-block">Application Deadline</label>
+                                                    <input type="date" id="addJobDeadLine" className="w-full rounded-full border-slate-300" value={deadline} onChange={(e)=>setDeadline(e.target.value)} />
+                                                </div>
+                                                <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobIndustry" className="font-medium mb-2 leading-none inline-block">Industry</label>
+                                                    <select id="addJobIndustry" className="w-full rounded-full border-slate-300" value={ind} onChange={(e)=>setInd(e.target.value)}>
+                                                        <option value="">Select</option>
+                                                        <option value="Industry 1">Industry 1</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                        <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
+                                            <h2 className="text-lg font-semibold">Description *</h2>
+                                        </div>
+                                        <div className="py-6 px-4 md:px-10">
+                                            <textarea className="w-full rounded-[25px] min-h-[250px] border-slate-300" value={desc} onChange={(e)=>setDesc(e.target.value)}></textarea>
+                                        </div>
+                                    </div>
+                                    <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                        <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
+                                            <h2 className="text-lg font-semibold">What are we looking for</h2>
+                                        </div>
+                                        <div className="py-6 px-4 md:px-10">
+                                            <textarea className="w-full rounded-[25px] min-h-[250px] border-slate-300" value={res} onChange={(e)=>setRes(e.target.value)}></textarea>
+                                        </div>
+                                    </div>
+                                    <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                        <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
+                                            <h2 className="text-lg font-semibold">Benefits</h2>
+                                        </div>
+                                        <div className="py-6 px-4 md:px-10">
+                                            <div className="flex flex-wrap w-full lg:mx-[-15px]">
+                                                <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobOfferedSalary" className="font-medium mb-2 leading-none inline-block">Offered Salary</label>
+                                                    <div className="w-full flex flex-wrap">
+                                                        <input id="addJobOfferedSalary" type="number" className="w-[55%] mr-3 rounded-full border-slate-300" value={salary} onChange={(e)=>setSalary(e.target.value)}/>
+                                                        <select className="w-[40%] rounded-full border-slate-300" value={stype} onChange={(e)=>setStype(e.target.value)} >
+                                                            <option value="Monthly">Monthly</option>
+                                                            <option value="Yearly">Yearly</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobCurrency" className="font-medium mb-2 leading-none inline-block">Currency</label>
+                                                    <select id="addJobCurrency" className="w-full rounded-full border-slate-300" value={scurr} onChange={(e)=>setScurr(e.target.value)}>
+                                                        <option value="Currency 1">Currency 1</option>
+                                                        <option value="Currency 1">Currency 2</option>
+                                                    </select>
+                                                </div>
+                                                <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobPaidRelocation" className="font-medium mb-2 leading-none inline-block">Paid Relocation</label>
+                                                    <select id="addJobPaidRelocation" className="w-full rounded-full border-slate-300" value={reloc} onChange={(e)=>setReloc(e.target.value)}>
+                                                        <option value="Paid Relocation 1">Paid Relocation 1</option>
+                                                        <option value="Paid Relocation 2">Paid Relocation 2</option>
+                                                    </select>
+                                                </div>
+                                                <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobBonus" className="font-medium mb-2 leading-none inline-block">Bonus</label>
+                                                    <input id="addJobBonus" type="text" className="w-full rounded-full border-slate-300" value={bonus} onChange={(e)=>setBonus(e.target.value)} />
+                                                </div>
+                                                <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobStockOptions" className="font-medium mb-2 leading-none inline-block">Stock Options</label>
+                                                    <input id="addJobStockOptions" type="text" className="w-full rounded-full border-slate-300" value={stock} onChange={(e)=>setStock(e.target.value)} />
+                                                </div>
+                                                <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobVisaSponsorship" className="font-medium mb-2 leading-none inline-block">Visa Sponsorship</label>
+                                                    <select id="addJobVisaSponsorship" className="w-full rounded-full border-slate-300" value={visa} onChange={(e)=>setVisa(e.target.value)}>
+                                                        <option value="Visa Sponsorship 1">Visa Sponsorship 1</option>
+                                                        <option value="Visa Sponsorship 2">Visa Sponsorship 2</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                        <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
+                                            <h2 className="text-lg font-semibold">Additional Information</h2>
+                                        </div>
+                                        <div className="py-6 px-4 md:px-10">
+                                            <div className="flex flex-wrap w-full lg:mx-[-15px]">
+                                                <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobVacancy" className="font-medium mb-2 leading-none inline-block">Vacancy</label>
+                                                    <input id="addJobVacancy" type="text" className="w-full rounded-full border-slate-300" value={vacancy} onChange={(e)=>setVacancy(e.target.value)}/>
+                                                </div>
+                                                <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobWorktype" className="font-medium mb-2 leading-none inline-block">Worktype</label>
+                                                    <select id="addJobWorktype" className="w-full rounded-full border-slate-300" value={wtype} onChange={(e)=>setWtype(e.target.value)}>
+                                                        <option value="">Select</option>
+                                                        <option value="Worktype 1">Worktype 1</option>
+                                                    </select>
+                                                </div>
+                                                <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobLocation" className="font-medium mb-2 leading-none inline-block">Location</label>
+                                                    <select id="addJobLocation" className="w-full rounded-full border-slate-300" value={loc} onChange={(e)=>setLoc(e.target.value)}>
+                                                        <option value="">Select</option>
+                                                        <option value="Location 1">Location 1</option>
+                                                    </select>
+                                                </div>
+                                                <div className="w-full lg:px-[15px] mb-6">
+                                                    <div className="flex flex-wrap items-center justify-between mb-2">
+                                                        <label htmlFor="addJobLanguages" className="font-medium mb-2 leading-none inline-block">Language</label>
+                                                        <button type="button" className="border border-[#6D27F9] rounded-full py-1 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white">Add</button>
+                                                    </div>
+                                                    
+                                                    <div className="w-full rounded-[25px] border border-slate-300 p-2 min-h-[42px] relative flex items-start overflow-x-auto">
+                                                    {lang.map((lang, i) => (
+                                                        <p className="relative bg-[#C9B3FF] rounded-full py-2 px-3 flex items-center text-[14px] mr-2" id={`lang${i}`}  key={i}>
+                                                            {lang.title}
+                                                            <span className="pl-1 text-[10px] flex text-[#FEF401] mt-[2px]">
+                                                                <i className="fa-solid fa-star ml-1"></i>
+                                                                {lang.exp == "Limited profeciency" && <i className="fa-solid fa-star ml-1"></i>}
+                                                                {lang.exp == "Professional profeciency" && <><i className="fa-solid fa-star ml-1"></i><i className="fa-solid fa-star ml-1"></i></>}
+                                                                {lang.exp == "Native or bilingual profeciency" && <><i className="fa-solid fa-star ml-1"></i><i className="fa-solid fa-star ml-1"></i><i className="fa-solid fa-star ml-1"></i></>}
+                                                            </span>
+                                                            <button type="button" className="absolute right-[0] top-[-5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
+                                                                <i className="fa-solid fa-xmark"></i>
+                                                            </button>
+                                                        </p>
+                                                    ))}
+                                                        {/* <p className="relative bg-[#C9B3FF] rounded-full py-2 px-3 flex items-center text-[14px] mr-2">
+                                                            English
+                                                            <span className="pl-1 text-[10px] flex text-[#FEF401] mt-[2px]">
+                                                                <i className="fa-solid fa-star ml-1"></i>
+                                                                <i className="fa-solid fa-star ml-1"></i>
+                                                                <i className="fa-solid fa-star ml-1"></i>
+                                                                <i className="fa-solid fa-star ml-1"></i>
+                                                            </span>
+                                                            <button type="button" className="absolute right-[0] top-[-5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded">
+                                                                <i className="fa-solid fa-xmark"></i>
+                                                            </button>
+                                                        </p> */}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                        <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
+                                            <h2 className="text-lg font-semibold">Skills and Qualification *</h2>
+                                        </div>
+                                        <div className="py-6 px-4 md:px-10">
+                                            <div className="flex flex-wrap w-full lg:mx-[-15px]">
+                                                <div className="w-full lg:w-[50%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobReccomSkills" className="font-medium mb-2 leading-none inline-block">Recommended Skills</label>
+                                                    <select id="addJobReccomSkills" className="w-full rounded-full border-slate-300" value={rskill} onChange={(e)=>setrSkill(e.target.value)}>
+                                                        <option value="">Select</option>
+                                                        <option value="Skills 1">Skills 1</option>
+                                                    </select>
+                                                </div>
+                                                <div className="w-full lg:w-[50%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobpreffSkills" className="font-medium mb-2 leading-none inline-block">Preffered Skills</label>
+                                                    <select id="addJobpreffSkills" className="w-full rounded-full border-slate-300" value={pskill} onChange={(e)=>setpSkill(e.target.value)}>
+                                                        <option value="">Select</option>
+                                                        <option value="Skills 1">SKills 1</option>
+                                                    </select>
+                                                </div>
+                                                <div className="w-full lg:w-[50%] mb-6 lg:px-[15px]">
+                                                    <label htmlFor="addJobQualification" className="font-medium mb-2 leading-none inline-block">Qualification</label>
+                                                    <input id="addJobQualification" type="text" className="w-full rounded-full border-slate-300" value={qf} onChange={(e)=>setQf(e.target.value)} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-wrap items-center">
+                                        <button type="submit" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mr-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">
+                                        Update
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </Dialog.Panel>

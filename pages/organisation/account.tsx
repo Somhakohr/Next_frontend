@@ -624,7 +624,7 @@ function OrganisationAccount(props) {
                     </Transition.Child>
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">
-                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
                         <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -675,7 +675,7 @@ function OrganisationAccount(props) {
                     </Transition.Child>
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">
-                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
                         <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -779,7 +779,7 @@ function OrganisationAccount(props) {
                     </Transition.Child>
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">
-                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
                         <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
