@@ -131,7 +131,7 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected {
   border-bottom-color: var(--primary);
   color: var(--primary);
   font-weight: 700;
-  background-color: transparent;
+  backgroundColor: transparent;
 }
 ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   display: none;
@@ -194,7 +194,7 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   max-width: 1100px;
   margin: 0 auto 30px;
   overflow-x: auto;
-  background-color: white;
+  backgroundColor: white;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
 }
 .candidate_profile ul.react-tabs__tab-list {
@@ -209,8 +209,35 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   width: 8px;
   height: 8px;
   border-radius: 20px;
-  background-color: rgba(0,0,0,0.5);
+  backgroundColor: rgba(0,0,0,0.5);
   position: absolute;
   left: 0;
   top: 8px;
+}
+.radiusCurve {
+  border-bottom: 15px solid #60C3E2;
+  border-bottom-right-radius: 50%
+}
+.radiusCurve.radiusCurve__small {
+  border-bottom-right-radius: 20%
+}
+
+@media (max-width: 1199px) {
+  .radiusCurve {
+    border-bottom-right-radius: 30%
+  }
+}
+@media (max-width: 991px) {
+  .radiusCurve {
+    border-bottom-right-radius: 20%
+  }
+}
+@media (max-width: 767px) {
+  .radiusCurve {
+    border-bottom-right-radius: 10%;
+    border-bottom-width: 10px;
+  }
+  .radiusCurve.radiusCurve__small {
+    border-bottom-right-radius: 10%
+  }
 }

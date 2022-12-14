@@ -105,11 +105,11 @@ function OrgDetail() {
                 </div>
                 <div className="w-full max-w-[1200px] mx-auto mb-8 px-4">
                     <div className="bg-white shadow-normal rounded-[25px] flex flex-wrap">
-                        <div className={`w-full lg:max-w-[40%] companyMainImage flex flex-col justify-between rounded-[25px] p-6 relative after:content-[''] after:w-full after:h-full after:bg-white after:opacity-20 after:absolute after:left-0 after:top-0 after:rounded-[25px] min-h-[280px]`}
-                        style={{ ["background-image" as any]: `${data.cover}`}}>
+                        <div className={`w-full lg:max-w-[40%] companyMainImage flex flex-col justify-between rounded-[25px] p-6 relative after:content-[''] after:w-full after:h-full after:bg-black after:opacity-20 after:absolute after:left-0 after:top-0 after:rounded-[25px] min-h-[280px]`}
+                        style={{ backgroundImage: "url(" + `${data.cover}` + ")", }}>
                             <div className="flex relative z-[1] mb-8">
-                                <div className="bg-white w-[100px] h-[100px] rounded-full flex items-center justify-center p-5 shadow-normal mt-[-66px]">
-                                    <Image src={data.profile} width={100} height={100} alt="Company" className="w-full h-full object-cover" />
+                                <div className="s bg-white w-[100px] h-[100px] rounded-full flex items-center justify-center p-5 shadow-normal mt-[-66px]">
+                                    <Image src={data.profile} width={100} height={100} alt="Company" className="w-full h-full rounded-full object-cover" />
                                 </div>
                                 <h1 className="font-semibold text-xl pl-2 flex-1">{data.title}</h1>
                             </div>
