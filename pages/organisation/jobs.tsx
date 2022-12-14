@@ -84,7 +84,7 @@ function OrganisationAllJobs(props) {
     const [review,setReview] = useState(false)
     const [close,setClose] = useState(false)
     const [jobReload,setJobReload] = useState(false)
-    const [editJob,setEditJob] = useState({})
+    const [editJob,setEditJob] = useState(false)
 
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
@@ -106,6 +106,7 @@ function OrganisationAllJobs(props) {
                 toastcomp("Job Not Loaded","error");
             }
         })
+        setEditJob(false)
     }
 
     useEffect(() => {
@@ -207,17 +208,22 @@ function OrganisationAllJobs(props) {
         })
     }
 
-    async function updateJob(formdata,refid) {
-        await axiosInstanceAuth2.put('/job/update/'+refid+'/',formdata).then(async (res)=>{
-            toastcomp("Job Updated",'success')
-            resetJOBFORM()
-            setEditJob({})
-            loadJobs()
-        }).catch((err)=>{
-            toastcomp("Job Not Updated",'error')
-            console.log(err)
-        })
-    }
+    // async function updateJob(formdata,refid) {
+    //     await axiosInstanceAuth2.put('/job/update/'+refid+'/',formdata).then(async (res)=>{
+    //         toastcomp("Job Updated",'success')
+    //         resetJOBFORM()
+    //         setEditJob(false)
+    //         loadJobs()
+    //     }).catch((err)=>{
+    //         toastcomp("Job Not Updated",'error')
+    //         console.log(err)
+    //     })
+    // }
+
+    useEffect(() => {
+      if(editJob){loadJobs()}
+    }, [editJob])
+    
 
     function resetJOBFORM(){
         setTitle('')
@@ -293,8 +299,7 @@ function OrganisationAllJobs(props) {
 
             if(Array.from(formData.keys()).length > 0){
                 if(status){formData.append("jobStatus", status)}
-                if(editJob){updateJob(formData,editJob['refid'])}
-                else{addJob(formData)}
+                addJob(formData)
             }
         }
     }

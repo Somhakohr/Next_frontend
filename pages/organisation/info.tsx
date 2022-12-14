@@ -191,7 +191,7 @@ export default function OrganisationInformation() {
                         </div>
                         <div className="py-6 px-4 md:px-10">
                             <div className="flex flex-wrap mx-[-10px]">
-                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
+                                {/* <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
                                     <JobCard />
                                 </div>
                                 <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
@@ -214,7 +214,7 @@ export default function OrganisationInformation() {
                                 </div>
                                 <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
                                     <JobCard />
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>

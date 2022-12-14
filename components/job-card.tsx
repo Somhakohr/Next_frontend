@@ -7,7 +7,7 @@ import { useStore } from "../constants/code";
 import { useRouter } from "next/navigation";
 
 export default function JobCard(props) {
-    const {data} = props
+    const {data,org} = props
     const [param1, updateParam1] = useStore(
         (state) => [state.param1, state.updateParam1],
         shallow
@@ -17,20 +17,25 @@ export default function JobCard(props) {
     function viewJob(refid){
         refid = refid.toUpperCase()
         updateParam1(refid);
-        router.push(`/job-listing/${refid}`)
+        if(org){
+            router.push(`/organisation/job/preview/${refid}`)
+        }
+        else{
+            router.push(`/job-detail/${refid}`)
+        }
     }
     return (
         <>
             <div className="bg-[#f4f4f4] p-5 border border-2 border-slate-300 rounded-[25px]">
                 <div className="flex mb-8">
                     <div className="bg-white rounded-full p-2.5 flex items-center justify-center w-[50px] h-[50px]">
-                        {data.profile &&
-                        <Image src={`${data.profile}`} width={50} height={50} alt="Google" className="w-full" />
+                        {data.org.profile &&
+                        <Image src={`${data.org.profile}`} width={50} height={50} alt="Google" className="w-full" />
                         }
                     </div>
                     <div className="pl-3 w-[calc(100%-60px)]">
                         <h3 className="font-bold text-md mb-1">{data.title}</h3>
-                        <h5 className="font-medium text-sm">{data.cname}</h5>
+                        <h5 className="font-medium text-sm">{data.user.company_name}</h5>
                     </div>
                 </div>
                 <div className="text-[#787878] text-[12px] flex flex-wrap border-b border-slate-300">

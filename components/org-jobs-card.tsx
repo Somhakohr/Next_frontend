@@ -15,6 +15,7 @@ import toastcomp from "./toast";
 export default function OrganisationJobsCard(props) {
     const [shareJob, shareJobPopupOpen] = useState(false)
     const [draftedPopup, draftedPopupOpen] = useState(false)
+    const [langPopup, langPopupOpen] = useState(false)
     const [appnum, setAppNum] = useState([])
     const cancelButtonRef = useRef(null)
     const {data} = props
@@ -97,11 +98,187 @@ export default function OrganisationJobsCard(props) {
         });
     }
 
+    function resetJOBFORM(){
+        setTitle('')
+        setDept('')
+        setExp('')
+        setType('')
+        setLevel('')
+        setDeadline('')
+        setInd('')
+        setDesc('')
+        setRes('')
+        setSalary('')
+        setStype('')
+        setScurr('')
+        setReloc('')
+        setBonus('')
+        setStock('')
+        setVisa('')
+        setVacancy('')
+        setWtype('')
+        setLoc('')
+        setrSkill('')
+        setpSkill('')
+        setQf('')
+        setLang([])
+    }
+
     useEffect(() => {
-        if(data.jobStatus == "Active")
-            getApplicant()
-    }, [])
+        if(data.jobStatus == "Active"){
+            getApplicant()}
+
+        if(draftedPopup){
+            resetJOBFORM()
+            if(data['title']){setTitle(data['title'])}
+            if(data['dept']){setDept(data['dept'])}
+            if(data['exp']){setExp(data['exp'])}
+            if(data['type']){setType(data['type'])}
+            if(data['level']){setLevel(data['level'])}
+            if(data['deadline']){setDeadline(moment(data['deadline']).format('YYYY-MM-DD'))}
+            if(data['industry']){setInd(data['industry'])}
+            if(data['desc']){setDesc(data['desc'])}
+            if(data['resp']){setRes(data['resp'])}
+            if(data['salary']){setSalary(data['salary'])}
+            if(data['relocation']){setReloc(data['relocation'])}
+            if(data['bonus']){setBonus(data['bonus'])}
+            if(data['stock']){setStock(data['stock'])}
+            if(data['visa']){setVisa(data['visa'])}
+            if(data['vacancy']){setVacancy(data['vacancy'])}
+            if(data['worktype']){setWtype(data['worktype'])}
+            if(data['location']){setLoc(data['location'])}
+            if(data['recskill']){setrSkill(data['recskill'])}
+            if(data['preskill']){setpSkill(data['preskill'])}
+            if(data['qualification']){setQf(data['qualification'])}
+            if(data['lng1']){
+                let dic = {}
+                dic['title']=data['lng1']
+                dic['exp']=data['exp1']
+                let abc = lang
+                abc.push(dic)
+                setLang(abc)
+            }
+            if(data['lng2']){
+                let dic = {}
+                dic['title']=data['lng2']
+                dic['exp']=data['exp2']
+                let abc = lang
+                abc.push(dic)
+                setLang(abc)
+            }
+            if(data['lng3']){
+                let dic = {}
+                dic['title']=data['lng3']
+                dic['exp']=data['exp3']
+                let abc = lang
+                abc.push(dic)
+                setLang(abc)
+            }
+            if(data['lng4']){
+                let dic = {}
+                dic['title']=data['lng4']
+                dic['exp']=data['exp4']
+                let abc = lang
+                abc.push(dic)
+                setLang(abc)
+            }
+        }
+    }, [draftedPopup])
     
+    
+    async function updateJob(formdata) {
+        await axiosInstanceAuth2.put('/job/update/'+data["refid"]+'/',formdata).then(async (res)=>{
+            toastcomp("Job Updated",'success')
+            resetJOBFORM()
+            draftedPopupOpen(false)
+            setEditJob(true)
+        }).catch((err)=>{
+            toastcomp("Job Not Updated",'error')
+            console.log(err)
+        })
+    }
+    
+    function update() {
+        var check = true;
+        if(title.length <= 0 || dept.length <= 0 || exp.length <= 0 || type.length <= 0 || level.length <= 0 || deadline.length <= 0 || ind.length <= 0){
+            check = false;
+            toastcomp("Fill Up Basic Details Section","error")
+        }
+        if(desc.length <= 0){
+            check = false;
+            toastcomp("Fill Up Description Section","error")
+        }
+        if(rskill.length <= 0 || pskill.length <= 0 || qf.length <= 0){
+            check = false;
+            toastcomp("Fill Up Skills & Qualification Section","error")
+        }
+
+        if(check){
+            var formData = new FormData();
+            if(title){formData.append("title", title)}
+            if(dept){formData.append("dept", dept)}
+            if(exp){formData.append("exp", exp)}
+            if(type){formData.append("type", type)}
+            if(level){formData.append("level", level)}
+            if(deadline){formData.append("deadline", deadline)}
+            if(ind){formData.append("industry", ind)}
+            if(desc){formData.append("desc", desc)}
+            if(res){formData.append("resp", res)}
+            if(salary){formData.append("salary", scurr+''+salary+' '+stype)}
+            if(reloc){formData.append("relocation", reloc)}
+            if(bonus){formData.append("bonus", bonus)}
+            if(stock){formData.append("stock", stock)}
+            if(visa){formData.append("visa", visa)}
+            if(vacancy){formData.append("vacancy", vacancy)}
+            if(wtype){formData.append("worktype", wtype)}
+            if(loc){formData.append("location", loc)}
+            if(rskill){formData.append("recskill", rskill)}
+            if(pskill){formData.append("preskill", pskill)}
+            if(qf){formData.append("qualification", qf)}
+            if(lang.length>0){
+                console.log(lang);
+                for(let i=0;i<lang.length;i++){
+                    formData.append('lng'+(i+1), lang[i]['title'])
+                    formData.append('exp'+(i+1), lang[i]['exp'])
+                }
+            }
+
+            if(Array.from(formData.keys()).length > 0){
+                updateJob(formData)
+            }
+        }
+    }
+    
+    function verifyLangPopup() {
+        return alang.length > 0
+    }
+
+    //save spoken lang
+    function saveLang(e){
+        if(lang.length > 3){
+            toastcomp("4 Spoken Lang Only ALlowed","error")
+        }
+        else{
+            var dic = {}
+            dic['title']=alang
+            dic['exp']=aprof
+            let abc = lang
+            abc.push(dic)
+            setLang(abc)
+        }
+        setALang('')
+        setAProf('Elementary profeciency')
+        langPopupOpen(false)
+        
+    }
+
+    
+    //delete Lang
+    function delLang(num){
+        lang.splice(num,1)
+        document.getElementById('lang'+num).remove()
+    }
+      
 
 
     return (
@@ -163,9 +340,9 @@ export default function OrganisationJobsCard(props) {
                             <i className="fa-regular fa-folder-open"></i>
                             <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Activate</span>
                         </button>
-                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3" onClick={(e)=>{setEditJob(data)}}>
+                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3" >
                             <i className="fa-regular fa-edit"></i>
-                            <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child" >Edit</span>
+                            <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child" onClick={() => draftedPopupOpen(true)}>Edit</span>
                         </button>
                         <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3" onClick={(e)=>deleteJob()}>
                             <i className="fa-solid fa-trash"></i>
@@ -176,6 +353,10 @@ export default function OrganisationJobsCard(props) {
 
                         {data.jobStatus == "Draft" && 
                         <>
+                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3" onClick={(e)=>activateJob()}>
+                            <i className="fa-regular fa-folder-open"></i>
+                            <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Activate</span>
+                        </button>
                         <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3" onClick={() => draftedPopupOpen(true)}>
                             <i className="fa-regular fa-edit"></i>
                             <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child" >Edit</span>
@@ -268,6 +449,66 @@ export default function OrganisationJobsCard(props) {
                                             </button>
                                         </li>
                                     </ul>
+                                </div>
+                            </div>
+                        </Dialog.Panel>
+                        </Transition.Child>
+                    </div>
+                    </div>
+                </Dialog>
+            </Transition.Root>
+            <Transition.Root show={langPopup} as={Fragment}>
+                <Dialog as="div" className="relative z-20" initialFocus={cancelButtonRef} onClose={langPopupOpen}>
+                    <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                    >
+                    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 z-10 overflow-y-auto">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
+                        <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        enterTo="opacity-100 translate-y-0 sm:scale-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                        leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        >
+                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-md">
+                            <div className="p-8">
+                                <div className="flex items-center justify-between mb-8">
+                                    <h4 className="leading-none font-semibold text-xl">Language</h4>
+                                    <button type="button" className="leading-none" onClick={() => langPopupOpen(false)}>
+                                        <i className="fa-solid fa-xmark"></i>
+                                    </button>
+                                </div>
+                                <div>
+                                    <div className="mb-6">
+                                        <label htmlFor="enterLang" className="font-medium mb-2 leading-none inline-block">Enter Language</label>
+                                        <input id="enterLang" type="text" placeholder="Ex: English" className="w-full rounded-full border-slate-300" value={alang} onChange={(e)=>setALang(e.target.value)}/>
+                                    </div>
+                                    <div className="mb-6">
+                                        <label htmlFor="chooseLangProfeciency" className="font-medium mb-2 leading-none inline-block">Choose Language Profeciency</label>
+                                        <select id="chooseLangProfeciency" className="w-full rounded-full border-slate-300" value={aprof} onChange={(e)=>setAProf(e.target.value)}>
+                                            <option value="Elementary profeciency">Elementary profeciency</option>
+                                            <option value="Limited profeciency">Limited profeciency</option>
+                                            <option value="Professional profeciency">Professional profeciency</option>
+                                            <option value="Native or bilingual profeciency">Native or bilingual profeciency</option>
+                                        </select>
+                                    </div>
+                                    <div className="text-center">
+                                        <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!verifyLangPopup()} onClick={(e)=>saveLang(e)}>
+                                            Save
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </Dialog.Panel>
@@ -453,7 +694,7 @@ export default function OrganisationJobsCard(props) {
                                                 <div className="w-full lg:px-[15px] mb-6">
                                                     <div className="flex flex-wrap items-center justify-between mb-2">
                                                         <label htmlFor="addJobLanguages" className="font-medium mb-2 leading-none inline-block">Language</label>
-                                                        <button type="button" className="border border-[#6D27F9] rounded-full py-1 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white">Add</button>
+                                                        <button type="button" className="border border-[#6D27F9] rounded-full py-1 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" onClick={(e)=>langPopupOpen(true)}>Add</button>
                                                     </div>
                                                     
                                                     <div className="w-full rounded-[25px] border border-slate-300 p-2 min-h-[42px] relative flex items-start overflow-x-auto">
@@ -516,7 +757,7 @@ export default function OrganisationJobsCard(props) {
                                         </div>
                                     </div>
                                     <div className="flex flex-wrap items-center">
-                                        <button type="submit" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mr-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">
+                                        <button type="submit" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mr-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>update()}>
                                         Update
                                         </button>
                                     </div>

@@ -85,8 +85,19 @@ function Organisation(props) {
             setClosedjob(res.data.closedJobs)
             setRemainingjob(res.data['Remaining Job'])
             setUpcomingInterview(res.data['Upcoming Interviews'])
-            setRecentJob(res.data['Recent Jobs'])
+            // setRecentJob(res.data['Recent Jobs'])
             console.log("jobs",res.data['Recent Jobs'])
+        }).catch((err)=>{
+            console.log(err)
+            if(err.message != "Request failed with status code 401"){
+                toastcomp("Dashboard Fetch Error","error");
+            }
+        })
+    }
+
+    async function loadJobs() {
+        await axiosInstanceAuth2.get('/job/dashboard/jobs/'+userObj['orefid']+'/').then(async (res)=>{
+            setRecentJob(res.data)
         }).catch((err)=>{
             console.log(err)
             if(err.message != "Request failed with status code 401"){
@@ -107,6 +118,7 @@ function Organisation(props) {
       }
       else if(session && userObj){
         loadDashboard()
+        loadJobs()
       }
     }, [session,userObj]);
 
@@ -294,7 +306,7 @@ function Organisation(props) {
                                     <div className="flex flex-wrap mx-[-10px]">
                                     {recentJob.map((job, i) => (
                                         <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                            <JobCard data={job}/>
+                                            <JobCard data={job} org={true}/>
                                         </div>
                                     ))}
                                     </div>
