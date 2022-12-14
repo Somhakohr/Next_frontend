@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Slider from "react-slick";
+import Link from "next/link";
 import Image from 'next/image';
 import { withAuth } from "../constants/HOCs";
 import slide_1 from 'public/images/homebanner-card-1.png';
@@ -10,7 +11,7 @@ import shape_3 from 'public/images/shape-3.png';
 import cand_dash_1 from 'public/images/talent-center.png';
 import cand_dash_2 from 'public/images/user-profile.png';
 import cand_dash_3 from 'public/images/org-dashboard.png';
-import { features } from "process";
+import rocket from 'public/images/rocket.png';
 
 function Home(props) {
   const { session } = props;
@@ -140,7 +141,7 @@ function Home(props) {
                 <div className="w-full md:max-w-[calc(100%/3)] p-[15px]" key={i}>
                   <div className="border border-teal-400 shadow-lg bg-white p-6 pt-20 w-full max-w-[250px] mx-auto mt-10 mb-6 text-center relative rounded-[25px]">
                     <div className="w-[120px] h-[120px] mx-auto rounded-full border border-teal-400 bg-[#FAF8FF] p-3 absolute left-[50%] translate-x-[-50%] top-[-60px] after:content-[''] after:w-[calc(100%+20px)] after:h-[calc(50%+2px)] after:bg-[#faf8ff] after:absolute after:left-[-10px] after:top-[-3px]">
-                      <div className="bg-[#6D27F9] w-full h-full shadow-normal rounded-full flex items-center justify-center text-white text-4xl relative z-10" style={{ ["backgroundColor" as any]: `${jobFunctions.iconBgColor}`}}>
+                      <div className="bg-[#6D27F9] w-full h-full shadow-normal rounded-full flex items-center justify-center text-white text-4xl relative z-10 bg-gradient-to-r from-[#A382E5] to-[#60C3E2]">
                         {jobFunctions.icon}
                       </div>
                     </div>
@@ -230,6 +231,23 @@ function Home(props) {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+        <section className="py-12 bg-[#6D27F9] launchSoon">
+          <div className="max-w-[900px] w-full px-4 mx-auto">
+            <div className="flex flex-wrap items-center">
+              <div className="w-full lg:max-w-[50%] text-white flex items-center justify-center py-8">
+                <div>
+                  <h2 className="mb-6 font-light text-2xl">Launching Soon</h2>
+                  <h3 className="font-bold text-3xl">Community</h3>
+                </div>
+                <Image src={rocket} alt="Launch" width={140} />
+              </div>
+              <div className="w-full lg:max-w-[50%] text-white">
+                <h2 className="mb-6 font-light text-2xl text-center">Untill then <span className="font-bold">Join Discord</span></h2>
+                <Link href="https://discord.gg/934TJUe6BF" target="_blank" className="block text-black border border-black rounded-[30px] min-w-[200px] text-center py-2 px-4 hover:bg-white hover:border-white">Join Now <i className="fa-brands fa-discord ml-2"></i></Link>
+              </div>
             </div>
           </div>
         </section>

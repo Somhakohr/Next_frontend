@@ -154,6 +154,12 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   background-repeat: no-repeat;
   background-position: center;
 }
+.launchSoon {
+  background-image: url('../public/images/launch-bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 .masonary_grid, .masonary_grid > div {
   gap: 10px !important
 }
