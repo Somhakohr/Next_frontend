@@ -440,7 +440,7 @@ function OrganisationAccount(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <span className="text-[#7e7e7e] text-[12px] text-center block">Supported Formats: png, jpg upto 2 MB</span>
+                                <span className="text-[#646464] text-[12px] text-center block">Supported Formats: png, jpg upto 2 MB</span>
                             </aside>
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">

@@ -6,7 +6,7 @@ export default function Contact() {
                     <h1 className="font-bold text-2xl mb-4">
                     Get in touch
                     </h1>
-                    <p className="text-[#7e7e7e] mb-8">We're here to help you with all your recruitment needs!</p>
+                    <p className="text-[#646464] mb-8">We're here to help you with all your recruitment needs!</p>
                     <form>
                         <div className="flex flex-wrap justify-between">
                             <div className="w-full lg:w-[47%] mb-6">

@@ -192,7 +192,7 @@ function Candidate(props) {
                                     <h2 className="font-semibold text-xl md:text-3xl mb-1">
                                         {userName}
                                     </h2>
-                                    <p className="text-[#7E7E7E] font-light text-sm">
+                                    <p className="text-[#646464] font-light text-sm">
                                         Web Development
                                     </p>
                                 </div>
@@ -219,7 +219,7 @@ function Candidate(props) {
                                         <div className={`bg-gradient-to-r from-[#F295EF] to-[#4D94E8] transition-all delay-150 rounded-full w-[80%] h-[25px]`} style={{ ["width" as any]: `${progress}%`}}></div>
                                     </div>
                                 </div>
-                                <p className="text-[#7E7E7E] font-light text-sm">
+                                <p className="text-[#646464] font-light text-sm">
                                     Do the following to attract your profile to the Recruiters
                                 </p>
                             </div>

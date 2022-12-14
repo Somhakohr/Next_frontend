@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition, Menu } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
@@ -12,6 +13,9 @@ import { axiosInstance } from '../pages/api/axiosApi';
 import Logo from "../components/logo";
 
 function Header(props) {
+
+
+    const routerr = useRouter();
 
     const [smallMenu, toggleSmallMenu] = useState(false);
 
@@ -159,6 +163,10 @@ function Header(props) {
     ];
     const menuNav = [
         {
+            url: '/job-listing',
+            text: 'Jobs'
+        },
+        {
             url: '#',
             text: 'Features'
         },
@@ -167,7 +175,7 @@ function Header(props) {
             text: 'Protocol'
         },
         {
-            url: '#',
+            url: '/blog',
             text: 'Blog'
         },
         {
@@ -228,7 +236,7 @@ function Header(props) {
                             </Menu>
                             <Menu as="div" className="relative last:border-l p-2">
                                 <Menu.Button className="align-middle">
-                                    <Image src={userImg} alt={userName} width={35} height={35}  className="rounded-full object-cover" />
+                                    <Image src={userImg} alt={userName} width={35} height={35}  className="w-[35px] h-[35px] rounded-full object-cover" />
                                 </Menu.Button>
                                 <Transition
                                     as={Fragment}
@@ -286,7 +294,7 @@ function Header(props) {
                             </Menu>
                             <Menu as="div" className="relative last:border-l p-2">
                                 <Menu.Button className="align-middle">
-                                    <Image src={userImg} alt={userName} width={35} height={35}  className="rounded-full object-cover" />
+                                    <Image src={userImg} alt={userName} width={35} height={35}  className="w-[35px] h-[35px] rounded-full object-cover" />
                                 </Menu.Button>
                                 <Transition
                                     as={Fragment}
@@ -325,7 +333,7 @@ function Header(props) {
                                 <ul className="w-full flex items-center justify-center">
                                     {menuNav.map((menuNav, i) => (
                                         <li key={i}>
-                                            <Link href={menuNav.url} className="px-5 py-[10px] rounded leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">
+                                            <Link href={menuNav.url} className={`px-5 py-[10px] rounded leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white ${routerr.pathname == menuNav.url ? "bg-[#6D27F9] text-white" : ""}`}>
                                                 {menuNav.text}
                                             </Link>
                                         </li>

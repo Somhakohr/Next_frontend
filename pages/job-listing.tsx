@@ -247,7 +247,7 @@ export default function JobListing() {
                                         <option value="Last 1 Hour">Last 1 Hour</option>
                                     </select>
                                 </div>
-                                <div className="overflow-auto lg:max-h-[485px] px-[10px]" id="scrollableDiv">
+                                <div className="w-full" id="scrollableDiv">
                                 <InfiniteScroll
                                     dataLength={joblist2.length}
                                     next={fetchMoreData}
@@ -256,7 +256,7 @@ export default function JobListing() {
                                     loader={loader}
                                     scrollableTarget="scrollableDiv"
                                     >
-                                <div className="flex flex-wrap mx-[-10px]">
+                                <div className="flex flex-wrap">
                                 
                                     {joblist2.map((job, i) => (
                                         <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>

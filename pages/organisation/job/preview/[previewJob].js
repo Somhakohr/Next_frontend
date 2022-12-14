@@ -143,7 +143,7 @@ export default function JobDetail() {
                     <div className="flex flex-wrap md:items-center justify-between flex-col-reverse md:flex-row mb-4">
                         <aside>
                             <h3 className="font-bold text-xl mb-2">Web Developer</h3>
-                            <p className="text-[#7e7e7e]">
+                            <p className="text-[#646464]">
                                 <span>5 Days ago</span>
                                 <span className="mx-3">|</span>
                                 <span>Job ID:PD-8354</span>
@@ -170,7 +170,7 @@ export default function JobDetail() {
                                             <p className="grow font-bold text-sm lg:text-md">{featuredInfo.title}</p>
                                         </div>
                                         <div className="py-6 px-8">
-                                            <p className="text-[#7e7e7e] text-sm lg:text-md font-light">{featuredInfo.desc}</p>
+                                            <p className="text-[#646464] text-sm lg:text-md font-light">{featuredInfo.desc}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -185,7 +185,7 @@ export default function JobDetail() {
                         <h2 className="text-white">Job Overview</h2>
                     </div>
                     <div className="py-4 px-6 md:px-10">
-                        <article className="text-[#7e7e7e] font-light">
+                        <article className="text-[#646464] font-light">
                             <p>
                             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
                             </p>
@@ -218,7 +218,7 @@ export default function JobDetail() {
                         <h2 className="text-white">What’s the Job</h2>
                     </div>
                     <div className="py-4 px-6 md:px-10">
-                        <article className="text-[#7e7e7e] font-light">
+                        <article className="text-[#646464] font-light">
                             <ul>
                                 <li>
                                 What is Lorem Ipsum?

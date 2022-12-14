@@ -64,7 +64,7 @@ export default function OrganisationInformation() {
                                         <i className="fa-solid fa-industry mr-2 text-[#60C3E2]"></i>
                                         Industry
                                     </h4>
-                                    <p className="font-medium flex items-center text-[#7e7e7e] font-light text-sm">
+                                    <p className="font-medium flex items-center text-[#646464] font-light text-sm">
                                         <span className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] w-[16px] h-[16px] rounded-full ml-0.5 mr-2"></span>
                                         Recruitment / Staffing
                                     </p>
@@ -74,7 +74,7 @@ export default function OrganisationInformation() {
                                         <i className="fa-solid fa-calendar-days mr-2 text-[#60C3E2]"></i>
                                         Founded Date
                                     </h4>
-                                    <p className="font-medium flex items-center text-[#7e7e7e] font-light text-sm">
+                                    <p className="font-medium flex items-center text-[#646464] font-light text-sm">
                                         <span className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] w-[16px] h-[16px] rounded-full ml-0.5 mr-2"></span>
                                         2012
                                     </p>
@@ -84,7 +84,7 @@ export default function OrganisationInformation() {
                                         <i className="fa-solid fa-address-card mr-2 text-[#60C3E2]"></i>
                                         Legal Name
                                     </h4>
-                                    <p className="font-medium flex items-center text-[#7e7e7e] font-light text-sm">
+                                    <p className="font-medium flex items-center text-[#646464] font-light text-sm">
                                         <span className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] w-[16px] h-[16px] rounded-full ml-0.5 mr-2"></span>
                                         XYZ
                                     </p>
@@ -94,7 +94,7 @@ export default function OrganisationInformation() {
                                         <i className="fa-solid fa-user mr-2 text-[#60C3E2]"></i>
                                         Founders
                                     </h4>
-                                    <p className="font-medium flex items-center text-[#7e7e7e] font-light text-sm">
+                                    <p className="font-medium flex items-center text-[#646464] font-light text-sm">
                                         <span className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] w-[16px] h-[16px] rounded-full ml-0.5 mr-2"></span>
                                         Jhon, Catreina
                                     </p>
@@ -104,7 +104,7 @@ export default function OrganisationInformation() {
                                         <i className="fa-solid fa-money-bill mr-2 text-[#60C3E2]"></i>
                                         Total Round of Funding
                                     </h4>
-                                    <p className="font-medium flex items-center text-[#7e7e7e] font-light text-sm">
+                                    <p className="font-medium flex items-center text-[#646464] font-light text-sm">
                                         <span className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] w-[16px] h-[16px] rounded-full ml-0.5 mr-2"></span>
                                         4
                                     </p>
@@ -114,7 +114,7 @@ export default function OrganisationInformation() {
                                         <i className="fa-solid fa-coins mr-2 text-[#60C3E2]"></i>
                                         Funding
                                     </h4>
-                                    <p className="font-medium flex items-center text-[#7e7e7e] font-light text-sm">
+                                    <p className="font-medium flex items-center text-[#646464] font-light text-sm">
                                         <span className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] w-[16px] h-[16px] rounded-full ml-0.5 mr-2"></span>
                                         20,000,00
                                     </p>
@@ -133,7 +133,7 @@ export default function OrganisationInformation() {
                                 <div className="w-full md:max-w-[50%] py-8 md:px-8">
                                     <h3 className="text-xl mb-3">Contacts for google</h3>
                                     <div className="flex flex-wrap">
-                                        <p className="text-[#7e7e7e] mr-4">Google.com</p>
+                                        <p className="text-[#646464] mr-4">Google.com</p>
                                         <Link href="#" target="_blank" className="mr-3 text-lg text-[#6D27F9] hover:text-black">
                                             <i className="fa-brands fa-linkedin"></i>
                                         </Link>

@@ -23,7 +23,7 @@ export default function OrganisationCandidateProfileView() {
                                     </div>
                                 </div>
                                 <div className="w-full md:max-w-[calc(100%-310px)] p-6 xl:p-8 relative bg-white border rounded-[25px] flex items-center">
-                                    <aside className="w-full text-[#7e7e7e]">
+                                    <aside className="w-full text-[#646464]">
                                         <h2 className="font-semibold text-xl md:text-3xl mb-2">
                                         Joseph Roger
                                         </h2>
@@ -89,7 +89,7 @@ export default function OrganisationCandidateProfileView() {
                                 </ul>
                             </div>
                             <div className="p-6 text-center">
-                                <h6 className="text-[#7e7e7e] mb-4">JD-491170</h6>
+                                <h6 className="text-[#646464] mb-4">JD-491170</h6>
                                 <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-sm text-white font-semibold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">
                                     Download Resume
                                     <i className="fa-solid fa-download ml-2"></i>
@@ -101,7 +101,7 @@ export default function OrganisationCandidateProfileView() {
                         <div className="w-full lg:w-[30%] mb-6">
                             <div className="bg-white shadow-normal border border-teal-400 rounded-[25px] p-6">
                                 <h3 className="text-lg font-semibold mb-2">Update Status</h3>
-                                <ul className="flex flex-wrap mx-[-10px] text-[#7e7e7e]">
+                                <ul className="flex flex-wrap mx-[-10px] text-[#646464]">
                                     <li className="w-[50%] px-[10px]">
                                         <button type="button" className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#6D27F9] hover:text-white">
                                             <i className="fa-solid fa-thumbs-up mr-2"></i>
@@ -137,7 +137,7 @@ export default function OrganisationCandidateProfileView() {
                                                 Shortlisted
                                             </span>
                                         </div>
-                                        <p className="text-[#7e7e7e] text-[12px]">Nov 29, 2022 - 12:00pm</p>
+                                        <p className="text-[#646464] text-[12px]">Nov 29, 2022 - 12:00pm</p>
                                     </div>
                                     <div className="text-center mb-4 relative after:content-[''] after:w-[150px] after:h-[2px] after:bg-slate-300 after:absolute after:right-0 after:top-[18px] after:z-[1] before:content-[''] before:w-[2px] before:h-[72px] before:bg-slate-300 before:absolute before:right-0 before:bottom-[38px] before:z-[1]">
                                         <div className="relative z-[2]">
@@ -155,7 +155,7 @@ export default function OrganisationCandidateProfileView() {
                                                 Interview
                                             </span>
                                         </div>
-                                        <p className="text-[#7e7e7e] text-[12px]">Nov 29, 2022 - 12:00pm</p>
+                                        <p className="text-[#646464] text-[12px]">Nov 29, 2022 - 12:00pm</p>
                                     </div>
                                     <div className="text-center mb-4 relative after:content-[''] after:w-[150px] after:h-[2px] after:bg-slate-300 after:absolute after:right-0 after:top-[18px] after:z-[1] before:content-[''] before:w-[2px] before:h-[72px] before:bg-slate-300 before:absolute before:right-0 before:bottom-[38px] before:z-[1]">
                                         <div className="relative z-[2]">
@@ -173,7 +173,7 @@ export default function OrganisationCandidateProfileView() {
                                                 On Hold
                                             </span>
                                         </div>
-                                        <p className="text-[#7e7e7e] text-[12px]">Nov 29, 2022 - 12:00pm</p>
+                                        <p className="text-[#646464] text-[12px]">Nov 29, 2022 - 12:00pm</p>
                                     </div>
                                     <div className="text-center mb-4 relative after:content-[''] after:w-[150px] after:h-[2px] after:bg-slate-300 after:absolute after:right-0 after:top-[18px] after:z-[1] before:content-[''] before:w-[2px] before:h-[72px] before:bg-slate-300 before:absolute before:right-0 before:bottom-[38px] before:z-[1]">
                                         <div className="relative z-[2]">
@@ -191,7 +191,7 @@ export default function OrganisationCandidateProfileView() {
                                                 Reject
                                             </span>
                                         </div>
-                                        <p className="text-[#7e7e7e] text-[12px]">Nov 29, 2022 - 12:00pm</p>
+                                        <p className="text-[#646464] text-[12px]">Nov 29, 2022 - 12:00pm</p>
                                     </div>
                                     <div className="text-center mb-4 relative after:content-[''] after:w-[150px] after:h-[2px] after:bg-slate-300 after:absolute after:right-0 after:top-[18px] after:z-[1] before:content-[''] before:w-[2px] before:h-[72px] before:bg-slate-300 before:absolute before:right-0 before:bottom-[38px] before:z-[1]">
                                         <div className="relative z-[2]">
@@ -199,7 +199,7 @@ export default function OrganisationCandidateProfileView() {
                                                 Hired
                                             </span>
                                         </div>
-                                        <p className="text-[#7e7e7e] text-[12px]">Nov 29, 2022 - 12:00pm</p>
+                                        <p className="text-[#646464] text-[12px]">Nov 29, 2022 - 12:00pm</p>
                                     </div>
                                 </div>
                             </div>
@@ -239,8 +239,8 @@ export default function OrganisationCandidateProfileView() {
                                     <article>
                                         <h4 className="font-semibold mb-1">Certificate Name Here</h4>
                                         <p className="text-[#6D27F9] font-medium mb-2 text-sm">Certificate Company</p>
-                                        <p className="text-[#7e7e7e] font-light text-sm mb-2">Issued Date:- 01-02-2012 <br/> Expiry Date:- 01-02-2013</p>
-                                        <p className="text-[#7e7e7e] font-light text-sm mb-2">Credentials:- Cred Id</p>
+                                        <p className="text-[#646464] font-light text-sm mb-2">Issued Date:- 01-02-2012 <br/> Expiry Date:- 01-02-2013</p>
+                                        <p className="text-[#646464] font-light text-sm mb-2">Credentials:- Cred Id</p>
                                         <a type="button" href="#" target="_blank" className="border border-[#6D27F9] rounded-full py-1.5 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" >Show Certificate</a>
                                     </article>
                                 </div> 
@@ -248,8 +248,8 @@ export default function OrganisationCandidateProfileView() {
                                     <article>
                                         <h4 className="font-semibold mb-1">Certificate Name Here</h4>
                                         <p className="text-[#6D27F9] font-medium mb-2 text-sm">Certificate Company</p>
-                                        <p className="text-[#7e7e7e] font-light text-sm mb-2">Issued Date:- 01-02-2012 <br/> Expiry Date:- 01-02-2013</p>
-                                        <p className="text-[#7e7e7e] font-light text-sm mb-2">Credentials:- Cred Id</p>
+                                        <p className="text-[#646464] font-light text-sm mb-2">Issued Date:- 01-02-2012 <br/> Expiry Date:- 01-02-2013</p>
+                                        <p className="text-[#646464] font-light text-sm mb-2">Credentials:- Cred Id</p>
                                         <a type="button" href="#" target="_blank" className="border border-[#6D27F9] rounded-full py-1.5 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" >Show Certificate</a>
                                     </article>
                                 </div> 
@@ -260,18 +260,18 @@ export default function OrganisationCandidateProfileView() {
                                     <article>
                                         <h4 className="font-semibold mb-1">BCA</h4>
                                         <p className="text-[#6D27F9] font-medium mb-2 text-sm">Lovely University</p>
-                                        <p className="text-[#7e7e7e] font-light text-sm mb-2">Started Date:- 01-02-2012 <br/> End Date:- 01-02-2013</p>
+                                        <p className="text-[#646464] font-light text-sm mb-2">Started Date:- 01-02-2012 <br/> End Date:- 01-02-2013</p>
                                         <h6 className="font-medium">About</h6>
-                                        <p className="text-[#7e7e7e] font-light text-sm">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                                        <p className="text-[#646464] font-light text-sm">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
                                     </article>
                                 </div>
                                 <div className="w-full rounded-[20px] bg-[#FAF8FF] border border-slate-200 p-4 md:p-6 md:pr-[110px] pt-[35px] md:pt-6 mb-4 relative overflow-hidden">
                                     <article>
                                         <h4 className="font-semibold mb-1">BCA</h4>
                                         <p className="text-[#6D27F9] font-medium mb-2 text-sm">Lovely University</p>
-                                        <p className="text-[#7e7e7e] font-light text-sm mb-2">Started Date:- 01-02-2012 <br/> End Date:- 01-02-2013</p>
+                                        <p className="text-[#646464] font-light text-sm mb-2">Started Date:- 01-02-2012 <br/> End Date:- 01-02-2013</p>
                                         <h6 className="font-medium">About</h6>
-                                        <p className="text-[#7e7e7e] font-light text-sm">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                                        <p className="text-[#646464] font-light text-sm">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
                                     </article>
                                 </div>
                             </div>
@@ -281,20 +281,20 @@ export default function OrganisationCandidateProfileView() {
                                     <article>
                                         <h4 className="font-semibold mb-1">Experience Title</h4>
                                         <p className="text-[#6D27F9] font-medium mb-2 text-sm">Experience Company</p>
-                                        <p className="text-[#7e7e7e] font-light text-sm mb-2">Started Date:- 01-02-2012 <br/> End Date:- 01-02-2016</p>
-                                        <p className="text-[#7e7e7e] font-light text-sm mb-2">Type:- Fulltime</p>
+                                        <p className="text-[#646464] font-light text-sm mb-2">Started Date:- 01-02-2012 <br/> End Date:- 01-02-2016</p>
+                                        <p className="text-[#646464] font-light text-sm mb-2">Type:- Fulltime</p>
                                         <h6 className="font-medium">About</h6>
-                                        <p className="text-[#7e7e7e] font-light text-sm">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                                        <p className="text-[#646464] font-light text-sm">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
                                     </article>
                                 </div>
                                 <div className="w-full rounded-[20px] bg-[#FAF8FF] border border-slate-200 p-4 md:p-6 md:pr-[110px] pt-[35px] md:pt-6 mb-4 relative overflow-hidden">
                                     <article>
                                         <h4 className="font-semibold mb-1">Experience Title</h4>
                                         <p className="text-[#6D27F9] font-medium mb-2 text-sm">Experience Company</p>
-                                        <p className="text-[#7e7e7e] font-light text-sm mb-2">Started Date:- 01-02-2012 <br/> End Date:- 01-02-2016</p>
-                                        <p className="text-[#7e7e7e] font-light text-sm mb-2">Type:- Fulltime</p>
+                                        <p className="text-[#646464] font-light text-sm mb-2">Started Date:- 01-02-2012 <br/> End Date:- 01-02-2016</p>
+                                        <p className="text-[#646464] font-light text-sm mb-2">Type:- Fulltime</p>
                                         <h6 className="font-medium">About</h6>
-                                        <p className="text-[#7e7e7e] font-light text-sm">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                                        <p className="text-[#646464] font-light text-sm">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
                                     </article>
                                 </div>
                             </div>
@@ -304,7 +304,7 @@ export default function OrganisationCandidateProfileView() {
                                     <article>
                                         <h4 className="font-semibold mb-1 text-lg">Achievements Title</h4>
                                         <h6 className="font-medium">About</h6>
-                                        <p className="text-[#7e7e7e] font-light text-sm">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                                        <p className="text-[#646464] font-light text-sm">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
                                     </article>
                                 </div>
                             </div>
