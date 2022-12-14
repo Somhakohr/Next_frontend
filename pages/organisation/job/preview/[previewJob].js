@@ -49,7 +49,7 @@ function PreviewDetail(props) {
         await axiosInstance.get('/job/job/detail/'+id+'/').then(async (res)=>{
             setJobDetail(res.data)
         }).catch((err)=>{
-            router.push('/job-listing')
+            router.push('/organisation')
             // console.log(err)
             // if(err.message != "Request failed with status code 401"){
             //     toastcomp("Job Detail Not Loaded","error");
@@ -65,6 +65,11 @@ function PreviewDetail(props) {
         loadJobDetail(param1)
       }
     }, [param1])
+    
+    function companyDetail(orefid) {
+        updateParam1(orefid)
+        router.push('/organisation/company/preview/'+orefid)
+    }
 
     useEffect(() => {
         if(jobDetail.length > 0){
@@ -298,23 +303,11 @@ function PreviewDetail(props) {
         {jobDetail.map((data, i) => (
             <>
             <main className="py-8" key={i}>
+
             <section className="container">
             <div className="flex flex-wrap mb-8">
                     <div className="w-full lg:max-w-[30%] 2xl:max-w-[20%] mb-6 lg:mb-0 relative bg-white shadow-lg rounded-[25px] py-6 px-8 text-center min-h-[350px] flex flex-col justify-between items-center">
                         <aside>
-                            <h3 className="font-bold text-xl mb-2">Web Developer</h3>
-                            <p className="text-[#646464]">
-                                <span>5 Days ago</span>
-                                <span className="mx-3">|</span>
-                                <span>Job ID:PD-8354</span>
-                            </p>
-                        </aside>
-                        <aside className="flex items-center flex-wrap mb-4 md:mb-0">
-                            <button type="button" className="flex items-center mr-8" onClick={() => mainShareJobOpen(true)}>
-                                <span className="mr-2">Share Job</span>
-                                <i className="fa-solid fa-share text-[#6D27F9]"></i>
-                            </button>
-                            <button type="button" className="bg-white py-1.5 px-4 text-sm rounded-full border border-[#6D27F9] hover:bg-[#6D27F9] hover:text-white">Save Job</button>
                             <div className="w-[150px] h-[150px] mx-auto block mb-4 rounded-full p-4 shadow-insetview flex items-center justify-center">
                                 <div className="w-full h-full rounded-full bg-white shadow-lg p-5">
                                     <Image src={data.org.profile} width={150} height={150} alt="Company Name" />
@@ -322,7 +315,7 @@ function PreviewDetail(props) {
                             </div>
                             <h2 className="font-semibold text-2xl">{data.user.company_name}</h2>
                         </aside>
-                        <button type="button" className="w-full font-semibold bg-white shadow-normal rounded-lg py-2 px-4 hover:bg-[#6D27F9] hover:text-white">
+                        <button onClick={(e)=>companyDetail(data.user.orefid)} type="button" className="w-full font-semibold bg-white shadow-normal rounded-lg py-2 px-4 hover:bg-[#6D27F9] hover:text-white">
                             Comapny Details
                         </button>
                     </div>

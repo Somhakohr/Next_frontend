@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import Sidebar from "../../components/org-sidebar";
-import { withAuth } from "../../constants/HOCs";
+import Sidebar from "../../../../components/org-sidebar";
+import { withAuth } from "../../../../constants/HOCs";
 import shallow from "zustand/shallow";
-import { useStore } from "../../constants/code";
-import toastcomp from "../../components/toast";
+import { useStore } from "../../../../constants/code";
+import toastcomp from "../../../../components/toast";
 import axios from "axios";
 
-function OrganisationApplicants(props) {
+function OrganisationJOBApplicants(props) {
     const {session,router} = props
     const [shareCandidate, shareCandidatePopupOpen] = useState(false)
     const cancelButtonRef = useRef(null)
@@ -49,8 +49,6 @@ function OrganisationApplicants(props) {
     )
 
     const [applicant,setApplicant] = useState([])
-    const [name,setName] = useState('')
-    const [fname,setFName] = useState('')
     
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
@@ -62,26 +60,16 @@ function OrganisationApplicants(props) {
         }
     });
     
-    async function loadApplicant(orefid) {
-        await axiosInstanceAuth2.get('/job/applicants/alls/'+orefid+'/').then(async (res)=>{
+    async function loadApplicant(refid,orefid) {
+        await axiosInstanceAuth2.get('/job/job/applicant/'+orefid+'/'+refid+'/').then(async (res)=>{
             setApplicant(res.data)
+            console.log(res.data)
         }).catch((err)=>{
-            console.log(err)
-            if(err.message != "Request failed with status code 401"){
-                toastcomp("Applicant Fetch Error","error");
-            }
-        })
-    }
-    
-    async function loadApplicantF(orefid,formData) {
-        await axiosInstanceAuth2.get('/job/applicants/alls/'+orefid+'/',formData).then(async (res)=>{
-            console.log("res",res.data)
-            setApplicant(res.data)
-        }).catch((err)=>{
-            console.log(err)
-            if(err.message != "Request failed with status code 401"){
-                toastcomp("Applicant F Fetch Error","error");
-            }
+            // console.log(err)
+            // if(err.message != "Request failed with status code 401"){
+            //     toastcomp("Applicant Fetch Error","error");
+            // }
+            router.push("/organisation/jobs");
         })
     }
 
@@ -90,17 +78,11 @@ function OrganisationApplicants(props) {
           router.push("/");
         }
         else if(session && userObj){
-            loadApplicant(userObj["orefid"])
+            loadApplicant(param1,userObj["orefid"])
         }
       }, [session,userObj]);
 
-    useEffect(()=>{
-        var formData = new FormData()
-        formData.append('first_name',name);
-        loadApplicantF(userObj["orefid"],formData);
-    },[fname])
 
-    
     return (
         <>
         { userType == "Organisation" &&<>
@@ -114,7 +96,7 @@ function OrganisationApplicants(props) {
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] my-3">
                                     <div className="iconGroup">
-                                        <input type="search" placeholder="JA no, Job Title, Location, Name" className="w-full rounded-full border-slate-300" value={name} onChange={(e)=>setName(e.target.value)} onBlur={(e)=>setFName(e.target.value)} />
+                                        <input type="search" placeholder="JA no, Job Title, Location, Name" className="w-full rounded-full border-slate-300" />
                                         <i className="fa-solid fa-search iconGroup__icon"></i>
                                     </div>
                                 </div>
@@ -343,4 +325,4 @@ function OrganisationApplicants(props) {
     )
 }
 
-export default withAuth(3*60)(OrganisationApplicants)
+export default withAuth(3*60)(OrganisationJOBApplicants)

@@ -64,6 +64,12 @@ export default function OrganisationJobsCard(props) {
         router.push(`/organisation/job/preview/${refid}`)
     }
 
+    function viewApplicant(refid){
+        refid = refid.toUpperCase()
+        updateParam1(refid);
+        router.push(`/organisation/job/${refid}/applicants`)
+    }
+
     async function getApplicant() {
         await axiosInstanceAuth2.get('/job/job/applicant/'+data.user.orefid+'/'+data.refid+'/').then(async (res)=>{
             setAppNum(res.data)
@@ -379,7 +385,7 @@ export default function OrganisationJobsCard(props) {
                     <div className="text-right">
                         
                         {data.jobStatus == "Active" && 
-                        <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-medium rounded-full text-[12px] py-2 px-4 transition-all hover:from-[#391188] hover:to-[#391188]">{appnum.length} Applicants</button>
+                        <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-medium rounded-full text-[12px] py-2 px-4 transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>viewApplicant(data.refid)}>{appnum.length} Applicants</button>
                         }
                         
                         {data.jobStatus != "Active" && 

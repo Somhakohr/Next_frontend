@@ -70,6 +70,11 @@ function JobDetail(props) {
         loadJobDetail(param1)
       }
     }, [param1])
+
+    function companyDetail(orefid) {
+        updateParam1(orefid)
+        router.push('/company-detail/'+orefid)
+    }
     
 
     useEffect(() => {
@@ -348,7 +353,7 @@ function JobDetail(props) {
                             </div>
                             <h2 className="font-semibold text-2xl">{data.user.company_name}</h2>
                         </aside>
-                        <button type="button" className="w-full font-semibold bg-white shadow-normal rounded-lg py-2 px-4 hover:bg-[#6D27F9] hover:text-white">
+                        <button onClick={(e)=>companyDetail(data.user.orefid)} type="button" className="w-full font-semibold bg-white shadow-normal rounded-lg py-2 px-4 hover:bg-[#6D27F9] hover:text-white">
                             Comapny Details
                         </button>
                     </div>
