@@ -82,6 +82,20 @@ function OrganisationJOBApplicants(props) {
         }
       }, [session,userObj]);
 
+      
+    function getColor(status){
+        if(status == "Hired"){ return '#008767' }
+        else if(status == "Rejected"){ return '#DF0404' }
+        else if(status == "On Hold"){ return '#efb800' }
+        else{ return '' }
+    }
+      
+    function viewApplicant(id){
+        id = id.toUpperCase()
+        updateParam1(id);
+        router.push(`/organisation/applicant/${id}`)
+    }
+
 
     return (
         <>
@@ -161,14 +175,14 @@ function OrganisationJOBApplicants(props) {
                                                     <input type="checkbox" className="w-[12px] h-[12px]" />
                                                 </td>
                                                 }
-                                                <td className="p-3 w-[15%]">{data.user.user.first_name || data.user.user.last_name? <>{data.user.user.first_name}  {data.user.user.last_name}</> : <>N/A</> }</td>
+                                                <td className="p-3 w-[15%]">{data.user.first_name || data.user.last_name? <>{data.user.first_name}  {data.user.last_name}</> : <>N/A</> }</td>
                                                 <td className="p-3 w-[12%]">{data.arefid}</td>
-                                                <td className="p-3 text-center">{data.user.yearofexp?data.user.yearofexp:<>N/A</>}</td>
-                                                <td className="p-3 w-[15%]">{data.user.user.email}</td>
-                                                <td className="p-3 text-center w-[15%]">{data.user.noticeperiod?data.user.noticeperiod:<>N/A</>}</td>
+                                                <td className="p-3 text-center">{data.cand.yearofexp?data.cand.yearofexp:<>N/A</>}</td>
+                                                <td className="p-3 w-[15%]">{data.user.email}</td>
+                                                <td className="p-3 text-center w-[15%]">{data.cand.noticeperiod?data.cand.noticeperiod:<>N/A</>}</td>
                                                 <td className="p-3 text-center">
                                                     {data.status ? 
-                                                    <span className="border border-[#008767] text-[#008767] rounded-full py-1 px-4 text-center text-[12px] min-w-[90px] inline-block">
+                                                    <span className="border rounded-full py-1 px-4 text-center text-[12px] min-w-[90px] inline-block"  style={{ ["border-color" as any]: `${getColor(data.status)}`,["color" as any]: `${getColor(data.status)}`}}>
                                                         {data.status}
                                                     </span>
                                                     :
@@ -176,7 +190,7 @@ function OrganisationJOBApplicants(props) {
                                                     }
                                                 </td>
                                                 <td className="p-3 text-center">
-                                                    <Link href="#" className="text-[#6D27F9] hover:underline hover:text-black">View</Link>
+                                                    <button onClick={(e)=>viewApplicant(data.arefid)} className="text-[#6D27F9] hover:underline hover:text-black">View</button>
                                                 </td>
                                                 {userObj['company_type'] == 'Agency' && 
                                                 <td className="p-3 text-center">
@@ -187,75 +201,6 @@ function OrganisationJOBApplicants(props) {
                                                 }
                                             </tr>
                                         ))}
-                                        {/* <tr>
-                                            <td className="p-3 w-[15px]">
-                                                <input type="checkbox" className="w-[12px] h-[12px]" />
-                                            </td>
-                                            <td className="p-3 w-[15%]">Jane Cooper</td>
-                                            <td className="p-3 w-[12%]">JA138488</td>
-                                            <td className="p-3 text-center">5+</td>
-                                            <td className="p-3 w-[15%]">jane@microsoft.com</td>
-                                            <td className="p-3 text-center w-[15%]">30 Days</td>
-                                            <td className="p-3 text-center">
-                                                <span className="border border-[#008767] text-[#008767] rounded-full py-1 px-4 text-center text-[12px] min-w-[90px] inline-block">
-                                                    Hired
-                                                </span>
-                                            </td>
-                                            <td className="p-3 text-center">
-                                                <Link href="#" className="text-[#6D27F9] hover:underline hover:text-black">View</Link>
-                                            </td>
-                                            <td className="p-3 text-center">
-                                                <button type="button" className="text-[#6D27F9]" onClick={() => shareCandidatePopupOpen(true)}>
-                                                    <i className="fa-solid fa-share-nodes"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="p-3 w-[15px]">
-                                                <input type="checkbox" className="w-[12px] h-[12px]" />
-                                            </td>
-                                            <td className="p-3 w-[15%]">Jane Cooper</td>
-                                            <td className="p-3 w-[12%]">JA138488</td>
-                                            <td className="p-3 text-center">5+</td>
-                                            <td className="p-3 w-[15%]">jane@microsoft.com</td>
-                                            <td className="p-3 text-center w-[15%]">30 Days</td>
-                                            <td className="p-3 text-center">
-                                                <span className="border border-[#DF0404] text-[#DF0404] rounded-full py-1 px-4 text-center text-[12px] min-w-[90px] inline-block">
-                                                    Rejected
-                                                </span>
-                                            </td>
-                                            <td className="p-3 text-center">
-                                                <Link href="#" className="text-[#6D27F9] hover:underline hover:text-black">View</Link>
-                                            </td>
-                                            <td className="p-3 text-center">
-                                                <button type="button" className="text-[#6D27F9]">
-                                                    <i className="fa-solid fa-share-nodes"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="p-3 w-[15px]">
-                                                <input type="checkbox" className="w-[12px] h-[12px]" />
-                                            </td>
-                                            <td className="p-3 w-[15%]">Jane Cooper</td>
-                                            <td className="p-3 w-[12%]">JA138488</td>
-                                            <td className="p-3 text-center">5+</td>
-                                            <td className="p-3 w-[15%]">jane@microsoft.com</td>
-                                            <td className="p-3 text-center w-[15%]">30 Days</td>
-                                            <td className="p-3 text-center">
-                                                <span className="border border-[#efb800] text-[#efb800] rounded-full py-1 px-4 text-center text-[12px] min-w-[90px] inline-block">
-                                                    On Hold
-                                                </span>
-                                            </td>
-                                            <td className="p-3 text-center">
-                                                <Link href="#" className="text-[#6D27F9] hover:underline hover:text-black">View</Link>
-                                            </td>
-                                            <td className="p-3 text-center">
-                                                <button type="button" className="text-[#6D27F9]">
-                                                    <i className="fa-solid fa-share-nodes"></i>
-                                                </button>
-                                            </td>
-                                        </tr> */}
                                     </tbody>
                                 </table>
                                 }

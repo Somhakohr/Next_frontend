@@ -1,24 +1,27 @@
 import Image from "next/image";
-import { Fragment, useRef, useState,useEffect } from 'react'
+import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
+import JobCard from "../../components/job-card";
 import Slider from "react-slick";
-import googleImg from "../../../../public/images/google-icon.png";
-import { axiosInstance } from "../../../api/axiosApi";
-import { useStore } from '../../../../constants/code';
+import googleImg from "../../public/images/google-icon.png";
+import { useRouter } from "next/navigation";
+import { axiosInstance } from "../api/axiosApi";
+import { useStore } from '../../constants/code';
+import { useEffect, useState } from 'react';
 import shallow from 'zustand/shallow';
 import moment from "moment";
-import { withAuth } from '../../../../constants/HOCs';
-import toastcomp from '../../../../components/toast';
+import { withAuth } from '../../constants/HOCs';
+import toastcomp from '../../components/toast';
 import axios from 'axios';
 
-function PreviewDetail(props) {
+function JobDetail(props) {
     const [mainShareJob, mainShareJobOpen] = useState(false)
-    const cancelButtonRef = useRef(null)
     const [jobDetail, setJobDetail] = useState([])
     const [pskill, setPSkill] = useState([])
     const [rskill, setRSkill] = useState([])
     const [finfo, setFInfo] = useState([])
     const [refid, setRefid] = useState('')
+    const cancelButtonRef = useRef(null)
     const [param1, updateParam1] = useStore(
         (state) => [state.param1, state.updateParam1],
         shallow
@@ -45,11 +48,13 @@ function PreviewDetail(props) {
             "Content-Type": "multipart/form-data",
         }
     });
+    
+
     async function loadJobDetail(id) {
         await axiosInstance.get('/job/job/detail/'+id+'/').then(async (res)=>{
             setJobDetail(res.data)
         }).catch((err)=>{
-            router.push('/organisation')
+            router.push('/job-listing')
             // console.log(err)
             // if(err.message != "Request failed with status code 401"){
             //     toastcomp("Job Detail Not Loaded","error");
@@ -59,130 +64,132 @@ function PreviewDetail(props) {
 
     useEffect(() => {
       if(!param1){
-        router.push('/organisation')
+        router.push('/job-listing')
       }
       else{
         loadJobDetail(param1)
       }
     }, [param1])
-    
+
     function companyDetail(orefid) {
         updateParam1(orefid)
-        router.push('/organisation/company/preview/'+orefid)
+        router.push('/company-detail/'+orefid)
     }
+    
 
     useEffect(() => {
-        if(jobDetail.length > 0){
-          for(let i =0;i<jobDetail.length;i++){
-              setFInfo([{
-                  icon: <i className="fa-solid fa-briefcase"></i>,
-                  title: 'Experience',
-                  desc: (jobDetail[i]["exp"])?jobDetail[i]["exp"]:'N/A'
-              },
-              {
-                  icon: <i className="fa-solid fa-briefcase"></i>,
-                  title: 'Job Type',
-                  desc: (jobDetail[i]["type"])?jobDetail[i]["type"]:'N/A'
-              },
-              {
-                  icon: <i className="fa-solid fa-briefcase"></i>,
-                  title: 'Experience Level',
-                  desc: (jobDetail[i]["level"])?jobDetail[i]["level"]:'N/A'
-              },
-              {
-                  icon: <i className="fa-solid fa-briefcase"></i>,
-                  title: 'Location',
-                  desc: (jobDetail[i]["location"])?jobDetail[i]["location"]:'N/A'
-              },
-              {
-                  icon: <i className="fa-solid fa-briefcase"></i>,
-                  title: 'Work Type',
-                  desc: (jobDetail[i]["worktype"])?jobDetail[i]["worktype"]:'N/A'
-              },
-              {
-                  icon: <i className="fa-solid fa-briefcase"></i>,
-                  title: 'Qualification',
-                  desc: (jobDetail[i]["qualification"])?jobDetail[i]["qualification"]:'N/A'
-              },
-              {
-                  icon: <i className="fa-solid fa-briefcase"></i>,
-                  title: 'Offered Salary',
-                  desc: (jobDetail[i]["salary"])?jobDetail[i]["salary"]:'N/A'
-              },
-              {
-                  icon: <i className="fa-solid fa-briefcase"></i>,
-                  title: 'Industry',
-                  desc: (jobDetail[i]["industry"])?jobDetail[i]["industry"]:'N/A'
-              },
-              {
-                  icon: <i className="fa-solid fa-briefcase"></i>,
-                  title: 'Department',
-                  desc: (jobDetail[i]["dept"])?jobDetail[i]["dept"]:'N/A'
-              },
-              {
-                  icon: <i className="fa-solid fa-briefcase"></i>,
-                  title: 'Application Deadline',
-                  desc: (jobDetail[i]["deadline"])?moment(jobDetail[i]["deadline"]).format('YYYY-MM-DD'):'N/A'
-              },
-              // if(jobDetail[i]["lang1"])
-              // {
-              //     icon: <i className="fa-solid fa-briefcase"></i>,
-              //     title: 'Language',
-              //     desc: jobDetail[i]["lang1"]+' '+jobDetail[i]["exp1"]+jobDetail[i]["lang1"]+' '+jobDetail[i]["exp3"]+jobDetail[i]["lang3"]+' '+jobDetail[i]["exp3"] +jobDetail[i]["lang4"]+' '+jobDetail[i]["exp4"]
-              // },
-              {
-                  icon: <i className="fa-solid fa-briefcase"></i>,
-                  title: 'Vacancy',
-                  desc: (jobDetail[i]["vacancy"])?jobDetail[i]["vacancy"]:'N/A'
-              },
-              {
-                  icon: <i className="fa-solid fa-briefcase"></i>,
-                  title: 'Bonus',
-                  desc: (jobDetail[i]["bonus"])?jobDetail[i]["bonus"]:'N/A'
-              },
-              {
-                  icon: <i className="fa-solid fa-briefcase"></i>,
-                  title: 'Stock Options',
-                  desc: (jobDetail[i]["stock"])?jobDetail[i]["stock"]:'N/A'
-              },
-              {
-                  icon: <i className="fa-solid fa-briefcase"></i>,
-                  title: 'Visa Sponsership',
-                  desc: (jobDetail[i]["visa"])?jobDetail[i]["visa"]:'N/A'
-              },
-              {
-                  icon: <i className="fa-solid fa-briefcase"></i>,
-                  title: 'Paid Relocation',
-                  desc: (jobDetail[i]["relocation"])?jobDetail[i]["relocation"]:'N/A'
-              },])
-  
-              let arr = [],rarr =[]
-              if(jobDetail[i]["preskill"]){
-                  let preskill = jobDetail[i]["preskill"].split(',')
-                  for(let j =0;j<preskill.length;j++){
-                      arr.push({
-                          'title':preskill[j]
-                      })
-                  }
-                  setPSkill(arr)
-              }
-              if(jobDetail[i]["recsskill"]){
-                  let recskill = jobDetail[i]["recskill"].split(',')
-                  for(let j =0;j<recskill.length;j++){
-                      rarr.push({
-                          'title':recskill[j]
-                      })
-                  }
-                  setRSkill(rarr)
-              }
-              
-              
-              setRefid(jobDetail[i]["refid"])
-          }
-  
+      if(jobDetail.length > 0){
+        for(let i =0;i<jobDetail.length;i++){
+            setFInfo([{
+                icon: <i className="fa-solid fa-briefcase"></i>,
+                title: 'Experience',
+                desc: (jobDetail[i]["exp"])?jobDetail[i]["exp"]:'N/A'
+            },
+            {
+                icon: <i className="fa-solid fa-briefcase"></i>,
+                title: 'Job Type',
+                desc: (jobDetail[i]["type"])?jobDetail[i]["type"]:'N/A'
+            },
+            {
+                icon: <i className="fa-solid fa-briefcase"></i>,
+                title: 'Experience Level',
+                desc: (jobDetail[i]["level"])?jobDetail[i]["level"]:'N/A'
+            },
+            {
+                icon: <i className="fa-solid fa-briefcase"></i>,
+                title: 'Location',
+                desc: (jobDetail[i]["location"])?jobDetail[i]["location"]:'N/A'
+            },
+            {
+                icon: <i className="fa-solid fa-briefcase"></i>,
+                title: 'Work Type',
+                desc: (jobDetail[i]["worktype"])?jobDetail[i]["worktype"]:'N/A'
+            },
+            {
+                icon: <i className="fa-solid fa-briefcase"></i>,
+                title: 'Qualification',
+                desc: (jobDetail[i]["qualification"])?jobDetail[i]["qualification"]:'N/A'
+            },
+            {
+                icon: <i className="fa-solid fa-briefcase"></i>,
+                title: 'Offered Salary',
+                desc: (jobDetail[i]["salary"])?jobDetail[i]["salary"]:'N/A'
+            },
+            {
+                icon: <i className="fa-solid fa-briefcase"></i>,
+                title: 'Industry',
+                desc: (jobDetail[i]["industry"])?jobDetail[i]["industry"]:'N/A'
+            },
+            {
+                icon: <i className="fa-solid fa-briefcase"></i>,
+                title: 'Department',
+                desc: (jobDetail[i]["dept"])?jobDetail[i]["dept"]:'N/A'
+            },
+            {
+                icon: <i className="fa-solid fa-briefcase"></i>,
+                title: 'Application Deadline',
+                desc: (jobDetail[i]["deadline"])?moment(jobDetail[i]["deadline"]).format('YYYY-MM-DD'):'N/A'
+            },
+            // if(jobDetail[i]["lang1"])
+            // {
+            //     icon: <i className="fa-solid fa-briefcase"></i>,
+            //     title: 'Language',
+            //     desc: jobDetail[i]["lang1"]+' '+jobDetail[i]["exp1"]+jobDetail[i]["lang1"]+' '+jobDetail[i]["exp3"]+jobDetail[i]["lang3"]+' '+jobDetail[i]["exp3"] +jobDetail[i]["lang4"]+' '+jobDetail[i]["exp4"]
+            // },
+            {
+                icon: <i className="fa-solid fa-briefcase"></i>,
+                title: 'Vacancy',
+                desc: (jobDetail[i]["vacancy"])?jobDetail[i]["vacancy"]:'N/A'
+            },
+            {
+                icon: <i className="fa-solid fa-briefcase"></i>,
+                title: 'Bonus',
+                desc: (jobDetail[i]["bonus"])?jobDetail[i]["bonus"]:'N/A'
+            },
+            {
+                icon: <i className="fa-solid fa-briefcase"></i>,
+                title: 'Stock Options',
+                desc: (jobDetail[i]["stock"])?jobDetail[i]["stock"]:'N/A'
+            },
+            {
+                icon: <i className="fa-solid fa-briefcase"></i>,
+                title: 'Visa Sponsership',
+                desc: (jobDetail[i]["visa"])?jobDetail[i]["visa"]:'N/A'
+            },
+            {
+                icon: <i className="fa-solid fa-briefcase"></i>,
+                title: 'Paid Relocation',
+                desc: (jobDetail[i]["relocation"])?jobDetail[i]["relocation"]:'N/A'
+            },])
+
+            let arr = [],rarr =[]
+            if(jobDetail[i]["preskill"]){
+                let preskill = jobDetail[i]["preskill"].split(',')
+                for(let j =0;j<preskill.length;j++){
+                    arr.push({
+                        'title':preskill[j]
+                    })
+                }
+                setPSkill(arr)
+            }
+            if(jobDetail[i]["recsskill"]){
+                let recskill = jobDetail[i]["recskill"].split(',')
+                for(let j =0;j<recskill.length;j++){
+                    rarr.push({
+                        'title':recskill[j]
+                    })
+                }
+                setRSkill(rarr)
+            }
+            
+            
+            setRefid(jobDetail[i]["refid"])
         }
-      }, [jobDetail])
+
+      }
+    }, [jobDetail])
     
+
     const settings = {
         dots: false,
         arrows: true,
@@ -209,6 +216,38 @@ function PreviewDetail(props) {
             },
         ]
     };
+
+    async function apply(){
+        if(!session || userType != "Candidate"){
+            toastcomp("Register Yourself As Candidate","error")
+        }
+        else{
+            await axiosInstanceAuth2.post('/job/applicant/apply/'+userObj['erefid']+'/'+refid+'/').then(async (res)=>{
+                toastcomp(res.data.Message,"success")
+            }).catch((err)=>{
+                console.log(err)
+                if(err.message != "Request failed with status code 401"){
+                    toastcomp("Job Applied Error","error");
+                }
+            })
+        }
+    }
+
+    async function bookmark(){
+        if(!session || userType != "Candidate"){
+            toastcomp("Register Yourself As Candidate","error")
+        }
+        else{
+            await axiosInstanceAuth2.post('/job/applicant/bookmark/'+userObj['erefid']+'/'+refid+'/').then(async (res)=>{
+                toastcomp(res.data.Message,"success")
+            }).catch((err)=>{
+                console.log(err)
+                if(err.message != "Request failed with status code 401"){
+                    toastcomp("Job Bookmarked Error","error");
+                }
+            })
+        }
+    }
     // const featuredInfo = [
     //     {
     //         icon: <i className="fa-solid fa-briefcase"></i>,
@@ -298,19 +337,18 @@ function PreviewDetail(props) {
     // ];
   return (
     <>
-     { jobDetail.length > 0 && 
+    { jobDetail.length > 0 && 
         <>
         {jobDetail.map((data, i) => (
             <>
             <main className="py-8" key={i}>
-
             <section className="container">
             <div className="flex flex-wrap mb-8">
                     <div className="w-full lg:max-w-[30%] 2xl:max-w-[20%] mb-6 lg:mb-0 relative bg-white shadow-lg rounded-[25px] py-6 px-8 text-center min-h-[350px] flex flex-col justify-between items-center">
                         <aside>
                             <div className="w-[150px] h-[150px] mx-auto block mb-4 rounded-full p-4 shadow-insetview flex items-center justify-center">
                                 <div className="w-full h-full rounded-full bg-white shadow-lg p-5">
-                                    <Image src={data.org.profile} width={150} height={150} alt="Company Name" className="w-full h-full rounded-full object-cover" />
+                                    <Image src={data.org.profile} width={150} height={150} alt="Company Name" />
                                 </div>
                             </div>
                             <h2 className="font-semibold text-2xl">{data.user.company_name}</h2>
@@ -334,10 +372,10 @@ function PreviewDetail(props) {
                                     <span className="mr-2">Share Job</span>
                                     <i className="fa-solid fa-share text-[#6D27F9]"></i>
                                 </button>
-                                <button type="button" className="bg-white py-1.5 px-4 text-sm rounded-full border border-[#6D27F9] hover:bg-[#6D27F9] hover:text-white" disabled>Save Job</button>
+                                <button type="button" className="bg-white py-1.5 px-4 text-sm rounded-full border border-[#6D27F9] hover:bg-[#6D27F9] hover:text-white" onClick={(e)=>bookmark()}>Save Job</button>
                             </aside>
                         </div>
-                        <button type="button" className="mb-8 bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled>Apply Now</button>
+                        <button type="button" className="mb-8 bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>apply()}>Apply Now</button>
                         <div>
                             <Slider {...settings} className="sliderArrows">
                                 {finfo.map((featuredInfo, i) => (
@@ -515,10 +553,12 @@ function PreviewDetail(props) {
             </Transition.Root>
             </>
         ))}
-            
+        
         </>
     }
+    
     </>
   )
 }
-export default withAuth(3*60)(PreviewDetail)
+
+export default withAuth(3*60)(JobDetail)
