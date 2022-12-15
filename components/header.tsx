@@ -171,7 +171,7 @@ function Header(props) {
             text: 'Features'
         },
         {
-            url: '#',
+            url: '/#protocol',
             text: 'Protocol'
         },
         {
@@ -179,7 +179,7 @@ function Header(props) {
             text: 'Blog'
         },
         {
-            url: 'https://advantf.com/recruitment/',
+            url: '#',
             text: 'Career'
         },
         {

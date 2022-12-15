@@ -328,7 +328,7 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   height: 30px;
   width: 30px;
   border-radius: 100%;
-  background-color: #00FFCA;
+  background-color: #60C3E2;
 }
 @keyframes spin-right {
   100% {

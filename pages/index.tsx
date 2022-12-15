@@ -40,7 +40,7 @@ export default function Home() {
 
   const jobFunctions = [
     {
-      title: "Product Management",
+      title: "Engineering",
       icon: <i className="fa-solid fa-toolbox"></i>,
       iconBgColor: '#6D27F9'
     },
@@ -50,22 +50,22 @@ export default function Home() {
       iconBgColor: '#FFB619'
     },
     {
-      title: "Product Management",
+      title: "Testing & QA",
       icon: <i className="fa-solid fa-toolbox"></i>,
       iconBgColor: '#FF1181'
     },
     {
-      title: "Product Management",
+      title: "Design",
       icon: <i className="fa-solid fa-toolbox"></i>,
       iconBgColor: '#FF6C41'
     },
     {
-      title: "Product Management",
+      title: "Banking & Financial Services",
       icon: <i className="fa-solid fa-toolbox"></i>,
       iconBgColor: '#58E780'
     },
     {
-      title: "Product Management",
+      title: "Human Resources",
       icon: <i className="fa-solid fa-toolbox"></i>,
       iconBgColor: '#A382E5'
     }
@@ -148,7 +148,7 @@ export default function Home() {
             <div className="flex flex-wrap mx-[-15px]">
               {jobFunctions.map((jobFunctions, i) => (
                 <div className="w-full md:max-w-[calc(100%/3)] p-[15px]" key={i}>
-                  <div className="border border-teal-400 shadow-lg bg-white p-6 pt-20 w-full max-w-[250px] mx-auto mt-10 mb-6 text-center relative rounded-[25px]">
+                  <div className="min-h-[160px] border border-teal-400 shadow-lg bg-white p-6 pt-20 w-full max-w-[250px] mx-auto mt-10 mb-6 text-center relative rounded-[25px]">
                     <div className="w-[120px] h-[120px] mx-auto rounded-full border border-teal-400 bg-[#FAF8FF] p-3 absolute left-[50%] translate-x-[-50%] top-[-60px] after:content-[''] after:w-[calc(100%+20px)] after:h-[calc(50%+2px)] after:bg-[#faf8ff] after:absolute after:left-[-10px] after:top-[-3px]">
                       <div className="bg-[#6D27F9] w-full h-full shadow-normal rounded-full flex items-center justify-center text-white text-4xl relative z-10 bg-gradient-to-r from-[#A382E5] to-[#60C3E2]">
                         {jobFunctions.icon}
@@ -161,7 +161,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="py-10 bg-white">
+        <section className="py-10 bg-white" id="protocol">
           <div className="container">
             <h2 className="text-xl md:text-3xl text-center font-medium mb-8">Somhako <span className="text-[#60C3E2]">Protocol</span></h2>
             <div className="w-full max-w-[900px] mx-auto">
@@ -338,7 +338,7 @@ export default function Home() {
                 <div className="p-8">
                   <h4 className="font-semibold text-2xl mb-6">Be a Part of <br /><span className="text-[#6D27F9]">Somhako</span></h4>
                   <p className="text-[#646464] font-light mb-8">Get started by signing up with and deep dive into the HR product in Web 3 Space </p>
-                  <Link href="#" className="inline-block mb-6 text-center bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">Sign Up</Link>
+                  <Link href="/auth/signup" className="inline-block mb-6 text-center bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">Sign Up</Link>
                 </div>
             </div>
             <div className="w-full md:max-w-[40%]">
@@ -371,7 +371,7 @@ export default function Home() {
               </div>
               <div className="w-full lg:max-w-[50%] text-white">
                 <h2 className="mb-6 font-light text-2xl text-center">Untill then <span className="font-bold">Join Discord</span></h2>
-                <Link href="https://discord.gg/934TJUe6BF" target="_blank" className="block text-black border border-black rounded-[30px] min-w-[200px] text-center py-2 px-4 hover:bg-white hover:border-white">Join Now <i className="fa-brands fa-discord ml-2"></i></Link>
+                <Link href="https://discord.gg/934TJUe6BF" target="_blank" className="block text-white border border-white rounded-[30px] min-w-[200px] text-center py-2 px-4 hover:bg-white hover:text-[#6D27F9]">Join Now <i className="fa-brands fa-discord ml-2"></i></Link>
               </div>
             </div>
           </div>
