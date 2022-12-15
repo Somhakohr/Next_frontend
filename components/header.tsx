@@ -167,7 +167,7 @@ function Header(props) {
             text: 'Jobs'
         },
         {
-            url: '#',
+            url: '/#features',
             text: 'Features'
         },
         {
