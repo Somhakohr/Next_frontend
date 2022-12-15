@@ -101,6 +101,19 @@ function OrganisationApplicants(props) {
         loadApplicantF(userObj["orefid"]);
     },[fname])
 
+    function getColor(status){
+        if(status == "Hired"){ return '#008767' }
+        else if(status == "Rejected"){ return '#DF0404' }
+        else if(status == "On Hold"){ return '#efb800' }
+        else{ return '' }
+    }
+
+    
+    function viewApplicant(id){
+        id = id.toUpperCase()
+        updateParam1(id);
+        router.push(`/organisation/applicant/${id}`)
+    }
     
     return (
         <>
@@ -187,7 +200,7 @@ function OrganisationApplicants(props) {
                                                 <td className="p-3 text-center w-[15%]">{data.cand.noticeperiod?data.cand.noticeperiod:<>N/A</>}</td>
                                                 <td className="p-3 text-center">
                                                     {data.status ? 
-                                                    <span className="border border-[#008767] text-[#008767] rounded-full py-1 px-4 text-center text-[12px] min-w-[90px] inline-block">
+                                                    <span className="border rounded-full py-1 px-4 text-center text-[12px] min-w-[90px] inline-block"  style={{ ["border-color" as any]: `${getColor(data.status)}`,["color" as any]: `${getColor(data.status)}`}}>
                                                         {data.status}
                                                     </span>
                                                     :
@@ -195,7 +208,7 @@ function OrganisationApplicants(props) {
                                                     }
                                                 </td>
                                                 <td className="p-3 text-center">
-                                                    <Link href="#" className="text-[#6D27F9] hover:underline hover:text-black">View</Link>
+                                                    <button onClick={(e)=>viewApplicant(data.arefid)} className="text-[#6D27F9] hover:underline hover:text-black">View</button>
                                                 </td>
                                                 {userObj['company_type'] == 'Agency' && 
                                                 <td className="p-3 text-center">

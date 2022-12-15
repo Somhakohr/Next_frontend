@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from "next/link";
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import userImg from '../../public/images/user-image.png';
+import userImg from '../../../public/images/user-image.png';
 
 export default function OrganisationCandidateProfileView() {
     const [addRoundPopup, addRoundPopupOpen] = useState(false)
