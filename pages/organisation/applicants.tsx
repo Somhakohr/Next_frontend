@@ -51,6 +51,7 @@ function OrganisationApplicants(props) {
     const [applicant,setApplicant] = useState([])
     const [name,setName] = useState('')
     const [fname,setFName] = useState('')
+    const [dept,setdept] = useState('')
     
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
@@ -73,8 +74,8 @@ function OrganisationApplicants(props) {
         })
     }
     
-    async function loadApplicantF(orefid,formData) {
-        await axiosInstanceAuth2.get('/job/applicants/alls/'+orefid+'/',formData).then(async (res)=>{
+    async function loadApplicantF(orefid) {
+        await axiosInstanceAuth2.get(`/job/applicants/alls/${orefid}/?user__first_name=${name}&job__dept=${dept}`).then(async (res)=>{
             console.log("res",res.data)
             setApplicant(res.data)
         }).catch((err)=>{
@@ -97,7 +98,7 @@ function OrganisationApplicants(props) {
     useEffect(()=>{
         var formData = new FormData()
         formData.append('first_name',name);
-        loadApplicantF(userObj["orefid"],formData);
+        loadApplicantF(userObj["orefid"]);
     },[fname])
 
     
@@ -119,7 +120,7 @@ function OrganisationApplicants(props) {
                                     </div>
                                 </div>
                                 <div className="w-full lg:w-[47%] my-3">
-                                    <select className="w-full rounded-full border-slate-300">
+                                    <select className="w-full rounded-full border-slate-300" value={dept} onChange={(e)=>setdept(e.target.value)}>
                                         <option value="Department">Department</option>
                                         <option value="HR">HR</option>
                                     </select>
@@ -179,11 +180,11 @@ function OrganisationApplicants(props) {
                                                     <input type="checkbox" className="w-[12px] h-[12px]" />
                                                 </td>
                                                 }
-                                                <td className="p-3 w-[15%]">{data.user.user.first_name || data.user.user.last_name? <>{data.user.user.first_name}  {data.user.user.last_name}</> : <>N/A</> }</td>
+                                                <td className="p-3 w-[15%]">{data.user.first_name || data.user.last_name? <>{data.user.first_name}  {data.user.last_name}</> : <>N/A</> }</td>
                                                 <td className="p-3 w-[12%]">{data.arefid}</td>
-                                                <td className="p-3 text-center">{data.user.yearofexp?data.user.yearofexp:<>N/A</>}</td>
-                                                <td className="p-3 w-[15%]">{data.user.user.email}</td>
-                                                <td className="p-3 text-center w-[15%]">{data.user.noticeperiod?data.user.noticeperiod:<>N/A</>}</td>
+                                                <td className="p-3 text-center">{data.cand.yearofexp?data.cand.yearofexp:<>N/A</>}</td>
+                                                <td className="p-3 w-[15%]">{data.user.email}</td>
+                                                <td className="p-3 text-center w-[15%]">{data.cand.noticeperiod?data.cand.noticeperiod:<>N/A</>}</td>
                                                 <td className="p-3 text-center">
                                                     {data.status ? 
                                                     <span className="border border-[#008767] text-[#008767] rounded-full py-1 px-4 text-center text-[12px] min-w-[90px] inline-block">
