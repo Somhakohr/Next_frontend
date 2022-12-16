@@ -1,6 +1,6 @@
 ---
 title: "Web 3 for HR...Powered by people"
-author: "Somhako"
+author: "Somhako Admin"
 date: "22-09-2022"
 bannerImage: "/images/engage.jfif"
 excerpt: "Somhako is the first comprehensive HR Marketplace and Community in web3. Engage to earn"

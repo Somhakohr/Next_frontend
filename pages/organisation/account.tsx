@@ -19,6 +19,7 @@ import toastcomp from '../../components/toast';
 
 function OrganisationAccount(props) {
     const cancelButtonRef = useRef(null)
+    const [deletePopup, deletePopupOpen] = useState(false)
     const [socialPopup, socialPopupOpen] = useState(false)
     const [galleryImages, galleryImagesAdd] = useState(false)
     const [changePassword, changePasswordOpen] = useState(false)
@@ -379,17 +380,17 @@ function OrganisationAccount(props) {
                         <div className="bg-white shadow-normal border border-teal-400 rounded-[25px] py-8 px-4">
                             <ul className="flex flex-wrap items-center justify-between text-sm">
                                 <li className="w-[49%] lg:w-full">
-                                    <Link href="#" className="flex items-center py-2 px-3 lg:px-8 bg-[#6D27F9] text-white hover:bg-[#6D27F9] hover:text-white rounded-lg my-1">
+                                    <Link href="#about" className="flex items-center py-2 px-3 lg:px-8 hover:bg-[#6D27F9] hover:text-white rounded-lg my-2">
                                         About Company
                                     </Link>
                                 </li>
                                 <li className="w-[49%] lg:w-full">
-                                    <Link href="#" className="flex items-center py-2 px-3 lg:px-8 hover:bg-[#6D27F9] hover:text-white rounded-lg my-2">
+                                    <Link href="#social" className="flex items-center py-2 px-3 lg:px-8 hover:bg-[#6D27F9] hover:text-white rounded-lg my-2">
                                         Social Media
                                     </Link>
                                 </li>
                                 <li className="w-[49%] lg:w-full">
-                                    <Link href="#" className="flex items-center py-2 px-3 lg:px-8 hover:bg-[#6D27F9] hover:text-white rounded-lg my-2">
+                                    <Link href="#gallery" className="flex items-center py-2 px-3 lg:px-8 hover:bg-[#6D27F9] hover:text-white rounded-lg my-2">
                                         Gallery
                                     </Link>
                                 </li>
@@ -398,49 +399,45 @@ function OrganisationAccount(props) {
                                         Change Password
                                     </button>
                                 </li>
+                                <li className="w-[49%] lg:w-full">
+                                    <button type="button" onClick={() => deletePopupOpen(true)} className="bg-red-700 text-white font-bold rounded-full py-2.5 px-6 min-w-[200px] transition-all hover:bg-red-900">
+                                        Delete Account
+                                    </button>
+                                </li>
                             </ul>
                         </div>
                     </div>
                     <div className="w-full lg:max-w-[calc(100%-250px)] lg:pl-6">
                         <div className="bg-white shadow-normal rounded-[30px] overflow-hidden p-8 mb-6">
-                            <aside className="w-full max-w-[330px] xl:max-w-[380px] mb-6">
-                                <div className="flex flex-wrap mb-4">
-                                    <div className="w-full sm:w-[50%] sm:pr-10">
-                                        <div className="relative inline-block">
-                                            <p className="text-center mb-2 font-medium">Comapny Logo</p>
-                                            <Image
-                                                src={userImg}
-                                                alt="User"
-                                                height={100}
-                                                width={100}
-                                                className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
-                                            />
-                                            <label htmlFor="uploadImage" className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white">
-                                                <i className="fa-solid fa-plus text-xl"></i>
-                                                <input type="file" id="uploadImage" className="absolute left-0 top-0 z-20" hidden accept="image/png, image/jpeg" onChange={(e) => { setProfileImg(e.target.files[0]) }}  />
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div className="w-full sm:w-[50%] sm:pl-10 sm:border-l">
-                                        <div className="relative inline-block">
-                                            <p className="text-center mb-2 font-medium">Cover Image</p>
-                                            <Image
-                                                src={userCImg}
-                                                alt="User"
-                                                height={100}
-                                                width={100}
-                                                className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
-                                            />
-                                            <label htmlFor="uploadCImage" className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white">
-                                                <i className="fa-solid fa-plus text-xl"></i>
-                                                <input type="file" id="uploadCImage" className="absolute left-0 top-0 z-20" hidden accept="image/png, image/jpeg" onChange={(e) => {setCoverImg(e.target.files[0]) }} 
-                                                
-                                                />
-                                            </label>
-                                        </div>
+                            <aside className="w-full mb-20" id="about">
+                                <span className="text-[#646464] text-[12px] block mb-2">Supported Formats: png, jpg upto 2 MB</span>
+                                <div className="relative border border-slate-300 rounded-[16px]">
+                                    <Image
+                                        src={userCImg}
+                                        alt="User"
+                                        height={100}
+                                        width={100}
+                                        className="rounded-full object-cover w-full h-[250px]"
+                                    />
+                                    <label htmlFor="uploadCImage" className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white">
+                                        <i className="fa-solid fa-plus text-xl"></i>
+                                        <input type="file" id="uploadCImage" className="absolute left-0 top-0 z-20" hidden accept="image/png, image/jpeg" onChange={(e) => {setCoverImg(e.target.files[0]) }} 
+                                        />
+                                    </label>
+                                    <div className="absolute left-[50%] bottom-[-50px] translate-x-[-50%] inline-block">
+                                        <Image
+                                            src={userImg}
+                                            alt="User"
+                                            height={100}
+                                            width={100}
+                                            className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
+                                        />
+                                        <label htmlFor="uploadImage" className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white">
+                                            <i className="fa-solid fa-plus text-xl"></i>
+                                            <input type="file" id="uploadImage" className="absolute left-0 top-0 z-20" hidden accept="image/png, image/jpeg" onChange={(e) => { setProfileImg(e.target.files[0]) }}  />
+                                        </label>
                                     </div>
                                 </div>
-                                <span className="text-[#646464] text-[12px] text-center block">Supported Formats: png, jpg upto 2 MB</span>
                             </aside>
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">
@@ -560,7 +557,7 @@ function OrganisationAccount(props) {
                                 </select>
                             </div>
                         </div> */}
-                        <div className="bg-white shadow-normal rounded-[30px] overflow-hidden p-8 mb-6">
+                        <div className="bg-white shadow-normal rounded-[30px] overflow-hidden p-8 mb-6" id="social">
                             <div className="md:border border-slate-300 rounded-[30px] md:py-6 md:px-8">
                                 <div className="flex items-center justify-between mb-4">
                                     <h4>Social <span className="text-[#6D27F9]">Media</span></h4>
@@ -569,16 +566,17 @@ function OrganisationAccount(props) {
                                 <div className="flex flex-wrap justify-between">
                                     {link.map((link, i) => (
                                         <div className="w-full lg:w-[47%] mb-6" key={i}>
-                                        <div className="iconGroup social">
-                                            <input type="text" value={link.title} className="w-full rounded-full border-slate-300 focus:border-slate-300 focus:ring-0 focus:outline-0 focus:shadow-none" readOnly />
-                                            <i className="fa-solid fa-link iconGroup__icon"></i>
-                                        </div>
+                                            <div className="iconGroup social delete">
+                                                <input type="text" value={link.title} className="w-full rounded-full border-slate-300 focus:border-slate-300 focus:ring-0 focus:outline-0 focus:shadow-none" readOnly />
+                                                <i className="fa-solid fa-link iconGroup__icon"></i>
+                                                <i className="fa-solid fa-trash iconGroup__icon-delete"></i>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-white shadow-normal rounded-[30px] overflow-hidden p-8">
+                        <div className="bg-white shadow-normal rounded-[30px] overflow-hidden p-8" id="gallery">
                             <div className="flex flex-wrap items-center justify-between mb-3">
                                 <h5 className="font-medium leading-none">Gallery</h5>
                                 <button type="button" className="my-2 border border-[#6D27F9] rounded-full py-1 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" onClick={() => galleryImagesAdd(true)}>Add Images</button>
@@ -811,6 +809,55 @@ function OrganisationAccount(props) {
                                 </div>
                                 <div className="text-center">
                                     <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">Submit</button>
+                                </div>
+                            </div>
+                        </Dialog.Panel>
+                        </Transition.Child>
+                    </div>
+                    </div>
+                </Dialog>
+            </Transition.Root>
+            <Transition.Root show={deletePopup} as={Fragment}>
+                <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={deletePopupOpen}>
+                    <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                    >
+                    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 z-10 overflow-y-auto">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
+                        <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        enterTo="opacity-100 translate-y-0 sm:scale-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                        leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        >
+                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-md">
+                            <div className="p-8">
+                                <div className="flex items-center justify-between mb-8">
+                                    <h4 className="leading-none font-semibold text-xl">Delete Account</h4>
+                                    <button type="button" className="leading-none" onClick={() => deletePopupOpen(false)}>
+                                        <i className="fa-solid fa-xmark"></i>
+                                    </button>
+                                </div>
+                                <div className="text-center">
+                                    <h3 className="font-semidbold text-lg mb-6">Are you sure want to delete your account?</h3>
+                                    <div className="flex flex-wrap items-center justify-center">
+                                        <button type="submit" onClick={() => deletePopupOpen(false)} className="border border-[#6D27F9] font-bold rounded-full py-2.5 px-6 my-2 mx-3 md:min-w-[90px] text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white">No</button>
+                                        <button type="submit" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mx-3 md:min-w-[90px] transition-all hover:from-[#391188] hover:to-[#391188]">
+                                        Yes
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </Dialog.Panel>

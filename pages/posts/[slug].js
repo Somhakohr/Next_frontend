@@ -18,7 +18,7 @@ export default function Post({ frontmatter, content }) {
         content="Make your job search easier with trackable resumes and enhanced applications."
         />
       </Head>
-      <article className="max-w-[1000px] px-6 py-24 mx-auto space-y-12 dark:bg-gray-800 dark:text-gray-50">
+      <article className="max-w-[1000px] px-6 py-12 mx-auto space-y-12 dark:bg-gray-800 dark:text-gray-50">
         <div className="w-full mx-auto space-y-4 text-center">
           <h1 className="text-4xl font-bold leading-tight md:text-5xl">
             {title}
@@ -36,9 +36,9 @@ export default function Post({ frontmatter, content }) {
             <span className="mr-1">on</span>
             <time dateTime="2021-02-12 15:34:18-0200">{date}</time>
           </p>
-          <img src={bannerImage} className="w-full" />
+          <img src={bannerImage} className="w-full rounded-[20px]" />
         </div>
-        <article className="blogSummay" dangerouslySetInnerHTML={{ __html: md().render(content) }} ></article>
+        <article className="blogSummay bg-white border border-teal-400 rounded-[25px] p-8" dangerouslySetInnerHTML={{ __html: md().render(content) }} ></article>
       </article>
     </>
   );

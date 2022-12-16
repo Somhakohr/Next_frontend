@@ -88,6 +88,21 @@ i.fa-solid {
 .iconGroup input {
   padding-left: 40px;
 }
+.iconGroup.delete .iconGroup__icon-delete {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  color: gray;
+  cursor: pointer;
+}
+.iconGroup.delete .iconGroup__icon-delete:hover {
+  color: red;
+}
+.iconGroup.delete input {
+  padding-right: 40px;
+}
 .candidate_profile .iconGroup.social .iconGroup__icon {
   font-size: 24px;
   color: #111;
@@ -229,7 +244,7 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   width: 8px;
   height: 8px;
   border-radius: 20px;
-  backgroundColor: rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.5);
   position: absolute;
   left: 0;
   top: 8px;
@@ -240,6 +255,17 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
 }
 .radiusCurve.radiusCurve__small {
   border-bottom-right-radius: 20%
+}
+.blogSummay {
+  color: #646464;
+  font-size: 14px;
+}
+.blogSummay a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+.blogSummay a:hover {
+  text-decoration: none;
 }
 
 @media (max-width: 1199px) {

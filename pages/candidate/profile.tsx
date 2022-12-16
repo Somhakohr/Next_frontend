@@ -875,9 +875,10 @@ function CandidateProfile(props) {
                                                 
                                                 {link.map((link, i) => (
                                                      <div className="w-full lg:w-[47%] mb-6" key={i}>
-                                                     <div className="iconGroup social">
+                                                     <div className="iconGroup social delete">
                                                          <input type="text" value={link.title} className="w-full rounded-full border-slate-300 focus:border-slate-300 focus:ring-0 focus:outline-0 focus:shadow-none" readOnly />
                                                          <i className="fa-solid fa-link iconGroup__icon"></i>
+                                                         <i className="fa-solid fa-trash iconGroup__icon-delete"></i>
                                                      </div>
                                                  </div>
                                                 ))}

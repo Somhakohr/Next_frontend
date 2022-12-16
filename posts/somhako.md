@@ -1,6 +1,6 @@
 ---
 title: "Somhako"
-author: "Somhako"
+author: "Somhako Admin"
 date: "22-09-2022"
 bannerImage: "/images/somhako-banner.jpg"
 excerpt: "Somhako is building the first protocol-based, decentralized social graph to bridge the gap between brands and talent."
