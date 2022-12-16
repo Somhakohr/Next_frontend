@@ -27,6 +27,7 @@ import {
 } from "@rainbow-me/rainbowkit";
 import { useAccount } from 'wagmi'
 import toastcomp from "../../components/toast";
+import { axiosInstance } from "../api/axiosApi";
 
 function Candidate(props) {
 
@@ -67,6 +68,9 @@ function Candidate(props) {
     const { router,session } = props; 
     const [progress,setProgress] = useState(0);
     const [progressT,setProgressT] = useState('');
+    const [joblist,setJobList] = useState([])
+    const [applied,setapplied] = useState([])
+    const [bookmarked,setbookmarked] = useState([])
 
     const learningSlides = [
         {
@@ -117,6 +121,40 @@ function Candidate(props) {
       }
     }, [session]);
 
+    async function loadJobs() {
+        await axiosInstance.get('/job/job/list/').then(async (res)=>{
+            console.log(res)
+            setJobList(res.data.slice(0, 4))
+        }).catch((err)=>{
+            console.log(err)
+            if(err.message != "Request failed with status code 401"){
+                toastcomp("Job Not Loaded","error");
+            }
+        })
+    }
+
+
+    async function loadAppliedJobs() {
+        await axiosInstanceAuth2.get('/job/candidate/applied/jobs/'+userObj['erefid']+'/').then(async (res)=>{
+           setapplied(res.data)
+        }).catch((err)=>{
+            if(err.message != "Request failed with status code 401"){
+                // toastcomp("Lang Not Loaded",'error')
+                console.log(err)
+            }
+        })
+    }
+
+    async function loadBookmarkedJobs() {
+        await axiosInstanceAuth2.get('/job/candidate/saved/jobs/'+userObj['erefid']+'/').then(async (res)=>{
+           setbookmarked(res.data)
+        }).catch((err)=>{
+            if(err.message != "Request failed with status code 401"){
+                // toastcomp("Lang Not Loaded",'error')
+                console.log(err)
+            }
+        })
+    }
 
     async function loadProgress() {
         await axiosInstanceAuth2.get('/candidate/progress/'+userObj['erefid']+'/').then(async (res)=>{
@@ -146,6 +184,9 @@ function Candidate(props) {
     useEffect(() => {
         if(userObj){
             loadProgress()
+            loadJobs()
+            loadAppliedJobs()
+            loadBookmarkedJobs()
         }
         
         if(progress > 0 && progress < 11){setProgressT('LOW')}
@@ -275,60 +316,40 @@ function Candidate(props) {
                                 <TabList>
                                     <Tab>Job Listing</Tab>
                                     <Tab>Applied Jobs</Tab>
-                                    <Tab>Recommended Jobs</Tab>
+                                    <Tab>Saved Jobs</Tab>
                                 </TabList>
                             </div>
-                            {/* <TabPanel>
+                            <TabPanel>
                                 <div className="flex flex-wrap mx-[-15px]">
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
+                                    {joblist.map((job, i) => (
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6" key={i}>
+                                            <JobCard data={job} />
+                                        </div>
+                                    ))}
                                 </div>
                                 <div className="text-center">
-                                    <Link href="#" className="inline-block bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">View More</Link>
+                                    <Link href="/job-listing" className="inline-block bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">View More</Link>
+                                </div>
+                            </TabPanel>
+                            
+                            <TabPanel>
+                                <div className="flex flex-wrap mx-[-15px]">
+                                    {applied.map((job, i) => (
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6" key={i}>
+                                            <JobCard data={job} />
+                                        </div>
+                                    ))}
                                 </div>
                             </TabPanel>
                             <TabPanel>
                                 <div className="flex flex-wrap mx-[-15px]">
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
+                                    {bookmarked.map((job, i) => (
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6" key={i}>
+                                            <JobCard data={job} />
+                                        </div>
+                                    ))}
                                 </div>
                             </TabPanel>
-                            <TabPanel>
-                                <div className="flex flex-wrap mx-[-15px]">
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                </div>
-                            </TabPanel> */}
                         </Tabs>
                     </div>
                 </div>

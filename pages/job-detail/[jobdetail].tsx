@@ -21,6 +21,8 @@ function JobDetail(props) {
     const [rskill, setRSkill] = useState([])
     const [finfo, setFInfo] = useState([])
     const [refid, setRefid] = useState('')
+    const [applied, setapplied] = useState(false)
+    const [bookmarked, setbookmarked] = useState(false)
     const cancelButtonRef = useRef(null)
     const [param1, updateParam1] = useStore(
         (state) => [state.param1, state.updateParam1],
@@ -70,6 +72,13 @@ function JobDetail(props) {
         loadJobDetail(param1)
       }
     }, [param1])
+
+    useEffect(() => {
+      if(refid){
+        appliedCheck()
+        bookmarkedCheck()
+      }
+    }, [refid])
 
     function companyDetail(orefid) {
         updateParam1(orefid)
@@ -248,94 +257,37 @@ function JobDetail(props) {
             })
         }
     }
-    // const featuredInfo = [
-    //     {
-    //         icon: <i className="fa-solid fa-briefcase"></i>,
-    //         title: 'Experience',
-    //         desc: '5+ years'
-    //     },
-    //     {
-    //         icon: <i className="fa-solid fa-briefcase"></i>,
-    //         title: 'Job Type',
-    //         desc: 'Full Time'
-    //     },
-    //     {
-    //         icon: <i className="fa-solid fa-briefcase"></i>,
-    //         title: 'Experience Level',
-    //         desc: 'Senior'
-    //     },
-    //     {
-    //         icon: <i className="fa-solid fa-briefcase"></i>,
-    //         title: 'Location',
-    //         desc: 'Gurgaon'
-    //     },
-    //     {
-    //         icon: <i className="fa-solid fa-briefcase"></i>,
-    //         title: 'Work Type',
-    //         desc: 'On Site'
-    //     },
-    //     {
-    //         icon: <i className="fa-solid fa-briefcase"></i>,
-    //         title: 'Qualification',
-    //         desc: 'BCA'
-    //     },
-    //     {
-    //         icon: <i className="fa-solid fa-briefcase"></i>,
-    //         title: 'Offered Salary',
-    //         desc: 'Rs 250000/year'
-    //     },
-    //     {
-    //         icon: <i className="fa-solid fa-briefcase"></i>,
-    //         title: 'Industry',
-    //         desc: 'Web and IT'
-    //     },
-    //     {
-    //         icon: <i className="fa-solid fa-briefcase"></i>,
-    //         title: 'Department',
-    //         desc: 'Design'
-    //     },
-    //     {
-    //         icon: <i className="fa-solid fa-briefcase"></i>,
-    //         title: 'Application Deadline',
-    //         desc: 'Nov 30, 2023'
-    //     },
-    //     {
-    //         icon: <i className="fa-solid fa-briefcase"></i>,
-    //         title: 'Language',
-    //         desc: 'English (Intermediate)'
-    //     },
-    //     {
-    //         icon: <i className="fa-solid fa-briefcase"></i>,
-    //         title: 'Working Hours',
-    //         desc: '9'
-    //     },
-    //     {
-    //         icon: <i className="fa-solid fa-briefcase"></i>,
-    //         title: 'Vacancy',
-    //         desc: 'None'
-    //     },
-    //     {
-    //         icon: <i className="fa-solid fa-briefcase"></i>,
-    //         title: 'Bonus',
-    //         desc: 'NA'
-    //     },
-    //     {
-    //         icon: <i className="fa-solid fa-briefcase"></i>,
-    //         title: 'Stock Options',
-    //         desc: 'NA'
-    //     },
-    //     {
-    //         icon: <i className="fa-solid fa-briefcase"></i>,
-    //         title: 'Visa Sponsership',
-    //         desc: 'None'
-    //     },
-    //     {
-    //         icon: <i className="fa-solid fa-briefcase"></i>,
-    //         title: 'Paid Relocation',
-    //         desc: 'None'
-    //     },
-    // ];
-  return (
+
+    async function bookmarkedCheck(){
+        if(!session || userType != "Candidate"){
+            setbookmarked(false)
+        }
+        else{
+            await axiosInstanceAuth2.post('/job/applicant/bookmarked/'+userObj['erefid']+'/'+refid+'/').then(async (res)=>{
+                if(res.data.Message){setbookmarked(true)}
+                else{setbookmarked(true)}
+            }).catch((err)=>{
+                setbookmarked(true)
+            })
+        }
+    }
+
+    async function appliedCheck(){
+        if(!session || userType != "Candidate"){
+            setapplied(false)
+        }
+        else{
+            await axiosInstanceAuth2.post('/job/applicant/applied/'+userObj['erefid']+'/'+refid+'/').then(async (res)=>{
+                if(res.data.Message){setapplied(true)}
+                else{setapplied(true)}
+            }).catch((err)=>{
+                setapplied(true)
+            })
+        }
+    }
+
+
+return (
     <>
     { jobDetail.length > 0 && 
         <>
@@ -372,10 +324,10 @@ function JobDetail(props) {
                                     <span className="mr-2">Share Job</span>
                                     <i className="fa-solid fa-share text-[#6D27F9]"></i>
                                 </button>
-                                <button type="button" className="bg-white py-1.5 px-4 text-sm rounded-full border border-[#6D27F9] hover:bg-[#6D27F9] hover:text-white" onClick={(e)=>bookmark()}>Save Job</button>
+                                <button type="button" className="bg-white py-1.5 px-4 text-sm rounded-full border border-[#6D27F9] hover:bg-[#6D27F9] hover:text-white" onClick={(e)=>bookmark()} disabled={bookmarked}>{bookmarked?<>Already Saved</>:<>Save Job</>}</button>
                             </aside>
                         </div>
-                        <button type="button" className="mb-8 bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>apply()}>Apply Now</button>
+                        <button type="button" className="mb-8 bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>apply()} disabled={applied}>{applied?<>Already Applied</>:<>Apply Now</>}</button>
                         <div>
                             <Slider {...settings} className="sliderArrows">
                                 {finfo.map((featuredInfo, i) => (
