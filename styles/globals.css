@@ -267,6 +267,11 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
 .blogSummay a:hover {
   text-decoration: none;
 }
+.connectionBtnSidebar > div {
+  flex-direction: column;
+}
+
+
 
 @media (max-width: 1199px) {
   .radiusCurve {

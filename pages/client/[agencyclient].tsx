@@ -213,7 +213,7 @@ export default function CandidateUsers() {
                     </button>
                     <div className="flex flex-wrap mb-6">
                         <div className="w-full lg:max-w-[75%] xl:max-w-[80%] lg:pr-6 mb-6 lg:mb-0">
-                            <div className="bg-white shadow-normal border rounded-[25px] flex flex-wrap">
+                            <div className="bg-white shadow-normal border rounded-[25px] flex flex-wrap h-full">
                                 <div className="w-[310px] mx-auto p-8">
                                     <div className="userBgImage min-h-[268px] flex items-center justify-center">
                                         <img src={data.cand.profile} width={220} height={220} alt="User" className="w-[220px] h-[220px] rounded-full object-cover mx-auto " />
@@ -264,7 +264,7 @@ export default function CandidateUsers() {
                                 <h4 className="font-semibold text-lg text-center">Social Links</h4>
                                 <ul className="flex flex-wrap text-center">
                                 {link.map((link, i) => (
-                                    <li className="w-[50%] p-4" key={i}>
+                                    <li className="w-[calc(100%/3)] p-4" key={i}>
                                         <Link href="link.title" target="_blank" className="text-2xl hover:text-[#6D27F9]">
                                             <i className="fa-solid fa-link "></i>
                                         </Link>

@@ -410,7 +410,7 @@ function OrganisationAccount(props) {
                                     </button>
                                 </li>
                                 <li className="w-[49%] lg:w-full">
-                                    <button type="button" onClick={() => deletePopupOpen(true)} className="bg-red-700 text-white font-bold rounded-full py-2.5 px-6 min-w-[200px] transition-all hover:bg-red-900">
+                                    <button type="button" onClick={() => deletePopupOpen(true)} className="flex items-center py-2 px-3 lg:px-8 bg-red-400 text-white hover:bg-red-700 hover:text-white rounded-lg my-2 w-full">
                                         Delete Account
                                     </button>
                                 </li>
@@ -427,7 +427,7 @@ function OrganisationAccount(props) {
                                         alt="User"
                                         height={100}
                                         width={100}
-                                        className="rounded-full object-cover w-full h-[250px]"
+                                        className="object-cover rounded-[16px] w-full h-[250px]"
                                     />
                                     <label htmlFor="uploadCImage" className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white">
                                         <i className="fa-solid fa-plus text-xl"></i>
@@ -440,7 +440,7 @@ function OrganisationAccount(props) {
                                             alt="User"
                                             height={100}
                                             width={100}
-                                            className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
+                                            className="rounded-full shadow-normal bg-white object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
                                         />
                                         <label htmlFor="uploadImage" className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white">
                                             <i className="fa-solid fa-plus text-xl"></i>

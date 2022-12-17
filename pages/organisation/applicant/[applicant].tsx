@@ -284,7 +284,7 @@ function OrganisationCandidateProfileView(props) {
                     </button>
                     <div className="flex flex-wrap mb-6">
                         <div className="w-full lg:max-w-[75%] xl:max-w-[80%] lg:pr-6 mb-6 lg:mb-0">
-                            <div className="bg-white shadow-normal border rounded-[25px] flex flex-wrap">
+                            <div className="bg-white shadow-normal border rounded-[25px] flex flex-wrap h-full">
                                 <div className="w-[310px] mx-auto p-8">
                                     <div className="userBgImage min-h-[268px] flex items-center justify-center">
                                         <img src={data.cand.profile} width={220} height={220} alt="User" className="w-[220px] h-[220px] rounded-full object-cover mx-auto " />
@@ -335,7 +335,7 @@ function OrganisationCandidateProfileView(props) {
                                 <h4 className="font-semibold text-lg text-center">Social Links</h4>
                                 <ul className="flex flex-wrap text-center">
                                 {link.map((link, i) => (
-                                    <li className="w-[50%] p-4" key={i}>
+                                    <li className="w-[calc(100%/3)] p-4" key={i}>
                                         <Link href="link.title" target="_blank" className="text-2xl hover:text-[#6D27F9]">
                                             <i className="fa-solid fa-link "></i>
                                         </Link>
@@ -527,7 +527,7 @@ function OrganisationCandidateProfileView(props) {
                                  </div>
                                     :
                                     <>
-                                    <div className="text-center mb-4 relative after:content-[''] after:w-[150px] after:h-[2px] after:bg-slate-300 after:absolute after:right-0 after:top-[18px] after:z-[1]">
+                                    <div className="text-center mb-4 relative after:content-[''] after:w-[150px] after:h-[2px] after:bg-slate-300 after:absolute after:right-0 after:top-[18px] after:z-[1] min-h-[56px]">
                                      <div className="relative z-[2]">
                                          <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border border-[#6D27F9]  text-center rounded-full min-w-[115px]">Shortlisted</span>
                                      </div>

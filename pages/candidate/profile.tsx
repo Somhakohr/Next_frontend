@@ -694,7 +694,7 @@ function CandidateProfile(props) {
                 <div className="container">
                     <div className="flex flex-wrap mb-8">
                         <div className="w-full lg:max-w-[75%] xl:max-w-[80%] lg:pr-6 mb-6 lg:mb-0">
-                            <div className="bg-white shadow-normal rounded-[25px] flex flex-wrap">
+                            <div className="bg-white shadow-normal rounded-[25px] h-full flex flex-wrap">
                                 <div className="w-[310px] mx-auto p-8">
                                     <div className="userBgImage min-h-[268px] flex items-center justify-center">
                                         <Image src={userImg} width={220} height={220} alt="User" className="w-[220px] h-[220px] rounded-full object-cover mx-auto " />
@@ -755,7 +755,7 @@ function CandidateProfile(props) {
                             </div>
                         </div>
                         <div className="w-full lg:max-w-[25%] xl:max-w-[20%]">
-                            <div className="bg-white shadow-normal rounded-[25px]">
+                            <div className="bg-white shadow-normal rounded-[25px] h-full">
                                 <div className="flex items-center justify-between p-4">
                                     <h4 className="font-semibold text-xl mb-8 lg:mb-6"><span className="text-[#6D27F9] font-bold text-2xl">Wallet</span> <br />Info</h4>
                                     <div>
@@ -764,7 +764,7 @@ function CandidateProfile(props) {
                                 </div>
                                 <div className="bg-gradient-to-r from-[#7fc5f4] to-[#2568C9] rounded-[25px] pt-[6rem] pb-8 px-4 mt-[-40px]">
                                     <div className="bg-gradient-to-r from-[#a1c5fb] to-[#2568C9] rounded-lg shadow-lg p-5 text-white text-center font-semibold">
-                                        <div>
+                                        <div className="flex justify-center connectionBtnSidebar">
                                             <ConnectButton />
                                         </div>                                        
                                     </div>
