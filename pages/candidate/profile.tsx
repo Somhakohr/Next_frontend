@@ -234,6 +234,16 @@ function CandidateProfile(props) {
             console.log(err)
         })
     }
+    
+    async function deleteLink(val) {
+        await axiosInstanceAuth2.delete('/candidate/candidatelink/'+userObj['erefid']+'/'+val+'/delete/').then(async (res)=>{
+            toastcomp("Link Deleted",'success')
+            loadLink()
+        }).catch((err)=>{
+            toastcomp("Link Not Deleted",'error')
+            console.log(err)
+        })
+    }
 
     async function loadReume() {
         await axiosInstanceAuth2.get('/candidate/listresume/'+userObj['erefid']+'/').then(async (res)=>{
@@ -878,7 +888,7 @@ function CandidateProfile(props) {
                                                      <div className="iconGroup social delete">
                                                          <input type="text" value={link.title} className="w-full rounded-full border-slate-300 focus:border-slate-300 focus:ring-0 focus:outline-0 focus:shadow-none" readOnly />
                                                          <i className="fa-solid fa-link iconGroup__icon"></i>
-                                                         <i className="fa-solid fa-trash iconGroup__icon-delete"></i>
+                                                         <i className="fa-solid fa-trash iconGroup__icon-delete" onClick={(e)=>deleteLink(link.id)}></i>
                                                      </div>
                                                  </div>
                                                 ))}
