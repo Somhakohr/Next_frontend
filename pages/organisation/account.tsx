@@ -371,13 +371,6 @@ function OrganisationAccount(props) {
 
 
     }, [fcname,otype,ind,fcurl,fdate,ffounder,fcemail,flname,frname,frdes,cstrength,orgstatus,opestatus,ffundround,ffund,fdesc,fadd,coverimg,profileimg])
-
-    useEffect(() => {
-        if(userProfile){
-           
-            
-        }
-    }, [cname,otype])
     
 
     return (

@@ -49,7 +49,18 @@ function OrganisationJOBApplicants(props) {
     )
 
     const [applicant,setApplicant] = useState([])
+    const [name,setName] = useState('')
+    const [fname,setFName] = useState('')
+    const [dept,setdept] = useState('')
+    const [check,setCheck] = useState([])
+
     
+    const [email,setemail] = useState('')
+    // const [clist,setclist] = useState('')
+    
+    function verifySharePopup() {
+        return email.length > 0 && check.length > 0
+    }   
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
         baseURL: 'http://127.0.0.1:8000/api/',
@@ -72,6 +83,33 @@ function OrganisationJOBApplicants(props) {
             router.push("/organisation/jobs");
         })
     }
+    
+    async function loadApplicantF(refid,orefid) {
+        await axiosInstanceAuth2.get(`/job/job/applicant/${orefid}/${refid}/?user__first_name=${name}&job__dept=${dept}`).then(async (res)=>{
+            console.log("res",res.data)
+            setApplicant(res.data)
+        }).catch((err)=>{
+            console.log(err)
+            if(err.message != "Request failed with status code 401"){
+                toastcomp("Applicant F Fetch Error","error");
+            }
+        })
+    }
+
+    async function sharetoClient() {
+        var f = new FormData()
+        f.append("email",email)
+        f.append("applicant",check.toString())
+        await axiosInstanceAuth2.post(`/job/agency/${userObj["orefid"]}/`,f).then(async (res)=>{
+            toastcomp("Link & Password Send To The Client","success")
+            shareCandidatePopupOpen(false)
+        }).catch((err)=>{
+            console.log(err)
+            if(err.message != "Request failed with status code 401"){
+                toastcomp("Applicant F Fetch Error","error");
+            }
+        })
+    }
 
     useEffect(() => {
         if(!session){
@@ -82,6 +120,11 @@ function OrganisationJOBApplicants(props) {
         }
       }, [session,userObj]);
 
+    useEffect(()=>{
+        var formData = new FormData()
+        formData.append('first_name',name);
+        loadApplicantF(param1,userObj["orefid"]);
+    },[fname])
       
     function getColor(status){
         if(status == "Hired"){ return '#008767' }
@@ -110,12 +153,12 @@ function OrganisationJOBApplicants(props) {
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] my-3">
                                     <div className="iconGroup">
-                                        <input type="search" placeholder="JA no, Job Title, Location, Name" className="w-full rounded-full border-slate-300" />
+                                        <input type="search" placeholder="JA no, Job Title, Location, Name" className="w-full rounded-full border-slate-300" value={name} onChange={(e)=>setName(e.target.value)} onBlur={(e)=>setFName(e.target.value)}/>
                                         <i className="fa-solid fa-search iconGroup__icon"></i>
                                     </div>
                                 </div>
                                 <div className="w-full lg:w-[47%] my-3">
-                                    <select className="w-full rounded-full border-slate-300">
+                                    <select className="w-full rounded-full border-slate-300" value={dept} onChange={(e)=>setdept(e.target.value)}>
                                         <option value="Department">Department</option>
                                         <option value="HR">HR</option>
                                     </select>
@@ -140,8 +183,8 @@ function OrganisationJOBApplicants(props) {
                                 {userObj['company_type'] == 'Agency' && 
                                 <aside>
                                     <button type="button" className="border border-[#6D27F9] font-semibold rounded-full py-1.5 px-4 my-2 text-[12px] hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" onClick={() => shareCandidatePopupOpen(true)}>Share Profiles</button>
-                                    <button type="button" className="ml-4 border border-[#9F09FB] bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-semibold rounded-full py-1.5 px-4 my-2 text-[12px] transition-all hover:from-[#391188] hover:to-[#391188]">Share</button>
-                                    <button type="button" className="ml-4 border border-[#DF0404] font-semibold rounded-full py-1.5 px-4 my-2 text-[12px] text-[#DF0404] hover:bg-[#DF0404] hover:text-white">Cancel</button>
+                                    {/* <button type="button" className="ml-4 border border-[#9F09FB] bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-semibold rounded-full py-1.5 px-4 my-2 text-[12px] transition-all hover:from-[#391188] hover:to-[#391188]">Share</button>
+                                    <button type="button" className="ml-4 border border-[#DF0404] font-semibold rounded-full py-1.5 px-4 my-2 text-[12px] text-[#DF0404] hover:bg-[#DF0404] hover:text-white">Cancel</button> */}
                                 </aside>
                                 }
                             </div>
@@ -152,7 +195,23 @@ function OrganisationJOBApplicants(props) {
                                         <tr>
                                             {userObj['company_type'] == 'Agency' && 
                                             <th className="py-2 px-3 w-[15px]">
-                                                <input type="checkbox" className="w-[12px] h-[12px]" />
+                                            <input type="checkbox" className="w-[12px] h-[12px]" onChange={(e)=>{
+                                                    let arr2 = applicant
+                                                    let arr=[]
+                                                    if(e.target.checked){
+                                                        for( let i = 0; i < arr2.length; i++){
+                                                            document.getElementById(`cb${arr2[i]['arefid']}`).checked = true;
+                                                            if(!arr.includes(arr2[i]['arefid'])){arr.push(arr2[i]['arefid'])}
+                                                        }
+                                                        setCheck(arr)
+                                                    }
+                                                    else{
+                                                        for( let i = 0; i < arr2.length; i++){
+                                                            document.getElementById(`cb${arr2[i]['arefid']}`).checked = false;
+                                                        }
+                                                        setCheck([])
+                                                    }
+                                                }} />
                                             </th>
                                             }
                                             <th className="py-2 px-3 w-[15%]">Applicant Name</th>
@@ -172,7 +231,15 @@ function OrganisationJOBApplicants(props) {
                                             <tr key={i}>
                                                 {userObj['company_type'] == 'Agency' && 
                                                 <td className="p-3 w-[15px]">
-                                                    <input type="checkbox" className="w-[12px] h-[12px]" />
+                                                    <input type="checkbox" className="w-[12px] h-[12px]" id={`cb${data.arefid}`} onChange={(e)=>{
+                                                        let arr=check
+                                                        if(!e.target.checked && arr.includes(data.arefid)){
+                                                            for( let i = 0; i < arr.length; i++){if(arr[i] === data.arefid) {arr.splice(i, 1);}}
+                                                        }
+                                                        else if(e.target.checked && arr.includes(data.arefid)){}
+                                                        else{arr.push(data.arefid)}
+                                                        setCheck(arr)
+                                                    }}/>
                                                 </td>
                                                 }
                                                 <td className="p-3 w-[15%]">{data.user.first_name || data.user.last_name? <>{data.user.first_name}  {data.user.last_name}</> : <>N/A</> }</td>
@@ -182,7 +249,7 @@ function OrganisationJOBApplicants(props) {
                                                 <td className="p-3 text-center w-[15%]">{data.cand.noticeperiod?data.cand.noticeperiod:<>N/A</>}</td>
                                                 <td className="p-3 text-center">
                                                     {data.status ? 
-                                                    <span className="border rounded-full py-1 px-4 text-center text-[12px] min-w-[90px] inline-block"  style={{ ["border-color" as any]: `${getColor(data.status)}`,["color" as any]: `${getColor(data.status)}`}}>
+                                                    <span className="border rounded-full py-1 px-4 text-center text-[12px] min-w-[90px] inline-block"  style={{ ["border-color" as any]: `${getColor(data.status)}`,["color" as any]: `${getColor(data.status)}`}} onClick={(e)=>{console.log(check)}}>
                                                         {data.status}
                                                     </span>
                                                     :
@@ -194,7 +261,12 @@ function OrganisationJOBApplicants(props) {
                                                 </td>
                                                 {userObj['company_type'] == 'Agency' && 
                                                 <td className="p-3 text-center">
-                                                    <button type="button" className="text-[#6D27F9]" onClick={() => shareCandidatePopupOpen(true)}>
+                                                    <button type="button" className="text-[#6D27F9]" onClick={() => {
+                                                        let arr = []
+                                                        arr.push(data.arefid)
+                                                        setCheck(arr)
+                                                        shareCandidatePopupOpen(true)
+                                                        }}>
                                                         <i className="fa-solid fa-share-nodes"></i>
                                                     </button>
                                                 </td>
@@ -244,18 +316,15 @@ function OrganisationJOBApplicants(props) {
                                 </div>
                                 <div className="mb-6">
                                     <label htmlFor="shareCandViaEmail" className="font-medium mb-2 leading-none inline-block text-sm">Enter Email</label>
-                                    <input id="shareCandViaEmail" type="text" className="w-full rounded-full border-slate-300" />
+                                    <input id="shareCandViaEmail" type="text" className="w-full rounded-full border-slate-300" value={email} onChange={(e)=>setemail(e.target.value)} />
                                 </div>
                                 <div className="mb-6">
                                     <label htmlFor="shareCandViaEmailList" className="font-medium mb-2 leading-none inline-block text-sm">Candidates List</label>
-                                    <select id="shareCandViaEmailList" className="w-full rounded-full border-slate-300">
-                                        <option value="User One">User one</option>
-                                        <option value="User Two">User two</option>
-                                    </select>
+                                    <input id="shareCandViaEmailList" type="text" className="w-full rounded-full border-slate-300" value={check.toString()} readOnly />
                                 </div>
                                 <div className="text-center">
-                                    <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[130px] transition-all hover:from-[#391188] hover:to-[#391188]">
-                                        Save
+                                    <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[130px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!verifySharePopup()} onClick={()=>sharetoClient()}>
+                                            Save
                                     </button>
                                 </div>
                             </div>
