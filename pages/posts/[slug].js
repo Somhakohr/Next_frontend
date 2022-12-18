@@ -26,9 +26,8 @@ export default function Post({ frontmatter, content }) {
           <p className="text-sm">
             <span className="mr-1">by</span>
             <a
-              rel="noopener noreferrer"
               href="#"
-              target="_blank"
+              target="_blank" rel="noreferrer"
               className="underline dark:text-violet-400 mr-1"
             >
               <span>{author}</span>

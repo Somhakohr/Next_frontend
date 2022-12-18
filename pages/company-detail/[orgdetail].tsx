@@ -220,7 +220,7 @@ function OrgDetail() {
                                     <div className="flex flex-wrap">
                                         {/* <p className="text-[#646464] mr-4">{data.url}</p> */}
                                         {orgDetailLink.map((data, i) => (
-                                            <Link href={`${data.title}`} key={i} target="_blank" className="mr-3 text-lg text-[#6D27F9] hover:text-black">
+                                            <Link href={`${data.title}`} key={i} target="_blank" rel="noreferrer" className="mr-3 text-lg text-[#6D27F9] hover:text-black">
                                                 <i className="fa-solid fa-link"></i>
                                             </Link>
                                         ))}
