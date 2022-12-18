@@ -1099,7 +1099,7 @@ function CandidateProfile(props) {
                                         {achieve.length > 0 ?
                                         <>
                                         {achieve.map((achieve, i) => (
-                                        <div className="w-full rounded-[20px] bg-[#FAF8FF] border border-slate-200 p-4 md:p-6 md:pr-[110px] pt-[35px] md:pt-6 mb-4 relative overflow-hidden">
+                                        <div className="w-full rounded-[20px] bg-[#FAF8FF] border border-slate-200 p-4 md:p-6 md:pr-[110px] pt-[35px] md:pt-6 mb-4 relative overflow-hidden" key={i}>
                                             <article>
                                                 <h4 className="font-semibold mb-1 text-lg">{achieve.title}</h4>
                                                 <h6 className="font-medium">About</h6>
