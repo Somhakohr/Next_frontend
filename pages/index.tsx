@@ -371,7 +371,7 @@ export default function Home() {
               </div>
               <div className="w-full lg:max-w-[50%] text-white">
                 <h2 className="mb-6 font-light text-2xl text-center">Untill then <span className="font-bold">Join Discord</span></h2>
-                <Link href="https://discord.gg/934TJUe6BF" target="_blank" className="block text-white border border-white rounded-[30px] min-w-[200px] text-center py-2 px-4 hover:bg-white hover:text-[#6D27F9]">Join Now <i className="fa-brands fa-discord ml-2"></i></Link>
+                <Link href="https://discord.gg/934TJUe6BF" target="_blank" rel="noreferrer" className="block text-white border border-white rounded-[30px] min-w-[200px] text-center py-2 px-4 hover:bg-white hover:text-[#6D27F9]">Join Now <i className="fa-brands fa-discord ml-2"></i></Link>
               </div>
             </div>
           </div>

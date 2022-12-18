@@ -992,7 +992,7 @@ function CandidateProfile(props) {
                                                    <p className="text-[#6D27F9] font-medium mb-2">{cert.company}</p>
                                                     <p className="text-[#646464] font-light text-sm mb-2">Issued Date:- {cert.yearofissue} <br/> Expiry Date:- {cert.yearofexp ? cert.yearofexp : <>No Expiry</>}</p>
                                                     <p className="text-[#646464] font-light text-sm mb-2">credentials:- {cert.creid}</p>
-                                                   <a type="button" href={cert.creurl} target="_blank" className="border border-[#6D27F9] rounded-full py-1.5 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" >Show Certificate</a>
+                                                   <a type="button" href={cert.creurl} target="_blank" rel="noreferrer" className="border border-[#6D27F9] rounded-full py-1.5 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" >Show Certificate</a>
                                                </article>
                                                <div className="bg-white shadow-md rounded-tl-[20px] rounded-bl-[20px] absolute right-0 top-[0px] md:top-[15px] p-1.5 md:py-2.5 md:px-4 text-[12px] md:text-sm">
                                                    {/* <button type="button" className="text-[#6D27F9] mx-2" value={cert.id}>
