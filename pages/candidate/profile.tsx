@@ -171,7 +171,7 @@ function CandidateProfile(props) {
     
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
-        baseURL: 'http://127.0.0.1:8000/api/',
+        baseURL: 'https://marketplace.somhako.com/api/',
         timeout: 5000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
@@ -231,6 +231,16 @@ function CandidateProfile(props) {
             loadLink()
         }).catch((err)=>{
             toastcomp("Link Not Added",'error')
+            console.log(err)
+        })
+    }
+    
+    async function deleteLink(val) {
+        await axiosInstanceAuth2.delete('/candidate/candidatelink/'+userObj['erefid']+'/'+val+'/delete/').then(async (res)=>{
+            toastcomp("Link Deleted",'success')
+            loadLink()
+        }).catch((err)=>{
+            toastcomp("Link Not Deleted",'error')
             console.log(err)
         })
     }
@@ -684,7 +694,7 @@ function CandidateProfile(props) {
                 <div className="container">
                     <div className="flex flex-wrap mb-8">
                         <div className="w-full lg:max-w-[75%] xl:max-w-[80%] lg:pr-6 mb-6 lg:mb-0">
-                            <div className="bg-white shadow-normal rounded-[25px] flex flex-wrap">
+                            <div className="bg-white shadow-normal rounded-[25px] h-full flex flex-wrap">
                                 <div className="w-[310px] mx-auto p-8">
                                     <div className="userBgImage min-h-[268px] flex items-center justify-center">
                                         <Image src={userImg} width={220} height={220} alt="User" className="w-[220px] h-[220px] rounded-full object-cover mx-auto " />
@@ -745,7 +755,7 @@ function CandidateProfile(props) {
                             </div>
                         </div>
                         <div className="w-full lg:max-w-[25%] xl:max-w-[20%]">
-                            <div className="bg-white shadow-normal rounded-[25px]">
+                            <div className="bg-white shadow-normal rounded-[25px] h-full">
                                 <div className="flex items-center justify-between p-4">
                                     <h4 className="font-semibold text-xl mb-8 lg:mb-6"><span className="text-[#6D27F9] font-bold text-2xl">Wallet</span> <br />Info</h4>
                                     <div>
@@ -754,18 +764,9 @@ function CandidateProfile(props) {
                                 </div>
                                 <div className="bg-gradient-to-r from-[#7fc5f4] to-[#2568C9] rounded-[25px] pt-[6rem] pb-8 px-4 mt-[-40px]">
                                     <div className="bg-gradient-to-r from-[#a1c5fb] to-[#2568C9] rounded-lg shadow-lg p-5 text-white text-center font-semibold">
-                                        {userObj["paddress"]?
-                                        <>
-                                        <p className="my-2">Available Coins : 70</p>
-                                        <p className="my-2">Remaining Coins : 30</p>
-                                        </>:
-                                        <>
-                                        <div>
+                                        <div className="flex justify-center connectionBtnSidebar">
                                             <ConnectButton />
-                                        </div>
-
-                                        </>}
-                                        
+                                        </div>                                        
                                     </div>
                                 </div>
                             </div>
@@ -773,7 +774,7 @@ function CandidateProfile(props) {
                     </div>
                     <div className="relative pt-12 xl:pt-0 xl:px-20">
                         <div className="absolute left-0 top-[7px]">
-                            <button type="button" className="rounded-full bg-black text-white p-4 mr-4 w-[25px] h-[25px] flex items-center justify-center">
+                            <button type="button" onClick={(e)=>{router.push("/candidate")}} className="rounded-full bg-black text-white p-4 mr-4 w-[25px] h-[25px] flex items-center justify-center">
                                 <i className="fa-solid fa-arrow-left"></i>
                             </button>
                         </div>
@@ -811,7 +812,7 @@ function CandidateProfile(props) {
                                             <div className="w-full lg:w-[47%] mb-6">
                                                 <div className="flex flex-wrap items-center justify-between mb-2">
                                                     <label htmlFor="noticePeriod" className="font-medium mb-2 leading-none inline-block">Notice Period <span className="text-gray-500">(Optional)</span></label>
-                                                    <label htmlFor="noticeServe" className="flex items-center text-[#7E7E7E] text-sm">
+                                                    <label htmlFor="noticeServe" className="flex items-center text-[#646464] text-sm">
                                                         <input type="checkbox" id="noticeServe" className="mr-2" checked={serveNP} onChange={(e)=>setServeNP(e.target.checked)}/>
                                                         Serving or Not?
                                                     </label>
@@ -884,9 +885,10 @@ function CandidateProfile(props) {
                                                 
                                                 {link.map((link, i) => (
                                                      <div className="w-full lg:w-[47%] mb-6" key={i}>
-                                                     <div className="iconGroup social">
+                                                     <div className="iconGroup social delete">
                                                          <input type="text" value={link.title} className="w-full rounded-full border-slate-300 focus:border-slate-300 focus:ring-0 focus:outline-0 focus:shadow-none" readOnly />
                                                          <i className="fa-solid fa-link iconGroup__icon"></i>
+                                                         <i className="fa-solid fa-trash iconGroup__icon-delete" onClick={(e)=>deleteLink(link.id)}></i>
                                                      </div>
                                                  </div>
                                                 ))}
@@ -905,7 +907,7 @@ function CandidateProfile(props) {
                                                     <span>Upload <i className="fa-solid fa-cloud-arrow-up ml-1 text-[#6D27F9]"></i></span>
                                                     <input type="file" id="uploadCV" accept="application/pdf,application/msword,.rtf" className="hidden" onChange={(e) => setUResume(e.target.files[0]) } />
                                                 </label>
-                                                <span className="text-[#7e7e7e] text-[12px]">Supported Formats: doc, docx, rtf, pdf, upto 2 MB</span>
+                                                <span className="text-[#646464] text-[12px]">Supported Formats: doc, docx, rtf, pdf, upto 2 MB</span>
                                             </div>
                                             : 
                                             <>
@@ -913,15 +915,15 @@ function CandidateProfile(props) {
                                             <div className="flex flex-wrap items-center justify-between" key={i}>
                                                 <aside className="mr-2" >
                                                     <p className="text-sm relative pr-6 mb-1">
-                                                        {/* <b className="text-[#7E7E7E]">{(resume.file.split('/')[6])} : </b> */}
+                                                        {/* <b className="text-[#646464]">{(resume.file.split('/')[6])} : </b> */}
                                                         <span className="text-[#6D27F9]">{resume.file.split('/')[6]}</span>
                                                         <button type="button" className="absolute right-0 top-0 text-red-500" onClick={(e)=>deleteResume(resume.id)}>
                                                             <i className="fa-solid fa-trash"></i>
                                                         </button>
                                                     </p>
-                                                    <p className="text-[#7e7e7e] text-[12px]">Uploaded on : {new Date(resume.date).toDateString()}</p>
+                                                    <p className="text-[#646464] text-[12px]">Uploaded on : {new Date(resume.date).toDateString()}</p>
                                                 </aside>
-                                                <a href={resume.file} target='_blank' className="my-2 text-[#7E7E7E] text-sm" download>
+                                                <a href={resume.file} target='_blank' className="my-2 text-[#646464] text-sm" download>
                                                     Download Resume
                                                     <i className="fa-solid fa-download text-xl ml-2 text-[#6D27F9]"></i>
                                                 </a>
@@ -947,7 +949,7 @@ function CandidateProfile(props) {
                                         </div>
                                         {skill.length > 0 ? 
                                         <>
-                                        {/* <p className="text-[#7E7E7E] mb-2">Skills</p> */}
+                                        {/* <p className="text-[#646464] mb-2">Skills</p> */}
                                         <div className="w-full rounded-[25px] border border-slate-300 p-6 min-h-[200px]">
                                             <div className="flex flex-wrap items-start">
                                                 {skill.map((skill, i) => (
@@ -968,7 +970,7 @@ function CandidateProfile(props) {
                                         </> 
                                         : 
                                         <>
-                                        {/* <p className="text-[#7E7E7E] text-sm font-light mb-4">Add skills with relevent expertise</p> */}
+                                        {/* <p className="text-[#646464] text-sm font-light mb-4">Add skills with relevent expertise</p> */}
                                         <Image src={skillsGraphic} alt="Skills" className="w-full" />
                                         </>}
                                         
@@ -988,8 +990,8 @@ function CandidateProfile(props) {
                                                <article>
                                                    <h4 className="font-semibold mb-1 text-lg">{cert.title}</h4>
                                                    <p className="text-[#6D27F9] font-medium mb-2">{cert.company}</p>
-                                                    <p className="text-[#7e7e7e] font-light text-sm mb-2">Issued Date:- {cert.yearofissue} <br/> Expiry Date:- {cert.yearofexp ? cert.yearofexp : <>No Expiry</>}</p>
-                                                    <p className="text-[#7e7e7e] font-light text-sm mb-2">credentials:- {cert.creid}</p>
+                                                    <p className="text-[#646464] font-light text-sm mb-2">Issued Date:- {cert.yearofissue} <br/> Expiry Date:- {cert.yearofexp ? cert.yearofexp : <>No Expiry</>}</p>
+                                                    <p className="text-[#646464] font-light text-sm mb-2">credentials:- {cert.creid}</p>
                                                    <a type="button" href={cert.creurl} target="_blank" className="border border-[#6D27F9] rounded-full py-1.5 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" >Show Certificate</a>
                                                </article>
                                                <div className="bg-white shadow-md rounded-tl-[20px] rounded-bl-[20px] absolute right-0 top-[0px] md:top-[15px] p-1.5 md:py-2.5 md:px-4 text-[12px] md:text-sm">
@@ -1005,7 +1007,7 @@ function CandidateProfile(props) {
                                         
                                         </> : 
                                         <>
-                                         {/* <p className="text-[#7E7E7E] text-sm font-light mb-4">Add certifications here</p> */}
+                                         {/* <p className="text-[#646464] text-sm font-light mb-4">Add certifications here</p> */}
                                         <Image src={certificateGraphic} alt="Certifications" className="w-full" />
                                         </>}
                                        
@@ -1025,9 +1027,9 @@ function CandidateProfile(props) {
                                             <article>
                                                 <h4 className="font-semibold mb-1 text-lg">{edu.title}</h4>
                                                 <p className="text-[#6D27F9] font-medium mb-2">{edu.college}</p>
-                                                <p className="text-[#7e7e7e] font-light text-sm mb-2">Started Date:- {edu.yearofjoin} <br/> End Date:- {edu.yearofend}</p>
+                                                <p className="text-[#646464] font-light text-sm mb-2">Started Date:- {edu.yearofjoin} <br/> End Date:- {edu.yearofend}</p>
                                                 <h6 className="font-medium">About</h6>
-                                                <p className="text-[#7e7e7e] font-light text-sm">{edu.edubody}</p>
+                                                <p className="text-[#646464] font-light text-sm">{edu.edubody}</p>
                                             </article>
                                             <div className="bg-white shadow-md rounded-tl-[20px] rounded-bl-[20px] absolute right-0 top-[0px] md:top-[15px] p-1.5 md:py-2.5 md:px-4 text-[12px] md:text-sm">
                                                 {/* <button type="button" className="text-[#6D27F9] mx-2">
@@ -1042,7 +1044,7 @@ function CandidateProfile(props) {
                                         </>
                                         :
                                         <>
-                                        {/* <p className="text-[#7E7E7E] text-sm font-light mb-4">Add education background</p> */}
+                                        {/* <p className="text-[#646464] text-sm font-light mb-4">Add education background</p> */}
                                         <Image src={educationGraphic} alt="Education" className="w-full" />
                                         </>
                                         } 
@@ -1062,10 +1064,10 @@ function CandidateProfile(props) {
                                             <article>
                                                 <h4 className="font-semibold mb-1 text-lg">{exp.title}</h4>
                                                 <p className="text-[#6D27F9] font-medium mb-2">{exp.company}</p>
-                                                <p className="text-[#7e7e7e] font-light text-sm mb-2">Started Date:- {exp.year_of_join} <br/> End Date:- {exp.year_of_end ? exp.year_of_end : <>PRESENT</>}</p>
-                                                <p className="text-[#7e7e7e] font-light text-sm mb-2">Type:- {exp.type}</p>
+                                                <p className="text-[#646464] font-light text-sm mb-2">Started Date:- {exp.year_of_join} <br/> End Date:- {exp.year_of_end ? exp.year_of_end : <>PRESENT</>}</p>
+                                                <p className="text-[#646464] font-light text-sm mb-2">Type:- {exp.type}</p>
                                                 <h6 className="font-medium">About</h6>
-                                                <p className="text-[#7e7e7e] font-light text-sm">{exp.expbody}</p>
+                                                <p className="text-[#646464] font-light text-sm">{exp.expbody}</p>
                                             </article>
                                             <div className="bg-white shadow-md rounded-tl-[20px] rounded-bl-[20px] absolute right-0 top-[0px] md:top-[15px] p-1.5 md:py-2.5 md:px-4 text-[12px] md:text-sm">
                                                 {/* <button type="button" className="text-[#6D27F9] mx-2">
@@ -1081,7 +1083,7 @@ function CandidateProfile(props) {
                                         </>
                                         :
                                         <>
-                                        {/* <p className="text-[#7E7E7E] text-sm font-light mb-4">Add experience here</p> */}
+                                        {/* <p className="text-[#646464] text-sm font-light mb-4">Add experience here</p> */}
                                         <Image src={expGraphic} alt="Experience" className="w-full" />
                                         </>
                                         }
@@ -1101,7 +1103,7 @@ function CandidateProfile(props) {
                                             <article>
                                                 <h4 className="font-semibold mb-1 text-lg">{achieve.title}</h4>
                                                 <h6 className="font-medium">About</h6>
-                                                <p className="text-[#7e7e7e] font-light text-sm">{achieve.desc}</p>
+                                                <p className="text-[#646464] font-light text-sm">{achieve.desc}</p>
                                             </article>
                                             <div className="bg-white shadow-md rounded-tl-[20px] rounded-bl-[20px] absolute right-0 top-[0px] md:top-[15px] p-1.5 md:py-2.5 md:px-4 text-[12px] md:text-sm">
                                                 {/* <button type="button" className="text-[#6D27F9] mx-2">
@@ -1116,7 +1118,7 @@ function CandidateProfile(props) {
                                         </>
                                         :
                                         <>
-                                        {/* <p className="text-[#7E7E7E] text-sm font-light mb-4">Add achievements here</p> */}
+                                        {/* <p className="text-[#646464] text-sm font-light mb-4">Add achievements here</p> */}
                                         <Image src={achievementsGraphic} alt="Achievements" className="w-full" />
                                         </>}
                                         
@@ -1143,7 +1145,7 @@ function CandidateProfile(props) {
                     </Transition.Child>
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">
-                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
                         <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -1204,7 +1206,7 @@ function CandidateProfile(props) {
                     </Transition.Child>
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">
-                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
                         <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -1255,7 +1257,7 @@ function CandidateProfile(props) {
                     </Transition.Child>
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">
-                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
                         <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -1325,7 +1327,7 @@ function CandidateProfile(props) {
                     </Transition.Child>
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">
-                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
                         <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -1408,7 +1410,7 @@ function CandidateProfile(props) {
                     </Transition.Child>
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">
-                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
                         <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -1479,7 +1481,7 @@ function CandidateProfile(props) {
                     </Transition.Child>
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">
-                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
                         <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -1560,7 +1562,7 @@ function CandidateProfile(props) {
                     </Transition.Child>
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">
-                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
                         <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"

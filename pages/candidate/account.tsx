@@ -100,7 +100,7 @@ function CandidateAcc(props) {
     async function saveChange(event) {
         event.preventDefault();
         const axiosInstanceAuth = axios.create({
-        baseURL: 'http://127.0.0.1:8000/api/',
+        baseURL: 'https://marketplace.somhako.com/api/',
         timeout: 5000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
@@ -109,7 +109,7 @@ function CandidateAcc(props) {
         }
         });
         const axiosInstanceAuth2 = axios.create({
-        baseURL: 'http://127.0.0.1:8000/api/',
+        baseURL: 'https://marketplace.somhako.com/api/',
         timeout: 5000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
@@ -136,7 +136,7 @@ function CandidateAcc(props) {
                 }
                 formData.append("country",countryDrop)
                 await axiosInstanceAuth2.put('/candidate/candidateprofileaccont/'+userObj['erefid']+'/',formData).then(async(res2)=>{
-                    updateUserImg("http://127.0.0.1:8000"+res2.data.profile)
+                    updateUserImg("https://marketplace.somhako.com"+res2.data.profile)
                     userProfile["country"]=res2.data.country
                     userProfile["profile"]=res2.data.profile
                     console.log(userProfile)
@@ -158,7 +158,7 @@ function CandidateAcc(props) {
 
     async function delacc() {
         const axiosInstanceAuth = axios.create({
-        baseURL: 'http://127.0.0.1:8000/api/',
+        baseURL: 'https://marketplace.somhako.com/api/',
         timeout: 5000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
@@ -281,7 +281,7 @@ function CandidateAcc(props) {
                 </Transition.Child>
 
                 <div className="fixed inset-0 z-10 overflow-y-auto">
-                <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
                     <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"

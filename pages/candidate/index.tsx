@@ -25,6 +25,9 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
+import { useAccount } from 'wagmi'
+import toastcomp from "../../components/toast";
+import { axiosInstance } from "../api/axiosApi";
 
 function Candidate(props) {
 
@@ -57,11 +60,17 @@ function Candidate(props) {
         (state) => [state.accessToken, state.updateAccessToken],
         shallow
     )
+
+    
+    const { address, isConnecting, isDisconnected } = useAccount()
     
 
     const { router,session } = props; 
     const [progress,setProgress] = useState(0);
     const [progressT,setProgressT] = useState('');
+    const [joblist,setJobList] = useState([])
+    const [applied,setapplied] = useState([])
+    const [bookmarked,setbookmarked] = useState([])
 
     const learningSlides = [
         {
@@ -98,7 +107,7 @@ function Candidate(props) {
     };
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
-        baseURL: 'http://127.0.0.1:8000/api/',
+        baseURL: 'https://marketplace.somhako.com/api/',
         timeout: 5000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
@@ -112,19 +121,72 @@ function Candidate(props) {
       }
     }, [session]);
 
+    async function loadJobs() {
+        await axiosInstance.get('/job/job/list/').then(async (res)=>{
+            console.log(res)
+            setJobList(res.data.slice(0, 4))
+        }).catch((err)=>{
+            console.log(err)
+            if(err.message != "Request failed with status code 401"){
+                toastcomp("Job Not Loaded","error");
+            }
+        })
+    }
+
+
+    async function loadAppliedJobs() {
+        await axiosInstanceAuth2.get('/job/candidate/applied/jobs/'+userObj['erefid']+'/').then(async (res)=>{
+           setapplied(res.data)
+        }).catch((err)=>{
+            if(err.message != "Request failed with status code 401"){
+                // toastcomp("Lang Not Loaded",'error')
+                console.log(err)
+            }
+        })
+    }
+
+    async function loadBookmarkedJobs() {
+        await axiosInstanceAuth2.get('/job/candidate/saved/jobs/'+userObj['erefid']+'/').then(async (res)=>{
+           setbookmarked(res.data)
+        }).catch((err)=>{
+            if(err.message != "Request failed with status code 401"){
+                // toastcomp("Lang Not Loaded",'error')
+                console.log(err)
+            }
+        })
+    }
 
     async function loadProgress() {
         await axiosInstanceAuth2.get('/candidate/progress/'+userObj['erefid']+'/').then(async (res)=>{
            setProgress(parseInt(res.data.count))
         }).catch((err)=>{
-            console.log(err)
+            if(err.message != "Request failed with status code 401"){
+                // toastcomp("Lang Not Loaded",'error')
+                console.log(err)
+            }
         })
+    }
+
+    async function updateAddress(formData) {
+        await axiosInstanceAuth2.put('/auth/candidateaccont/'+userObj['erefid']+'/',formData).then(async(res2)=>{
+            console.log(res2)
+            userObj["paddress"]=res2.data.paddress
+            toastcomp("Address Updated :)","success");
+        }).catch((err)=>{
+            if(err.message != "Request failed with status code 401"){
+                console.log(err);
+                toastcomp("Address Not Updated :)","error");
+            }
+        });
     }
 
 
     useEffect(() => {
         if(userObj){
             loadProgress()
+            loadJobs()
+            loadAppliedJobs()
+            loadBookmarkedJobs()
         }
         
         if(progress > 0 && progress < 11){setProgressT('LOW')}
@@ -132,8 +194,16 @@ function Candidate(props) {
         if(progress > 31 && progress < 61){setProgressT('AVG')}
         if(progress > 61 && progress < 81){setProgressT('GOOD')}
         if(progress > 81){setProgressT('GREAT')}
+
+        if(address && userObj){
+            if(userObj["paddress"]!=address){
+                var formData = new FormData()
+                formData.append("paddress",address)
+                updateAddress(formData)
+            }
+        }
         
-    }, [userObj,progress])
+    }, [userObj,progress,address])
     
 
     return (
@@ -163,7 +233,7 @@ function Candidate(props) {
                                     <h2 className="font-semibold text-xl md:text-3xl mb-1">
                                         {userName}
                                     </h2>
-                                    <p className="text-[#7E7E7E] font-light text-sm">
+                                    <p className="text-[#646464] font-light text-sm">
                                         Web Development
                                     </p>
                                 </div>
@@ -179,18 +249,18 @@ function Candidate(props) {
                         <div className="flex flex-wrap justify-between items-start mb-6">
                             <div className="w-full md:w-[65%] md:pr-10 mb-3 md:mb-0">
                                 <div className="w-full max-w-[320px] mb-2">
-                                    <p className="flex justify-between mb-2 md:text-lg">
-                                        <span>
+                                    <p className="flex items-center justify-between mb-2 md:text-lg">
+                                        <span className="text-sm font-semibold">
                                             Profile Completion{" "}
                                             <span className="font-medium">({progressT})</span>
                                         </span>
                                         <span className="font-semibold">{progress}%</span>
                                     </p>
                                     <div className="rounded-full bg-[#FFF0EE] p-1">
-                                        <div className={`bg-gradient-to-r from-[#F295EF] to-[#4D94E8] transition-all delay-150 rounded-full w-[${progress}%] h-[25px]`}></div>
+                                        <div className={`bg-gradient-to-r from-[#F295EF] to-[#4D94E8] transition-all delay-150 rounded-full w-[80%] h-[25px]`} style={{ ["width" as any]: `${progress}%`}}></div>
                                     </div>
                                 </div>
-                                <p className="text-[#7E7E7E] font-light text-sm">
+                                <p className="text-[#646464] font-light text-sm">
                                     Do the following to attract your profile to the Recruiters
                                 </p>
                             </div>
@@ -225,35 +295,9 @@ function Candidate(props) {
                     <div className="mb-8 py-4 px-8 bg-white shadow-normal rounded-[20px]">
                         <div className="flex flex-wrap items-center justify-between mb-10">
                             <h2 className="font-semibold text-xl text-3xl mb-4 md:mb-0">Wallet</h2>
-                            <div className="w-full md:max-w-[70%] relative">
-                                {userObj['paddress'] ? 
-                                <>
-                                <input
-                                    readOnly
-                                    type="text"
-                                    value={userObj['paddress']}
-                                    className="w-full rounded-full border-slate-300 focus:border-slate-300 focus:ring-0 focus:outline-0 focus:shadow-none pr-[100px] text-sm text-gray-500"
-                                />
-                                <button
-                                    type="button"
-                                    className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-[7px] px-5 transition-all hover:from-[#391188] hover:to-[#391188] absolute right-0"
-                                >
-                                    Copy
-                                </button>
-                                </>: 
-                                <>
-                                {/* <button
-                                    type="button"
-                                    className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-[7px] px-5 transition-all hover:from-[#391188] hover:to-[#391188] absolute right-0"
-                                >
-                                    Connect Wallet
-                                </button> */}
-                                <div className="text-white font-bold rounded-full py-[7px] px-5 transition-all absolute right-0">
-                                    <ConnectButton />
-                                </div>
-                                </>}
-                                
-                            </div>
+                            <aside>
+                                <ConnectButton />
+                            </aside>
                         </div>
                         <div className="bg-[#f5f5f5] rounded-[20px] p-6 flex flex-wrap justify-between">
                             <div className="w-full md:max-w-[40%] mb-4 md:mb-0">
@@ -272,60 +316,40 @@ function Candidate(props) {
                                 <TabList>
                                     <Tab>Job Listing</Tab>
                                     <Tab>Applied Jobs</Tab>
-                                    <Tab>Recommended Jobs</Tab>
+                                    <Tab>Saved Jobs</Tab>
                                 </TabList>
                             </div>
-                            {/* <TabPanel>
+                            <TabPanel>
                                 <div className="flex flex-wrap mx-[-15px]">
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
+                                    {joblist.map((job, i) => (
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6" key={i}>
+                                            <JobCard data={job} />
+                                        </div>
+                                    ))}
                                 </div>
                                 <div className="text-center">
-                                    <Link href="#" className="inline-block bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">View More</Link>
+                                    <Link href="/job-listing" className="inline-block bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">View More</Link>
+                                </div>
+                            </TabPanel>
+                            
+                            <TabPanel>
+                                <div className="flex flex-wrap mx-[-15px]">
+                                    {applied.map((job, i) => (
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6" key={i}>
+                                            <JobCard data={job} />
+                                        </div>
+                                    ))}
                                 </div>
                             </TabPanel>
                             <TabPanel>
                                 <div className="flex flex-wrap mx-[-15px]">
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
+                                    {bookmarked.map((job, i) => (
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6" key={i}>
+                                            <JobCard data={job} />
+                                        </div>
+                                    ))}
                                 </div>
                             </TabPanel>
-                            <TabPanel>
-                                <div className="flex flex-wrap mx-[-15px]">
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                                        <JobCard />
-                                    </div>
-                                </div>
-                            </TabPanel> */}
                         </Tabs>
                     </div>
                 </div>

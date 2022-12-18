@@ -1,13 +1,22 @@
-import Link from 'next/link'
+import Link from 'next/link';
+import shallow from 'zustand/shallow';
+import Logo from "../components/logo";
+import { useStore } from '../constants/code';
 
 export default function Footer() {
+
+    const [userType, updateUserType] = useStore(
+        (state) => [state.userType, state.updateUserType],
+        shallow
+    )
+
     const quicklinks = [
         {
-            url: '#',
-            text: 'Company'
+            url: '/contact',
+            text: 'Contact Us'
         },
         {
-            url: '#',
+            url: '/blog',
             text: 'Blog'
         }
     ];
@@ -34,10 +43,8 @@ export default function Footer() {
         <div className="py-8">
             <div className="container flex flex-wrap">
                 <div className="w-full lg:w-3/12 mb-4">
-                    <Link href="/" className="max-w-[200px] lg:max-w-[260px] w-full inline-block mb-4">
-                        <img src="/images/logo.png" alt="Somhako" />
-                    </Link>
-                    <p>SOMHAKO is the first protocol-based, composable, and decentralized social graph uniting the entire HR industry. By indexing and syncing candidate data on the blockchain network.</p>
+                    <Logo userType={userType} />
+                    <p className="pt-4">SOMHAKO is the first protocol-based, composable, and decentralized social graph uniting the entire HR industry. By indexing and syncing candidate data on the blockchain network.</p>
                 </div>
                 <div className="w-full md:w-4/12 lg:w-3/12 lg:pl-20 mb-4">
                     <h4 className="font-bold text-xl mt-2 mb-4">Company</h4>
@@ -73,7 +80,7 @@ export default function Footer() {
                             <input type="email" placeholder="Email Address" className="w-full rounded-full border-slate-300" />
                             <i className="fa-solid fa-envelope iconGroup__icon"></i>
                         </div>
-                        <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">Submit</button>
+                        <button type="submit" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">Submit</button>
                     </form>
                 </div>
             </div>
@@ -83,7 +90,7 @@ export default function Footer() {
                 <p className="text-white text-sm text-center md:text-left">© 2022, All Rights Reserved, Somhako</p>
                 <ul className="flex items-center">
                     <li>
-                        <Link href="#" className="text-white text-sm hover:underline">
+                        <Link href="/privacy-policy" className="text-white text-sm hover:underline">
                             Privacy Policy
                         </Link>
                     </li>
@@ -93,4 +100,4 @@ export default function Footer() {
     </div>
     </>
     )
-}    
+}

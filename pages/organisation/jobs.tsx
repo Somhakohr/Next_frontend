@@ -12,6 +12,7 @@ import axios from 'axios';
 import { useStore } from '../../constants/code';
 import shallow from 'zustand/shallow';
 import toastcomp from '../../components/toast';
+import moment from 'moment';
 
 function OrganisationAllJobs(props) {
     
@@ -82,10 +83,12 @@ function OrganisationAllJobs(props) {
     const [draft,setDraft] = useState(false)
     const [review,setReview] = useState(false)
     const [close,setClose] = useState(false)
+    const [jobReload,setJobReload] = useState(false)
+    const [editJob,setEditJob] = useState(false)
 
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
-        baseURL: 'http://127.0.0.1:8000/api/',
+        baseURL: 'https://marketplace.somhako.com/api/',
         timeout: 5000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
@@ -103,10 +106,16 @@ function OrganisationAllJobs(props) {
                 toastcomp("Job Not Loaded","error");
             }
         })
+        setEditJob(false)
     }
 
     useEffect(() => {
       if(jobs){
+        setActive(false)
+        setArcheve(false)
+        setDraft(false)
+        setReview(false)
+        setClose(false)
         for(let i=0;i<jobs.length;i++){
             if(jobs[i].jobStatus == "Active"){setActive(true)}
             if(jobs[i].jobStatus == "Archived"){setArcheve(true)}
@@ -115,7 +124,68 @@ function OrganisationAllJobs(props) {
             if(jobs[i].jobStatus == "Close"){setClose(true)}
         }
       }
-    }, [jobs])
+      if(jobReload){loadJobs();setJobReload(false)}
+    }, [jobs,jobReload])
+
+    useEffect(() => {
+      if(Object.keys(editJob).length > 0){
+        console.log(editJob)
+        resetJOBFORM()
+        if(editJob['title']){setTitle(editJob['title'])}
+        if(editJob['dept']){setDept(editJob['dept'])}
+        if(editJob['exp']){setExp(editJob['exp'])}
+        if(editJob['type']){setType(editJob['type'])}
+        if(editJob['level']){setLevel(editJob['level'])}
+        if(editJob['deadline']){setDeadline(moment(editJob['deadline']).format('YYYY-MM-DD'))}
+        if(editJob['industry']){setInd(editJob['industry'])}
+        if(editJob['desc']){setDesc(editJob['desc'])}
+        if(editJob['resp']){setRes(editJob['resp'])}
+        if(editJob['salary']){setSalary(editJob['salary'])}
+        if(editJob['relocation']){setReloc(editJob['relocation'])}
+        if(editJob['bonus']){setBonus(editJob['bonus'])}
+        if(editJob['stock']){setStock(editJob['stock'])}
+        if(editJob['visa']){setVisa(editJob['visa'])}
+        if(editJob['vacancy']){setVacancy(editJob['vacancy'])}
+        if(editJob['worktype']){setWtype(editJob['worktype'])}
+        if(editJob['location']){setLoc(editJob['location'])}
+        if(editJob['recskill']){setrSkill(editJob['recskill'])}
+        if(editJob['preskill']){setpSkill(editJob['preskill'])}
+        if(editJob['qualification']){setQf(editJob['qualification'])}
+        if(editJob['lng1']){
+            let dic = {}
+            dic['title']=editJob['lng1']
+            dic['exp']=editJob['exp1']
+            let abc = lang
+            abc.push(dic)
+            setLang(abc)
+        }
+        if(editJob['lng2']){
+            let dic = {}
+            dic['title']=editJob['lng2']
+            dic['exp']=editJob['exp2']
+            let abc = lang
+            abc.push(dic)
+            setLang(abc)
+        }
+        if(editJob['lng3']){
+            let dic = {}
+            dic['title']=editJob['lng3']
+            dic['exp']=editJob['exp3']
+            let abc = lang
+            abc.push(dic)
+            setLang(abc)
+        }
+        if(editJob['lng4']){
+            let dic = {}
+            dic['title']=editJob['lng4']
+            dic['exp']=editJob['exp4']
+            let abc = lang
+            abc.push(dic)
+            setLang(abc)
+        }
+        toastcomp("Job In Edit Mode","Success")
+      }
+    }, [editJob])
     
 
     useEffect(() => {
@@ -131,11 +201,29 @@ function OrganisationAllJobs(props) {
         await axiosInstanceAuth2.post('/job/create/',formdata).then(async (res)=>{
             toastcomp("Job Added",'success')
             resetJOBFORM()
+            loadJobs()
         }).catch((err)=>{
             toastcomp("Job Not Added",'error')
             console.log(err)
         })
     }
+
+    // async function updateJob(formdata,refid) {
+    //     await axiosInstanceAuth2.put('/job/update/'+refid+'/',formdata).then(async (res)=>{
+    //         toastcomp("Job Updated",'success')
+    //         resetJOBFORM()
+    //         setEditJob(false)
+    //         loadJobs()
+    //     }).catch((err)=>{
+    //         toastcomp("Job Not Updated",'error')
+    //         console.log(err)
+    //     })
+    // }
+
+    useEffect(() => {
+      if(editJob){loadJobs()}
+    }, [editJob])
+    
 
     function resetJOBFORM(){
         setTitle('')
@@ -360,7 +448,7 @@ function OrganisationAllJobs(props) {
                                                 <label htmlFor="addJobPaidRelocation" className="font-medium mb-2 leading-none inline-block">Paid Relocation</label>
                                                 <select id="addJobPaidRelocation" className="w-full rounded-full border-slate-300" value={reloc} onChange={(e)=>setReloc(e.target.value)}>
                                                     <option value="Paid Relocation 1">Paid Relocation 1</option>
-                                                    <option value="Paid Relocation 1">Paid Relocation 2</option>
+                                                    <option value="Paid Relocation 2">Paid Relocation 2</option>
                                                 </select>
                                             </div>
                                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
@@ -375,7 +463,7 @@ function OrganisationAllJobs(props) {
                                                 <label htmlFor="addJobVisaSponsorship" className="font-medium mb-2 leading-none inline-block">Visa Sponsorship</label>
                                                 <select id="addJobVisaSponsorship" className="w-full rounded-full border-slate-300" value={visa} onChange={(e)=>setVisa(e.target.value)}>
                                                     <option value="Visa Sponsorship 1">Visa Sponsorship 1</option>
-                                                    <option value="Visa Sponsorship 1">Visa Sponsorship 2</option>
+                                                    <option value="Visa Sponsorship 2">Visa Sponsorship 2</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -486,7 +574,7 @@ function OrganisationAllJobs(props) {
                                             {jobs.map((job, i) => (
                                                 job.jobStatus == "Active" && 
                                                 <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
-                                                    <OrgJobsCard data={job}/>
+                                                    <OrgJobsCard data={job} axiosInstanceAuth2={axiosInstanceAuth2} setJobReload={setJobReload} setEditJob={setEditJob}/>
                                                 </div>
                                             ))}
                                         </div>
@@ -518,7 +606,7 @@ function OrganisationAllJobs(props) {
                                             {jobs.map((job, i) => (
                                                 job.jobStatus == "Archived" && 
                                                 <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
-                                                    <OrgJobsCard data={job}/>
+                                                    <OrgJobsCard data={job} axiosInstanceAuth2={axiosInstanceAuth2} setJobReload={setJobReload} setEditJob={setEditJob}/>
                                                 </div>
                                             ))}
                                         </div>
@@ -550,7 +638,7 @@ function OrganisationAllJobs(props) {
                                             {jobs.map((job, i) => (
                                                 job.jobStatus == "Draft" && 
                                                 <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
-                                                    <OrgJobsCard data={job}/>
+                                                    <OrgJobsCard data={job} axiosInstanceAuth2={axiosInstanceAuth2} setJobReload={setJobReload} setEditJob={setEditJob}/>
                                                 </div>
                                             ))}
                                         </div>
@@ -582,7 +670,7 @@ function OrganisationAllJobs(props) {
                                             {jobs.map((job, i) => (
                                                 job.jobStatus == "Review" && 
                                                 <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
-                                                    <OrgJobsCard data={job}/>
+                                                    <OrgJobsCard data={job} axiosInstanceAuth2={axiosInstanceAuth2} setJobReload={setJobReload} setEditJob={setEditJob}/>
                                                 </div>
                                             ))}
                                         </div>
@@ -614,7 +702,7 @@ function OrganisationAllJobs(props) {
                                             {jobs.map((job, i) => (
                                                 job.jobStatus == "Close" && 
                                                 <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
-                                                    <OrgJobsCard data={job}/>
+                                                    <OrgJobsCard data={job} axiosInstanceAuth2={axiosInstanceAuth2} setJobReload={setJobReload} setEditJob={setEditJob}/>
                                                 </div>
                                             ))}
                                         </div>
@@ -657,7 +745,7 @@ function OrganisationAllJobs(props) {
                     </Transition.Child>
 
                     <div className="fixed inset-0 z-10 overflow-y-auto">
-                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
                         <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
