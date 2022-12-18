@@ -78,7 +78,7 @@ function Header(props) {
 
             if(res.data.type == "Candidate"){
                 const axiosInstanceAuth = axios.create({
-                baseURL: 'http://127.0.0.1:8000/api/',
+                baseURL: 'https://marketplace.somhako.com/api/',
                 timeout: 5000,
                 headers: {
                     'Authorization': 'Bearer '+session.accessToken,
@@ -91,7 +91,7 @@ function Header(props) {
             }
             else if(res.data.type == "Organisation"){
                 const axiosInstanceAuth = axios.create({
-                baseURL: 'http://127.0.0.1:8000/api/',
+                baseURL: 'https://marketplace.somhako.com/api/',
                 timeout: 5000,
                 headers: {
                     'Authorization': 'Bearer '+session.accessToken,
@@ -125,7 +125,7 @@ function Header(props) {
                         updateUserImg(session.user.image);
                     }
                     else{
-                        updateUserImg('http://127.0.0.1:8000'+userProfile["profile"]);
+                        updateUserImg('https://marketplace.somhako.com'+userProfile["profile"]);
                     }
                 }
             }
@@ -134,8 +134,8 @@ function Header(props) {
                     updateUserName(userObj['name']);
                 }
                 if(userProfile['profile']){
-                    updateUserImg('http://127.0.0.1:8000'+userProfile["profile"]);
-                    updateUserCImg('http://127.0.0.1:8000'+userProfile["cover"]);
+                    updateUserImg('https://marketplace.somhako.com'+userProfile["profile"]);
+                    updateUserCImg('https://marketplace.somhako.com'+userProfile["cover"]);
                 }
             }
     

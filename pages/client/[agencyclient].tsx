@@ -33,7 +33,7 @@ export default function CandidateUsers() {
     })
 
     const axiosInstance2 = axios.create({
-        baseURL: 'http://127.0.0.1:8000/api/',
+        baseURL: 'https://marketplace.somhako.com/api/',
         timeout: 5000,
         headers: {
             "Content-Type": "multipart/form-data",

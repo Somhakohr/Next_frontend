@@ -14,7 +14,7 @@ namespace NextAuthUtils {
   export const refreshToken = async function (refreshToken) {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/djrestauth/token/refresh/",
+        "https://marketplace.somhako.com/api/djrestauth/token/refresh/",
         // UrlUtils.makeUrl(
         //   process.env.BACKEND_API_BASE,
         //   "djrestauth",
@@ -40,7 +40,7 @@ namespace NextAuthUtils {
 }
 
 const axiosInstance = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api/',
+  baseURL: 'https://marketplace.somhako.com/api/',
   timeout: 5000,
   headers: {
       // 'Authorization': "JWT " + access_token,
@@ -196,7 +196,7 @@ const settings: NextAuthOptions = {
 
       //   //candidateprofile
       //   const axiosInstanceAuth = axios.create({
-      //     baseURL: 'http://127.0.0.1:8000/api/',
+      //     baseURL: 'https://marketplace.somhako.com/api/',
       //     timeout: 5000,
       //     headers: {
       //         // 'Authorization': "JWT " + access_token,
