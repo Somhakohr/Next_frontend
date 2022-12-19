@@ -348,7 +348,7 @@ function Header(props) {
                                     <ul className="flex justify-center border rounded overflow-hidden font-medium bg-white">
                                         {authAction.map((authAction, i) => (
                                             <li key={i} className="last:border-l w-[50%]">
-                                                <Link href={authAction.url} className="py-[15px] px-[10px] leading-none w-full text-center block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">
+                                                <Link href={authAction.url} onClick={() => toggleSmallMenu(!smallMenu)} className="py-[15px] px-[10px] leading-none w-full text-center block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">
                                                     {authAction.text}
                                                 </Link>
                                             </li>
@@ -356,7 +356,7 @@ function Header(props) {
                                     </ul>
                                 </div>
                             </div>
-                            <button type="button" onClick={() => setOpen(true)} className="xl:hidden text-2xl flex">
+                            <button type="button" onClick={() => {setOpen(true); toggleSmallMenu(false);}} className="xl:hidden text-2xl flex">
                                 <i className="fa-solid fa-bars"></i>
                             </button>
                         </div>
@@ -418,7 +418,7 @@ function Header(props) {
                                         <ul className="w-full">
                                             {menuNav.map((menuNav, i) => (
                                                 <li key={i}>
-                                                    <Link href={menuNav.url} className="px-5 py-[10px] rounded leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">
+                                                    <Link href={menuNav.url} onClick={() => setOpen(false)} className="px-5 py-[10px] rounded leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white">
                                                         {menuNav.text}
                                                     </Link>
                                                 </li>

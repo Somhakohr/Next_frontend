@@ -10,6 +10,7 @@ import { useStore } from "../../constants/code";
 import { withAuth } from "../../constants/HOCs";
 import userImg from "../../public/images/user-image.png";
 import { axiosInstance } from "../api/axiosApi";
+import Multiselect from 'multiselect-react-dropdown';
 
 
 function CandidateAcc(props) {
@@ -51,6 +52,8 @@ function CandidateAcc(props) {
         (state) => [state.country, state.updateCountry],
         shallow
     )
+
+    const [fcountry, setfcountry] = useState([])
     
     const { router,session } = props; 
     
@@ -186,6 +189,23 @@ function CandidateAcc(props) {
         return fname.length > 0 && lname.length > 0;
     }
 
+    const state  = {
+        options: [{name: 'Option 1', id: 1},{name: 'Option 2', id: 2}]
+    };
+    useEffect(() => {
+        if(fcountry.length <= 0 && country){
+            let arr = [];
+            for (const [key, value] of Object.entries(country)) {
+                console.log(key, value);
+                let a = {}
+                a["name"] = country[key];
+                // a["id"] = key;
+                arr.push(a)
+            }
+            setfcountry(arr)
+        }
+    }, [country])
+
     return (
         
         <>
@@ -240,12 +260,19 @@ function CandidateAcc(props) {
                             </div>
                             <div className="w-full lg:w-[47%] mb-6">
                                 <label htmlFor="country" className="font-medium mb-2 leading-none inline-block">Country</label>
-                                <select id="country" className="w-full rounded-full border-slate-300" value={countryDrop} onChange={(e)=>setCountryDrop(e.target.value)}>
+                                {/* <select id="country" className="w-full rounded-full border-slate-300" value={countryDrop} onChange={(e)=>setCountryDrop(e.target.value)}>
                                     <option value=''>Select Country</option>
                                 {Object.keys(country).map((key, index) => ( 
                                     <option key={key} value={country[key]}>{country[key]}</option>
                                 ))}
-                                </select>
+                                </select> */}
+                                <Multiselect
+                                options={fcountry}
+                                displayValue="name"
+                                singleSelect={true}
+                                selectedValues = {[{"name" : countryDrop}]}
+                                onSelect={(selectedList, selectedItem)=> {setCountryDrop(selectedItem) }}
+                                />
                             </div>
                         </div>
                         <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">

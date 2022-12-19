@@ -88,6 +88,19 @@ i.fa-solid {
 .iconGroup input {
   padding-left: 40px;
 }
+.iconGroup.right .iconGroup__icon-right {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  color: gray;
+  cursor: pointer;
+}
+.iconGroup.right input {
+  padding-right: 40px;
+  padding-left: 15px;
+}
 .iconGroup.delete .iconGroup__icon-delete {
   position: absolute;
   right: 18px;
