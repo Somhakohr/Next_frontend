@@ -189,6 +189,9 @@ export default function OrganisationJobsCard(props) {
                 setLang(abc)
             }
         }
+        else{
+            resetJOBFORM()
+        }
     }, [draftedPopup])
     
     
@@ -204,7 +207,21 @@ export default function OrganisationJobsCard(props) {
         })
     }
     
-    function update() {
+    async function cloneJob(formdata) {
+        await axiosInstanceAuth2.put('/job/update/'+data["refid"]+'/',formdata).then(async (res)=>{
+            toastcomp("Job Clone Successfully",'success')
+            resetJOBFORM()
+            draftedPopupOpen(false)
+            setEditJob(true)
+        }).catch((err)=>{
+            toastcomp("Job Not Clone Successfully",'error')
+            console.log(err)
+        })
+    }
+
+    
+    function update(num) {
+        
         var check = true;
         if(title.length <= 0 || dept.length <= 0 || exp.length <= 0 || type.length <= 0 || level.length <= 0 || deadline.length <= 0 || ind.length <= 0){
             check = false;
@@ -248,9 +265,17 @@ export default function OrganisationJobsCard(props) {
                     formData.append('exp'+(i+1), lang[i]['exp'])
                 }
             }
-
-            if(Array.from(formData.keys()).length > 0){
-                updateJob(formData)
+            
+            if(num==0){
+                if(Array.from(formData.keys()).length > 0){
+                    updateJob(formData)
+                }
+            }
+            
+            if(num==1){
+                if(Array.from(formData.keys()).length > 0){
+                    cloneJob(formData)
+                }
             }
         }
     }
@@ -284,8 +309,6 @@ export default function OrganisationJobsCard(props) {
         lang.splice(num,1)
         document.getElementById('lang'+num).remove()
     }
-      
-
 
     return (
         <>
@@ -375,7 +398,7 @@ export default function OrganisationJobsCard(props) {
                         }
 
                         {data.jobStatus == "Close" && 
-                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3">
+                        <button type="button" className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3" onClick={() => draftedPopupOpen(true)}>
                             <i className="fa-solid fa-copy"></i>
                             <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Clone</span>
                         </button>
@@ -762,11 +785,19 @@ export default function OrganisationJobsCard(props) {
                                             </div>
                                         </div>
                                     </div>
+                                    {data.jobStatus == "Close" ?
                                     <div className="flex flex-wrap items-center">
-                                        <button type="submit" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mr-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>update()}>
+                                        <button type="submit" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mr-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>update(1)}>
+                                        Clone
+                                        </button>
+                                    </div>
+                                    :
+                                    <div className="flex flex-wrap items-center">
+                                        <button type="submit" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mr-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>update(0)}>
                                         Update
                                         </button>
                                     </div>
+                                    }
                                 </div>
                             </div>
                         </Dialog.Panel>
