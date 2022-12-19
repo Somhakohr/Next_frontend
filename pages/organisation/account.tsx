@@ -104,7 +104,7 @@ function OrganisationAccount(props) {
 
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
-        baseURL: 'http://127.0.0.1:8000/api/',
+        baseURL: 'https://marketplace.somhako.com/api/',
         timeout: 5000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
@@ -371,13 +371,6 @@ function OrganisationAccount(props) {
 
 
     }, [fcname,otype,ind,fcurl,fdate,ffounder,fcemail,flname,frname,frdes,cstrength,orgstatus,opestatus,ffundround,ffund,fdesc,fadd,coverimg,profileimg])
-
-    useEffect(() => {
-        if(userProfile){
-           
-            
-        }
-    }, [cname,otype])
     
 
     return (

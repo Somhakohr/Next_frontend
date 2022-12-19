@@ -62,7 +62,7 @@ function Organisation(props) {
          
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
-        baseURL: 'http://127.0.0.1:8000/api/',
+        baseURL: 'https://marketplace.somhako.com/api/',
         timeout: 5000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
@@ -305,7 +305,7 @@ function Organisation(props) {
                                 <div className="py-6 px-4 md:px-10">
                                     <div className="flex flex-wrap mx-[-10px]">
                                     {recentJob.map((job, i) => (
-                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
+                                        <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
                                             <JobCard data={job} org={true}/>
                                         </div>
                                     ))}

@@ -38,7 +38,7 @@ function PreviewDetail(props) {
     const {session,router} = props
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
-        baseURL: 'http://127.0.0.1:8000/api/',
+        baseURL: 'https://marketplace.somhako.com/api/',
         timeout: 5000,
         headers: {
             'Authorization': 'Bearer '+accessToken,

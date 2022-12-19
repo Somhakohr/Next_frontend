@@ -76,7 +76,7 @@ function OrganisationCandidateProfileView(props) {
     
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
-        baseURL: 'http://127.0.0.1:8000/api/',
+        baseURL: 'https://marketplace.somhako.com/api/',
         timeout: 5000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
@@ -336,7 +336,7 @@ function OrganisationCandidateProfileView(props) {
                                 <ul className="flex flex-wrap text-center">
                                 {link.map((link, i) => (
                                     <li className="w-[calc(100%/3)] p-4" key={i}>
-                                        <Link href="link.title" target="_blank" className="text-2xl hover:text-[#6D27F9]">
+                                        <Link href="link.title" target="_blank" rel="noreferrer" className="text-2xl hover:text-[#6D27F9]">
                                             <i className="fa-solid fa-link "></i>
                                         </Link>
                                     </li>
@@ -594,7 +594,7 @@ function OrganisationCandidateProfileView(props) {
                                             <p className="text-[#6D27F9] font-medium mb-2">{cert.company}</p>
                                             <p className="text-[#646464] font-light text-sm mb-2">Issued Date:- {cert.yearofissue} <br/> Expiry Date:- {cert.yearofexp ? cert.yearofexp : <>No Expiry</>}</p>
                                             <p className="text-[#646464] font-light text-sm mb-2">credentials:- {cert.creid}</p>
-                                            <a type="button" href={cert.creurl} target="_blank" className="border border-[#6D27F9] rounded-full py-1.5 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" >Show Certificate</a>
+                                            <a type="button" href={cert.creurl} target="_blank" rel="noreferrer" className="border border-[#6D27F9] rounded-full py-1.5 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" >Show Certificate</a>
                                         </article>
                                     </div>      
                                 ))}

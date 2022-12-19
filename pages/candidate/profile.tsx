@@ -171,7 +171,7 @@ function CandidateProfile(props) {
     
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
-        baseURL: 'http://127.0.0.1:8000/api/',
+        baseURL: 'https://marketplace.somhako.com/api/',
         timeout: 5000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
@@ -992,7 +992,7 @@ function CandidateProfile(props) {
                                                    <p className="text-[#6D27F9] font-medium mb-2">{cert.company}</p>
                                                     <p className="text-[#646464] font-light text-sm mb-2">Issued Date:- {cert.yearofissue} <br/> Expiry Date:- {cert.yearofexp ? cert.yearofexp : <>No Expiry</>}</p>
                                                     <p className="text-[#646464] font-light text-sm mb-2">credentials:- {cert.creid}</p>
-                                                   <a type="button" href={cert.creurl} target="_blank" className="border border-[#6D27F9] rounded-full py-1.5 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" >Show Certificate</a>
+                                                   <a type="button" href={cert.creurl} target="_blank" rel="noreferrer" className="border border-[#6D27F9] rounded-full py-1.5 px-4 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white" >Show Certificate</a>
                                                </article>
                                                <div className="bg-white shadow-md rounded-tl-[20px] rounded-bl-[20px] absolute right-0 top-[0px] md:top-[15px] p-1.5 md:py-2.5 md:px-4 text-[12px] md:text-sm">
                                                    {/* <button type="button" className="text-[#6D27F9] mx-2" value={cert.id}>
@@ -1099,7 +1099,7 @@ function CandidateProfile(props) {
                                         {achieve.length > 0 ?
                                         <>
                                         {achieve.map((achieve, i) => (
-                                        <div className="w-full rounded-[20px] bg-[#FAF8FF] border border-slate-200 p-4 md:p-6 md:pr-[110px] pt-[35px] md:pt-6 mb-4 relative overflow-hidden">
+                                        <div className="w-full rounded-[20px] bg-[#FAF8FF] border border-slate-200 p-4 md:p-6 md:pr-[110px] pt-[35px] md:pt-6 mb-4 relative overflow-hidden" key={i}>
                                             <article>
                                                 <h4 className="font-semibold mb-1 text-lg">{achieve.title}</h4>
                                                 <h6 className="font-medium">About</h6>
