@@ -295,7 +295,7 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   padding: 7px;
 }
 .multiSelectContainer ul {
-  border-color: transparent !important;
+  border-radius: 8px !important;
 }
 .multiSelectContainer li {
   font-size: 12px;

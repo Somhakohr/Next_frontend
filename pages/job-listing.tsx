@@ -348,21 +348,10 @@ export default function JobListing() {
                                     <span className="md:w-[calc(100%-150px)] mr-2">
                                     Date Posted: 
                                     </span>
-                                    {/* <select className="md:w-[150px] border-0 rounded-full text-[#6D27F9]">
+                                    <select className="md:w-[150px] border-0 rounded-full text-[#6D27F9]">
                                         <option value="All Time">All Time</option>
                                         <option value="Last 1 Hour">Last 1 Hour</option>
-                                    </select> */}
-                                    <Multiselect
-                                    isObject={false}
-                                    showArrow={true}
-                                    options={[
-                                        'Option 1',
-                                        'Option 2',
-                                        'Option 3',
-                                        'Option 4',
-                                        'Option 5'
-                                    ]}
-                                    />
+                                    </select>
                                 </div>
                                 <div className="w-full" id="scrollableDiv">
                                 <InfiniteScroll
