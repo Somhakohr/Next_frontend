@@ -15,6 +15,7 @@ import { withAuth } from '../../constants/HOCs';
 import shallow from 'zustand/shallow';
 import { useStore } from '../../constants/code';
 import axios from 'axios';
+import Multiselect from 'multiselect-react-dropdown';
 import toastcomp from '../../components/toast';
 
 function OrganisationAccount(props) {
@@ -281,26 +282,6 @@ function OrganisationAccount(props) {
     useEffect(() => {
         
         if(userProfile){
-
-            console.log("---------");
-            console.log("CNAME",cname);
-            console.log("ind",ind);
-            console.log("curl",curl);
-            console.log("fdate",fdate);
-            console.log("founder",founder);
-            console.log("cemail",cemail);
-            console.log("lname",lname);
-            console.log("rname",rname);
-            console.log("rdes",rdes);
-            console.log("cstrength",cstrength);
-            console.log("orgstatus",orgstatus);
-            console.log("opestatus",opestatus);
-            console.log("fundround",fundround);
-            console.log("fund",fund);
-            console.log("desc",desc);
-            console.log("add",add);
-            console.log("otype",otype);
-
             var formData = new FormData();
             var formData2 = new FormData();
             if(ind && userProfile["industry"]!=ind){
@@ -449,11 +430,22 @@ function OrganisationAccount(props) {
                                 </div>
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompIndustry" className="font-medium mb-2 leading-none inline-block">Industry</label>
-                                    <select id="orgCompIndustry" className="w-full rounded-full border-slate-300" value={ind} onChange={(e)=>setInd(e.target.value)}>
+                                    {/* <select id="orgCompIndustry" className="w-full rounded-full border-slate-300" value={ind} onChange={(e)=>setInd(e.target.value)}>
                                         <option value="">Select Industry</option>
                                         <option value="Industry 1">Industry 1</option>
                                         <option value="Industry 2">Industry 2</option>
-                                    </select>
+                                    </select> */}
+                                    <Multiselect
+                                    isObject={false}
+                                    showArrow={true}
+                                    options={[
+                                        'Option 1',
+                                        'Option 2',
+                                        'Option 3',
+                                        'Option 4',
+                                        'Option 5'
+                                    ]}
+                                    />
                                 </div>
                             </div>
                             <div className="flex flex-wrap justify-between">
@@ -493,21 +485,43 @@ function OrganisationAccount(props) {
                                 </div>
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompStrength" className="font-medium mb-2 leading-none inline-block">Company Strength</label>
-                                    <select id="orgCompStrength" className="w-full rounded-full border-slate-300" value={cstrength} onChange={(e)=>setCStrength(e.target.value)}>
+                                    {/* <select id="orgCompStrength" className="w-full rounded-full border-slate-300" value={cstrength} onChange={(e)=>setCStrength(e.target.value)}>
                                         <option value="">Select Strength</option>
                                         <option value="0-10">0-10</option>
                                         <option value="10-20">10-20</option>
-                                    </select>
+                                    </select> */}
+                                    <Multiselect
+                                    isObject={false}
+                                    showArrow={true}
+                                    options={[
+                                        'Option 1',
+                                        'Option 2',
+                                        'Option 3',
+                                        'Option 4',
+                                        'Option 5'
+                                    ]}
+                                    />
                                 </div>
                             </div>
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompStatus" className="font-medium mb-2 leading-none inline-block">Organisation Status</label>
-                                    <select id="orgCompStatus" className="w-full rounded-full border-slate-300" value={orgstatus} onChange={(e)=>setOrgStatus(e.target.value)}>
+                                    {/* <select id="orgCompStatus" className="w-full rounded-full border-slate-300" value={orgstatus} onChange={(e)=>setOrgStatus(e.target.value)}>
                                         <option value="">Select Status</option>
                                         <option value="Public">Public</option>
                                         <option value="Private">Private</option>
-                                    </select>
+                                    </select> */}
+                                    <Multiselect
+                                    isObject={false}
+                                    showArrow={true}
+                                    options={[
+                                        'Option 1',
+                                        'Option 2',
+                                        'Option 3',
+                                        'Option 4',
+                                        'Option 5'
+                                    ]}
+                                    />
                                 </div>
                                 <div className="w-full lg:w-[47%] mb-6">
                                     <label htmlFor="orgCompOperation" className="font-medium mb-2 leading-none inline-block">Operation Status</label>

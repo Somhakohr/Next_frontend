@@ -15,7 +15,6 @@ import { getCsrfToken } from "next-auth/react";
 
 async function setCSRF(setCsrf) {
   const csrfToken = await getCsrfToken()
-  console.log(csrfToken);
   setCsrf(csrfToken);
 }
 

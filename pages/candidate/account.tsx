@@ -88,7 +88,6 @@ function CandidateAcc(props) {
         }
         if(isEmpty(country)){
             fetchData();
-            console.log(country);
         }
 
     }, [])
@@ -146,7 +145,6 @@ function CandidateAcc(props) {
                     updateUserImg("https://marketplace.somhako.com"+res2.data.profile)
                     userProfile["country"]=res2.data.country
                     userProfile["profile"]=res2.data.profile
-                    console.log(userProfile)
                     toastcomp("Account Updated :)","success");
                 }).catch((err)=>{
                     console.log(err);
@@ -192,7 +190,6 @@ function CandidateAcc(props) {
         if(fcountry.length <= 0 && country){
             let arr = [];
             for (const [key, value] of Object.entries(country)) {
-                console.log(key, value);
                 let a = {}
                 a["name"] = country[key];
                 arr.push(a)
@@ -221,9 +218,9 @@ function CandidateAcc(props) {
                         <div className="mb-6">
                             <div className="relative inline-block">
                                 <Image
-                                    src={pfile?pfile:userImg}
+                                    src={pfile ? pfile : userImg}
                                     // src={userImg}
-                                    alt="User"
+                                    alt="Users"
                                     height={100}
                                     width={100}
                                     className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
@@ -257,6 +254,7 @@ function CandidateAcc(props) {
                                 <label htmlFor="country" className="font-medium mb-2 leading-none inline-block">Country</label>
                                 <Multiselect
                                 options={fcountry}
+                                showArrow={true}
                                 displayValue="name"
                                 // singleSelect={true}
                                 selectionLimit={1}

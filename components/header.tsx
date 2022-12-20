@@ -138,15 +138,6 @@ function Header(props) {
                     updateUserCImg('https://marketplace.somhako.com'+userProfile["cover"]);
                 }
             }
-    
-            
-            console.log("-------------------");
-            console.log("userName",userName)
-            console.log("userImg",userImg)
-            console.log("userType",userType)
-            console.log("userObj",userObj)
-            console.log("userProfle",userProfile)
-            console.log("accessToken",accessToken)
         }
     }, [userProfile,userType,userObj])
     

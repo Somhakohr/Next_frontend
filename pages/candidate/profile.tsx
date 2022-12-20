@@ -510,19 +510,7 @@ function CandidateProfile(props) {
                 }
             })
         }
-        if(userProfile){
-            console.log("-----------------")
-            console.log("title",title)
-            console.log("summary",summary)
-            console.log("preLocation",preLocation)
-            console.log("salary",salary)
-            console.log("preJobType",preJobtype)
-            console.log("yearofexp",yearsOfExp)
-            console.log("serverNP",serveNP)
-            console.log("noticeP",noticeP)
-
-            
-
+        if(userProfile){        
             var formData = new FormData();
             if(title && userProfile["title"]!=title){
                 formData.append("title", title);

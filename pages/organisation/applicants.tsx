@@ -7,6 +7,7 @@ import shallow from "zustand/shallow";
 import { useStore } from "../../constants/code";
 import toastcomp from "../../components/toast";
 import axios from "axios";
+import Multiselect from "multiselect-react-dropdown";
 
 function OrganisationApplicants(props) {
     const {session,router} = props
@@ -156,10 +157,21 @@ function OrganisationApplicants(props) {
                                     </div>
                                 </div>
                                 <div className="w-full lg:w-[47%] my-3">
-                                    <select className="w-full rounded-full border-slate-300" value={dept} onChange={(e)=>setdept(e.target.value)}>
+                                    {/* <select className="w-full rounded-full border-slate-300" value={dept} onChange={(e)=>setdept(e.target.value)}>
                                         <option value="Department">Department</option>
                                         <option value="HR">HR</option>
-                                    </select>
+                                    </select> */}
+                                    <Multiselect
+                                    isObject={false}
+                                    showArrow={true}
+                                    options={[
+                                        'Option 1',
+                                        'Option 2',
+                                        'Option 3',
+                                        'Option 4',
+                                        'Option 5'
+                                    ]}
+                                    />
                                 </div>
                             </div>
                         </div>

@@ -8,6 +8,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import Image from 'next/image';
 import ChatBot from '../components/chatbot';
+import Multiselect from 'multiselect-react-dropdown';
 
 export default function JobListing() {
     const [sidebarToggle, setsidebarToggle] = useState(false);
@@ -166,11 +167,22 @@ export default function JobListing() {
                                         </div>
                                         <div className="p-6 max-h-[calc(100vh-270px)] lg:max-h-[560px] overflow-y-auto">
                                             <div className="w-full mb-5">
-                                                <select id="joblevel" placeholder="Level" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0" value={level} onChange={(e)=>setLevel(e.target.value)} >
+                                                {/* <select id="joblevel" placeholder="Level" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0" value={level} onChange={(e)=>setLevel(e.target.value)} >
                                                     <option value="">Select</option>
                                                     <option value="Junior">Junior</option>
                                                     <option value="Senior">Senior</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                                 {/* <ul className="pt-4">
                                                     <li className="py-2 px-4 flex items-center justify-between text-sm">
                                                         <p>
@@ -191,53 +203,130 @@ export default function JobListing() {
                                                 </ul> */}
                                             </div>
                                             <div className="w-full mb-5">
-                                                <select id="jobtype" placeholder="Job Type" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0" value={type} onChange={(e)=>setType(e.target.value)} >
+                                                {/* <select id="jobtype" placeholder="Job Type" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0" value={type} onChange={(e)=>setType(e.target.value)} >
                                                     <option value="">Select</option>
                                                     <option value="Full time">Full time</option>
                                                     <option value="Contract">Contract</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                             <div className="w-full mb-4">
-                                                <select id="joblocation" placeholder="Location" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={loc} onChange={(e)=>setLoc(e.target.value)} >
+                                                {/* <select id="joblocation" placeholder="Location" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={loc} onChange={(e)=>setLoc(e.target.value)} >
                                                     <option value="">Select</option>
                                                     <option value="India">India</option>
                                                     <option value="Japan">Japan</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                             <div className="w-full mb-4">
-                                                <select id="jobskills" placeholder="Skills" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={skill} onChange={(e)=>setSkill(e.target.value)} >
+                                                {/* <select id="jobskills" placeholder="Skills" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={skill} onChange={(e)=>setSkill(e.target.value)} >
                                                     <option value="">Select</option>
                                                     <option value="PHP">PHP</option>
                                                     <option value="HTML">HTML</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                             <div className="w-full mb-4">
-                                                <select id="jobindustry" placeholder="Industry" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={ind} onChange={(e)=>setInd(e.target.value)} >
+                                                {/* <select id="jobindustry" placeholder="Industry" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={ind} onChange={(e)=>setInd(e.target.value)} >
                                                     <option value="">Select</option>
                                                     <option value="Staffing">Staffing</option>
                                                     <option value="Engg">Engg</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                             <div className="w-full mb-4">
-                                                <select id="Jobfunctions" placeholder="Functions" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={dept} onChange={(e)=>setDept(e.target.value)} >
+                                                {/* <select id="Jobfunctions" placeholder="Functions" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={dept} onChange={(e)=>setDept(e.target.value)} >
                                                     <option value="">Select</option>
                                                     <option value="Engg">Engg</option>
                                                     <option value="Product">Product</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                             <div className="w-full mb-4">
-                                                <select id="Jobworkplace" placeholder="Workplace" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={wtype} onChange={(e)=>setWType(e.target.value)} >
+                                                {/* <select id="Jobworkplace" placeholder="Workplace" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={wtype} onChange={(e)=>setWType(e.target.value)} >
                                                     <option value="">Select</option>
                                                     <option value="Onsite">Onsite</option>
                                                     <option value="Remote">Remote</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                             <div className="w-full mb-4">
-                                                <select id="Jobexperience" placeholder="Experience" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={exp} onChange={(e)=>setExp(e.target.value)} >
+                                                {/* <select id="Jobexperience" placeholder="Experience" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={exp} onChange={(e)=>setExp(e.target.value)} >
                                                     <option value="">Select</option>
                                                     <option value="5-10 years">5-10 years</option>
                                                     <option value="10-15 years">10-15 years</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -259,10 +348,21 @@ export default function JobListing() {
                                     <span className="md:w-[calc(100%-150px)] mr-2">
                                     Date Posted: 
                                     </span>
-                                    <select className="md:w-[150px] border-0 rounded-full text-[#6D27F9]">
+                                    {/* <select className="md:w-[150px] border-0 rounded-full text-[#6D27F9]">
                                         <option value="All Time">All Time</option>
                                         <option value="Last 1 Hour">Last 1 Hour</option>
-                                    </select>
+                                    </select> */}
+                                    <Multiselect
+                                    isObject={false}
+                                    showArrow={true}
+                                    options={[
+                                        'Option 1',
+                                        'Option 2',
+                                        'Option 3',
+                                        'Option 4',
+                                        'Option 5'
+                                    ]}
+                                    />
                                 </div>
                                 <div className="w-full" id="scrollableDiv">
                                 <InfiniteScroll

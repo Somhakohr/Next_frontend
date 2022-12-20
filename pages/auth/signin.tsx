@@ -13,7 +13,6 @@ import toastcomp from "../../components/toast";
 
 async function setCSRF(setCsrf) {
   const csrfToken = await getCsrfToken()
-  console.log(csrfToken);
   setCsrf(csrfToken);
 }
 
@@ -43,8 +42,6 @@ export default function SignIn(props) {
 
   async function handleClick(event) {
     event.preventDefault();
-    console.log(email);
-    console.log(password);
 
     await axiosInstance.post('/auth/login/', {
         email: email,

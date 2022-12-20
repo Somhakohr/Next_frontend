@@ -13,6 +13,7 @@ import { useStore } from '../../constants/code';
 import shallow from 'zustand/shallow';
 import toastcomp from '../../components/toast';
 import moment from 'moment';
+import Multiselect from 'multiselect-react-dropdown';
 
 function OrganisationAllJobs(props) {
     
@@ -353,7 +354,7 @@ function OrganisationAllJobs(props) {
                                 </TabList>
                             </div>
                             <TabPanel>
-                                <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                <div className="bg-white shadow-normal rounded-[30px] mb-6">
                                     <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
                                         <h2 className="text-lg font-semibold">Basic Details *</h2>
                                     </div>
@@ -365,31 +366,75 @@ function OrganisationAllJobs(props) {
                                             </div>
                                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobDep" className="font-medium mb-2 leading-none inline-block">Department</label>
-                                                <select id="addJobDep" className="w-full rounded-full border-slate-300" value={dept} onChange={(e)=>setDept(e.target.value)}>
+                                                {/* <select id="addJobDep" className="w-full rounded-full border-slate-300" value={dept} onChange={(e)=>setDept(e.target.value)}>
                                                     <option value="">Select</option>
                                                     <option value="Department 1">Department 1</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobExp" className="font-medium mb-2 leading-none inline-block">Experience</label>
-                                                <select id="addJobExp" className="w-full rounded-full border-slate-300" value={exp} onChange={(e)=>setExp(e.target.value)}>
+                                                {/* <select id="addJobExp" className="w-full rounded-full border-slate-300" value={exp} onChange={(e)=>setExp(e.target.value)}>
                                                     <option value="">Select</option>
                                                     <option value="Experience 1">Experience 1</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobType" className="font-medium mb-2 leading-none inline-block">Job Type</label>
-                                                <select id="addJobType" className="w-full rounded-full border-slate-300" value={type} onChange={(e)=>setType(e.target.value)}>
+                                                {/* <select id="addJobType" className="w-full rounded-full border-slate-300" value={type} onChange={(e)=>setType(e.target.value)}>
                                                     <option value="">Select</option>
                                                     <option value="JobType 1">JobType 1</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobExpLevel" className="font-medium mb-2 leading-none inline-block">Experience Level</label>
-                                                <select id="addJobExpLevel" className="w-full rounded-full border-slate-300" value={level} onChange={(e)=>setLevel(e.target.value)}>
+                                                {/* <select id="addJobExpLevel" className="w-full rounded-full border-slate-300" value={level} onChange={(e)=>setLevel(e.target.value)}>
                                                     <option value="">Select</option>
                                                     <option value="Experience Level 1">Experience Level 1</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobDeadLine" className="font-medium mb-2 leading-none inline-block">Application Deadline</label>
@@ -397,15 +442,26 @@ function OrganisationAllJobs(props) {
                                             </div>
                                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobIndustry" className="font-medium mb-2 leading-none inline-block">Industry</label>
-                                                <select id="addJobIndustry" className="w-full rounded-full border-slate-300" value={ind} onChange={(e)=>setInd(e.target.value)}>
+                                                {/* <select id="addJobIndustry" className="w-full rounded-full border-slate-300" value={ind} onChange={(e)=>setInd(e.target.value)}>
                                                     <option value="">Select</option>
                                                     <option value="Industry 1">Industry 1</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                <div className="bg-white shadow-normal rounded-[30px] mb-6">
                                     <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
                                         <h2 className="text-lg font-semibold">Description *</h2>
                                     </div>
@@ -413,7 +469,7 @@ function OrganisationAllJobs(props) {
                                         <textarea className="w-full rounded-[25px] min-h-[250px] border-slate-300" value={desc} onChange={(e)=>setDesc(e.target.value)}></textarea>
                                     </div>
                                 </div>
-                                <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                     <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
                                         <h2 className="text-lg font-semibold">What are we looking for</h2>
                                     </div>
@@ -421,7 +477,7 @@ function OrganisationAllJobs(props) {
                                         <textarea className="w-full rounded-[25px] min-h-[250px] border-slate-300" value={res} onChange={(e)=>setRes(e.target.value)}></textarea>
                                     </div>
                                 </div>
-                                <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                     <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
                                         <h2 className="text-lg font-semibold">Benefits</h2>
                                     </div>
@@ -429,27 +485,62 @@ function OrganisationAllJobs(props) {
                                         <div className="flex flex-wrap w-full lg:mx-[-15px]">
                                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobOfferedSalary" className="font-medium mb-2 leading-none inline-block">Offered Salary</label>
-                                                <div className="w-full flex flex-wrap">
+                                                <div className="w-full flex flex-wrap items-start">
                                                     <input id="addJobOfferedSalary" type="number" className="w-[55%] mr-3 rounded-full border-slate-300" value={salary} onChange={(e)=>setSalary(e.target.value)}/>
-                                                    <select className="w-[40%] rounded-full border-slate-300" value={stype} onChange={(e)=>setStype(e.target.value)} >
+                                                    {/* <select className="w-[40%] rounded-full border-slate-300" value={stype} onChange={(e)=>setStype(e.target.value)} >
                                                         <option value="Monthly">Monthly</option>
                                                         <option value="Yearly">Yearly</option>
-                                                    </select>
+                                                    </select> */}
+                                                    <div className='w-[40%]'>
+                                                        <Multiselect
+                                                        isObject={false}
+                                                        showArrow={true}
+                                                        options={[
+                                                            'Option 1',
+                                                            'Option 2',
+                                                            'Option 3',
+                                                            'Option 4',
+                                                            'Option 5'
+                                                        ]}
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobCurrency" className="font-medium mb-2 leading-none inline-block">Currency</label>
-                                                <select id="addJobCurrency" className="w-full rounded-full border-slate-300" value={scurr} onChange={(e)=>setScurr(e.target.value)}>
+                                                {/* <select id="addJobCurrency" className="w-full rounded-full border-slate-300" value={scurr} onChange={(e)=>setScurr(e.target.value)}>
                                                     <option value="Currency 1">Currency 1</option>
                                                     <option value="Currency 1">Currency 2</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobPaidRelocation" className="font-medium mb-2 leading-none inline-block">Paid Relocation</label>
-                                                <select id="addJobPaidRelocation" className="w-full rounded-full border-slate-300" value={reloc} onChange={(e)=>setReloc(e.target.value)}>
+                                                {/* <select id="addJobPaidRelocation" className="w-full rounded-full border-slate-300" value={reloc} onChange={(e)=>setReloc(e.target.value)}>
                                                     <option value="Paid Relocation 1">Paid Relocation 1</option>
                                                     <option value="Paid Relocation 2">Paid Relocation 2</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobBonus" className="font-medium mb-2 leading-none inline-block">Bonus</label>
@@ -461,15 +552,26 @@ function OrganisationAllJobs(props) {
                                             </div>
                                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobVisaSponsorship" className="font-medium mb-2 leading-none inline-block">Visa Sponsorship</label>
-                                                <select id="addJobVisaSponsorship" className="w-full rounded-full border-slate-300" value={visa} onChange={(e)=>setVisa(e.target.value)}>
+                                                {/* <select id="addJobVisaSponsorship" className="w-full rounded-full border-slate-300" value={visa} onChange={(e)=>setVisa(e.target.value)}>
                                                     <option value="Visa Sponsorship 1">Visa Sponsorship 1</option>
                                                     <option value="Visa Sponsorship 2">Visa Sponsorship 2</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                     <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
                                         <h2 className="text-lg font-semibold">Additional Information</h2>
                                     </div>
@@ -481,17 +583,39 @@ function OrganisationAllJobs(props) {
                                             </div>
                                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobWorktype" className="font-medium mb-2 leading-none inline-block">Worktype</label>
-                                                <select id="addJobWorktype" className="w-full rounded-full border-slate-300" value={wtype} onChange={(e)=>setWtype(e.target.value)}>
+                                                {/* <select id="addJobWorktype" className="w-full rounded-full border-slate-300" value={wtype} onChange={(e)=>setWtype(e.target.value)}>
                                                     <option value="">Select</option>
                                                     <option value="Worktype 1">Worktype 1</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobLocation" className="font-medium mb-2 leading-none inline-block">Location</label>
-                                                <select id="addJobLocation" className="w-full rounded-full border-slate-300" value={loc} onChange={(e)=>setLoc(e.target.value)}>
+                                                {/* <select id="addJobLocation" className="w-full rounded-full border-slate-300" value={loc} onChange={(e)=>setLoc(e.target.value)}>
                                                     <option value="">Select</option>
                                                     <option value="Location 1">Location 1</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                             <div className="w-full lg:px-[15px] mb-6">
                                                 <div className="flex flex-wrap items-center justify-between mb-2">
@@ -531,7 +655,7 @@ function OrganisationAllJobs(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                     <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
                                         <h2 className="text-lg font-semibold">Skills and Qualification *</h2>
                                     </div>
@@ -539,17 +663,39 @@ function OrganisationAllJobs(props) {
                                         <div className="flex flex-wrap w-full lg:mx-[-15px]">
                                             <div className="w-full lg:w-[50%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobReccomSkills" className="font-medium mb-2 leading-none inline-block">Recommended Skills</label>
-                                                <select id="addJobReccomSkills" className="w-full rounded-full border-slate-300" value={rskill} onChange={(e)=>setrSkill(e.target.value)}>
+                                                {/* <select id="addJobReccomSkills" className="w-full rounded-full border-slate-300" value={rskill} onChange={(e)=>setrSkill(e.target.value)}>
                                                     <option value="">Select</option>
                                                     <option value="Skills 1">Skills 1</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                             <div className="w-full lg:w-[50%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobpreffSkills" className="font-medium mb-2 leading-none inline-block">Preffered Skills</label>
-                                                <select id="addJobpreffSkills" className="w-full rounded-full border-slate-300" value={pskill} onChange={(e)=>setpSkill(e.target.value)}>
+                                                {/* <select id="addJobpreffSkills" className="w-full rounded-full border-slate-300" value={pskill} onChange={(e)=>setpSkill(e.target.value)}>
                                                     <option value="">Select</option>
                                                     <option value="Skills 1">SKills 1</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                isObject={false}
+                                                showArrow={true}
+                                                options={[
+                                                    'Option 1',
+                                                    'Option 2',
+                                                    'Option 3',
+                                                    'Option 4',
+                                                    'Option 5'
+                                                ]}
+                                                />
                                             </div>
                                             <div className="w-full lg:w-[50%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobQualification" className="font-medium mb-2 leading-none inline-block">Qualification</label>
@@ -568,7 +714,7 @@ function OrganisationAllJobs(props) {
                             </TabPanel>
                             <TabPanel>
                                 { active ? 
-                                <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                     <div className="py-6 px-4 md:px-10">
                                         <div className="flex flex-wrap mx-[-10px]">
                                             {jobs.map((job, i) => (
@@ -581,7 +727,7 @@ function OrganisationAllJobs(props) {
                                     </div>
                                 </div>
                                 :
-                                <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                     <div className="py-20 px-4 md:px-10">
                                         <aside className="flex flex-wrap items-center justify-center w-full max-w-[500px] mx-auto">
                                             <article className="w-full md:max-w-[60%] my-6">
@@ -600,7 +746,7 @@ function OrganisationAllJobs(props) {
                             </TabPanel>
                             <TabPanel>
                             { Archived ? 
-                                <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                     <div className="py-6 px-4 md:px-10">
                                         <div className="flex flex-wrap mx-[-10px]">
                                             {jobs.map((job, i) => (
@@ -613,7 +759,7 @@ function OrganisationAllJobs(props) {
                                     </div>
                                 </div>
                                 :
-                                <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                     <div className="py-20 px-4 md:px-10">
                                         <aside className="flex flex-wrap items-center justify-center w-full max-w-[500px] mx-auto">
                                             <article className="w-full md:max-w-[60%] my-6">
@@ -632,7 +778,7 @@ function OrganisationAllJobs(props) {
                             </TabPanel>
                             <TabPanel>
                                 { draft ? 
-                                <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                     <div className="py-6 px-4 md:px-10">
                                         <div className="flex flex-wrap mx-[-10px]">
                                             {jobs.map((job, i) => (
@@ -645,7 +791,7 @@ function OrganisationAllJobs(props) {
                                     </div>
                                 </div>
                                 :
-                                <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                     <div className="py-20 px-4 md:px-10">
                                         <aside className="flex flex-wrap items-center justify-center w-full max-w-[500px] mx-auto">
                                             <article className="w-full md:max-w-[60%] my-6">
@@ -664,7 +810,7 @@ function OrganisationAllJobs(props) {
                             </TabPanel>
                             <TabPanel>
                                 { review ? 
-                                <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                     <div className="py-6 px-4 md:px-10">
                                         <div className="flex flex-wrap mx-[-10px]">
                                             {jobs.map((job, i) => (
@@ -677,7 +823,7 @@ function OrganisationAllJobs(props) {
                                     </div>
                                 </div>
                                 :
-                                <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                     <div className="py-20 px-4 md:px-10">
                                         <aside className="flex flex-wrap items-center justify-center w-full max-w-[500px] mx-auto">
                                             <article className="w-full md:max-w-[60%] my-6">
@@ -696,7 +842,7 @@ function OrganisationAllJobs(props) {
                             </TabPanel>
                             <TabPanel>
                                 { close ? 
-                                <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                     <div className="py-6 px-4 md:px-10">
                                         <div className="flex flex-wrap mx-[-10px]">
                                             {jobs.map((job, i) => (
@@ -709,7 +855,7 @@ function OrganisationAllJobs(props) {
                                     </div>
                                 </div>
                                 :
-                                <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                     <div className="py-20 px-4 md:px-10">
                                         <aside className="flex flex-wrap items-center justify-center w-full max-w-[500px] mx-auto">
                                             <article className="w-full md:max-w-[60%] my-6">
@@ -755,7 +901,7 @@ function OrganisationAllJobs(props) {
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-md">
+                        <Dialog.Panel className="relative transform rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-md">
                             <div className="p-8">
                                 <div className="flex items-center justify-between mb-8">
                                     <h4 className="leading-none font-semibold text-xl">Language</h4>
@@ -770,12 +916,23 @@ function OrganisationAllJobs(props) {
                                     </div>
                                     <div className="mb-6">
                                         <label htmlFor="chooseLangProfeciency" className="font-medium mb-2 leading-none inline-block">Choose Language Profeciency</label>
-                                        <select id="chooseLangProfeciency" className="w-full rounded-full border-slate-300" value={aprof} onChange={(e)=>setAProf(e.target.value)}>
+                                        {/* <select id="chooseLangProfeciency" className="w-full rounded-full border-slate-300" value={aprof} onChange={(e)=>setAProf(e.target.value)}>
                                             <option value="Elementary profeciency">Elementary profeciency</option>
                                             <option value="Limited profeciency">Limited profeciency</option>
                                             <option value="Professional profeciency">Professional profeciency</option>
                                             <option value="Native or bilingual profeciency">Native or bilingual profeciency</option>
-                                        </select>
+                                        </select> */}
+                                        <Multiselect
+                                        isObject={false}
+                                        showArrow={true}
+                                        options={[
+                                            'Option 1',
+                                            'Option 2',
+                                            'Option 3',
+                                            'Option 4',
+                                            'Option 5'
+                                        ]}
+                                        />
                                     </div>
                                     <div className="text-center">
                                         <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!verifyLangPopup()} onClick={(e)=>saveLang(e)}>
