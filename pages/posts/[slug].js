@@ -2,6 +2,7 @@ import Head from 'next/head';
 import fs from "fs";
 import matter from "gray-matter";
 import md from "markdown-it";
+import Image from "next/image";
 
 // The page for each post
 export default function Post({ frontmatter, content }) {
@@ -35,7 +36,7 @@ export default function Post({ frontmatter, content }) {
             <span className="mr-1">on</span>
             <time dateTime="2021-02-12 15:34:18-0200">{date}</time>
           </p>
-          <img src={bannerImage} className="w-full rounded-[20px]" />
+          <Image src={bannerImage} className="w-full rounded-[20px]" />
         </div>
         <article className="blogSummay bg-white border border-teal-400 rounded-[25px] p-8" dangerouslySetInnerHTML={{ __html: md().render(content) }} ></article>
       </article>

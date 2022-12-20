@@ -287,7 +287,7 @@ function OrganisationCandidateProfileView(props) {
                             <div className="bg-white shadow-normal border rounded-[25px] flex flex-wrap h-full">
                                 <div className="w-[310px] mx-auto p-8">
                                     <div className="userBgImage min-h-[268px] flex items-center justify-center">
-                                        <img src={data.cand.profile} width={220} height={220} alt="User" className="w-[220px] h-[220px] rounded-full object-cover mx-auto " />
+                                        <Image src={data.cand.profile} width={220} height={220} alt="User" className="w-[220px] h-[220px] rounded-full object-cover mx-auto " />
                                     </div>
                                 </div>
                                 <div className="w-full md:max-w-[calc(100%-310px)] p-6 xl:p-8 relative bg-white border rounded-[25px] flex items-center">

@@ -589,7 +589,7 @@ function OrganisationAccount(props) {
                                     <Masonry className="masonary_grid">
                                     {gallery.map((gallery, i) => (
                                         <div className="relative" key={i}>
-                                            <img src={gallery.image} alt="Gallery" className="w-full" />
+                                            <Image src={gallery.image} alt="Gallery" className="w-full" />
                                             <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded" onClick={(e)=>deleteGallery(gallery.id)}>
                                                 <i className="fa-solid fa-xmark"></i>
                                             </button>
@@ -708,7 +708,7 @@ function OrganisationAccount(props) {
                                         
                                             {file.map((imageSrc,i) => (
                                                 <div className="relative" id={`gallerypopup${i}`} key={i}>
-                                                    <img src={URL.createObjectURL(imageSrc)} alt="Gallery" className="w-full" />
+                                                    <Image src={URL.createObjectURL(imageSrc)} alt="Gallery" className="w-full" />
                                                     <button type="button" className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded" onClick={()=>deleteUImage(i)}>
                                                         <i className="fa-solid fa-xmark"></i>
                                                     </button>
