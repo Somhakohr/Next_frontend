@@ -102,6 +102,10 @@ function CandidateAcc(props) {
 
     async function saveChange(event) {
         event.preventDefault();
+        if(fname.length<=0 || lname.length<=0){
+            toastcomp("Enter Name","Error")
+            return
+        }
         const axiosInstanceAuth = axios.create({
         baseURL: 'https://marketplace.somhako.com/api/',
         timeout: 5000,
@@ -184,14 +188,6 @@ function CandidateAcc(props) {
         
     }
 
-    
-    function validateForm() {
-        return fname.length > 0 && lname.length > 0;
-    }
-
-    const state  = {
-        options: [{name: 'Option 1', id: 1},{name: 'Option 2', id: 2}]
-    };
     useEffect(() => {
         if(fcountry.length <= 0 && country){
             let arr = [];
@@ -199,7 +195,6 @@ function CandidateAcc(props) {
                 console.log(key, value);
                 let a = {}
                 a["name"] = country[key];
-                // a["id"] = key;
                 arr.push(a)
             }
             setfcountry(arr)
@@ -260,23 +255,19 @@ function CandidateAcc(props) {
                             </div>
                             <div className="w-full lg:w-[47%] mb-6">
                                 <label htmlFor="country" className="font-medium mb-2 leading-none inline-block">Country</label>
-                                {/* <select id="country" className="w-full rounded-full border-slate-300" value={countryDrop} onChange={(e)=>setCountryDrop(e.target.value)}>
-                                    <option value=''>Select Country</option>
-                                {Object.keys(country).map((key, index) => ( 
-                                    <option key={key} value={country[key]}>{country[key]}</option>
-                                ))}
-                                </select> */}
                                 <Multiselect
                                 options={fcountry}
                                 displayValue="name"
-                                singleSelect={true}
+                                // singleSelect={true}
+                                selectionLimit={1}
+                                keepSearchTerm={true}
                                 selectedValues = {[{"name" : countryDrop}]}
-                                onSelect={(selectedList, selectedItem)=> {setCountryDrop(selectedItem) }}
+                                onSelect={(selectedList, selectedItem)=> {setCountryDrop(selectedItem["name"]) }}
                                 />
                             </div>
                         </div>
                         <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
-                            <button type="submit" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!validateForm()} onClick={(e)=>{saveChange(e)}}>
+                            <button type="submit" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>{saveChange(e)}}>
                                 Save Changes
                             </button>
                         </div>
