@@ -291,7 +291,7 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   margin: 0;
 }
 .multiSelectContainer .search-wrapper {
-  border-radius: 40px;
+  border-radius: 20px;
   padding: 7px;
 }
 .multiSelectContainer ul {
@@ -309,6 +309,29 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   background: var(--primary);
   color: #fff;
 }
+.multiSelectContainer .search-wrapper input {
+  padding: 0;
+  margin: 0;
+  width: auto;
+  min-width: auto;
+}
+.multiSelectContainer .search-wrapper input:focus {
+  outline: none;
+  box-shadow: none;
+}
+.multiSelectContainer .search-wrapper .chip {
+  font-size: 12px;
+  background:gray;
+  color: #fff;
+  margin: 2px;
+  border-radius: 15px;
+}
+.optionListContainer .notFound {
+  border: 1px solid #ddd;
+  text-align: center;
+  font-size: 12px;
+}
+
 
 
 
