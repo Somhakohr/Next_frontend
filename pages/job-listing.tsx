@@ -147,7 +147,7 @@ export default function JobListing() {
                     <div className={sidebarToggle ? 'w-full lg:max-w-[300px] p-4 lg:p-0 fixed z-10 lg:static right-0 bottom-0 text-right lg:text-left' : 'w-full lg:max-w-[300px] p-4 lg:p-0 fixed z-10 lg:static right-0 bottom-0 text-right lg:text-left'}>
                         <div className={sidebarToggle ? 'block overflow-hidden h-full bg-white shadow-normal border border-teal-400 rounded-[30px] mb-[15px] lg:mb-0' : 'hidden lg:block overflow-hidden h-full bg-white shadow-normal border border-teal-400 rounded-[30px] mb-[15px] lg:mb-0'}>
                             <Tabs>
-                                <div className="p-3 shadow-lg text-center">
+                                <div className="p-3 shadow-lg text-left filters">
                                     <TabList>
                                         <Tab>Chat Mini</Tab>
                                         <Tab>Filters</Tab>
