@@ -295,7 +295,7 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   padding: 7px;
 }
 .multiSelectContainer ul {
-  border-color: transparent;
+  border-color: transparent !important;
 }
 .multiSelectContainer li {
   font-size: 12px;
@@ -304,6 +304,10 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
 .multiSelectContainer li:not(.highlight):hover {
   background: #ddd;
   color: #000;
+}
+.multiSelectContainer li.highlight {
+  background: var(--primary);
+  color: #fff;
 }
 
 
