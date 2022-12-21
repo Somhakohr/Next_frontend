@@ -256,7 +256,6 @@ function CandidateAcc(props) {
                                 options={fcountry}
                                 showArrow={true}
                                 displayValue="name"
-                                // singleSelect={true}
                                 selectionLimit={1}
                                 keepSearchTerm={true}
                                 selectedValues = {[{"name" : countryDrop}]}

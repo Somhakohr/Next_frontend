@@ -410,11 +410,12 @@ function OrganisationAllJobs(props) {
                                                 isObject={false}
                                                 showArrow={true}
                                                 options={[
-                                                    'Option 1',
-                                                    'Option 2',
-                                                    'Option 3',
-                                                    'Option 4',
-                                                    'Option 5'
+                                                    'Permanent/Full Time',
+                                                    'Permanent/Contract',
+                                                    'Contract',
+                                                    'Part-Time',
+                                                    'Freelance',
+                                                    'Internship'
                                                 ]}
                                                 />
                                             </div>
@@ -428,11 +429,15 @@ function OrganisationAllJobs(props) {
                                                 isObject={false}
                                                 showArrow={true}
                                                 options={[
-                                                    'Option 1',
-                                                    'Option 2',
-                                                    'Option 3',
-                                                    'Option 4',
-                                                    'Option 5'
+                                                    'Entry/Fresher',
+                                                    'Senior',
+                                                    'Manager',
+                                                    'Director',
+                                                    'VP',
+                                                    'CXO',
+                                                    'Founder/Owner/Co-founder',
+                                                    'Partner',
+                                                    'Training'
                                                 ]}
                                                 />
                                             </div>
@@ -560,11 +565,9 @@ function OrganisationAllJobs(props) {
                                                 isObject={false}
                                                 showArrow={true}
                                                 options={[
-                                                    'Option 1',
-                                                    'Option 2',
-                                                    'Option 3',
-                                                    'Option 4',
-                                                    'Option 5'
+                                                    'Yes',
+                                                    'No',
+                                                    'Possible'
                                                 ]}
                                                 />
                                             </div>
@@ -591,11 +594,9 @@ function OrganisationAllJobs(props) {
                                                 isObject={false}
                                                 showArrow={true}
                                                 options={[
-                                                    'Option 1',
-                                                    'Option 2',
-                                                    'Option 3',
-                                                    'Option 4',
-                                                    'Option 5'
+                                                    'On-site',
+                                                    'Remote',
+                                                    'Hybrid'
                                                 ]}
                                                 />
                                             </div>
