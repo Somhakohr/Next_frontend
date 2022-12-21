@@ -22,6 +22,7 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
+import Multiselect from "multiselect-react-dropdown";
 
 function CandidateProfile(props) {
 
@@ -495,7 +496,12 @@ function CandidateProfile(props) {
         loadAchieve()
       }
     }, [userProfile])
+
     
+    function isEmpty(obj) {
+        return Object.keys(obj).length === 0;
+    }      
+
     //handle update user profile on BIO
     useEffect(() => {
 
@@ -675,6 +681,67 @@ function CandidateProfile(props) {
         setAMDesc('')
     }
     
+    const [loc,setLoc] = useState([])
+    const [load,setload] = useState(false)
+
+
+    async function searchLoc(value) { 
+        const axiosInstance22 = axios.create({
+            baseURL: 'https://marketplace.somhako.com/api/',
+            timeout: 10000,
+            headers: {
+                // 'Authorization': "JWT " + access_token,
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+        });  
+        await axiosInstance22.get(`/job/load/location/?search=${value}`).then(async (res)=>{
+            let obj = res.data
+            let arr = []
+            for (const [key, value] of Object.entries(obj)) {
+                console.log(key, value);
+                let a = {}
+                a["name"]=value
+                arr.push(a)
+            }
+            setLoc(arr)
+            setload(false)
+        }).catch((err)=>{
+            // if(err.message != "Request failed with status code 401"){
+            //     toastcomp("Location Not Loaded",'error')
+            // }
+            console.log(err)
+        })      
+    }
+
+    // async function fetchData() { 
+    //     const axiosInstance22 = axios.create({
+    //         baseURL: 'https://marketplace.somhako.com/api/',
+    //         timeout: 10000,
+    //         headers: {
+    //             // 'Authorization': "JWT " + access_token,
+    //             'Content-Type': 'application/json',
+    //             'accept': 'application/json'
+    //         }
+    //     });  
+    //     await axiosInstance22.get('/job/load/cities/').then(async (res)=>{
+    //         updateCities(res.data)
+    //         toastcomp("Location Loaded",'success')
+    //     }).catch((err)=>{
+    //         if(err.message != "Request failed with status code 401"){
+    //             toastcomp("Location Not Loaded",'error')
+    //         }
+    //         console.log(err)
+    //     })      
+    // }
+    // useEffect(() => {
+    //     if(isEmpty(cities)){
+    //         fetchData();
+    //     }
+    //     else{
+    //         console.log(cities)
+    //     }
+    // }, [cities])
 
     return (
         <>
@@ -815,11 +882,23 @@ function CandidateProfile(props) {
                                         <div className="flex flex-wrap justify-between">
                                             <div className="w-full lg:w-[47%] mb-6">
                                                 <label htmlFor="preferLocation" className="font-medium mb-4 leading-none inline-block">Preferred Location</label>
-                                                <select id="preferLocation" className="w-full rounded-full border-slate-300" value={preLocation} onChange={(e)=>setPreLocation(e.target.value)}>
+                                                {/* <select id="preferLocation" className="w-full rounded-full border-slate-300" value={preLocation} onChange={(e)=>setPreLocation(e.target.value)}>
                                                     <option value="">Select Location</option>
                                                     <option value="India">India</option>
                                                     <option value="Japan">Japan</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                    options={loc}
+                                                    loading={load}
+                                                    displayValue="name"
+                                                    // singleSelect={true}
+                                                    // selectionLimit={1}
+                                                    onSearch={(value)=>{
+                                                        setload(true)
+                                                        searchLoc(value)
+                                                    }}
+                                                    keepSearchTerm={true}
+                                                    />
                                             </div>
                                             
                                             <div className="w-full lg:w-[47%] mb-6">

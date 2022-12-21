@@ -190,9 +190,10 @@ function CandidateAcc(props) {
         if(fcountry.length <= 0 && country){
             let arr = [];
             for (const [key, value] of Object.entries(country)) {
-                let a = {}
-                a["name"] = country[key];
-                arr.push(a)
+                // let a = {}
+                // a["name"] = country[key];
+                // arr.push(a)
+                arr.push(country[key])
             }
             setfcountry(arr)
         }
@@ -254,12 +255,12 @@ function CandidateAcc(props) {
                                 <label htmlFor="country" className="font-medium mb-2 leading-none inline-block">Country</label>
                                 <Multiselect
                                 options={fcountry}
+                                isObject={false}
                                 showArrow={true}
-                                displayValue="name"
                                 selectionLimit={1}
-                                keepSearchTerm={true}
-                                selectedValues = {[{"name" : countryDrop}]}
-                                onSelect={(selectedList, selectedItem)=> {setCountryDrop(selectedItem["name"]) }}
+                                selectedValues = {countryDrop.split(',')}
+                                onSelect={(selectedList, selectedItem)=> {setCountryDrop(selectedItem) }}
+                                onRemove={(selectedList, selectedItem)=> {setCountryDrop('') }}
                                 />
                             </div>
                         </div>
