@@ -3,7 +3,6 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { Combobox, Dialog, Transition } from '@headlessui/react'
-import userImg from "../../public/images/user-image.png";
 import token from "../../public/images/token.png";
 import skillsGraphic from "../../public/images/skills-graphic.png";
 import certificateGraphic from "../../public/images/certificate-graphic.png";
@@ -13,15 +12,10 @@ import achievementsGraphic from "../../public/images/achievements-graphic.png";
 import { useStore } from "../../constants/code";
 import shallow from "zustand/shallow";
 import { withAuth } from "../../constants/HOCs";
-import { axiosInstance } from "../api/axiosApi";
 import axios from "axios";
 import toastcomp from "../../components/toast";
 import "@rainbow-me/rainbowkit/styles.css";
-import {
-  ConnectButton,
-  getDefaultWallets,
-  RainbowKitProvider,
-} from "@rainbow-me/rainbowkit";
+import { ConnectButton,getDefaultWallets,RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import Multiselect from "multiselect-react-dropdown";
 
 function CandidateProfile(props) {
@@ -97,7 +91,7 @@ function CandidateProfile(props) {
     const [noticeP,setNoticeP] = useState('')
     const [lang,setLang] = useState([])
     const [alang,setALang] = useState('')
-    const [aprof,setAProf] = useState('Elementary profeciency')
+    const [aprof,setAProf] = useState('')
     const [ftitle,setFTitle] = useState('')
     const [fsummary,setFSummary] = useState('')
     const [fpreJobtype,setFPreJobType] = useState('')
@@ -114,9 +108,9 @@ function CandidateProfile(props) {
     const [rid,setRId] = useState(0)
     //local skill state
     const [skill,setSkill] = useState([])
-    const [stitle,setSTitle] = useState('PHP')
-    const [sprf,setSProf] = useState('Beginner')
-    const [sset,setSSet] = useState('Primary')
+    const [stitle,setSTitle] = useState('')
+    const [sprf,setSProf] = useState('')
+    const [sset,setSSet] = useState('')
     //local certification state
     const [cert,setCert] = useState([])
     const [cname,setCName] = useState('')
@@ -149,13 +143,13 @@ function CandidateProfile(props) {
 
     //local fun
     function verifyLangPopup() {
-        return alang.length > 0
+        return alang && alang.length > 0 && aprof && aprof.length > 0
     }
     function verifyLinkPopup() {
         return atitle.length > 0
     }
     function verifySkillPopup() {
-        return stitle.length > 0
+        return stitle && stitle.length > 0 && sprf && sprf.length > 0 && sset && sset.length > 0
     }
     function verifyCertPopup() {
         return cname.length > 0 && corg.length > 0 && cidate.length > 0 && cid.length > 0 && curl.length > 0 && (cexp || cedate.length > 0)
@@ -164,7 +158,7 @@ function CandidateProfile(props) {
         return ename.length > 0 && eorg.length > 0 && esdate.length > 0 && eedate.length > 0 && eabout.length > 0
     }
     function verifyExpPopup() {
-        return exname.length > 0 && exorg.length > 0 && exsdate.length > 0 && exabout.length > 0 && extype.length > 0 && (exexp || exedate.length > 0)
+        return exname.length > 0 && exorg.length > 0 && exsdate.length > 0 && exabout.length > 0 && extype && extype.length > 0 && (exexp || exedate.length > 0)
     }
     function verifyAchievePopup() {
         return amtitle.length > 0 && amdesc.length > 0
@@ -173,7 +167,7 @@ function CandidateProfile(props) {
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
         baseURL: 'https://marketplace.somhako.com/api/',
-        timeout: 5000,
+        timeout: 10000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
             "Content-Type": "multipart/form-data",
@@ -550,7 +544,7 @@ function CandidateProfile(props) {
             }
         }        
 
-    }, [ftitle,fsummary,preLocation,fpreJobtype,fsalary,yearsOfExp,serveNP,noticeP])
+    }, [ftitle,fsummary,preLocation,preJobtype,fsalary,yearsOfExp,serveNP,noticeP])
 
     //save spoken lang
     function saveLang(e){
@@ -682,13 +676,14 @@ function CandidateProfile(props) {
     }
     
     const [loc,setLoc] = useState([])
+    const [ski,setski] = useState([])
     const [load,setload] = useState(false)
 
 
     async function searchLoc(value) { 
         const axiosInstance22 = axios.create({
             baseURL: 'https://marketplace.somhako.com/api/',
-            timeout: 10000,
+            // timeout: 10000,
             headers: {
                 // 'Authorization': "JWT " + access_token,
                 'Content-Type': 'application/json',
@@ -699,49 +694,37 @@ function CandidateProfile(props) {
             let obj = res.data
             let arr = []
             for (const [key, value] of Object.entries(obj)) {
-                console.log(key, value);
-                let a = {}
-                a["name"]=value
-                arr.push(a)
+                arr.push(value)
             }
             setLoc(arr)
             setload(false)
         }).catch((err)=>{
-            // if(err.message != "Request failed with status code 401"){
-            //     toastcomp("Location Not Loaded",'error')
-            // }
             console.log(err)
         })      
     }
 
-    // async function fetchData() { 
-    //     const axiosInstance22 = axios.create({
-    //         baseURL: 'https://marketplace.somhako.com/api/',
-    //         timeout: 10000,
-    //         headers: {
-    //             // 'Authorization': "JWT " + access_token,
-    //             'Content-Type': 'application/json',
-    //             'accept': 'application/json'
-    //         }
-    //     });  
-    //     await axiosInstance22.get('/job/load/cities/').then(async (res)=>{
-    //         updateCities(res.data)
-    //         toastcomp("Location Loaded",'success')
-    //     }).catch((err)=>{
-    //         if(err.message != "Request failed with status code 401"){
-    //             toastcomp("Location Not Loaded",'error')
-    //         }
-    //         console.log(err)
-    //     })      
-    // }
-    // useEffect(() => {
-    //     if(isEmpty(cities)){
-    //         fetchData();
-    //     }
-    //     else{
-    //         console.log(cities)
-    //     }
-    // }, [cities])
+    async function searchSkill(value) { 
+        const axiosInstance22 = axios.create({
+            baseURL: 'https://marketplace.somhako.com/api/',
+            // timeout: 10000,
+            headers: {
+                // 'Authorization': "JWT " + access_token,
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+        });  
+        await axiosInstance22.get(`/job/load/skills/?search=${value}`).then(async (res)=>{
+            let obj = res.data
+            let arr = []
+            for (const [key, value] of Object.entries(obj)) {
+                arr.push(value)
+            }
+            setski(arr)
+            setload(false)
+        }).catch((err)=>{
+            console.log(err)
+        })      
+    }
 
     return (
         <>
@@ -862,7 +845,18 @@ function CandidateProfile(props) {
                                         <div className="flex flex-wrap justify-between">
                                             <div className="w-full lg:w-[47%] mb-6">
                                                 <label htmlFor="preferJobType" className="font-medium mb-4 leading-none inline-block">Preferred Job Type</label>
-                                                <input id="preferJobType" type="text" placeholder="Ex: Fulltime" className="w-full rounded-full border-slate-300" value={preJobtype} onChange={(e)=>setPreJobType(e.target.value)} onBlur={(e)=>setFPreJobType(e.target.value)}/>
+                                                {/* <input id="preferJobType" type="text" placeholder="Ex: Fulltime" className="w-full rounded-full border-slate-300" value={preJobtype} onChange={(e)=>setPreJobType(e.target.value)} onBlur={(e)=>setFPreJobType(e.target.value)}/> */}
+                                                <Multiselect
+                                                options={['Permanent/Full Time','Permanent/Contract','Contract','Part-Time','Freelance',,'Internship']}
+                                                isObject={false}
+                                                showArrow={true}
+                                                closeOnSelect={true}
+                                                selectionLimit={1}
+                                                selectedValues = {preJobtype && preJobtype.split(',')}
+                                                onSelect={(selectedList, selectedItem)=> {setPreJobType(selectedItem) }}
+                                                onRemove={(selectedList, selectedItem)=> {setPreJobType(null) }}
+                                                placeholder="Find Preferred Job Type"
+                                                />
                                             </div>
                                             <div className="w-full lg:w-[47%] mb-6">
                                                 <div className="flex flex-wrap items-center justify-between mb-2">
@@ -872,11 +866,23 @@ function CandidateProfile(props) {
                                                         Serving or Not?
                                                     </label>
                                                 </div>
-                                                <select id="noticePeriod" className="w-full rounded-full border-slate-300" disabled={!serveNP} value={noticeP} onChange={(e)=>setNoticeP(e.target.value)}>
+                                                {/* <select id="noticePeriod" className="w-full rounded-full border-slate-300" disabled={!serveNP} value={noticeP} onChange={(e)=>setNoticeP(e.target.value)}>
                                                     <option value="">Select Notice Period</option>
                                                     <option value="Immediate Joiner">Immediate Joiner</option>
                                                     <option value="15 days">15 days</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                options={['Immediate Joiner','15 days','30 days','60 days','90 days',,'150+ days']}
+                                                isObject={false}
+                                                showArrow={true}
+                                                closeOnSelect={true}
+                                                selectionLimit={1}
+                                                selectedValues = {noticeP && noticeP.split(',')}
+                                                onSelect={(selectedList, selectedItem)=> {setNoticeP(selectedItem) }}
+                                                onRemove={(selectedList, selectedItem)=> {setNoticeP('') }}
+                                                placeholder="Find Notice Period In Days"
+                                                disable={!serveNP}
+                                                />
                                             </div>
                                         </div>
                                         <div className="flex flex-wrap justify-between">
@@ -890,15 +896,26 @@ function CandidateProfile(props) {
                                                 <Multiselect
                                                     options={loc}
                                                     loading={load}
-                                                    displayValue="name"
-                                                    // singleSelect={true}
-                                                    // selectionLimit={1}
-                                                    onSearch={(value)=>{
-                                                        setload(true)
-                                                        searchLoc(value)
-                                                    }}
-                                                    keepSearchTerm={true}
+                                                    isObject={false}
+                                                    showArrow={true}
+                                                    closeOnSelect={true}
+                                                    onSearch={(value)=>{setload(true);searchLoc(value)}}
+                                                    selectedValues = {preLocation && preLocation.split('|')}
+                                                    onSelect={(selectedList, selectedItem)=> {setPreLocation(selectedList.join('|')) }}
+                                                    onRemove={(selectedList, selectedItem)=> {setPreLocation(selectedList.join('|')) }}
+                                                    placeholder="Find Preferred Location"
                                                     />
+
+{/* <Multiselect
+                                                options={['No Experience','1-2 years','2-5 years','5-10 years','10-15 years',,'15+ years']}
+                                                isObject={false}
+                                                showArrow={true}
+                                                closeOnSelect={true}
+                                                selectionLimit={1}
+                                                selectedValues = {yearsOfExp && yearsOfExp.split(',')}
+                                                onSelect={(selectedList, selectedItem)=> {setYearsOfExp(selectedItem) }}
+                                                onRemove={(selectedList, selectedItem)=> {setYearsOfExp(null) }}
+                                                /> */}
                                             </div>
                                             
                                             <div className="w-full lg:w-[47%] mb-6">
@@ -909,13 +926,24 @@ function CandidateProfile(props) {
                                         <div className="flex flex-wrap justify-between">
                                             <div className="w-full lg:w-[47%] mb-6">
                                                 <label htmlFor="yearsOfExp" className="font-medium mb-4 leading-none inline-block">Years of Experience</label>
-                                                <select id="yearsOfExp" className="w-full rounded-full border-slate-300" value={yearsOfExp} onChange={(e)=>setYearsOfExp(e.target.value)}>
+                                                {/* <select id="yearsOfExp" className="w-full rounded-full border-slate-300" value={yearsOfExp} onChange={(e)=>setYearsOfExp(e.target.value)}>
                                                     <option value="">Select Year Of Exp</option>
                                                     <option value="No Experience">No Experience</option>
                                                     <option value="1-5 years">1-5 years</option>
                                                     <option value="5-10 years">5-10 years</option>
                                                     <option value="10-15 years">10-15 years</option>
-                                                </select>
+                                                </select> */}
+                                                <Multiselect
+                                                options={['No Experience','1-2 years','2-5 years','5-10 years','10-15 years',,'15+ years']}
+                                                isObject={false}
+                                                showArrow={true}
+                                                closeOnSelect={true}
+                                                selectionLimit={1}
+                                                selectedValues = {yearsOfExp && yearsOfExp.split(',')}
+                                                onSelect={(selectedList, selectedItem)=> {setYearsOfExp(selectedItem) }}
+                                                onRemove={(selectedList, selectedItem)=> {setYearsOfExp(null) }}
+                                                placeholder="Find Preferred Experience In Years"
+                                                />
                                             </div>
                                             <div className="w-full lg:w-[47%] mb-6">
                                                 <div className="flex flex-wrap items-center justify-between mb-2">
@@ -1233,17 +1261,39 @@ function CandidateProfile(props) {
                                 <div>
                                     <div className="mb-6">
                                         <label htmlFor="enterLang" className="font-medium mb-2 leading-none inline-block">Enter Language</label>
-                                        <input id="enterLang" type="text" placeholder="Ex: English" className="w-full rounded-full border-slate-300" value={alang} onChange={(e)=>setALang(e.target.value)} />
+                                        {/* <input id="enterLang" type="text" placeholder="Ex: English" className="w-full rounded-full border-slate-300" value={alang} onChange={(e)=>setALang(e.target.value)} /> */}
+                                        <Multiselect
+                                        options={['Abkhaz', 'Afar', 'Afrikaans', 'Akan', 'Albanian', 'Amharic', 'Arabic', 'Aragonese', 'Armenian', 'Assamese', 'Avaric', 'Avestan', 'Aymara', 'Azerbaijani', 'Bambara', 'Bashkir', 'Basque', 'Belarusian', 'Bengali; Bangla', 'Bihari', 'Bislama', 'Bosnian', 'Breton', 'Bulgarian', 'Burmese', 'Catalan; Valencian', 'Chamorro', 'Chechen', 'Chichewa; Chewa; Nyanja', 'Chinese', 'Chuvash', 'Cornish', 'Corsican', 'Cree', 'Croatian', 'Czech', 'Danish', 'Divehi; Dhivehi; Maldivian;', 'Dutch', 'Dzongkha', 'English', 'Esperanto', 'Estonian', 'Ewe', 'Faroese', 'Fijian', 'Finnish', 'French', 'Fula; Fulah; Pulaar; Pular', 'Galician', 'Georgian', 'German', 'Greek, Modern', 'GuaranÃ­', 'Gujarati', 'Haitian; Haitian Creole', 'Hausa', 'Hebrew (modern)', 'Herero', 'Hindi', 'Hiri Motu', 'Hungarian', 'Interlingua', 'Indonesian', 'Interlingue', 'Irish', 'Igbo', 'Inupiaq', 'Ido', 'Icelandic', 'Italian', 'Inuktitut', 'Japanese', 'Javanese', 'Kalaallisut, Greenlandic', 'Kannada', 'Kanuri', 'Kashmiri', 'Kazakh', 'Khmer', 'Kikuyu, Gikuyu', 'Kinyarwanda', 'Kyrgyz', 'Komi', 'Kongo', 'Korean', 'Kurdish', 'Kwanyama, Kuanyama', 'Latin', 'Luxembourgish, Letzeburgesch', 'Ganda', 'Limburgish, Limburgan, Limburger', 'Lingala', 'Lao', 'Lithuanian', 'Luba-Katanga', 'Latvian', 'Manx', 'Macedonian', 'Malagasy','Malay','Malayalam','Maltese','MÄori','Marathi (MarÄá¹­hÄ«)','Marshallese','Mongolian','Nauru','Navajo, Navaho','Norwegian BokmÃ¥l','North Ndebele','Nepali','Ndonga','Norwegian Nynorsk','Norwegian','Nuosu','South Ndebele','Occitan','Ojibwe, Ojibwa','Old Church Slavonic, Church Slavic, Church Slavonic, Old Bulgarian, Old Slavonic','Oromo','Oriya','Ossetian, Ossetic','Panjabi, Punjabi','PÄli','Persian (Farsi)','Polish','Pashto, Pushto','Portuguese','Quechua','Romansh','Kirundi','Romanian, [])','Russian','Sanskrit (Saá¹ská¹›ta)','Sardinian','Sindhi','Northern Sami','Samoan','Sango','Serbian','Scottish Gaelic; Gaelic','Shona','Sinhala, Sinhalese','Slovak','Slovene','Somali','Southern Sotho','Spanish; Castilian','Sundanese','Swahili','Swati','Swedish','Tamil','Telugu','Tajik','Thai','Tigrinya','Tibetan Standard, Tibetan, Central','Turkmen','Tagalog','Tswana','Tonga (Tonga Islands)','Turkish','Tsonga','Tatar','Twi','Tahitian','Uyghur, Uighur','Ukrainian','Urdu','Uzbek','Venda','Vietnamese','VolapÃ¼k','Walloon','Welsh','Wolof','Western Frisian','Xhosa','Yiddish','Yoruba','Zhuang, Chuang','Zulu',]}
+                                        isObject={false}
+                                        showArrow={true}
+                                        closeOnSelect={true}
+                                        selectionLimit={1}
+                                        selectedValues = {alang && alang.split(',')}
+                                        onSelect={(selectedList, selectedItem)=> {setALang(selectedItem) }}
+                                        onRemove={(selectedList, selectedItem)=> {setALang(null) }}
+                                        placeholder="Find Language"
+                                        />
                                     </div>
                                     <div className="mb-6">
                                         <label htmlFor="chooseLangProfeciency" className="font-medium mb-2 leading-none inline-block">Choose Language Profeciency</label>
-                                        <select id="chooseLangProfeciency" className="w-full rounded-full border-slate-300"
+                                        {/* <select id="chooseLangProfeciency" className="w-full rounded-full border-slate-300"
                                         value={aprof} onChange={(e)=>setAProf(e.target.value)}>
                                             <option value="Elementary profeciency">Elementary profeciency</option>
                                             <option value="Limited profeciency">Limited profeciency</option>
                                             <option value="Professional profeciency">Professional profeciency</option>
                                             <option value="Native or bilingual profeciency">Native or bilingual profeciency</option>
-                                        </select>
+                                        </select> */}
+                                        <Multiselect
+                                                options={['Elementary Profeciency','Limited Profeciency','Professional Profeciency','Native/Bilingual Profeciency']}
+                                                isObject={false}
+                                                showArrow={true}
+                                                closeOnSelect={true}
+                                                selectionLimit={1}
+                                                // selectedValues = {yearsOfExp && yearsOfExp.split(',')}
+                                                onSelect={(selectedList, selectedItem)=> {setAProf(selectedItem) }}
+                                                onRemove={(selectedList, selectedItem)=> {setAProf(null) }}
+                                                placeholder="Find Preferred Profeciency"
+                                                />
                                     </div>
                                     <div className="text-center">
                                         <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!verifyLangPopup()} onClick={(e)=>saveLang(e)}>
@@ -1345,26 +1395,61 @@ function CandidateProfile(props) {
                                 <div>
                                     <div className="mb-6">
                                         <label htmlFor="chooseSkills" className="font-medium mb-2 leading-none inline-block">Choose desired skills</label>
-                                        <select id="chooseSkills" className="w-full rounded-full border-slate-300" value={stitle} onChange={(e)=>setSTitle(e.target.value)}>
+                                        {/* <select id="chooseSkills" className="w-full rounded-full border-slate-300" value={stitle} onChange={(e)=>setSTitle(e.target.value)}>
                                             <option value="PHP">PHP</option>
                                             <option value="HTML">HTML</option>
                                             <option value="CSS">CSS</option>
-                                        </select>
+                                        </select> */}
+                                        <Multiselect
+                                            options={ski}
+                                            loading={load}
+                                            isObject={false}
+                                            showArrow={true}
+                                            closeOnSelect={true}
+                                            selectionLimit={1}
+                                            onSearch={(value)=>{setload(true);searchSkill(value)}}
+                                            onSelect={(selectedList, selectedItem)=> {setSTitle(selectedItem) }}
+                                            onRemove={(selectedList, selectedItem)=> {setSTitle(null) }}
+                                            placeholder="Find Desired Skills"
+                                        />
+                                        
                                     </div>
                                     <div className="mb-6">
                                         <label htmlFor="choosesSkillsProfeciency" className="font-medium mb-2 leading-none inline-block">Choose profeciency</label>
-                                        <select id="choosesSkillsProfeciency" className="w-full rounded-full border-slate-300" value={sprf} onChange={(e)=>setSProf(e.target.value)}>
+                                        {/* <select id="choosesSkillsProfeciency" className="w-full rounded-full border-slate-300" value={sprf} onChange={(e)=>setSProf(e.target.value)}>
                                             <option value="Beginner">Beginner</option>
                                             <option value="Intermediate">Intermediate</option>
                                             <option value="Advance">Advance</option>
-                                        </select>
+                                        </select> */}
+                                        <Multiselect
+                                                options={['Beginner','Intermediate','Advance']}
+                                                isObject={false}
+                                                showArrow={true}
+                                                closeOnSelect={true}
+                                                selectionLimit={1}
+                                                // selectedValues = {sprf && sprf.split(',')}
+                                                onSelect={(selectedList, selectedItem)=> {setSProf(selectedItem) }}
+                                                onRemove={(selectedList, selectedItem)=> {setSProf(null) }}
+                                                placeholder="Find Preferred Profeciency"
+                                                />
                                     </div>
                                     <div className="mb-6">
                                         <label htmlFor="choosesSkillsSet" className="font-medium mb-2 leading-none inline-block">Skill set</label>
-                                        <select id="choosesSkillsSet" className="w-full rounded-full border-slate-300" value={sset} onChange={(e)=>setSSet(e.target.value)}>
+                                        {/* <select id="choosesSkillsSet" className="w-full rounded-full border-slate-300" value={sset} onChange={(e)=>setSSet(e.target.value)}>
                                             <option value="Primary">Primary</option>
                                             <option value="Secondary">Secondary</option>
-                                        </select>
+                                        </select> */}
+                                        <Multiselect
+                                                options={['Primary','Secondary']}
+                                                isObject={false}
+                                                showArrow={true}
+                                                closeOnSelect={true}
+                                                selectionLimit={1}
+                                                // selectedValues = {sprf && sprf.split(',')}
+                                                onSelect={(selectedList, selectedItem)=> {setSSet(selectedItem) }}
+                                                onRemove={(selectedList, selectedItem)=> {setSSet(null) }}
+                                                placeholder="Find Preferred Set"
+                                                />
                                     </div>
                                     <div className="text-center">
                                         <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e) => saveSkill(e)} disabled={!verifySkillPopup()}>
@@ -1584,7 +1669,18 @@ function CandidateProfile(props) {
                                         </label>
                                         <div className="w-full lg:w-[47%] mb-6">
                                             <label htmlFor="expType" className="font-medium mb-2 leading-none inline-block">Type</label>
-                                            <input id="expType" type="text" className="w-full rounded-full border-slate-300" value={extype} onChange={(e)=>setEXType(e.target.value)} />
+                                            {/* <input id="expType" type="text" className="w-full rounded-full border-slate-300" value={extype} onChange={(e)=>setEXType(e.target.value)} /> */}
+                                            <Multiselect
+                                                options={['Permanent/Full Time','Permanent/Contract','Contract','Part-Time','Freelance',,'Internship']}
+                                                isObject={false}
+                                                showArrow={true}
+                                                closeOnSelect={true}
+                                                selectionLimit={1}
+                                                // selectedValues = {preJobtype && preJobtype.split(',')}
+                                                onSelect={(selectedList, selectedItem)=> {setEXType(selectedItem) }}
+                                                onRemove={(selectedList, selectedItem)=> {setEXType(null) }}
+                                                placeholder="Find Preferred Job Type"
+                                                />
                                         </div>
                                     </div>
                                     <div className="flex flex-wrap justify-between">

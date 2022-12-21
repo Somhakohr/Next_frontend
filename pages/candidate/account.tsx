@@ -105,15 +105,6 @@ function CandidateAcc(props) {
             toastcomp("Enter Name","Error")
             return
         }
-        const axiosInstanceAuth = axios.create({
-        baseURL: 'https://marketplace.somhako.com/api/',
-        timeout: 5000,
-        headers: {
-            'Authorization': 'Bearer '+accessToken,
-            'Content-Type': 'application/json',
-            'accept': 'application/json',
-        }
-        });
         const axiosInstanceAuth2 = axios.create({
         baseURL: 'https://marketplace.somhako.com/api/',
         timeout: 5000,
@@ -123,38 +114,26 @@ function CandidateAcc(props) {
         }
         });
         var formData2 = new FormData();
-        if(mobile){
-            formData2.append("mobile", mobile);
-        }
+        (mobile)?formData2.append("mobile", mobile):formData2.append("mobile", '')
         formData2.append("first_name",fname)
         formData2.append("last_name",lname)
         await axiosInstanceAuth2.put('/auth/candidateaccont/'+userObj['erefid']+'/',formData2).then(async (res)=>{
-            if(mobile){userObj["mobile"]=mobile}
+            userObj["mobile"]=res.data.mobile
             userObj["first_name"]=res.data.first_name
             userObj["last_name"]=res.data.last_name
             updateUserName(fname+" "+ lname);
-
-            if(file || countryDrop){
-
-                var formData = new FormData();
-                if(file){
-                    formData.append("profile", file);
-                }
-                formData.append("country",countryDrop)
-                await axiosInstanceAuth2.put('/candidate/candidateprofileaccont/'+userObj['erefid']+'/',formData).then(async(res2)=>{
-                    updateUserImg("https://marketplace.somhako.com"+res2.data.profile)
-                    userProfile["country"]=res2.data.country
-                    userProfile["profile"]=res2.data.profile
-                    toastcomp("Account Updated :)","success");
-                }).catch((err)=>{
-                    console.log(err);
-                    toastcomp("Account Not Updated :)","error");
-                });
-
-            }
-            else{
+            var formData = new FormData();
+            if(file){formData.append("profile", file);}
+            (countryDrop)?formData.append("country",countryDrop):formData.append("country",'')
+            await axiosInstanceAuth2.put('/candidate/candidateprofileaccont/'+userObj['erefid']+'/',formData).then(async(res2)=>{
+                updateUserImg("https://marketplace.somhako.com"+res2.data.profile)
+                userProfile["country"]=res2.data.country
+                userProfile["profile"]=res2.data.profile
                 toastcomp("Account Updated :)","success");
-            }
+            }).catch((err)=>{
+                console.log(err);
+                toastcomp("Account Not Updated :)","error");
+            });
 
         }).catch((err)=>{
             toastcomp("Account Not Updated :)","error");
@@ -257,10 +236,12 @@ function CandidateAcc(props) {
                                 options={fcountry}
                                 isObject={false}
                                 showArrow={true}
+                                closeOnSelect={true}
                                 selectionLimit={1}
-                                selectedValues = {countryDrop.split(',')}
+                                selectedValues = {countryDrop && countryDrop.split(',')}
                                 onSelect={(selectedList, selectedItem)=> {setCountryDrop(selectedItem) }}
-                                onRemove={(selectedList, selectedItem)=> {setCountryDrop('') }}
+                                onRemove={(selectedList, selectedItem)=> {setCountryDrop(null) }}
+                                placeholder="Find Country"
                                 />
                             </div>
                         </div>
