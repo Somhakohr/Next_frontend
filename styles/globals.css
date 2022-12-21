@@ -283,9 +283,14 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
 .connectionBtnSidebar > div {
   flex-direction: column;
 }
+.filters {
+  display: flex;
+  align-items: center;
+}
 .filters ul.react-tabs__tab-list {
   justify-content: space-between;
   display: flex;
+  width: 100%;
 }
 .filters ul.react-tabs__tab-list li:last-child {
   margin: 0;

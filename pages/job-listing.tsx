@@ -9,6 +9,7 @@ import 'react-tabs/style/react-tabs.css';
 import Image from 'next/image';
 import ChatBot from '../components/chatbot';
 import Multiselect from 'multiselect-react-dropdown';
+import chatMini from '../public/images/chat-mini.png'
 
 export default function JobListing() {
     const [sidebarToggle, setsidebarToggle] = useState(false);
@@ -149,8 +150,13 @@ export default function JobListing() {
                         <div className={sidebarToggle ? 'block overflow-hidden h-full bg-white shadow-normal border border-teal-400 rounded-[30px] mb-[15px] lg:mb-0' : 'hidden lg:block overflow-hidden h-full bg-white shadow-normal border border-teal-400 rounded-[30px] mb-[15px] lg:mb-0'}>
                             <Tabs>
                                 <div className="p-3 shadow-lg text-left filters">
+                                    <Image src={chatMini} alt="Chat" width={35} className="mr-2" />
                                     <TabList>
-                                        <Tab>Chat Mini</Tab>
+                                        <Tab>
+                                            <div className='flex items-center'>
+                                                 Chat Mini
+                                            </div>
+                                        </Tab>
                                         <Tab>Filters</Tab>
                                     </TabList>
                                 </div>

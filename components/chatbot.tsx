@@ -6,15 +6,15 @@ export default function ChatBot() {
     return (
         <>
             <div>
-                <div className="p-3">
+                {/* <div className="p-3">
                     <div className="flex items-center justify-between border-b border-slate-300">
                         <h5 className="text-[#6D27F9] font-medium text-lg flex items-center pb-2">
-                            {/* <span className="mr-2">Mini</span> */}
+                            <span className="mr-2">Mini</span>
                             <Image src={chatMini} alt="Chat" width={40} />
                         </h5>
                     </div>
-                </div>
-                <div className="h-[calc(100vh-310px)] p-3">
+                </div> */}
+                <div className="h-[calc(100vh-241px)] p-3">
                     <div className="overflow-auto h-full">
                         <ul className="flex flex-wrap text-[12px]">
                             <button type="button" className="my-1 mr-2 bg-[#E5DDFA] rounded-[30px] py-1 px-3">
