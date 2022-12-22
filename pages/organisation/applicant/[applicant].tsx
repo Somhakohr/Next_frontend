@@ -346,7 +346,7 @@ function OrganisationCandidateProfileView(props) {
                             <div className="p-6 text-center">
                                 <h6 className="text-[#646464] mb-4">{data.job.refid}</h6>
                                 {resume.map((resume, i) => (
-                                <a href={resume.file} target='_blank' className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-sm text-white font-semibold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" key={i}>
+                                <a href={resume.file} target='_blank' rel="noreferrer" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-sm text-white font-semibold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" key={i}>
                                     Download Resume
                                     <i className="fa-solid fa-download ml-2"></i>
                                 </a>
@@ -535,7 +535,7 @@ function OrganisationCandidateProfileView(props) {
                                     </div>
                                         
                                     {interview.map((data2, i) => (
-                                        <div className="text-center mb-4 relative after:content-[''] after:w-[150px] after:h-[2px] after:bg-slate-300 after:absolute after:right-0 after:top-[18px] after:z-[1] before:content-[''] before:w-[2px] before:h-[72px] before:bg-slate-300 before:absolute before:right-0 before:bottom-[38px] before:z-[1]">
+                                        <div className="text-center mb-4 relative after:content-[''] after:w-[150px] after:h-[2px] after:bg-slate-300 after:absolute after:right-0 after:top-[18px] after:z-[1] before:content-[''] before:w-[2px] before:h-[72px] before:bg-slate-300 before:absolute before:right-0 before:bottom-[38px] before:z-[1]" key={i}>
                                         <div className="relative z-[2]">
                                             {data2.status == "Passed" && <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border border-[#58E780] text-center rounded-full min-w-[115px]">
                                                 {data2.title}

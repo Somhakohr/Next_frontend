@@ -275,7 +275,7 @@ export default function CandidateUsers() {
                             <div className="p-6 text-center">
                                 <h6 className="text-[#646464] mb-4">{data.job.refid}</h6>
                                 {resume.map((resume, i) => (
-                                <a href={resume.file} target='_blank' className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-sm text-white font-semibold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" key={i}>
+                                <a href={resume.file} target='_blank' rel="noreferrer" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-sm text-white font-semibold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" key={i}>
                                     Download Resume
                                     <i className="fa-solid fa-download ml-2"></i>
                                 </a>

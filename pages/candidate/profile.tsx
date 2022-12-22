@@ -1023,7 +1023,7 @@ function CandidateProfile(props) {
                                                     </p>
                                                     <p className="text-[#646464] text-[12px]">Uploaded on : {new Date(resume.date).toDateString()}</p>
                                                 </aside>
-                                                <a href={resume.file} target='_blank' className="my-2 text-[#646464] text-sm" download>
+                                                <a href={resume.file} target='_blank' rel="noreferrer" className="my-2 text-[#646464] text-sm" download>
                                                     Download Resume
                                                     <i className="fa-solid fa-download text-xl ml-2 text-[#6D27F9]"></i>
                                                 </a>

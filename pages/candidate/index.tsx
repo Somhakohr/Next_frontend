@@ -360,7 +360,7 @@ function Candidate(props) {
                             <Image src={LaunchingSoon} alt="Launching Soon" className="max-w-[220px] w-full" />
                             <Image src={LaunchingGraphic} alt="Somhako" className="max-w-[100px] w-full my-6" />
                         </div>
-                        <p className="text-2xl font-medium mb-10">We'll let you know when we are <span className="text-[#6D27F9]">Launching</span></p>
+                        <p className="text-2xl font-medium mb-10">We will let you know when we are <span className="text-[#6D27F9]">Launching</span></p>
                         <h5 className="text-3xl mb-8">
                             Untill Then <br />
                             <span className="text-[#5865F2] font-semibold text-4xl">Join Discord</span>

@@ -19,7 +19,7 @@ export default function Notifications(props) {
                 </div>
             ))}
             {read.map((data, i) => (
-                <div className="flex items-center justify-between py-3 px-2 border-b border-slate-300 last:border-b-0">
+                <div className="flex items-center justify-between py-3 px-2 border-b border-slate-300 last:border-b-0" key={i}>
                     <div className="w-[70%]">
                         <div className="flex items-center">
                             <span className="block w-[10px] h-[10px] rounded-full bg-gray-400 mr-2"></span>
