@@ -354,7 +354,12 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   text-align: center;
   font-size: 12px;
 }
-
+.line_clamp_2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
 
 
 

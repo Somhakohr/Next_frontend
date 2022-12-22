@@ -11,6 +11,7 @@ import { withAuth } from '../constants/HOCs';
 import axios from "axios";
 import { axiosInstance } from '../pages/api/axiosApi';
 import Logo from "../components/logo";
+import Notifications from './notifications';
 
 function Header(props) {
 
@@ -169,10 +170,10 @@ function Header(props) {
             url: '/blog',
             text: 'Blog'
         },
-        {
-            url: '#',
-            text: 'Career'
-        },
+        // {
+        //     url: '#',
+        //     text: 'Career'
+        // },
         {
             url: '/whitepaper',
             text: 'Whitepaper'
@@ -218,10 +219,8 @@ function Header(props) {
                                     leaveFrom="transform opacity-100 scale-100"
                                     leaveTo="transform opacity-0 scale-95"
                                 >
-                                    <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                        <div className="p-3">
-                                            <h3 className="text-center">Notifications</h3>
-                                        </div>
+                                    <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-lg overflow-hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <Notifications />
                                     </Menu.Items>
                                 </Transition>
                             </Menu>
@@ -276,10 +275,8 @@ function Header(props) {
                                     leaveFrom="transform opacity-100 scale-100"
                                     leaveTo="transform opacity-0 scale-95"
                                 >
-                                    <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                        <div className="p-3">
-                                            <h3 className="text-center">Notifications</h3>
-                                        </div>
+                                    <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-lg overflow-hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <Notifications />
                                     </Menu.Items>
                                 </Transition>
                             </Menu>
