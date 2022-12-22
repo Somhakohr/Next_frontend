@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { NextApiRequest, NextApiResponse } from "next";
 import NextAuth from "next-auth";
 import { NextAuthOptions } from "next-auth";
@@ -23,30 +24,29 @@ namespace NextAuthUtils {
         // ),
         {
           refresh: refreshToken,
-        },
+        }
       );
-      if(response.data.refresh){
-      const { access, refresh } = response.data;
-      return [access, refresh];
-      }
-      else{
+      if (response.data.refresh) {
+        const { access, refresh } = response.data;
+        return [access, refresh];
+      } else {
         const { access } = response.data;
         return [access, refreshToken];
       }
-    } catch(err) {
+    } catch (err) {
       return [null, null];
     }
   };
 }
 
 const axiosInstance = axios.create({
-  baseURL: 'https://marketplace.somhako.com/api/',
+  baseURL: "https://marketplace.somhako.com/api/",
   timeout: 5000,
   headers: {
-      // 'Authorization': "JWT " + access_token,
-      'Content-Type': 'application/json',
-      'accept': 'application/json'
-  }
+    // 'Authorization': "JWT " + access_token,
+    "Content-Type": "application/json",
+    accept: "application/json",
+  },
 });
 
 const settings: NextAuthOptions = {
@@ -70,97 +70,104 @@ const settings: NextAuthOptions = {
     // }),
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
     }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "email", placeholder: "email" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        const user = {id: "1",email: credentials.email, password: credentials.password }
+        const user = {
+          id: "1",
+          email: credentials.email,
+          password: credentials.password,
+        };
         if (user) {
-        // return user;
+          // return user;
           // const res = await axiosInstance.post('/auth/login/', {
           //   email: user.email,
           //   password: user.password,
           // });
           // console.log(res);
           return user;
+        } else {
+          return null;
         }
-        else{
-          return null
-        }
-      }
-    })
+      },
+    }),
   ],
   callbacks: {
-    async jwt({token, user, account, profile, isNewUser}) {
-
+    async jwt({ token, user, account, profile, isNewUser }) {
       if (user) {
         if (account.provider === "google") {
           const accessToken = account.access_token;
           const idToken = account.id_token;
           console.log(account);
-          await axiosInstance.post('/auth/signin/'+account.provider+'/', {
-            access_token: accessToken,
-            id_token: idToken,
-          }).then((response)=>{
-            const { access_token, refresh_token } = response.data;
-            token = {
-              ...token,
-              accessToken: access_token,
-              refreshToken: refresh_token,
-            };
-            return token;
-          }).catch((err)=>{
-            console.log(err);
-          });
-        }
-        else if (account.provider === "github") {
+          await axiosInstance
+            .post("/auth/signin/" + account.provider + "/", {
+              access_token: accessToken,
+              id_token: idToken,
+            })
+            .then((response) => {
+              const { access_token, refresh_token } = response.data;
+              token = {
+                ...token,
+                accessToken: access_token,
+                refreshToken: refresh_token,
+              };
+              return token;
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else if (account.provider === "github") {
           const accessToken = account.access_token;
           // const idToken = account.id_token;
 
-          await axiosInstance.post('/auth/signin/'+account.provider+'/', {
-            access_token: accessToken,
-            // id_token: idToken,
-          }).then((response)=>{
-            const { access_token, refresh_token } = response.data;
-            token = {
-              ...token,
-              accessToken: access_token,
-              refreshToken: refresh_token,
-            };
-            return token;
-          }).catch((err)=>{
-            console.log(err);
-          });
-        }
-        else if (account.provider === "credentials") {
-          await axiosInstance.post('/auth/login/', {
+          await axiosInstance
+            .post("/auth/signin/" + account.provider + "/", {
+              access_token: accessToken,
+              // id_token: idToken,
+            })
+            .then((response) => {
+              const { access_token, refresh_token } = response.data;
+              token = {
+                ...token,
+                accessToken: access_token,
+                refreshToken: refresh_token,
+              };
+              return token;
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else if (account.provider === "credentials") {
+          await axiosInstance
+            .post("/auth/login/", {
               email: user.email,
               password: user.password,
-          }).then((response)=>{
-            // console.log(response);
-            const { access, refresh } = response.data.tokens;
-            token = {
-              ...token,
-              accessToken: access,
-              refreshToken: refresh,
-            };
-            return token;
-          }).catch((err)=>{
-            console.log(err);
-          });
+            })
+            .then((response) => {
+              // console.log(response);
+              const { access, refresh } = response.data.tokens;
+              token = {
+                ...token,
+                accessToken: access,
+                refreshToken: refresh,
+              };
+              return token;
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         }
       }
-      
+
       if (JwtUtils.isJwtExpired(token.accessToken as string)) {
-        const [
-          newAccessToken,
-          newRefreshToken,
-        ] = await NextAuthUtils.refreshToken(token.refreshToken);
+        const [newAccessToken, newRefreshToken] =
+          await NextAuthUtils.refreshToken(token.refreshToken);
 
         if (newAccessToken && newRefreshToken) {
           token = {
@@ -182,7 +189,6 @@ const settings: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      
       session.accessToken = token.accessToken;
       // if(utype.length <= 0){
       //   const res = await axiosInstance.post('/auth/getusers/', {
@@ -219,9 +225,9 @@ const settings: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: '/auth/error',
-    error: '/auth/error',
-  }, 
+    signIn: "/auth/error",
+    error: "/auth/error",
+  },
 };
 
 export default (req: NextApiRequest, res: NextApiResponse) =>

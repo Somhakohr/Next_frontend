@@ -49,7 +49,7 @@ export default function JobCard(props) {
                         {data.jobType || data.worktype ? `${data.jobType} , ${data.workType}` : <>Not Specified</>}
                     </p>
                     <p className="w-full sm:max-w-[50%] mb-3 sm:text-right">
-                        {data.salary ? <>{data.curr} {data.salary}</> : <>Not Specified</>}
+                        {data.salary ? data.salary : <>Not Specified</>}
                     </p>
                 </div>
                 <div className="flex items-center justify-between pt-4 text-[12px]">

@@ -1,6 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
-import logoImg from '../public/images/logo.png';
 
 export default function logo(props) {
     const {userType} = props;
@@ -11,18 +9,18 @@ export default function logo(props) {
                     <>
                     { userType == 'Candidate' &&
                         <Link href="/candidate" className="w-full inline-block align-middle">
-                            <Image src={logoImg} alt="Somhako" />
+                            <img src="/images/logo.png" alt="Somhako" />
                         </Link>
                     } 
                     { userType == 'Organisation' &&
                         <Link href="/organisation" className="w-full inline-block align-middle">
-                            <Image src={logoImg} alt="Somhako" />
+                            <img src="/images/logo.png" alt="Somhako" />
                         </Link>
                     }
                     </>
                 :
                     <Link href="/" className="w-full inline-block align-middle">
-                        <Image src={logoImg} alt="Somhako" />
+                        <img src="/images/logo.png" alt="Somhako" />
                     </Link>
                 }
             </div>
