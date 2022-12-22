@@ -254,18 +254,18 @@ export default function SignUp() {
                         </div>
                         <div className="flex items-center justify-center">
                           <form action="http://localhost:3000/api/auth/signin/google" method="POST">
-                            <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2">
+                            <div className="border rounded border-slate-300 cursor-pointer mx-2 flex item-center justify-center">
                               <input type="hidden" name="csrfToken" value={csrf} />
                               <input type="hidden" name="callbackUrl" value="http://localhost:3000/" />
-                              <button type="submit"><Image src={Google_Icon} width={15} alt="Google" /></button>
+                              <button type="submit" className="p-3"><Image src={Google_Icon} width={15} alt="Google" /></button>
                             </div>
                           </form>
 
                           <form action="http://localhost:3000/api/auth/signin/github" method="POST">
-                            <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2">
+                            <div className="border rounded border-slate-300 cursor-pointer mx-2 flex item-center justify-center">
                               <input type="hidden" name="csrfToken" value={csrf} />
                               <input type="hidden" name="callbackUrl" value="http://localhost:3000/" />
-                              <button type="submit"><Image src={Github_Icon} width={15} alt="GitHub" /></button>
+                              <button type="submit" className="p-3"><Image src={Github_Icon} width={15} alt="GitHub" /></button>
                             </div>
                           </form>
                         </div>
