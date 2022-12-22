@@ -163,6 +163,7 @@ function OrganisationApplicants(props) {
                                     </select> */}
                                     <Multiselect
                                     isObject={false}
+                                    customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                     showArrow={true}
                                     options={[
                                         'Option 1',

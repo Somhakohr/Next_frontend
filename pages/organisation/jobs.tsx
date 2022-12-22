@@ -372,6 +372,7 @@ function OrganisationAllJobs(props) {
                                                 </select> */}
                                                 <Multiselect
                                                 isObject={false}
+                                                customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
                                                 options={[
                                                     'Option 1',
@@ -390,6 +391,7 @@ function OrganisationAllJobs(props) {
                                                 </select> */}
                                                 <Multiselect
                                                 isObject={false}
+                                                customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
                                                 options={[
                                                     'Option 1',
@@ -408,6 +410,7 @@ function OrganisationAllJobs(props) {
                                                 </select> */}
                                                 <Multiselect
                                                 isObject={false}
+                                                customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
                                                 options={[
                                                     'Permanent/Full Time',
@@ -427,6 +430,7 @@ function OrganisationAllJobs(props) {
                                                 </select> */}
                                                 <Multiselect
                                                 isObject={false}
+                                                customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
                                                 options={[
                                                     'Entry/Fresher',
@@ -453,6 +457,7 @@ function OrganisationAllJobs(props) {
                                                 </select> */}
                                                 <Multiselect
                                                 isObject={false}
+                                                customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
                                                 options={[
                                                     'Option 1',
@@ -499,6 +504,7 @@ function OrganisationAllJobs(props) {
                                                     <div className='w-[40%]'>
                                                         <Multiselect
                                                         isObject={false}
+                                                        customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                         showArrow={true}
                                                         options={[
                                                             'Option 1',
@@ -519,6 +525,7 @@ function OrganisationAllJobs(props) {
                                                 </select> */}
                                                 <Multiselect
                                                 isObject={false}
+                                                customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
                                                 options={[
                                                     'Option 1',
@@ -537,6 +544,7 @@ function OrganisationAllJobs(props) {
                                                 </select> */}
                                                 <Multiselect
                                                 isObject={false}
+                                                customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
                                                 options={[
                                                     'Option 1',
@@ -563,6 +571,7 @@ function OrganisationAllJobs(props) {
                                                 </select> */}
                                                 <Multiselect
                                                 isObject={false}
+                                                customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
                                                 options={[
                                                     'Yes',
@@ -592,6 +601,7 @@ function OrganisationAllJobs(props) {
                                                 </select> */}
                                                 <Multiselect
                                                 isObject={false}
+                                                customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
                                                 options={[
                                                     'On-site',
@@ -608,6 +618,7 @@ function OrganisationAllJobs(props) {
                                                 </select> */}
                                                 <Multiselect
                                                 isObject={false}
+                                                customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
                                                 options={[
                                                     'Option 1',
@@ -670,6 +681,7 @@ function OrganisationAllJobs(props) {
                                                 </select> */}
                                                 <Multiselect
                                                 isObject={false}
+                                                customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
                                                 options={[
                                                     'Option 1',
@@ -688,6 +700,7 @@ function OrganisationAllJobs(props) {
                                                 </select> */}
                                                 <Multiselect
                                                 isObject={false}
+                                                customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
                                                 options={[
                                                     'Option 1',
@@ -925,6 +938,7 @@ function OrganisationAllJobs(props) {
                                         </select> */}
                                         <Multiselect
                                         isObject={false}
+                                        customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                         showArrow={true}
                                         options={[
                                             'Option 1',

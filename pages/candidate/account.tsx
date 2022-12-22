@@ -235,6 +235,7 @@ function CandidateAcc(props) {
                                 <Multiselect
                                 options={fcountry}
                                 isObject={false}
+                                customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                 showArrow={true}
                                 closeOnSelect={true}
                                 selectionLimit={1}
