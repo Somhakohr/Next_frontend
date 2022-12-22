@@ -150,19 +150,16 @@ export default function JobListing() {
                         <div className={sidebarToggle ? 'block overflow-hidden h-full bg-white shadow-normal border border-teal-400 rounded-[30px] mb-[15px] lg:mb-0' : 'hidden lg:block overflow-hidden h-full bg-white shadow-normal border border-teal-400 rounded-[30px] mb-[15px] lg:mb-0'}>
                             <Tabs>
                                 <div className="p-3 shadow-lg text-left filters">
-                                    <Image src={chatMini} alt="Chat" width={35} className="mr-2" />
                                     <TabList>
+                                        <Tab>Filters</Tab>
                                         <Tab>
                                             <div className='flex items-center'>
                                                  Chat Mini
                                             </div>
                                         </Tab>
-                                        <Tab>Filters</Tab>
                                     </TabList>
+                                    <Image src={chatMini} alt="Chat" width={35} className="ml-2" />
                                 </div>
-                                <TabPanel>
-                                    <ChatBot />
-                                </TabPanel>
                                 <TabPanel>
                                     <div>
                                         <div className="pt-6 px-6">
@@ -344,6 +341,9 @@ export default function JobListing() {
                                             </div>
                                         </div>
                                     </div>
+                                </TabPanel>
+                                <TabPanel>
+                                    <ChatBot />
                                 </TabPanel>
                             </Tabs>
                         </div>
