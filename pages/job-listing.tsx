@@ -139,7 +139,56 @@ export default function JobListing() {
         filters(query)
     }, [fsearch,level,type,loc,skill,ind,dept,wtype,exp])
     
-    
+    const [locf,setLocf] = useState([])
+    const [ski,setski] = useState([])
+    const [load,setload] = useState(false)
+
+
+    async function searchLoc(value) { 
+        const axiosInstance22 = axios.create({
+            baseURL: 'https://marketplace.somhako.com/api/',
+            // timeout: 10000,
+            headers: {
+                // 'Authorization': "JWT " + access_token,
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+        });  
+        await axiosInstance22.get(`/job/load/location/?search=${value}`).then(async (res)=>{
+            let obj = res.data
+            let arr = []
+            for (const [key, value] of Object.entries(obj)) {
+                arr.push(value)
+            }
+            setLocf(arr)
+            setload(false)
+        }).catch((err)=>{
+            console.log(err)
+        })      
+    }
+
+    async function searchSkill(value) { 
+        const axiosInstance22 = axios.create({
+            baseURL: 'https://marketplace.somhako.com/api/',
+            // timeout: 10000,
+            headers: {
+                // 'Authorization': "JWT " + access_token,
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+        });  
+        await axiosInstance22.get(`/job/load/skills/?search=${value}`).then(async (res)=>{
+            let obj = res.data
+            let arr = []
+            for (const [key, value] of Object.entries(obj)) {
+                arr.push(value)
+            }
+            setski(arr)
+            setload(false)
+        }).catch((err)=>{
+            console.log(err)
+        })      
+    }
 
     return (
         <>
@@ -174,37 +223,18 @@ export default function JobListing() {
                                                     <option value="">Select</option>
                                                     <option value="Junior">Junior</option>
                                                     <option value="Senior">Senior</option>
-                                                </select> */}
+                                                </select> */}                                  
                                                 <Multiselect
+                                                options={['Entry/Fresher','Senior','Manager','Director','VP','CXO','Founder/Owner/Co-founder','Partner','Training']}
                                                 isObject={false}
                                                 customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
-                                                options={[
-                                                    'Option 1',
-                                                    'Option 2',
-                                                    'Option 3',
-                                                    'Option 4',
-                                                    'Option 5'
-                                                ]}
+                                                closeOnSelect={true}
+                                                selectedValues = {level && level.split(',')}
+                                                onSelect={(selectedList, selectedItem)=> {setLevel(selectedList.join(',')) }}
+                                                onRemove={(selectedList, selectedItem)=> {setLevel(selectedList.join(',')) }}
+                                                placeholder="Find Preferred Job Type"
                                                 />
-                                                {/* <ul className="pt-4">
-                                                    <li className="py-2 px-4 flex items-center justify-between text-sm">
-                                                        <p>
-                                                            Full time <span className="text-[#6D27F9]"> (20) </span>
-                                                        </p>
-                                                        <span className="cursor-pointer">
-                                                            <i className="fa-solid fa-xmark"></i>
-                                                        </span>
-                                                    </li>
-                                                    <li className="py-2 px-4 flex items-center justify-between text-sm">
-                                                        <p>
-                                                            Contract <span className="text-[#6D27F9]"> (10) </span>
-                                                        </p>
-                                                        <span className="cursor-pointer">
-                                                            <i className="fa-solid fa-xmark"></i>
-                                                        </span>
-                                                    </li>
-                                                </ul> */}
                                             </div>
                                             <div className="w-full mb-5">
                                                 {/* <select id="jobtype" placeholder="Job Type" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0" value={type} onChange={(e)=>setType(e.target.value)} >
@@ -212,17 +242,17 @@ export default function JobListing() {
                                                     <option value="Full time">Full time</option>
                                                     <option value="Contract">Contract</option>
                                                 </select> */}
+                                                                                
                                                 <Multiselect
+                                                options={['Permanent/Full Time','Permanent/Contract','Contract','Part-Time','Freelance','Internship']}
                                                 isObject={false}
                                                 customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
-                                                options={[
-                                                    'Option 1',
-                                                    'Option 2',
-                                                    'Option 3',
-                                                    'Option 4',
-                                                    'Option 5'
-                                                ]}
+                                                closeOnSelect={true}
+                                                selectedValues = {type && type.split(',')}
+                                                onSelect={(selectedList, selectedItem)=> {setType(selectedList.join(',')) }}
+                                                onRemove={(selectedList, selectedItem)=> {setType(selectedList.join(',')) }}
+                                                placeholder="Find Preferred Job Type"
                                                 />
                                             </div>
                                             <div className="w-full mb-4">
@@ -232,17 +262,18 @@ export default function JobListing() {
                                                     <option value="Japan">Japan</option>
                                                 </select> */}
                                                 <Multiselect
-                                                isObject={false}
-                                                customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
-                                                showArrow={true}
-                                                options={[
-                                                    'Option 1',
-                                                    'Option 2',
-                                                    'Option 3',
-                                                    'Option 4',
-                                                    'Option 5'
-                                                ]}
-                                                />
+                                                    options={locf}
+                                                    loading={load}
+                                                    isObject={false}
+                                                    customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
+                                                    showArrow={true}
+                                                    closeOnSelect={true}
+                                                    onSearch={(value)=>{setload(true);searchLoc(value)}}
+                                                    selectedValues = {loc && loc.split('|')}
+                                                    onSelect={(selectedList, selectedItem)=> {setLoc(selectedList.join('|')) }}
+                                                    onRemove={(selectedList, selectedItem)=> {setLoc(selectedList.join('|')) }}
+                                                    placeholder="Find Preferred Location"
+                                                    />
                                             </div>
                                             <div className="w-full mb-4">
                                                 {/* <select id="jobskills" placeholder="Skills" className="text-sm bg-[#f4f4f4] w-full rounded-full border-0"  value={skill} onChange={(e)=>setSkill(e.target.value)} >
@@ -251,16 +282,17 @@ export default function JobListing() {
                                                     <option value="HTML">HTML</option>
                                                 </select> */}
                                                 <Multiselect
-                                                isObject={false}
-                                                customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
-                                                showArrow={true}
-                                                options={[
-                                                    'Option 1',
-                                                    'Option 2',
-                                                    'Option 3',
-                                                    'Option 4',
-                                                    'Option 5'
-                                                ]}
+                                                    options={ski}
+                                                    loading={load}
+                                                    isObject={false}
+                                                    customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
+                                                    showArrow={true}
+                                                    closeOnSelect={true}
+                                                    selectedValues = {skill && skill.split(',')}
+                                                    onSearch={(value)=>{setload(true);searchSkill(value)}}
+                                                    onSelect={(selectedList, selectedItem)=> {setSkill(selectedList.join(',')) }}
+                                                    onRemove={(selectedList, selectedItem)=> {setSkill(selectedList.join(',')) }}
+                                                    placeholder="Find Recommended Skills"
                                                 />
                                             </div>
                                             <div className="w-full mb-4">
@@ -268,18 +300,17 @@ export default function JobListing() {
                                                     <option value="">Select</option>
                                                     <option value="Staffing">Staffing</option>
                                                     <option value="Engg">Engg</option>
-                                                </select> */}
+                                                </select> */}                                                                 
                                                 <Multiselect
+                                                options={['IT Services & Consulting','Recruitment','Software Product','Consulting','Financial Services','Hardware & Networking','Internet','Analytics & KPO','IT / ITES','Computer Software','Engineering & Construction','Manufacturing','Education & Training','Telecom','Marketing & Advertising','Management Consulting','Emerging Technologies','BPO/KPO','BPO','EdTech','Media & Entertainment / Publishing','Industrial Machinery','Retail','Power','Advertising / PR / Events','Recruitment consultant','Design','Gaming','Banking / Insurance / Accounting','Consumer Electronics & Appliances']}
                                                 isObject={false}
                                                 customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
-                                                options={[
-                                                    'Option 1',
-                                                    'Option 2',
-                                                    'Option 3',
-                                                    'Option 4',
-                                                    'Option 5'
-                                                ]}
+                                                closeOnSelect={true}
+                                                selectedValues = {ind && ind.split(',')}
+                                                onSelect={(selectedList, selectedItem)=> {setInd(selectedList.join(',')) }}
+                                                onRemove={(selectedList, selectedItem)=> {setInd(selectedList.join(',')) }}
+                                                placeholder="Find Preferred Industry"
                                                 />
                                             </div>
                                             <div className="w-full mb-4">
@@ -287,18 +318,17 @@ export default function JobListing() {
                                                     <option value="">Select</option>
                                                     <option value="Engg">Engg</option>
                                                     <option value="Product">Product</option>
-                                                </select> */}
+                                                </select> */}                                     
                                                 <Multiselect
+                                                options={['Software/Testing/Networking','IT Hardware & Telecom','Sales','Analytics & Business Intelligence','Design','HR & Admin','Customer Service & Operations','R&D','Marketing','Accounting/Finance','Planning & Consulting','Education','Content','Banking/Insurance','Self Employed / Consultants','Hospitality','Construction','Travel','Architecture & Interior Design','TV/Flims','Manufacturing','Top Management','Pharma/Healthcare']}
                                                 isObject={false}
                                                 customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
-                                                options={[
-                                                    'Option 1',
-                                                    'Option 2',
-                                                    'Option 3',
-                                                    'Option 4',
-                                                    'Option 5'
-                                                ]}
+                                                closeOnSelect={true}
+                                                selectedValues = {dept && dept.split(',')}
+                                                onSelect={(selectedList, selectedItem)=> {setDept(selectedList.join(',')) }}
+                                                onRemove={(selectedList, selectedItem)=> {setDept(selectedList.join(',')) }}
+                                                placeholder="Find Department"
                                                 />
                                             </div>
                                             <div className="w-full mb-4">
@@ -308,16 +338,15 @@ export default function JobListing() {
                                                     <option value="Remote">Remote</option>
                                                 </select> */}
                                                 <Multiselect
+                                                options={['On-site','Remote','Hybrid']}
                                                 isObject={false}
                                                 customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
-                                                options={[
-                                                    'Option 1',
-                                                    'Option 2',
-                                                    'Option 3',
-                                                    'Option 4',
-                                                    'Option 5'
-                                                ]}
+                                                closeOnSelect={true}
+                                                selectedValues = {wtype && wtype.split(',')}
+                                                onSelect={(selectedList, selectedItem)=> {setWType(selectedList.join(',')) }}
+                                                onRemove={(selectedList, selectedItem)=> {setWType(selectedList.join(',')) }}
+                                                placeholder="Find Preferred WORK TYPE"
                                                 />
                                             </div>
                                             <div className="w-full mb-4">
@@ -325,18 +354,17 @@ export default function JobListing() {
                                                     <option value="">Select</option>
                                                     <option value="5-10 years">5-10 years</option>
                                                     <option value="10-15 years">10-15 years</option>
-                                                </select> */}
+                                                </select> */}                                     
                                                 <Multiselect
+                                                options={['No Experience','1-2 years','2-5 years','5-10 years','10-15 years',,'15+ years']}
                                                 isObject={false}
                                                 customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                                 showArrow={true}
-                                                options={[
-                                                    'Option 1',
-                                                    'Option 2',
-                                                    'Option 3',
-                                                    'Option 4',
-                                                    'Option 5'
-                                                ]}
+                                                closeOnSelect={true}
+                                                selectedValues = {exp && exp.split(',')}
+                                                onSelect={(selectedList, selectedItem)=> {setExp(selectedList.join(',')) }}
+                                                onRemove={(selectedList, selectedItem)=> {setExp(selectedList.join(',')) }}
+                                                placeholder="Find Preferred Experience In Years"
                                                 />
                                             </div>
                                         </div>

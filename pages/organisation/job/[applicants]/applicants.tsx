@@ -120,12 +120,10 @@ function OrganisationJOBApplicants(props) {
             loadApplicant(param1,userObj["orefid"])
         }
       }, [session,userObj]);
-
+    
     useEffect(()=>{
-        var formData = new FormData()
-        formData.append('first_name',name);
         loadApplicantF(param1,userObj["orefid"]);
-    },[fname])
+    },[fname,dept])
       
     function getColor(status){
         if(status == "Hired"){ return '#008767' }
@@ -164,16 +162,14 @@ function OrganisationJOBApplicants(props) {
                                         <option value="HR">HR</option>
                                     </select> */}
                                     <Multiselect
+                                    options={['Software/Testing/Networking','IT Hardware & Telecom','Sales','Analytics & Business Intelligence','Design','HR & Admin','Customer Service & Operations','R&D','Marketing','Accounting/Finance','Planning & Consulting','Education','Content','Banking/Insurance','Self Employed / Consultants','Hospitality','Construction','Travel','Architecture & Interior Design','TV/Flims','Manufacturing','Top Management','Pharma/Healthcare']}
                                     isObject={false}
                                     customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
                                     showArrow={true}
-                                    options={[
-                                        'Option 1',
-                                        'Option 2',
-                                        'Option 3',
-                                        'Option 4',
-                                        'Option 5'
-                                    ]}
+                                    closeOnSelect={true}
+                                    onSelect={(selectedList, selectedItem)=> {setdept(selectedList.join(',')) }}
+                                    onRemove={(selectedList, selectedItem)=> {setdept(selectedList.join(',')) }}
+                                    placeholder="Find Department"
                                     />
                                 </div>
                             </div>

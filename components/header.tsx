@@ -60,6 +60,8 @@ function Header(props) {
     )
       
     const [open, setOpen] = useState(false)   
+    const [readn, setreadn] = useState([])   
+    const [unreadn, setunreadn] = useState([])   
 
     function signout() {
         signOut()
@@ -69,6 +71,23 @@ function Header(props) {
         updateUserObj({})
         updateUserProfile({})
         updateAccessToken('')
+    }
+
+    async function readfn(pk) {
+        const axiosInstanceAuth = axios.create({
+            baseURL: 'https://marketplace.somhako.com/api/',
+            timeout: 5000,
+            headers: {
+                'Authorization': 'Bearer '+accessToken,
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+            });
+            await axiosInstanceAuth.get('/auth/notifi/'+userObj['erefid']+'/'+pk+'/read/').then((res)=>{
+                console.log(res.data)
+                setreadn(res.data.read_data)
+                setunreadn(res.data.unread_data)
+            })
     }
             
     useEffect(() => {
@@ -91,6 +110,12 @@ function Header(props) {
                 });
                 const res2 = await axiosInstanceAuth.get('/candidate/candidateprofile/'+res.data.userObj[0].erefid+'/');
                 updateUserProfile(res2.data)
+                
+                await axiosInstanceAuth.get('/auth/notifi/'+res.data.userObj[0].erefid+'/').then((res)=>{
+                    console.log(res.data)
+                    setreadn(res.data.read_data)
+                    setunreadn(res.data.unread_data)
+                })
             }
             else if(res.data.type == "Organisation"){
                 const axiosInstanceAuth = axios.create({
@@ -209,7 +234,7 @@ function Header(props) {
                                 <Menu.Button className="align-middle">
                                     <span className="relative">
                                         <i className="fa-solid fa-bell text-lg"></i>
-                                        <span className="absolute right-[-10px] top-[-8px] bg-[#6D27F9] text-white w-[20px] h-[20px] rounded-full flex items-center justify-center text-[10px]">10</span>
+                                        <span className="absolute right-[-10px] top-[-8px] bg-[#6D27F9] text-white w-[20px] h-[20px] rounded-full flex items-center justify-center text-[10px]">{unreadn.length}</span>
                                     </span>
                                 </Menu.Button>
                                 <Transition
@@ -222,7 +247,7 @@ function Header(props) {
                                     leaveTo="transform opacity-0 scale-95"
                                 >
                                     <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-lg overflow-hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                        <Notifications />
+                                        <Notifications  read={readn} unread={unreadn} readfn={readfn} />
                                     </Menu.Items>
                                 </Transition>
                             </Menu>

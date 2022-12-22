@@ -553,7 +553,7 @@ function CandidateProfile(props) {
         formData.append('experties',aprof)
         addLang(formData);
         setALang('')
-        setAProf('Elementary profeciency')
+        setAProf('')
     }
 
     //save social media link
@@ -962,9 +962,9 @@ function CandidateProfile(props) {
                                                         {lang.title}
                                                         <span className="pl-1 text-[10px] flex text-[#FEF401] mt-[2px]">
                                                             <i className="fa-solid fa-star ml-1"></i>
-                                                            {lang.experties == "Limited profeciency" && <i className="fa-solid fa-star ml-1"></i>}
-                                                            {lang.experties == "Professional profeciency" && <><i className="fa-solid fa-star ml-1"></i><i className="fa-solid fa-star ml-1"></i></>}
-                                                            {lang.experties == "Native or bilingual profeciency" && <><i className="fa-solid fa-star ml-1"></i><i className="fa-solid fa-star ml-1"></i><i className="fa-solid fa-star ml-1"></i></>}
+                                                            {lang.experties == "Limited Profeciency" && <i className="fa-solid fa-star ml-1"></i>}
+                                                            {lang.experties == "Professional Profeciency" && <><i className="fa-solid fa-star ml-1"></i><i className="fa-solid fa-star ml-1"></i></>}
+                                                            {lang.experties == "Native/Bilingual Profeciency" && <><i className="fa-solid fa-star ml-1"></i><i className="fa-solid fa-star ml-1"></i><i className="fa-solid fa-star ml-1"></i></>}
                                                         </span>
                                                         <button type="button" className="absolute right-[0] top-[-5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded" onClick={(e)=>deleteLang(lang.id)}>
                                                             <i className="fa-solid fa-xmark"></i>
