@@ -15,7 +15,6 @@ import { getCsrfToken } from "next-auth/react";
 
 async function setCSRF(setCsrf) {
   const csrfToken = await getCsrfToken()
-  console.log(csrfToken);
   setCsrf(csrfToken);
 }
 
@@ -255,18 +254,18 @@ export default function SignUp() {
                         </div>
                         <div className="flex items-center justify-center">
                           <form action="http://localhost:3000/api/auth/signin/google" method="POST">
-                            <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2">
+                            <div className="border rounded border-slate-300 cursor-pointer mx-2 flex item-center justify-center">
                               <input type="hidden" name="csrfToken" value={csrf} />
                               <input type="hidden" name="callbackUrl" value="http://localhost:3000/" />
-                              <button type="submit"><Image src={Google_Icon} width={15} alt="Google" /></button>
+                              <button type="submit" className="p-3"><Image src={Google_Icon} width={15} alt="Google" /></button>
                             </div>
                           </form>
 
                           <form action="http://localhost:3000/api/auth/signin/github" method="POST">
-                            <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2">
+                            <div className="border rounded border-slate-300 cursor-pointer mx-2 flex item-center justify-center">
                               <input type="hidden" name="csrfToken" value={csrf} />
                               <input type="hidden" name="callbackUrl" value="http://localhost:3000/" />
-                              <button type="submit"><Image src={Github_Icon} width={15} alt="GitHub" /></button>
+                              <button type="submit" className="p-3"><Image src={Github_Icon} width={15} alt="GitHub" /></button>
                             </div>
                           </form>
                         </div>
@@ -281,13 +280,13 @@ export default function SignUp() {
                           How do you want to Signup us?
                         </h2>
                         <div className="mb-16">
-                          <div className="flex items-center justify-between w-full max-w-[500px] mx-auto mb-8">
-                            <label htmlFor="organisation" className="rounded w-full max-w-[47%] bg-gradient-to-r from-[#A382E5] to-[#60C3E2] relative p-4 flex flex-col items-center text-center cursor-pointer">
+                          <div className="flex flex-wrap items-center justify-between w-full max-w-[500px] mx-auto mb-8">
+                            <label htmlFor="organisation" className="rounded w-full sm:max-w-[47%] mb-4 sm:mb-0 bg-gradient-to-r from-[#A382E5] to-[#60C3E2] relative p-4 flex flex-col items-center text-center cursor-pointer">
                               <Image src={graphic_1} alt="Organisation" width={80} className="mb-3" />
                               <span className="mb-3 text-white">Signup as organisation</span>
                               <input id="organisation" type="radio" name="singupAs" value={1} onChange={(e) => setChoice(1)}/>
                             </label>
-                            <label htmlFor="candidate" className="rounded w-full max-w-[47%] bg-gradient-to-r from-[#A382E5] to-[#60C3E2] relative p-4 flex flex-col items-center text-center cursor-pointer">
+                            <label htmlFor="candidate" className="rounded w-full sm:max-w-[47%] bg-gradient-to-r from-[#A382E5] to-[#60C3E2] relative p-4 flex flex-col items-center text-center cursor-pointer">
                               <Image src={graphic_2} alt="Candidate" width={80} className="mb-3" />
                               <span className="mb-3 text-white">Signup as candidate</span>
                               <input id="candidate" type="radio" name="singupAs" value={2} onChange={(e) => setChoice(2)}/>

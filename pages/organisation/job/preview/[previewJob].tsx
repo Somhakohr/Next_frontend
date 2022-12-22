@@ -310,7 +310,7 @@ function PreviewDetail(props) {
                         <aside>
                             <div className="w-[150px] h-[150px] mx-auto block mb-4 rounded-full p-4 shadow-insetview flex items-center justify-center">
                                 <div className="w-full h-full rounded-full bg-white shadow-lg p-5">
-                                    <Image src={data.org.profile} width={150} height={150} alt="Company Name" />
+                                    <Image src={data.org.profile} width={150} height={150} alt="Company Name" className="rounded-full object-cover" />
                                 </div>
                             </div>
                             <h2 className="font-semibold text-2xl">{data.user.company_name}</h2>

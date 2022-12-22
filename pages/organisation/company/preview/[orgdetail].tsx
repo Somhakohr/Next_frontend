@@ -234,7 +234,7 @@ function OrgDetail() {
                             >
                                 <Masonry className="masonary_grid">
                                     {orgDetailGallery.map((data, i) => (
-                                            <img src={data.image} alt="Gallery" className="w-full" key={i}/>
+                                            <Image src={data.image} alt="Gallery" className="w-full" key={i}/>
                                         ))}
                                 </Masonry>
                             </ResponsiveMasonry>

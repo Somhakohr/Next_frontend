@@ -2,6 +2,7 @@ import Head from 'next/head';
 import fs from "fs";
 import matter from "gray-matter";
 import Link from "next/link";
+import Image from 'next/image';
 
 export default function Blog({ posts }) {
   return (
@@ -31,7 +32,7 @@ export default function Blog({ posts }) {
                 <div className="w-full md:max-w-[50%] lg:max-w-[calc(100%/3)] p-3" key={index}>
                   <article className="rounded-xl bg-white shadow-normal overflow-hidden border border-teal-400">
                       <Link href={`/posts/${slug}`} className="block">
-                        <img src={bannerImage} />
+                        <Image src={bannerImage} alt="Somhako" width={600} height={400} />
                       </Link>
                       <div className="p-6">
                         <h2 className="mb-2 font-bold">
@@ -44,7 +45,7 @@ export default function Blog({ posts }) {
                         </p>
                         <div className="flex justify-between items-center flex-wrap">
                           <div className="flex items-center">
-                            <img src={bannerImage} className="w-[40px] h-[40px] rounded-full object-cover mr-3" />
+                            <Image src={bannerImage} alt="Somhako" width={40} height={40} className="w-[40px] h-[40px] rounded-full object-cover mr-3" />
                             <div>
                               <p className="font-semibold text-[12px] leading-none">{author}</p>
                               <span className="text-[10px] text-gray-500 dark:text-gray-400">{date}</span>
