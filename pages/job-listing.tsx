@@ -17,20 +17,6 @@ export default function JobListing() {
     const [joblist2,setJobList2] = useState([])
     const [hasMore,setHasMore] = useState(false)
     const [loader,setLoader] = useState(<div></div>)
-
-    // const axiosInstance = axios.create({
-    //     baseURL: 'https://marketplace.somhako.com/api/',
-    //     timeout: 5000,
-    //     headers: {
-    //         // 'Authorization': 'Bearer '+accessToken,
-    //         "Content-Type": "multipart/form-data",
-    //     }
-    // });
-
-    // const [accessToken, updateAccessToken] = useStore(
-    //     (state) => [state.accessToken, state.updateAccessToken],
-    //     shallow
-    // )
     
     async function loadJobs() {
         await axiosInstance.get('/job/job/list/').then(async (res)=>{
@@ -146,7 +132,7 @@ export default function JobListing() {
 
     async function searchLoc(value) { 
         const axiosInstance22 = axios.create({
-            baseURL: 'https://marketplace.somhako.com/api/',
+            baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
             // timeout: 10000,
             headers: {
                 // 'Authorization': "JWT " + access_token,
@@ -169,7 +155,7 @@ export default function JobListing() {
 
     async function searchSkill(value) { 
         const axiosInstance22 = axios.create({
-            baseURL: 'https://marketplace.somhako.com/api/',
+            baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
             // timeout: 10000,
             headers: {
                 // 'Authorization': "JWT " + access_token,

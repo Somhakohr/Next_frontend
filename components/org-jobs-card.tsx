@@ -322,7 +322,7 @@ export default function OrganisationJobsCard(props) {
 
     async function searchLoc(value) { 
         const axiosInstance22 = axios.create({
-            baseURL: 'https://marketplace.somhako.com/api/',
+            baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
             // timeout: 10000,
             headers: {
                 // 'Authorization': "JWT " + access_token,
@@ -345,7 +345,7 @@ export default function OrganisationJobsCard(props) {
 
     async function searchSkill(value) { 
         const axiosInstance22 = axios.create({
-            baseURL: 'https://marketplace.somhako.com/api/',
+            baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
             // timeout: 10000,
             headers: {
                 // 'Authorization': "JWT " + access_token,
@@ -368,7 +368,7 @@ export default function OrganisationJobsCard(props) {
 
     async function searchpSkill(value) { 
         const axiosInstance22 = axios.create({
-            baseURL: 'https://marketplace.somhako.com/api/',
+            baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
             // timeout: 10000,
             headers: {
                 // 'Authorization': "JWT " + access_token,

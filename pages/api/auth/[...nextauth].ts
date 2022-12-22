@@ -14,7 +14,7 @@ namespace NextAuthUtils {
   export const refreshToken = async function (refreshToken) {
     try {
       const response = await axios.post(
-        "https://marketplace.somhako.com/api/djrestauth/token/refresh/",
+        process.env.NODE_ENV === 'production' ? `${process.env.NEXT_PUBLIC_PROD_BACKEND_BASE}djrestauth/token/refresh/` : `${process.env.NEXT_PUBLIC_DEV_BACKEND_BASE}djrestauth/token/refresh/`,
         // UrlUtils.makeUrl(
         //   process.env.BACKEND_API_BASE,
         //   "djrestauth",
@@ -40,7 +40,7 @@ namespace NextAuthUtils {
 }
 
 const axiosInstance = axios.create({
-  baseURL: 'https://marketplace.somhako.com/api/',
+  baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
   timeout: 5000,
   headers: {
       // 'Authorization': "JWT " + access_token,
@@ -184,37 +184,6 @@ const settings: NextAuthOptions = {
     async session({ session, token }) {
       
       session.accessToken = token.accessToken;
-      // if(utype.length <= 0){
-      //   const res = await axiosInstance.post('/auth/getusers/', {
-      //     email: session.user.email,
-      //   });
-      //   session.type = res.data.type
-      //   session.userObj2 = res.data.userObj2[0]
-      //   utype = res.data.type
-      //   userObj2 = res.data.userObj2[0]
-      //   updateUserObj(userObj2)
-
-      //   //candidateprofile
-      //   const axiosInstanceAuth = axios.create({
-      //     baseURL: 'https://marketplace.somhako.com/api/',
-      //     timeout: 5000,
-      //     headers: {
-      //         // 'Authorization': "JWT " + access_token,
-      //         'Authorization': 'Bearer '+session.accessToken,
-      //         'Content-Type': 'application/json',
-      //         'accept': 'application/json'
-      //     }
-      //   });
-      //   const res2 = await axiosInstanceAuth.get('/candidate/candidateprofile/'+userObj2.erefid+'/');
-      //   session.profile = res2.data
-      //   profile = res2.data
-      // }
-      // else{
-      //   session.type = utype
-      //   session.userObj2 = userObj2
-      //   session.profile = profile
-      //   updateUserObj(userObj2)
-      // }
       return session;
     },
   },
