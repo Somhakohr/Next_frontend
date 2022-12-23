@@ -253,18 +253,18 @@ export default function SignUp() {
                           <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or sign Up with</span>
                         </div>
                         <div className="flex items-center justify-center">
-                          <form action="http://localhost:3000/api/auth/signin/google" method="POST">
+                          <form action={`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}api/auth/signin/google`} method="POST">
                             <div className="border rounded border-slate-300 cursor-pointer mx-2 flex item-center justify-center">
                               <input type="hidden" name="csrfToken" value={csrf} />
-                              <input type="hidden" name="callbackUrl" value="http://localhost:3000/" />
+                              <input type="hidden" name="callbackUrl" value={`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}`} />
                               <button type="submit" className="p-3"><Image src={Google_Icon} width={15} alt="Google" /></button>
                             </div>
                           </form>
 
-                          <form action="http://localhost:3000/api/auth/signin/github" method="POST">
+                          <form action={`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}api/auth/signin/github`} method="POST">
                             <div className="border rounded border-slate-300 cursor-pointer mx-2 flex item-center justify-center">
                               <input type="hidden" name="csrfToken" value={csrf} />
-                              <input type="hidden" name="callbackUrl" value="http://localhost:3000/" />
+                              <input type="hidden" name="callbackUrl" value={`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}`} />
                               <button type="submit" className="p-3"><Image src={Github_Icon} width={15} alt="GitHub" /></button>
                             </div>
                           </form>
