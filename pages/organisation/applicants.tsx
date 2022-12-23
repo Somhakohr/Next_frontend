@@ -8,6 +8,7 @@ import shallow from "zustand/shallow";
 import { useStore } from "../../constants/code";
 import toastcomp from "../../components/toast";
 import axios from "axios";
+import Multiselect from "multiselect-react-dropdown";
 
 function OrganisationApplicants(props) {
   const { session, router } = props;
@@ -63,7 +64,7 @@ function OrganisationApplicants(props) {
   }
   //axios auth var
   const axiosInstanceAuth2 = axios.create({
-    baseURL: "https://marketplace.somhako.com/api/",
+    baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
     timeout: 5000,
     headers: {
       Authorization: "Bearer " + accessToken,

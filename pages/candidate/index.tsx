@@ -104,7 +104,7 @@ function Candidate(props) {
   };
   //axios auth var
   const axiosInstanceAuth2 = axios.create({
-    baseURL: "https://marketplace.somhako.com/api/",
+    baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
     timeout: 5000,
     headers: {
       Authorization: "Bearer " + accessToken,
@@ -526,20 +526,139 @@ function Candidate(props) {
                         </button>
                       </div>
                     </div>
-                    <div className="w-full md:max-w-[50%] h-[250px] md:h-auto">
-                      <Link
-                        href="#"
-                        className="p-6 relative w-full h-full flex items-end justify-center overflow-hidden"
-                      >
-                        <Image
-                          src={blogDashBg}
-                          alt="Blog"
-                          className="absolute left-0 top-0 w-full h-full object-cover transition-all hover:scale-105 ease-in-out"
-                        />
-                        <span className="relative text-white font-semibold text-xl">
-                          Blogs
-                        </span>
-                      </Link>
+                    <div className="mb-8 py-4 px-8 bg-white shadow-normal rounded-[20px]">
+                        <div className="flex flex-wrap items-center justify-between mb-10">
+                            <h2 className="font-semibold text-xl text-3xl mb-4 md:mb-0">Wallet</h2>
+                            <aside>
+                                <ConnectButton />
+                            </aside>
+                        </div>
+                        <div className="bg-[#f5f5f5] rounded-[20px] p-6 flex flex-wrap justify-between">
+                            <div className="w-full md:max-w-[40%] mb-4 md:mb-0">
+                                <Image src={token} alt="Token" className="mb-4" />
+                                <p>Earn 100 <span className="text-[#6D27F9]">Coin</span> to Complete the Profile</p>
+                            </div>
+                            <div className="w-full md:max-w-[60%] md:pl-8">
+                                <Image src={walletCard} alt="Wallet Card" />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="mb-8 py-4 px-8 bg-white shadow-normal rounded-[20px]">
+                        <h2 className="font-semibold text-xl text-3xl mb-10">Talent Center</h2>
+                        <Tabs>
+                            <div className="mb-4">
+                                <TabList>
+                                    <Tab>Job Listing</Tab>
+                                    <Tab>Applied Jobs</Tab>
+                                    <Tab>Saved Jobs</Tab>
+                                </TabList>
+                            </div>
+                            <TabPanel>
+                                <div className="flex flex-wrap mx-[-15px]">
+                                    {joblist.map((job, i) => (
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6" key={i}>
+                                            <JobCard data={job} />
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="text-center">
+                                    <Link href="/job-listing" className="inline-block bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">View More</Link>
+                                </div>
+                            </TabPanel>
+                            
+                            <TabPanel>
+                                <div className="flex flex-wrap mx-[-15px]">
+                                    {applied.map((job, i) => (
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6" key={i}>
+                                            <JobCard data={job} />
+                                        </div>
+                                    ))}
+                                </div>
+                            </TabPanel>
+                            <TabPanel>
+                                <div className="flex flex-wrap mx-[-15px]">
+                                    {bookmarked.map((job, i) => (
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6" key={i}>
+                                            <JobCard data={job} />
+                                        </div>
+                                    ))}
+                                </div>
+                            </TabPanel>
+                        </Tabs>
+                    </div>
+                </div>
+                <div className="w-full lg:w-[40%]">
+                    <div className="mb-8 py-4 px-8 bg-white shadow-normal rounded-[20px]">
+                        <h2 className="font-semibold text-xl text-3xl mb-10">Community</h2>
+                        <div className="flex flex-wrap justify-between items-center mb-10">
+                            <Image src={LaunchingSoon} alt="Launching Soon" className="max-w-[220px] w-full" />
+                            <Image src={LaunchingGraphic} alt="Somhako" className="max-w-[100px] w-full my-6" />
+                        </div>
+                        <p className="text-2xl font-medium mb-10">We will let you know when we are <span className="text-[#6D27F9]">Launching</span></p>
+                        <h5 className="text-3xl mb-8">
+                            Untill Then <br />
+                            <span className="text-[#5865F2] font-semibold text-4xl">Join Discord</span>
+                        </h5>
+                        <div className="rounded-xl relative bg-gradient-to-r from-[#F295EF] to-[#4D94E8] flex items-center">
+                            <div className="w-[50%] p-4">
+                                <h6 className="text-white">Be Part of <br />your Community</h6>  
+                            </div>
+                            <Link href="#" className="w-[50%] bg-black px-6 py-6 rounded-xl absolute right-0 top-0 hover:w-full transition-all text-center">
+                                <p className="text-white flex items-center justify-center">Join Now <i className="fa-brands fa-discord text-2xl ml-2"></i></p>
+                            </Link>
+                        </div>
+                    </div>
+                    <div className="mb-8 py-4 px-8 bg-white shadow-normal rounded-[20px]">
+                        <div className="mb-10 flex items-center justify-between">
+                            <h2 className="font-semibold text-xl text-3xl">Learning Center</h2>
+                            <Link href="#" className="text-[#6D27F9] font-medium hover:text-black">
+                                More <i className="fa-sharp fa-solid fa-chevron-right"></i>
+                            </Link>
+                        </div>
+                        <p className="mb-6">Explore the World of <span className="text-[#6D27F9]">Learning</span> <br />Center</p>
+                        <Slider {...settings} className="sliderArrows">
+                            {learningSlides.map((learningSlides, i) => (
+                                <div key={i}>
+                                    <Link href={learningSlides.url} className="relative rounded-lg p-2 flex items-end justify-center h-[120px] overflow-hidden mr-2 after:content-[''] after:w-full after:h-full after:bg-black after:opacity-30 after:absolute after:left-0 after:bottom-0">
+                                        <Image src={learningSlides.img} alt="Slide" className="absolute left-0 top-0 w-full h-full object-cover" />
+                                        <span className="relative z-[1] text-white text-sm font-semibold">{learningSlides.title}</span>
+                                    </Link>
+                                </div>
+                            ))}
+                        </Slider>
+                    </div>
+                    <div className="mb-8 py-4 px-8 bg-white shadow-normal rounded-[20px]">
+                        <div className="mb-10 flex items-center justify-between">
+                            <h2 className="font-semibold text-xl text-3xl">Media Center</h2>
+                            <Link href="#" className="text-[#6D27F9] font-medium hover:text-black">
+                                More <i className="fa-sharp fa-solid fa-chevron-right"></i>
+                            </Link>
+                        </div>
+                        <div className="flex flex-wrap">
+                            <div className="p-6 relative w-full md:max-w-[50%]">
+                                <Image src={mediaDashBg} alt="Media" className="absolute left-0 top-0 w-full h-full object-cover" />
+                                <div className="relative">
+                                    <button type="button" className="rounded-full my-2 bg-white w-full p-2 px-6 flex items-center justify-between hover:bg-black hover:text-white">
+                                        <i className="fa-brands fa-twitter mr-4 text-2xl text-[#6D27F9]"></i>
+                                        Twitter
+                                    </button>
+                                    <button type="button" className="rounded-full my-2 bg-white w-full p-2 px-6 flex items-center justify-between hover:bg-black hover:text-white">
+                                        <i className="fa-brands fa-youtube mr-4 text-2xl text-[#6D27F9]"></i>
+                                        Youtube
+                                    </button>
+                                    <button type="button" className="rounded-full my-2 bg-white w-full p-2 px-6 flex items-center justify-between hover:bg-black hover:text-white">
+                                        <i className="fa-solid fa-handshake mr-4 text-2xl text-[#6D27F9]"></i>
+                                        Meetup
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="w-full md:max-w-[50%] h-[250px] md:h-auto">
+                                <Link href="#" className="p-6 relative w-full h-full flex items-end justify-center overflow-hidden">
+                                    <Image src={blogDashBg} alt="Blog" className="absolute left-0 top-0 w-full h-full object-cover transition-all hover:scale-105 ease-in-out" />
+                                    <span className="relative text-white font-semibold text-xl">Blogs</span>
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                   </div>
                 </div>

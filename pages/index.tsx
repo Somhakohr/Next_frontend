@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import Link from "next/link";
 import Image from 'next/image';
 import slide_1 from 'public/images/homebanner-card-1.png';
+import slide_2 from 'public/images/homebanner-card-2.png';
 import token from 'public/images/token.png';
 import shape_1 from 'public/images/shape-1.png';
 import shape_2 from 'public/images/shape-2.png';
@@ -128,13 +129,7 @@ export default function Home() {
                   <Image src={slide_1} alt="Slide" className="mx-auto" />
                   </div>
                   <div>
-                  <Image src={slide_1} alt="Slide" className="mx-auto" />
-                  </div>
-                  <div>
-                  <Image src={slide_1} alt="Slide" className="mx-auto" />
-                  </div>
-                  <div>
-                  <Image src={slide_1} alt="Slide" className="mx-auto" />
+                  <Image src={slide_2} alt="Slide" className="mx-auto" />
                   </div>
                 </Slider>
               </div>
@@ -183,7 +178,7 @@ export default function Home() {
                     </div>
                     <aside className="w-[calc(100%-100px)]">
                       <h4 className="font-bold text-sm mb-2">Create an Account</h4>
-                      <p className="text-[#646464] text-[12px]">Sign up and fill out all your profile details , including your background and experience</p>
+                      <p className="text-[#646464] text-[12px]">Sign Up and fill out all your profile details , including your background and experience</p>
                     </aside>
                   </div>
                 </div>

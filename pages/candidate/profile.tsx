@@ -14,15 +14,11 @@ import achievementsGraphic from "../../public/images/achievements-graphic.png";
 import { useStore } from "../../constants/code";
 import shallow from "zustand/shallow";
 import { withAuth } from "../../constants/HOCs";
-import { axiosInstance } from "../api/axiosApi";
 import axios from "axios";
 import toastcomp from "../../components/toast";
 import "@rainbow-me/rainbowkit/styles.css";
-import {
-  ConnectButton,
-  getDefaultWallets,
-  RainbowKitProvider,
-} from "@rainbow-me/rainbowkit";
+import { ConnectButton,getDefaultWallets,RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import Multiselect from "multiselect-react-dropdown";
 
 function CandidateProfile(props) {
   //global var
@@ -191,7 +187,7 @@ function CandidateProfile(props) {
 
   //axios auth var
   const axiosInstanceAuth2 = axios.create({
-    baseURL: "https://marketplace.somhako.com/api/",
+    baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
     timeout: 5000,
     headers: {
       Authorization: "Bearer " + accessToken,

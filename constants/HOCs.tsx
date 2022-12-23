@@ -23,7 +23,7 @@ export function withAuth<P extends object>(refreshInterval?: number) {
       //   return (
       //     <>
       //       Not signed in <br />
-      //       <button onClick={() => signIn()}>Sign in</button>
+      //       <button onClick={() => signIn()}>Sig In</button>
       //       <pre>{"User is not logged in"}</pre>
       //     </>
       //   );

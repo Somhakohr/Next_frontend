@@ -13,7 +13,6 @@ import toastcomp from "../../components/toast";
 
 async function setCSRF(setCsrf) {
   const csrfToken = await getCsrfToken()
-  console.log(csrfToken);
   setCsrf(csrfToken);
 }
 
@@ -28,7 +27,7 @@ export default function SignIn(props) {
   }, []);
 
   const axiosInstance = axios.create({
-    baseURL: 'https://marketplace.somhako.com/api/',
+    baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
     timeout: 5000,
     headers: {
       // 'Authorization': "JWT " + access_token,
@@ -43,15 +42,13 @@ export default function SignIn(props) {
 
   async function handleClick(event) {
     event.preventDefault();
-    console.log(email);
-    console.log(password);
 
     await axiosInstance.post('/auth/login/', {
         email: email,
         password: password,
     }).then(async (response)=>{
       // console.log(response);
-      await signIn('credentials', { password: password,email: email,callbackUrl: 'http://localhost:3000/'+response.data.type.toLowerCase()+'/' }) 
+      await signIn('credentials', { password: password,email: email,callbackUrl: (process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND)+response.data.type.toLowerCase()+'/' }) 
       // return true;
     }).catch((err)=>{
       console.log(err);
@@ -85,7 +82,7 @@ export default function SignIn(props) {
             <div className="w-full lg:w-[60%]">
               <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] p-10 lg:px-24 min-h-[550px] flex flex-col justify-center">
                 <h1 className="font-medium text-xl md:text-3xl mb-12">
-                  Sign in
+                  Sign In
                 </h1>
 
                       <form className="mb-16">
@@ -101,7 +98,7 @@ export default function SignIn(props) {
                         </div>
                         <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
                           <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!validateForm()} onClick={(e) => handleClick(e)}>
-                            Sign in
+                            Sign In
                             <i className="fa-solid fa-arrow-right-to-bracket ml-2"></i>
                           </button>
                           <div>
@@ -113,23 +110,23 @@ export default function SignIn(props) {
                       </form>
                       <div className="relative mb-8">
                         <hr className="border-slate-600" />
-                        <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or sign in with</span>
+                        <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or Sign In with</span>
                       </div>
                       
                       <div className="flex items-center justify-center">
-                        <form action="http://localhost:3000/api/auth/signin/google" method="POST">
-                          <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2 flex item-center justify-center">
+                        <form action={`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}api/auth/signin/google`} method="POST">
+                          <div className="border rounded border-slate-300 cursor-pointer mx-2 flex item-center justify-center">
                             <input type="hidden" name="csrfToken" value={csrf} />
-                            <input type="hidden" name="callbackUrl" value="http://localhost:3000/candidate" />
-                            <button type="submit"><Image src={Google_Icon} width={18} alt="Google" /></button>
+                            <input type="hidden" name="callbackUrl" value={`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}candidate`} />
+                            <button type="submit" className="p-3"><Image src={Google_Icon} width={18} alt="Google" /></button>
                           </div>
                         </form>
 
-                        <form action="http://localhost:3000/api/auth/signin/github" method="POST">
-                          <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2 flex item-center justify-center">
+                        <form action={`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}api/auth/signin/github`} method="POST">
+                          <div className="border rounded border-slate-300 cursor-pointer mx-2 flex item-center justify-center">
                             <input type="hidden" name="csrfToken" value={csrf} />
-                            <input type="hidden" name="callbackUrl" value="http://localhost:3000/candidate" />
-                            <button type="submit"><Image src={Github_Icon} width={18} alt="GitHub" /></button>
+                            <input type="hidden" name="callbackUrl" value={`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}candidate`} />
+                            <button type="submit" className="p-3"><Image src={Github_Icon} width={18} alt="GitHub" /></button>
                           </div>
                         </form>
                       </div>

@@ -15,7 +15,6 @@ import { getCsrfToken } from "next-auth/react";
 
 async function setCSRF(setCsrf) {
   const csrfToken = await getCsrfToken()
-  console.log(csrfToken);
   setCsrf(csrfToken);
 }
 
@@ -31,7 +30,7 @@ export default function SignUp() {
   }, []);
   
   const axiosInstance = axios.create({
-    baseURL: 'https://marketplace.somhako.com/api/',
+    baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
     timeout: 5000,
     headers: {
         // 'Authorization': "JWT " + access_token,
@@ -158,7 +157,7 @@ export default function SignUp() {
                       <aside>
                         <h1 className="font-medium text-xl md:text-3xl mb-12 flex flex-wrap items-center justify-between md:flex-row-reverse">
                           <button type="button" className="my-2 border border-[#6D27F9] text-[#6D27F9] text-sm font-medium rounded-full py-1.5 px-4 transition-all hover:bg-gray-900 hover:border-gray-900 hover:text-white" onClick={resetFun}>Go Back</button>
-                          <span>Sign up as organisation</span>
+                          <span>Sign Up as organisation</span>
                         </h1>
                         <form>
                           <div className="flex flex-wrap justify-between">
@@ -209,7 +208,7 @@ export default function SignUp() {
                       <aside>
                         <h1 className="font-medium text-xl md:text-3xl mb-12 flex flex-wrap items-center justify-between md:flex-row-reverse">
                           <button type="button" className="my-2 border border-[#6D27F9] text-[#6D27F9] text-sm font-medium rounded-full py-1.5 px-4 transition-all hover:bg-gray-900 hover:border-gray-900 hover:text-white" onClick={resetFun}>Go Back</button>
-                          <span>Sign up as candidate</span>
+                          <span>Sign Up as candidate</span>
                         </h1>
                         <form className="mb-16">
                           <div className="flex flex-wrap justify-between">
@@ -251,22 +250,22 @@ export default function SignUp() {
                         </form>
                         <div className="relative mb-8">
                           <hr className="border-slate-600" />
-                          <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or sign up with</span>
+                          <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or sign Up with</span>
                         </div>
                         <div className="flex items-center justify-center">
-                          <form action="http://localhost:3000/api/auth/signin/google" method="POST">
-                            <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2">
+                          <form action={`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}api/auth/signin/google`} method="POST">
+                            <div className="border rounded border-slate-300 cursor-pointer mx-2 flex item-center justify-center">
                               <input type="hidden" name="csrfToken" value={csrf} />
-                              <input type="hidden" name="callbackUrl" value="http://localhost:3000/" />
-                              <button type="submit"><Image src={Google_Icon} width={15} alt="Google" /></button>
+                              <input type="hidden" name="callbackUrl" value={`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}`} />
+                              <button type="submit" className="p-3"><Image src={Google_Icon} width={15} alt="Google" /></button>
                             </div>
                           </form>
 
-                          <form action="http://localhost:3000/api/auth/signin/github" method="POST">
-                            <div className="border rounded border-slate-300 p-3 cursor-pointer mx-2">
+                          <form action={`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}api/auth/signin/github`} method="POST">
+                            <div className="border rounded border-slate-300 cursor-pointer mx-2 flex item-center justify-center">
                               <input type="hidden" name="csrfToken" value={csrf} />
-                              <input type="hidden" name="callbackUrl" value="http://localhost:3000/" />
-                              <button type="submit"><Image src={Github_Icon} width={15} alt="GitHub" /></button>
+                              <input type="hidden" name="callbackUrl" value={`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}`} />
+                              <button type="submit" className="p-3"><Image src={Github_Icon} width={15} alt="GitHub" /></button>
                             </div>
                           </form>
                         </div>
@@ -278,18 +277,18 @@ export default function SignUp() {
                     <>                    
                       <aside>
                         <h2 className="font-medium text-xl md:text-3xl mb-12 text-center">
-                          How do you want to Signup us?
+                          How do you want to Sign Up with us?
                         </h2>
                         <div className="mb-16">
-                          <div className="flex items-center justify-between w-full max-w-[500px] mx-auto mb-8">
-                            <label htmlFor="organisation" className="rounded w-full max-w-[47%] bg-gradient-to-r from-[#A382E5] to-[#60C3E2] relative p-4 flex flex-col items-center text-center cursor-pointer">
+                          <div className="flex flex-wrap items-center justify-between w-full max-w-[500px] mx-auto mb-8">
+                            <label htmlFor="organisation" className="rounded w-full sm:max-w-[47%] mb-4 sm:mb-0 bg-gradient-to-r from-[#A382E5] to-[#60C3E2] relative p-4 flex flex-col items-center text-center cursor-pointer">
                               <Image src={graphic_1} alt="Organisation" width={80} className="mb-3" />
-                              <span className="mb-3 text-white">Signup as organisation</span>
+                              <span className="mb-3 text-white">Sign Up as organisation</span>
                               <input id="organisation" type="radio" name="singupAs" value={1} onChange={(e) => setChoice(1)}/>
                             </label>
-                            <label htmlFor="candidate" className="rounded w-full max-w-[47%] bg-gradient-to-r from-[#A382E5] to-[#60C3E2] relative p-4 flex flex-col items-center text-center cursor-pointer">
+                            <label htmlFor="candidate" className="rounded w-full sm:max-w-[47%] bg-gradient-to-r from-[#A382E5] to-[#60C3E2] relative p-4 flex flex-col items-center text-center cursor-pointer">
                               <Image src={graphic_2} alt="Candidate" width={80} className="mb-3" />
-                              <span className="mb-3 text-white">Signup as candidate</span>
+                              <span className="mb-3 text-white">Sign Up as candidate</span>
                               <input id="candidate" type="radio" name="singupAs" value={2} onChange={(e) => setChoice(2)}/>
                             </label>
                           </div>
