@@ -277,18 +277,18 @@ export default function SignUp() {
                     <>                    
                       <aside>
                         <h2 className="font-medium text-xl md:text-3xl mb-12 text-center">
-                          How do you want to Signup us?
+                          How do you want to Sign Up with us?
                         </h2>
                         <div className="mb-16">
                           <div className="flex flex-wrap items-center justify-between w-full max-w-[500px] mx-auto mb-8">
                             <label htmlFor="organisation" className="rounded w-full sm:max-w-[47%] mb-4 sm:mb-0 bg-gradient-to-r from-[#A382E5] to-[#60C3E2] relative p-4 flex flex-col items-center text-center cursor-pointer">
                               <Image src={graphic_1} alt="Organisation" width={80} className="mb-3" />
-                              <span className="mb-3 text-white">Signup as organisation</span>
+                              <span className="mb-3 text-white">Sign Up as organisation</span>
                               <input id="organisation" type="radio" name="singupAs" value={1} onChange={(e) => setChoice(1)}/>
                             </label>
                             <label htmlFor="candidate" className="rounded w-full sm:max-w-[47%] bg-gradient-to-r from-[#A382E5] to-[#60C3E2] relative p-4 flex flex-col items-center text-center cursor-pointer">
                               <Image src={graphic_2} alt="Candidate" width={80} className="mb-3" />
-                              <span className="mb-3 text-white">Signup as candidate</span>
+                              <span className="mb-3 text-white">Sign Up as candidate</span>
                               <input id="candidate" type="radio" name="singupAs" value={2} onChange={(e) => setChoice(2)}/>
                             </label>
                           </div>

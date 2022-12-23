@@ -687,7 +687,7 @@ export default function OrganisationJobsCard(props) {
                                     </button>
                                 </div>
                                 <div>
-                                    <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                    <div className="bg-white shadow-normal rounded-[30px] mb-6">
                                     <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
                                         <h2 className="text-lg font-semibold">Basic Details *</h2>
                                     </div>
@@ -799,7 +799,7 @@ export default function OrganisationJobsCard(props) {
                                         </div>
                                     </div>
                                     </div>
-                                    <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                    <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                         <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
                                             <h2 className="text-lg font-semibold">Description *</h2>
                                         </div>
@@ -807,7 +807,7 @@ export default function OrganisationJobsCard(props) {
                                             <textarea className="w-full rounded-[25px] min-h-[250px] border-slate-300" value={desc} onChange={(e)=>setDesc(e.target.value)}></textarea>
                                         </div>
                                     </div>
-                                    <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                    <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                         <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
                                             <h2 className="text-lg font-semibold">What are we looking for</h2>
                                         </div>
@@ -815,7 +815,7 @@ export default function OrganisationJobsCard(props) {
                                             <textarea className="w-full rounded-[25px] min-h-[250px] border-slate-300" value={res} onChange={(e)=>setRes(e.target.value)}></textarea>
                                         </div>
                                     </div>
-                                    <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                    <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                         <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
                                             <h2 className="text-lg font-semibold">Benefits</h2>
                                         </div>
@@ -897,7 +897,7 @@ export default function OrganisationJobsCard(props) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                    <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                         <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
                                             <h2 className="text-lg font-semibold">Additional Information</h2>
                                         </div>
@@ -984,7 +984,7 @@ export default function OrganisationJobsCard(props) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+                                    <div className="bg-white shadow-normal rounded-[30px]  mb-6">
                                         <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
                                             <h2 className="text-lg font-semibold">Skills and Qualification *</h2>
                                         </div>
