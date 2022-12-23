@@ -82,7 +82,7 @@ export default function SignIn(props) {
             <div className="w-full lg:w-[60%]">
               <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] p-10 lg:px-24 min-h-[550px] flex flex-col justify-center">
                 <h1 className="font-medium text-xl md:text-3xl mb-12">
-                  Sign in
+                  Sign In
                 </h1>
 
                       <form className="mb-16">
@@ -98,7 +98,7 @@ export default function SignIn(props) {
                         </div>
                         <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
                           <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!validateForm()} onClick={(e) => handleClick(e)}>
-                            Sign in
+                            Sign In
                             <i className="fa-solid fa-arrow-right-to-bracket ml-2"></i>
                           </button>
                           <div>
@@ -110,7 +110,7 @@ export default function SignIn(props) {
                       </form>
                       <div className="relative mb-8">
                         <hr className="border-slate-600" />
-                        <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or sign in with</span>
+                        <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or Sign In with</span>
                       </div>
                       
                       <div className="flex items-center justify-center">

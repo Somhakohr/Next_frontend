@@ -471,7 +471,7 @@ function OrganisationAccount(props) {
                             </div>
                             <div className="flex flex-wrap justify-between">
                                 <div className="w-full lg:w-[47%] mb-6">
-                                    <label htmlFor="orgCompLegalName" className="font-medium mb-2 leading-none inline-block">Loegal Name</label>
+                                    <label htmlFor="orgCompLegalName" className="font-medium mb-2 leading-none inline-block">Legal Name</label>
                                     <input type="text" id="orgCompLegalName" className="w-full rounded-full border-slate-300" value={lname} onChange={(e)=>setLName(e.target.value)} onBlur={(e)=>setFLName(e.target.value)}/>
                                 </div>
                                 <div className="w-full lg:w-[47%] mb-6">

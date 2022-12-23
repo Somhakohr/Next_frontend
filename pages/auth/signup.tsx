@@ -157,7 +157,7 @@ export default function SignUp() {
                       <aside>
                         <h1 className="font-medium text-xl md:text-3xl mb-12 flex flex-wrap items-center justify-between md:flex-row-reverse">
                           <button type="button" className="my-2 border border-[#6D27F9] text-[#6D27F9] text-sm font-medium rounded-full py-1.5 px-4 transition-all hover:bg-gray-900 hover:border-gray-900 hover:text-white" onClick={resetFun}>Go Back</button>
-                          <span>Sign up as organisation</span>
+                          <span>Sign Up as organisation</span>
                         </h1>
                         <form>
                           <div className="flex flex-wrap justify-between">
@@ -208,7 +208,7 @@ export default function SignUp() {
                       <aside>
                         <h1 className="font-medium text-xl md:text-3xl mb-12 flex flex-wrap items-center justify-between md:flex-row-reverse">
                           <button type="button" className="my-2 border border-[#6D27F9] text-[#6D27F9] text-sm font-medium rounded-full py-1.5 px-4 transition-all hover:bg-gray-900 hover:border-gray-900 hover:text-white" onClick={resetFun}>Go Back</button>
-                          <span>Sign up as candidate</span>
+                          <span>Sign Up as candidate</span>
                         </h1>
                         <form className="mb-16">
                           <div className="flex flex-wrap justify-between">
@@ -250,7 +250,7 @@ export default function SignUp() {
                         </form>
                         <div className="relative mb-8">
                           <hr className="border-slate-600" />
-                          <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or sign up with</span>
+                          <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or sign Up with</span>
                         </div>
                         <div className="flex items-center justify-center">
                           <form action="http://localhost:3000/api/auth/signin/google" method="POST">

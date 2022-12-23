@@ -351,7 +351,7 @@ function Header(props) {
                                 <ul className="w-full flex items-center justify-center">
                                     {menuNav.map((menuNav, i) => (
                                         <li key={i}>
-                                            <Link href={menuNav.url} className={`px-5 py-[10px] rounded leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white ${routerr.pathname == menuNav.url ? "bg-[#6D27F9] text-white" : ""}`}>
+                                            <Link href={menuNav.url} className={`px-5 py-[10px] mx-1 rounded leading-none inline-block transition-all hover:text-[#6D27F9] ${routerr.pathname == menuNav.url ? "bg-[#6D27F9] text-white hover:bg-[#6D27F9] hover:text-[#fff]" : ""}`}>
                                                 {menuNav.text}
                                             </Link>
                                         </li>
