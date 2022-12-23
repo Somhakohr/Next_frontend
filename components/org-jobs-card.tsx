@@ -415,7 +415,7 @@ export default function OrganisationJobsCard(props) {
                             Place: {data.location ? data.location : <>Not Specified</>}
                         </p>
                         <p className="w-full sm:max-w-[50%] mb-3 sm:text-right">
-                            {data.level ? data.level : <>Not Specified</>}
+                            {data.exp ? data.exp : <>Not Specified</>}
                         </p>
                     </div>
                     <div className="flex items-center justify-between text-[12px]">
@@ -754,12 +754,8 @@ export default function OrganisationJobsCard(props) {
                                                 placeholder="Find Preferred Job Type"
                                                 />
                                             </div>
-                                            <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
-                                                <label htmlFor="addJobExpLevel" className="font-medium mb-2 leading-none inline-block">Experience Level</label>
-                                                {/* <select id="addJobExpLevel" className="w-full rounded-full border-slate-300" value={level} onChange={(e)=>setLevel(e.target.value)}>
-                                                    <option value="">Select</option>
-                                                    <option value="Experience Level 1">Experience Level 1</option>
-                                                </select> */}                             
+                                            {/* <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                <label htmlFor="addJobExpLevel" className="font-medium mb-2 leading-none inline-block">Experience Level</label>                     
                                                 <Multiselect
                                                 options={['Entry/Fresher','Senior','Manager','Director','VP','CXO','Founder/Owner/Co-founder','Partner','Training']}
                                                 isObject={false}
@@ -772,7 +768,7 @@ export default function OrganisationJobsCard(props) {
                                                 onRemove={(selectedList, selectedItem)=> {setLevel('') }}
                                                 placeholder="Find Preferred Experience In Levels"
                                                 />
-                                            </div>
+                                            </div> */}
                                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobDeadLine" className="font-medium mb-2 leading-none inline-block">Application Deadline</label>
                                                 <input type="date" id="addJobDeadLine" className="w-full rounded-full border-slate-300" value={deadline} onChange={(e)=>setDeadline(e.target.value)} />

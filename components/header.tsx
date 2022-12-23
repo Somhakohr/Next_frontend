@@ -12,6 +12,7 @@ import axios from "axios";
 import { axiosInstance } from '../pages/api/axiosApi';
 import Logo from "../components/logo";
 import Notifications from './notifications';
+import toastcomp from './toast';
 
 function Header(props) {
 
@@ -85,8 +86,12 @@ function Header(props) {
             });
             await axiosInstanceAuth.get('/auth/notifi/'+userObj['erefid']+'/'+pk+'/read/').then((res)=>{
                 console.log(res.data)
-                setreadn(res.data.read_data)
-                setunreadn(res.data.unread_data)
+                toastcomp("LOL","Success")
+                // setreadn(res.data.read_data)
+                // setunreadn(res.data.unread_data)
+            }).catch((err)=>{
+                console.log(err);
+                toastcomp("Error","Error")
             })
     }
             
@@ -130,6 +135,12 @@ function Header(props) {
                 const res2 = await axiosInstanceAuth.get('/organisation/organisationprofile/'+res.data.userObj[0].orefid+'/');
                 console.log(res2);
                 updateUserProfile(res2.data)
+                
+                await axiosInstanceAuth.get('/auth/orgnotifi/'+res.data.userObj[0].orefid+'/').then((res)=>{
+                    console.log(res.data)
+                    setreadn(res.data.read_data)
+                    setunreadn(res.data.unread_data)
+                })
             }
                         
         }
@@ -293,7 +304,7 @@ function Header(props) {
                                 <Menu.Button className="align-middle">
                                     <span className="relative">
                                         <i className="fa-solid fa-bell text-lg"></i>
-                                        <span className="absolute right-[-10px] top-[-8px] bg-[#6D27F9] text-white w-[20px] h-[20px] rounded-full flex items-center justify-center text-[10px]">10</span>
+                                        <span className="absolute right-[-10px] top-[-8px] bg-[#6D27F9] text-white w-[20px] h-[20px] rounded-full flex items-center justify-center text-[10px]">{unreadn.length}</span>
                                     </span>
                                 </Menu.Button>
                                 <Transition
@@ -306,7 +317,7 @@ function Header(props) {
                                     leaveTo="transform opacity-0 scale-95"
                                 >
                                     <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-lg overflow-hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                        <Notifications />
+                                    <Notifications  read={readn} unread={unreadn} readfn={readfn} />
                                     </Menu.Items>
                                 </Transition>
                             </Menu>
