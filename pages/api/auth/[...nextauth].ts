@@ -69,8 +69,8 @@ const settings: NextAuthOptions = {
     //   clientSecret: process.env.LINKEDIN_CLIENT_SECRET
     // }),
     GitHubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      clientId: process.env.NODE_ENV === 'production' ? process.env.GITHUB_CLIENT_PROD_ID : process.env.GITHUB_CLIENT_DEV_ID ,
+      clientSecret: process.env.NODE_ENV === 'production' ? process.env.GITHUB_CLIENT_PROD_SECRET : process.env.GITHUB_CLIENT_DEV_SECRET ,
     }),
     CredentialsProvider({
       name: "Credentials",
