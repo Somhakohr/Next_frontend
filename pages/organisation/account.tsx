@@ -17,6 +17,7 @@ import shallow from "zustand/shallow";
 import { useStore } from "../../constants/code";
 import axios from "axios";
 import toastcomp from "../../components/toast";
+import Multiselect from 'multiselect-react-dropdown';
 
 function OrganisationAccount(props) {
   const cancelButtonRef = useRef(null);
@@ -607,7 +608,7 @@ function OrganisationAccount(props) {
                       >
                         Industry
                       </label>
-                      <select
+                      {/* <select
                         id="orgCompIndustry"
                         className="w-full rounded-full border-slate-300"
                         value={ind}
@@ -616,7 +617,19 @@ function OrganisationAccount(props) {
                         <option value="">Select Industry</option>
                         <option value="Industry 1">Industry 1</option>
                         <option value="Industry 2">Industry 2</option>
-                      </select>
+                      </select> */}
+                      <Multiselect
+                        options={['IT Services & Consulting','Recruitment','Software Product','Consulting','Financial Services','Hardware & Networking','Internet','Analytics & KPO','IT / ITES','Computer Software','Engineering & Construction','Manufacturing','Education & Training','Telecom','Marketing & Advertising','Management Consulting','Emerging Technologies','BPO/KPO','BPO','EdTech','Media & Entertainment / Publishing','Industrial Machinery','Retail','Power','Advertising / PR / Events','Recruitment consultant','Design','Gaming','Banking / Insurance / Accounting','Consumer Electronics & Appliances']}
+                        isObject={false}
+                        customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
+                        showArrow={true}
+                        closeOnSelect={true}
+                        selectionLimit={1}
+                        selectedValues = {ind && ind.split(',')}
+                        onSelect={(selectedList, selectedItem)=> {setInd(selectedItem) }}
+                        onRemove={(selectedList, selectedItem)=> {setInd('') }}
+                        placeholder="Find Preferred Industry"
+                        />
                     </div>
                   </div>
                   <div className="flex flex-wrap justify-between">
@@ -692,7 +705,7 @@ function OrganisationAccount(props) {
                         htmlFor="orgCompLegalName"
                         className="font-medium mb-2 leading-none inline-block"
                       >
-                        Loegal Name
+                        Legal Name
                       </label>
                       <input
                         type="text"
@@ -744,7 +757,7 @@ function OrganisationAccount(props) {
                       >
                         Company Strength
                       </label>
-                      <select
+                      {/* <select
                         id="orgCompStrength"
                         className="w-full rounded-full border-slate-300"
                         value={cstrength}
@@ -753,7 +766,20 @@ function OrganisationAccount(props) {
                         <option value="">Select Strength</option>
                         <option value="0-10">0-10</option>
                         <option value="10-20">10-20</option>
-                      </select>
+                      </select> */}
+                      
+                      <Multiselect
+                        options={['0-10','10-50','50-100','100-250','250-500','500-1000','1000-2000','2000-5000','5000-10000','10000+']}
+                        isObject={false}
+                        customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
+                        showArrow={true}
+                        closeOnSelect={true}
+                        selectionLimit={1}
+                        selectedValues = {cstrength && cstrength.split(',')}
+                        onSelect={(selectedList, selectedItem)=> {setCStrength(selectedItem) }}
+                        onRemove={(selectedList, selectedItem)=> {setCStrength('') }}
+                        placeholder="Find Strength of Company"
+                        />
                     </div>
                   </div>
                   <div className="flex flex-wrap justify-between">
@@ -764,7 +790,7 @@ function OrganisationAccount(props) {
                       >
                         Organisation Status
                       </label>
-                      <select
+                      {/* <select
                         id="orgCompStatus"
                         className="w-full rounded-full border-slate-300"
                         value={orgstatus}
@@ -773,7 +799,19 @@ function OrganisationAccount(props) {
                         <option value="">Select Status</option>
                         <option value="Public">Public</option>
                         <option value="Private">Private</option>
-                      </select>
+                      </select> */}
+                      <Multiselect
+                        options={['Public','Private']}
+                        isObject={false}
+                        customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
+                        showArrow={true}
+                        closeOnSelect={true}
+                        selectionLimit={1}
+                        selectedValues = {orgstatus && orgstatus.split(',')}
+                        onSelect={(selectedList, selectedItem)=> {setOrgStatus(selectedItem) }}
+                        onRemove={(selectedList, selectedItem)=> {setOrgStatus('') }}
+                        placeholder="Find Status of Organisation"
+                        />
                     </div>
                     <div className="w-full lg:w-[47%] mb-6">
                       <label
@@ -782,7 +820,7 @@ function OrganisationAccount(props) {
                       >
                         Operation Status
                       </label>
-                      <select
+                      {/* <select
                         id="orgCompOperation"
                         className="w-full rounded-full border-slate-300"
                         value={opestatus}
@@ -791,7 +829,19 @@ function OrganisationAccount(props) {
                         <option value="">Select Status</option>
                         <option value="Active">Active</option>
                         <option value="Inactive">Inactive</option>
-                      </select>
+                      </select> */}
+                      <Multiselect
+                        options={['Active','Inactive']}
+                        isObject={false}
+                        customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
+                        showArrow={true}
+                        closeOnSelect={true}
+                        selectionLimit={1}
+                        selectedValues = {opestatus && opestatus.split(',')}
+                        onSelect={(selectedList, selectedItem)=> {setOpeStatus(selectedItem) }}
+                        onRemove={(selectedList, selectedItem)=> {setOpeStatus('') }}
+                        placeholder="Find Status of Operation"
+                        />
                     </div>
                   </div>
                   <div className="flex flex-wrap justify-between">
@@ -865,7 +915,7 @@ function OrganisationAccount(props) {
                     >
                       Company Type
                     </label>
-                    <select
+                    {/* <select
                       id="orgCompType"
                       className="w-full rounded-full border-slate-300"
                       value={otype}
@@ -873,7 +923,19 @@ function OrganisationAccount(props) {
                     >
                       <option value="Corporate">Corporate</option>
                       <option value="Agency">Agency</option>
-                    </select>
+                    </select> */}
+                      <Multiselect
+                        options={['Agency','Corporate']}
+                        isObject={false}
+                        customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
+                        showArrow={true}
+                        closeOnSelect={true}
+                        selectionLimit={1}
+                        selectedValues = {otype && otype.split(',')}
+                        onSelect={(selectedList, selectedItem)=> {setOType(selectedItem) }}
+                        onRemove={(selectedList, selectedItem)=> {setOType('') }}
+                        placeholder="Find Preferred Company Type"
+                        />
                   </div>
                 </div>
                 {/* <div className="bg-white shadow-normal rounded-[30px] overflow-hidden p-8 mb-6">

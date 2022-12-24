@@ -142,6 +142,7 @@ function OrganisationAllJobs(props) {
         if(editJob['desc']){setDesc(editJob['desc'])}
         if(editJob['resp']){setRes(editJob['resp'])}
         if(editJob['salary']){setSalary(editJob['salary'])}
+        if(editJob['curr']){setScurr(editJob['curr'])}
         if(editJob['relocation']){setReloc(editJob['relocation'])}
         if(editJob['bonus']){setBonus(editJob['bonus'])}
         if(editJob['stock']){setStock(editJob['stock'])}
@@ -280,7 +281,7 @@ function OrganisationAllJobs(props) {
             if(desc){formData.append("desc", desc)}
             if(res){formData.append("resp", res)}
             if(salary){formData.append("salary", salary)}
-            if(scurr){formData.append("scurr", scurr)}
+            if(scurr){formData.append("curr", scurr)}
             if(reloc){formData.append("relocation", reloc)}
             if(bonus){formData.append("bonus", bonus)}
             if(stock){formData.append("stock", stock)}
@@ -497,12 +498,8 @@ function OrganisationAllJobs(props) {
                                                 placeholder="Find Preferred Job Type"
                                                 />
                                             </div>
-                                            <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
-                                                <label htmlFor="addJobExpLevel" className="font-medium mb-2 leading-none inline-block">Experience Level</label>
-                                                {/* <select id="addJobExpLevel" className="w-full rounded-full border-slate-300" value={level} onChange={(e)=>setLevel(e.target.value)}>
-                                                    <option value="">Select</option>
-                                                    <option value="Experience Level 1">Experience Level 1</option>
-                                                </select> */}                             
+                                            {/* <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
+                                                <label htmlFor="addJobExpLevel" className="font-medium mb-2 leading-none inline-block">Experience Level</label>                           
                                                 <Multiselect
                                                 options={['Entry/Fresher','Senior','Manager','Director','VP','CXO','Founder/Owner/Co-founder','Partner','Training']}
                                                 isObject={false}
@@ -515,7 +512,7 @@ function OrganisationAllJobs(props) {
                                                 onRemove={(selectedList, selectedItem)=> {setLevel('') }}
                                                 placeholder="Find Preferred Experience In Levels"
                                                 />
-                                            </div>
+                                            </div> */}
                                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
                                                 <label htmlFor="addJobDeadLine" className="font-medium mb-2 leading-none inline-block">Application Deadline</label>
                                                 <input type="date" id="addJobDeadLine" className="w-full rounded-full border-slate-300" value={deadline} onChange={(e)=>setDeadline(e.target.value)} />

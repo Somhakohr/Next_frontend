@@ -5,8 +5,8 @@ export default function Notifications(props) {
     return (
         <>
         <div className="bg-white max-h-[200px] overflow-y-auto">
-            {unread.map((data, i) => (
-                <div className="flex items-center justify-between py-3 px-2 border-b border-slate-300 last:border-b-0" key={i} onClick={readfn(data.pk)}>
+            {unread.length > 0 && unread.map((data, i) => (
+                <div className="flex items-center justify-between py-3 px-2 border-b border-slate-300 last:border-b-0" key={i}>
                     <div className="w-[70%]">
                         <div className="flex items-center">
                             <span className="block w-[10px] h-[10px] rounded-full bg-[#6D27F9] mr-2"></span>
@@ -18,7 +18,7 @@ export default function Notifications(props) {
                     <small className="w-[30%] text-right text-[10px] text-gray-500">{moment(data.fields.timestamp).fromNow()}</small>
                 </div>
             ))}
-            {read.map((data, i) => (
+            {read.length>0 && read.map((data, i) => (
                 <div className="flex items-center justify-between py-3 px-2 border-b border-slate-300 last:border-b-0" key={i}>
                     <div className="w-[70%]">
                         <div className="flex items-center">
@@ -31,6 +31,20 @@ export default function Notifications(props) {
                     <small className="w-[30%] text-right text-[10px] text-gray-500">{moment(data.fields.timestamp).fromNow()}</small>
                 </div>
             ))}
+            {read.length <= 0 && unread.length <=0 && 
+            <>
+            <div className="flex items-center justify-between py-3 px-2 border-b border-slate-300 last:border-b-0">
+                    <div className="w-[70%]">
+                        <div className="flex items-center">
+                            <span className="block w-[10px] h-[10px] rounded-full bg-gray-400 mr-2"></span>
+                            <p className="w-[calc(100%-10px)] text-[12px] text-left line_clamp_2">
+                            No Notification
+                            </p>
+                        </div>
+                    </div>
+                    <small className="w-[30%] text-right text-[10px] text-gray-500">NOW</small>
+                </div>
+            </>}
             {/* <div className="flex items-center justify-between py-3 px-2 border-b border-slate-300 last:border-b-0">
                 <div className="w-[70%]">
                     <div className="flex items-center">
