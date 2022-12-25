@@ -115,6 +115,7 @@ function Header(props) {
                 });
                 const res2 = await axiosInstanceAuth.get('/candidate/candidateprofile/'+res.data.userObj[0].erefid+'/');
                 updateUserProfile(res2.data)
+                console.log("lol",res2.data)
                 
                 await axiosInstanceAuth.get('/auth/notifi/'+res.data.userObj[0].erefid+'/').then((res)=>{
                     console.log(res.data)
@@ -490,7 +491,7 @@ function Header(props) {
                         <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg">
                             <div className="p-8">
                                 <div className="flex items-center justify-between mb-8">
-                                    <h4 className="leading-none font-semibold text-xl">Refer Somhako and Earn Credits</h4>
+                                    <h4 className="leading-none font-semibold text-xl">Refer Somhako and Earn Credits, {userProfile['referal_count']}</h4>
                                     <button type="button" className="leading-none" onClick={() => referralPopupOpen(false)}>
                                         <i className="fa-solid fa-xmark"></i>
                                     </button>
@@ -499,9 +500,17 @@ function Header(props) {
                                     <div className="shadow-normal bg-white rounded-[20px] p-6 text-center w-full max-w-[400px] mx-auto">
                                         <p className="text-sm font-semibold mb-4">Copy below referral code and share it with in your circle.</p>
                                         <div className="mb-4">
-                                            <input type="text" readOnly value="https://xyz.domainname.com/referral?xydp=3162" className="w-full max-w-[250px] border border-slate-300 rounded-full" />
+                                            <input type="text" readOnly value={`https://somhako.com/referral/${userProfile['referal_code']}`} className="w-full max-w-[250px] border border-slate-300 rounded-full" />
                                         </div>
-                                        <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-semibold rounded-full py-1.5 px-6 text-sm transition-all hover:from-[#391188] hover:to-[#391188]">Copy</button>
+                                        <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-semibold rounded-full py-1.5 px-6 text-sm transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>{
+                                            navigator.clipboard.writeText(`https://somhako.com/referral/${userProfile['referal_code']}`).then((e)=>{
+                                                referralPopupOpen(false)
+                                                toastcomp("Copid Successfully","Success")
+                                            }).catch((e)=>{
+                                                referralPopupOpen(false)
+                                                toastcomp("Copid Unsuccessfully","error")
+                                            })
+                                        }}>Copy</button>
                                     </div>
                                 </div>
                             </div>
