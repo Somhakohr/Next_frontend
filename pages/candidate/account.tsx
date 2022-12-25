@@ -107,7 +107,7 @@ function CandidateAcc(props) {
             return
         }
         const axiosInstanceAuth2 = axios.create({
-        baseURL: 'https://marketplace.somhako.com/api/',
+        baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
         timeout: 5000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
@@ -127,7 +127,7 @@ function CandidateAcc(props) {
             if(file){formData.append("profile", file);}
             (countryDrop)?formData.append("country",countryDrop):formData.append("country",'')
             await axiosInstanceAuth2.put('/candidate/candidateprofileaccont/'+userObj['erefid']+'/',formData).then(async(res2)=>{
-                updateUserImg("https://marketplace.somhako.com"+res2.data.profile)
+                updateUserImg((process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND : process.env.NEXT_PUBLIC_DEV_BACKEND)+res2.data.profile)
                 userProfile["country"]=res2.data.country
                 userProfile["profile"]=res2.data.profile
                 toastcomp("Account Updated :)","success");
@@ -143,7 +143,7 @@ function CandidateAcc(props) {
 
     async function delacc() {
         const axiosInstanceAuth = axios.create({
-        baseURL: 'https://marketplace.somhako.com/api/',
+        baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
         timeout: 5000,
         headers: {
             'Authorization': 'Bearer '+accessToken,

@@ -167,7 +167,7 @@ function CandidateProfile(props) {
     
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
-        baseURL: 'https://marketplace.somhako.com/api/',
+        baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
         timeout: 10000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
@@ -683,7 +683,7 @@ function CandidateProfile(props) {
 
     async function searchLoc(value) { 
         const axiosInstance22 = axios.create({
-            baseURL: 'https://marketplace.somhako.com/api/',
+            baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
             // timeout: 10000,
             headers: {
                 // 'Authorization': "JWT " + access_token,
@@ -706,7 +706,7 @@ function CandidateProfile(props) {
 
     async function searchSkill(value) { 
         const axiosInstance22 = axios.create({
-            baseURL: 'https://marketplace.somhako.com/api/',
+            baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
             // timeout: 10000,
             headers: {
                 // 'Authorization': "JWT " + access_token,

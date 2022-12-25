@@ -357,7 +357,7 @@ export default function JobListing() {
                                     </div>
                                 </TabPanel>
                                 <TabPanel>
-                                    <ChatBot />
+                                    <ChatBot setJobList={setJobList} setJobList2={setJobList2} />
                                 </TabPanel>
                             </Tabs>
                         </div>

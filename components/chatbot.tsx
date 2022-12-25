@@ -1,8 +1,62 @@
+import axios from 'axios';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { axiosInstance } from '../pages/api/axiosApi';
 import chatMini from '../public/images/chat-mini.png'
 import userIcon from '../public/images/user-image.png'
+import toastcomp from './toast';
 
-export default function ChatBot() {
+export default function ChatBot(props) {
+    const [input1,setInput1] = useState('')
+    const [input2,setInput2] = useState('')
+    const [inpv,setInpv] = useState('')
+    const [resv,setResv] = useState('')
+    const {setJobList,setJobList2} = props
+    
+    const axiosInstanceAuth2 = axios.create({
+        baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
+        timeout: 5000,
+        headers: {
+            "Content-Type": "multipart/form-data",
+        }
+    });
+
+    async function chatmini() {
+        setInpv(input1)
+        
+        var formData = new FormData()
+        formData.append('promt',input1)
+        await axiosInstanceAuth2.post('/job/chatmini/',formData).then(async (res)=>{
+            console.log(res.data)
+            setResv(res.data.res)
+            if(res.data.Jobs){
+                filter(res.data.Jobs)
+            }
+            setInput1('')
+        }).catch((err)=>{
+            console.log(err)
+            if(err.message != "Request failed with status code 401"){
+                toastcomp("Job Filter Error Dev","error");
+            }
+            setInput1('')
+        })
+    }
+
+    async function filter(param1) {
+        await axiosInstanceAuth2.get(`/job/chatmini/job/?refid=${param1}`).then(async (res)=>{
+            setJobList(res.data)
+            setJobList2(res.data.slice(0, 6))
+        }).catch((err)=>{
+            console.log(err)
+            if(err.message != "Request failed with status code 401"){
+                toastcomp("Job Filter Error Dev2","error");
+            }
+            setInput1('')
+        })
+    }
+
+    
+
     return (
         <>
             <div>
@@ -37,22 +91,38 @@ export default function ChatBot() {
                             <li className="left my-2">
                                 <span className="inline-block max-w-[85%] border border-teal-400 bg-white shadow rounded-[20px] py-2 px-3">How can I assist you?</span>
                             </li>
-                            <li className="right my-4">
+                            {inpv && inpv.length > 0 && <li className="right my-4">
                                 <div className="flex items-center justify-end">
-                                    <span className="inline-block max-w-[75%] bg-[#6D27F9] text-white shadow rounded-[20px] py-2 px-3 relative after:content-[''] after:border-[5px] after:border-[#6D27F9] after:absolute after:top-[50%] after:right-[-4px] after:translate-y-[-50%] after:rotate-45">Looking for Web Development role</span>
+                                    <span className="inline-block max-w-[75%] bg-[#6D27F9] text-white shadow rounded-[20px] py-2 px-3 relative after:content-[''] after:border-[5px] after:border-[#6D27F9] after:absolute after:top-[50%] after:right-[-4px] after:translate-y-[-50%] after:rotate-45">{inpv}</span>
                                     <Image src={userIcon} alt="User" width={35} height={35} className="rounded-full object-cover w-[35px] h-[35px]" />
                                 </div>
                             </li>
+                            }
+                            {resv && resv.length > 0 &&
+                            <li className="left my-2">
+                                <span className="inline-block max-w-[85%] border border-teal-400 bg-white shadow rounded-[20px] py-2 px-3">{resv}</span>
+                            </li>
+                            }
                         </ol>
                     </div>
                 </div>
                 <div className="border-t border-slate-300 p-3">
                     <div className="iconGroup right">
-                        <input type="text" placeholder="Type here..." className="w-full rounded-full border-slate-300" />
-                        <label htmlFor="attachFile" className="iconGroup__icon-right">
+                        <input type="text" placeholder="Type here..." className="w-full rounded-full border-slate-300" value={input1} onChange={(e)=>{
+                            setInput1(e.target.value)
+                        }}
+                        onKeyDown={(e)=>{
+                            if (e.key === 'Enter') {
+                                setInpv('')
+                                setResv('')
+                                chatmini()
+                            }
+                        }}
+                        />
+                        {/* <label htmlFor="attachFile" className="iconGroup__icon-right">
                             <input type="file" id="attachFile" className="hidden" />
                             <i className="fa-solid fa-paperclip"></i>
-                        </label>
+                        </label> */}
                     </div>
                 </div>
             </div>
