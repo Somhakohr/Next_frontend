@@ -22,6 +22,7 @@ export default function SignUp() {
   const [section, setSection] = useState(0);
   const [choice, setChoice] = useState(0);
   const [csrf, setCsrf] = useState('');
+  const [ref, setref] = useState('');
   const router = useRouter(); 
 
   
@@ -56,6 +57,8 @@ export default function SignUp() {
   const [cpassword,setCPassword] = useState('');
   const [cpassword2,setCPassword2] = useState('');
 
+
+
   function validateCForm() {
     return email.length > 0 && password.length >= 8 && password2 == password && firstname.length > 0 && lastname.length > 0 && phone.length == 10;
   }
@@ -67,28 +70,44 @@ export default function SignUp() {
   async function handleCandClick(event) {
     event.preventDefault();
 
-    await axiosInstance.post('/auth/candidateregister/', {
-        email: email,
-        password: password,
-        password2: password2,
-        mobile: phone,
-        first_name: firstname,
-        last_name: lastname
-    }).then((response)=>{
-      router.push("/");
-      toastcomp("Successfully Registerd","success")
-      setTimeout(() => {
-        toastcomp("We Send Verification Email","info")
-      }, 100);
-    }).catch((err)=>{
-      // console.log(err);
-      if(err.response.data.errors.email){
-        err.response.data.errors.email.map((text) =>
-          toastcomp(text,"error")
-        );
+    if(ref.length > 0){
+      await axiosInstance.get("/auth/main_view/" + ref + "/")
+      .then(async (res) => {
+        console.log(res);
+        toastcomp("Refer Code Valid", "success");
+      })
+      .catch((err) => {
+        if (err.message != "Request failed with status code 401") {
+          toastcomp("Refer Code Not Valid", "error");
+        }
+        console.log(err);
         return false;
-      }      
-    });
+      });
+    }
+
+
+    // await axiosInstance.post('/auth/candidateregister/', {
+    //     email: email,
+    //     password: password,
+    //     password2: password2,
+    //     mobile: phone,
+    //     first_name: firstname,
+    //     last_name: lastname
+    // }).then((response)=>{
+    //   router.push("/");
+    //   toastcomp("Successfully Registerd","success")
+    //   setTimeout(() => {
+    //     toastcomp("We Send Verification Email","info")
+    //   }, 100);
+    // }).catch((err)=>{
+    //   // console.log(err);
+    //   if(err.response.data.errors.email){
+    //     err.response.data.errors.email.map((text) =>
+    //       toastcomp(text,"error")
+    //     );
+    //     return false;
+    //   }      
+    // });
   }
 
   async function handleOrgClick(event) {
@@ -134,6 +153,14 @@ export default function SignUp() {
   function resetFun() {
     setSection(0);
   }
+
+  useEffect(() => {
+    if(router.query.referral){
+      setSection(2)
+      setref(router.query.referral)
+    }
+  }, [])
+  
 
   return (
     <>
@@ -241,6 +268,14 @@ export default function SignUp() {
                               <input id="cand_confirmpassword" type="password" className="w-full rounded-full border-slate-300" value={password2} onChange={(e) => setPassword2(e.target.value)}/>
                             </div>
                           </div>
+                          {ref.length > 0 && 
+                          <div className="flex flex-wrap justify-between">
+                            <div className="w-full lg:w-[47%] mb-6">
+                              <label htmlFor="cand_code" className="font-medium mb-2 leading-none inline-block">Referral code</label>
+                              <input id="cand_code" type="text" className="w-full rounded-full border-slate-300"  value={ref} readOnly/>
+                            </div>
+                          </div>
+                          }
                           <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
                             <button type="submit" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!validateCForm()} onClick={(e) => handleCandClick(e)}>
                               Submit

@@ -258,10 +258,10 @@ function Header(props) {
                                         <div className="p-3 text-center">
                                             <p className="text-sm font-semibold mb-4">Copy below referral code and share it with in your circle.</p>
                                             <div className="mb-4">
-                                                <input type="text" readOnly value={`https://somhako.com/referral/${userProfile['referal_code']}`} className="w-full max-w-[250px] border border-slate-300 rounded-full" />
+                                                <input type="text" readOnly value={`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}auth/signup/?referral=${userProfile['referal_code']}`} className="w-full max-w-[250px] border border-slate-300 rounded-full" />
                                             </div>
                                             <button type="button" className="mb-4 bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-semibold rounded-full py-1.5 px-6 text-sm transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>{
-                                                navigator.clipboard.writeText(`https://somhako.com/referral/${userProfile['referal_code']}`).then((e)=>{
+                                                navigator.clipboard.writeText(`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}auth/signup/?referral=${userProfile['referal_code']}`).then((e)=>{
                                                     toastcomp("Copid Successfully","Success")
                                                 }).catch((e)=>{
                                                     toastcomp("Copid Unsuccessfully","error")
