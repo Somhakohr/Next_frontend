@@ -6,26 +6,30 @@ export default function logo(props) {
     const {userType} = props;
     return (
         <>
-            <div className="w-full max-w-[170px] xl:max-w-[200px]">
-                { userType.length > 0 ? 
-                    <>
-                    { userType == 'Candidate' &&
+            { userType.length > 0 ? 
+                <>
+                { userType == 'Candidate' &&
+                    <div className="w-full max-w-[140px] xl:max-w-[200px]">
                         <Link href="/candidate" className="w-full inline-block align-middle">
                             <Image src={logoImg} alt="Somhako" />
                         </Link>
-                    } 
-                    { userType == 'Organisation' &&
+                    </div>
+                } 
+                { userType == 'Organisation' &&
+                    <div className="w-full max-w-[170px] xl:max-w-[200px]">
                         <Link href="/organisation" className="w-full inline-block align-middle">
                             <Image src={logoImg} alt="Somhako" />
                         </Link>
-                    }
-                    </>
-                :
+                    </div>
+                }
+                </>
+            :
+                <div className="w-full max-w-[170px] xl:max-w-[200px]">
                     <Link href="/" className="w-full inline-block align-middle">
                         <Image src={logoImg} alt="Somhako" />
                     </Link>
-                }
-            </div>
+                </div>
+            }
         </>
     )
 }
