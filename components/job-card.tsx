@@ -26,7 +26,7 @@ export default function JobCard(props) {
     }
     return (
         <>
-            <div className="bg-[#f4f4f4] p-5 border border-2 border-slate-300 rounded-[25px]">
+            <div className="bg-[#f4f4f4] p-5 border border-2 border-slate-300 rounded-[25px] h-full">
                 <div className="flex mb-8">
                     <div className="bg-white rounded-full p-2.5 flex items-center justify-center w-[50px] h-[50px]">
                         {data.org.profile &&

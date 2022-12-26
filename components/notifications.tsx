@@ -34,15 +34,13 @@ export default function Notifications(props) {
             {read.length <= 0 && unread.length <=0 && 
             <>
             <div className="flex items-center justify-between py-3 px-2 border-b border-slate-300 last:border-b-0">
-                    <div className="w-[70%]">
+                    <div className="w-[100%]">
                         <div className="flex items-center">
-                            <span className="block w-[10px] h-[10px] rounded-full bg-gray-400 mr-2"></span>
-                            <p className="w-[calc(100%-10px)] text-[12px] text-left line_clamp_2">
+                            <p className="w-full text-[12px] text-center line_clamp_2">
                             No Notification
                             </p>
                         </div>
                     </div>
-                    <small className="w-[30%] text-right text-[10px] text-gray-500">NOW</small>
                 </div>
             </>}
             {/* <div className="flex items-center justify-between py-3 px-2 border-b border-slate-300 last:border-b-0">

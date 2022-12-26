@@ -15,9 +15,9 @@ __metadata:
   linkType: hard
 
 "@babel/compat-data@npm:^7.17.7, @babel/compat-data@npm:^7.20.5":
-  version: 7.20.5
-  resolution: "@babel/compat-data@npm:7.20.5"
-  checksum: 523790c43ef6388fae91d1ca9acf1ab0e1b22208dcd39c0e5e7a6adf0b48a133f1831be8d5931a72ecd48860f3e3fb777cb89840794abd8647a5c8e5cfab484e
+  version: 7.20.10
+  resolution: "@babel/compat-data@npm:7.20.10"
+  checksum: 6ed6c1bb6fc03c225d63b8611788cd976107d1692402b560ebffbf1fa53e63705f8625bb12e12d17ce7f7af34e61e1ca96c77858aac6f57010045271466200c0
   languageName: node
   linkType: hard
 
@@ -862,9 +862,9 @@ __metadata:
   linkType: hard
 
 "@next/font@npm:^13.0.3":
-  version: 13.0.7
-  resolution: "@next/font@npm:13.0.7"
-  checksum: 88324e483561ed1372b97d434b98cff3c3adfeafc4217b45ff96f429c42ea4c6eebb089b34d8ef353aaf6413aa5f6d918a2ea83701ad129d2cc6f6751184d82a
+  version: 13.1.1
+  resolution: "@next/font@npm:13.1.1"
+  checksum: 468a77d3a6db4a95ece3cc99c28dcaaf6135354ad81c3954a08a6c7d977693d7b7f07ff835b972a80d25794b711d6cb6545ea55fe6bed4c624346f3524061d19
   languageName: node
   linkType: hard
 
@@ -1077,8 +1077,8 @@ __metadata:
   linkType: hard
 
 "@solana/web3.js@npm:^1.70.1":
-  version: 1.70.3
-  resolution: "@solana/web3.js@npm:1.70.3"
+  version: 1.71.0
+  resolution: "@solana/web3.js@npm:1.71.0"
   dependencies:
     "@babel/runtime": ^7.12.5
     "@noble/ed25519": ^1.7.0
@@ -1096,7 +1096,7 @@ __metadata:
     node-fetch: 2
     rpc-websockets: ^7.5.0
     superstruct: ^0.14.2
-  checksum: 3a2809fed6ca994930f3b5ac263a1c7ab2e67b0b9d3343bdf43208f53031918327eb23c4b5eecd701d25418aa35f45e46f03245e0eaa05129d88c385725d316d
+  checksum: aba5640dfa54c923f3f8869785488d4a21059ab82d02925c77ec9831f1cc97f6b6a5a40124e63d086c0064c07074e4417b92426f717310decf2d69316f563e45
   languageName: node
   linkType: hard
 
@@ -1414,9 +1414,9 @@ __metadata:
   linkType: hard
 
 "@wagmi/chains@npm:^0.1.0":
-  version: 0.1.5
-  resolution: "@wagmi/chains@npm:0.1.5"
-  checksum: 17577eaecb94450b9cbc9c16fa7c95416a79437cebbcd4cf16515098d9bb562d227c55922f5fddd493de4747f4131977c0eeb82197beafce700af42c16740ec1
+  version: 0.1.6
+  resolution: "@wagmi/chains@npm:0.1.6"
+  checksum: fe3e4c3191c4737f0ae79b70ecff0b8e23ae1b8d3ef63aa04556047c828de4e4cb9f2eede01b087f81f3052b6ed185df2154c8d3ae8b7a95c8fd738392a19f79
   languageName: node
   linkType: hard
 

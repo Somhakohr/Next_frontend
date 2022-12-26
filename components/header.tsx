@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from "next/router";
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition, Menu } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { signOut } from "next-auth/react";
@@ -15,10 +15,6 @@ import Notifications from './notifications';
 import toastcomp from './toast';
 
 function Header(props) {
-
-    const [referralPopup, referralPopupOpen] = useState(false)
-    const cancelButtonRef = useRef(null)
-
     const routerr = useRouter();
 
     const [smallMenu, toggleSmallMenu] = useState(false);
@@ -241,9 +237,43 @@ function Header(props) {
                     { session && userType.length > 0 ? 
                     <> 
                         { userType == 'Candidate' &&
-                        <div className="flex border border-slate-300 bg-white rounded items-center">
-                            <Menu as="div" className="relative last:border-l w-[60px] text-center py-3">
-                                <Menu.Button className="align-middle">
+                        <div className="flex border border-slate-300 bg-white rounded">
+                            <Menu as="div" className="relative text-center">
+                                <Menu.Button className="align-middle py-1 px-3 h-full bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white rounded-tl rounded-bl">
+                                    <span className="relative">
+                                        <em className='text-[9px] block leading-none m-0'>Refer</em>
+                                        <i className="fa-solid fa-user-plus text-sm"></i>
+                                    </span>
+                                </Menu.Button>
+                                <Transition
+                                    as={Fragment}
+                                    enter="transition ease-out duration-100"
+                                    enterFrom="transform opacity-0 scale-95"
+                                    enterTo="transform opacity-100 scale-100"
+                                    leave="transition ease-in duration-75"
+                                    leaveFrom="transform opacity-100 scale-100"
+                                    leaveTo="transform opacity-0 scale-95"
+                                >
+                                    <Menu.Items className="absolute min-w-[250px] sm:min-w-[300px] right-[-112px] sm:right-0 z-10 mt-2 w-56 origin-top-right rounded-lg overflow-hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <div className="p-3 text-center">
+                                            <p className="text-sm font-semibold mb-4">Copy below referral code and share it with in your circle.</p>
+                                            <div className="mb-4">
+                                                <input type="text" readOnly value={`https://somhako.com/referral/${userProfile['referal_code']}`} className="w-full max-w-[250px] border border-slate-300 rounded-full" />
+                                            </div>
+                                            <button type="button" className="mb-4 bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-semibold rounded-full py-1.5 px-6 text-sm transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>{
+                                                navigator.clipboard.writeText(`https://somhako.com/referral/${userProfile['referal_code']}`).then((e)=>{
+                                                    toastcomp("Copid Successfully","Success")
+                                                }).catch((e)=>{
+                                                    toastcomp("Copid Unsuccessfully","error")
+                                                })
+                                            }}>Copy</button>
+                                            <p className='text-[12px] text-gray-400 text-center'>Shared referrals count are {userProfile['referal_count']}</p>
+                                        </div>
+                                    </Menu.Items>
+                                </Transition>
+                            </Menu>
+                            <Menu as="div" className="relative border-l text-center">
+                                <Menu.Button className="align-middle py-2 pl-3 pr-4 h-full">
                                     <span className="relative">
                                         <i className="fa-solid fa-bell text-lg"></i>
                                         <span className="absolute right-[-10px] top-[-8px] bg-[#6D27F9] text-white w-[20px] h-[20px] rounded-full flex items-center justify-center text-[10px]">{unreadn.length}</span>
@@ -263,8 +293,8 @@ function Header(props) {
                                     </Menu.Items>
                                 </Transition>
                             </Menu>
-                            <Menu as="div" className="relative last:border-l p-2">
-                                <Menu.Button className="align-middle">
+                            <Menu as="div" className="relative border-l">
+                                <Menu.Button className="align-middle p-2 h-full">
                                     <Image src={userImg} alt={userName} width={35} height={35}  className="w-[35px] h-[35px] rounded-full object-cover" />
                                 </Menu.Button>
                                 <Transition
@@ -288,9 +318,6 @@ function Header(props) {
                                                 <button type="button" onClick={() => router.push('/candidate/account')} className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">Account Settings</button>
                                             </li>
                                             <li>
-                                                <button type="button" onClick={() => referralPopupOpen(true)} className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">Referral</button>
-                                            </li>
-                                            <li>
                                                 <button type="button" className="py-2 px-6 rounded text-sm text-center mx-auto block mb-2 transition-all text-red-600 hover:bg-red-600 hover:text-white" onClick={() => signout()} >Log out</button>
                                             </li>
                                         </ul>
@@ -301,8 +328,8 @@ function Header(props) {
                         } 
                         { userType == 'Organisation' &&
                         <div className="flex border border-slate-300 bg-white rounded items-center">
-                            <Menu as="div" className="relative last:border-l pr-[20px] pl-[15px] text-center py-3">
-                                <Menu.Button className="align-middle">
+                            <Menu as="div" className="relative last:border-l text-center">
+                                <Menu.Button className="align-middle py-2 pl-3 pr-4 h-full">
                                     <span className="relative">
                                         <i className="fa-solid fa-bell text-lg"></i>
                                         <span className="absolute right-[-10px] top-[-8px] bg-[#6D27F9] text-white w-[20px] h-[20px] rounded-full flex items-center justify-center text-[10px]">{unreadn.length}</span>
@@ -322,8 +349,8 @@ function Header(props) {
                                     </Menu.Items>
                                 </Transition>
                             </Menu>
-                            <Menu as="div" className="relative last:border-l p-2">
-                                <Menu.Button className="align-middle">
+                            <Menu as="div" className="relative last:border-l">
+                                <Menu.Button className="align-middle p-2 h-full">
                                     <Image src={userImg} alt={userName} width={35} height={35}  className="w-[35px] h-[35px] rounded-full object-cover" />
                                 </Menu.Button>
                                 <Transition
@@ -461,63 +488,6 @@ function Header(props) {
                         </div>
                     </div>
                 </div>
-                </Dialog>
-            </Transition.Root>
-            <Transition.Root show={referralPopup} as={Fragment}>
-                <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={referralPopupOpen}>
-                    <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                    >
-                    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-                    </Transition.Child>
-
-                    <div className="fixed inset-0 z-10 overflow-y-auto">
-                    <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
-                        <Transition.Child
-                        as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                        enterTo="opacity-100 translate-y-0 sm:scale-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                        leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                        >
-                        <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg">
-                            <div className="p-8">
-                                <div className="flex items-center justify-between mb-8">
-                                    <h4 className="leading-none font-semibold text-xl">Refer Somhako and Earn Credits, {userProfile['referal_count']}</h4>
-                                    <button type="button" className="leading-none" onClick={() => referralPopupOpen(false)}>
-                                        <i className="fa-solid fa-xmark"></i>
-                                    </button>
-                                </div>
-                                <div>
-                                    <div className="shadow-normal bg-white rounded-[20px] p-6 text-center w-full max-w-[400px] mx-auto">
-                                        <p className="text-sm font-semibold mb-4">Copy below referral code and share it with in your circle.</p>
-                                        <div className="mb-4">
-                                            <input type="text" readOnly value={`https://somhako.com/referral/${userProfile['referal_code']}`} className="w-full max-w-[250px] border border-slate-300 rounded-full" />
-                                        </div>
-                                        <button type="button" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-semibold rounded-full py-1.5 px-6 text-sm transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>{
-                                            navigator.clipboard.writeText(`https://somhako.com/referral/${userProfile['referal_code']}`).then((e)=>{
-                                                referralPopupOpen(false)
-                                                toastcomp("Copid Successfully","Success")
-                                            }).catch((e)=>{
-                                                referralPopupOpen(false)
-                                                toastcomp("Copid Unsuccessfully","error")
-                                            })
-                                        }}>Copy</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </Dialog.Panel>
-                        </Transition.Child>
-                    </div>
-                    </div>
                 </Dialog>
             </Transition.Root>
         </>
