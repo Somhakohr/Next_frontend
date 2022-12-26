@@ -1,4 +1,4 @@
-//@ts-nocheck
+
 import { NextApiRequest, NextApiResponse } from "next";
 import NextAuth from "next-auth";
 import { NextAuthOptions } from "next-auth";
@@ -52,13 +52,13 @@ const axiosInstance = axios.create({
 const settings: NextAuthOptions = {
   secret: process.env.SESSION_SECRET,
   session: {
-    jwt: true,
+    // jwt: true,
     maxAge: 24 * 60 * 60, // 24 hours
   },
   jwt: {
     secret: process.env.JWT_SECRET,
   },
-  debug: process.env.NODE_ENV === "development",
+  // debug: process.env.NODE_ENV === "development",
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -147,7 +147,7 @@ const settings: NextAuthOptions = {
           await axiosInstance
             .post("/auth/login/", {
               email: user.email,
-              password: user.password,
+              password: user['password'],
             })
             .then((response) => {
               // console.log(response);
@@ -189,7 +189,7 @@ const settings: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      session.accessToken = token.accessToken;
+      session['accessToken'] = token.accessToken;
       return session;
     },
   },
