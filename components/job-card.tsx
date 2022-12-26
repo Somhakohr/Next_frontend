@@ -18,10 +18,10 @@ export default function JobCard(props) {
         refid = refid.toUpperCase()
         updateParam1(refid);
         if(org){
-            router.push(`/organisation/job/preview/${refid}`)
+            router.push(`/marketplace/organisation/job/preview/${refid}`)
         }
         else{
-            router.push(`/job-detail/${refid}`)
+            router.push(`/marketplace/job-detail/${refid}`)
         }
     }
     return (

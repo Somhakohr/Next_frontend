@@ -12,11 +12,11 @@ export default function Footer() {
 
     const quicklinks = [
         {
-            url: '/contact',
+            url: '/marketplace/contact',
             text: 'Contact Us'
         },
         {
-            url: '/blog',
+            url: '/marketplace/blog',
             text: 'Blog'
         }
     ];
@@ -90,7 +90,7 @@ export default function Footer() {
                 <p className="text-white text-sm text-center md:text-left">© 2022, All Rights Reserved, Somhako</p>
                 <ul className="flex items-center">
                     <li>
-                        <Link href="/privacy-policy" className="text-white text-sm hover:underline">
+                        <Link href="/marketplace/privacy-policy" className="text-white text-sm hover:underline">
                             Privacy Policy
                         </Link>
                     </li>
