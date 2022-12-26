@@ -180,29 +180,29 @@ function Header(props) {
       
     const authAction = [
         {
-            url: '/auth/signin',
+            url: '/marketplace/auth/signin',
             text: 'Sign In'
         },
         {
-            url: '/auth/signup',
+            url: '/marketplace/auth/signup',
             text: 'Sign Up'
         }
     ];
     const menuNav = [
         {
-            url: '/job-listing',
+            url: '/marketplace/job-listing',
             text: 'Jobs'
         },
         {
-            url: '/#features',
+            url: '/marketplace/#features',
             text: 'Features'
         },
         {
-            url: '/#protocol',
+            url: '/marketplace/#protocol',
             text: 'Protocol'
         },
         {
-            url: '/blog',
+            url: '/marketplace/blog',
             text: 'Blog'
         },
         // {
@@ -210,11 +210,11 @@ function Header(props) {
         //     text: 'Career'
         // },
         {
-            url: '/whitepaper',
+            url: '/marketplace/whitepaper',
             text: 'Whitepaper'
         },
         {
-            url: '/contact',
+            url: '/marketplace/contact',
             text: 'Contact Us'
         }
     ];
@@ -312,10 +312,10 @@ function Header(props) {
                                                 <b>Hello,</b> {userName}
                                             </li>
                                             <li>
-                                                <button type="button" onClick={() => router.push('/candidate')} className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">My Dashboard</button>
+                                                <button type="button" onClick={() => router.push('/marketplace/candidate')} className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">My Dashboard</button>
                                             </li>
                                             <li>
-                                                <button type="button" onClick={() => router.push('/candidate/account')} className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">Account Settings</button>
+                                                <button type="button" onClick={() => router.push('/marketplace/candidate/account')} className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">Account Settings</button>
                                             </li>
                                             <li>
                                                 <button type="button" className="py-2 px-6 rounded text-sm text-center mx-auto block mb-2 transition-all text-red-600 hover:bg-red-600 hover:text-white" onClick={() => signout()} >Log out</button>
@@ -368,10 +368,10 @@ function Header(props) {
                                                 <b>Hello,</b> {userName}
                                             </li>
                                             <li>
-                                                <button type="button" onClick={() => router.push('/organisation')} className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">My Dashboard</button>
+                                                <button type="button" onClick={() => router.push('/marketplace/organisation')} className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">My Dashboard</button>
                                             </li>
                                             <li>
-                                                <button type="button" onClick={() => router.push('/organisation/account')} className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">Account Settings</button>
+                                                <button type="button" onClick={() => router.push('/marketplace/organisation/account')} className="py-2 px-4 text-center w-full transition-all hover:bg-slate-100">Account Settings</button>
                                             </li>
                                             <li>
                                                 <button type="button" className="py-2 px-6 rounded text-sm text-center mx-auto block mb-2 transition-all text-red-600 hover:bg-red-600 hover:text-white" onClick={() => signout()} >Log out</button>

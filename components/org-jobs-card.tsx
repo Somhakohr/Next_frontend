@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import googleIcon from "../public/images/google-icon.png";
-import organisation from "../pages/organisation";
+// import organisation from "../pages/organisation";
 import moment from "moment";
 import { useStore } from "../constants/code";
 import shallow from "zustand/shallow";
@@ -63,13 +63,13 @@ export default function OrganisationJobsCard(props) {
     function viewJob(refid){
         refid = refid.toUpperCase()
         updateParam1(refid);
-        router.push(`/organisation/job/preview/${refid}`)
+        router.push(`/marketplace/organisation/job/preview/${refid}`)
     }
 
     function viewApplicant(refid){
         refid = refid.toUpperCase()
         updateParam1(refid);
-        router.push(`/organisation/job/${refid}/applicants`)
+        router.push(`/marketplace/organisation/job/${refid}/applicants`)
     }
 
     async function getApplicant() {

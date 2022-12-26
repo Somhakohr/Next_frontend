@@ -10,14 +10,14 @@ export default function logo(props) {
                 <>
                 { userType == 'Candidate' &&
                     <div className="w-full max-w-[140px] xl:max-w-[200px]">
-                        <Link href="/candidate" className="w-full inline-block align-middle">
+                        <Link href="/marketplace/candidate" className="w-full inline-block align-middle">
                             <Image src={logoImg} alt="Somhako" />
                         </Link>
                     </div>
                 } 
                 { userType == 'Organisation' &&
                     <div className="w-full max-w-[170px] xl:max-w-[200px]">
-                        <Link href="/organisation" className="w-full inline-block align-middle">
+                        <Link href="/marketplace/organisation" className="w-full inline-block align-middle">
                             <Image src={logoImg} alt="Somhako" />
                         </Link>
                     </div>
@@ -25,7 +25,7 @@ export default function logo(props) {
                 </>
             :
                 <div className="w-full max-w-[170px] xl:max-w-[200px]">
-                    <Link href="/" className="w-full inline-block align-middle">
+                    <Link href="/marketplace/" className="w-full inline-block align-middle">
                         <Image src={logoImg} alt="Somhako" />
                     </Link>
                 </div>
