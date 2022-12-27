@@ -60,7 +60,7 @@ function CandidateAcc(props) {
     
     useEffect(() => {
         if(!session){
-            router.push("/marketplace/");
+            router.push("/");
         }
         else{
             setEmail(userObj["email"])

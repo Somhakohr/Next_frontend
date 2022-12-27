@@ -118,7 +118,7 @@ function Candidate(props) {
 
     useEffect(() => {
       if(!session){
-        router.push("/marketplace/");
+        router.push("/");
       }
     }, [session]);
 
@@ -240,11 +240,11 @@ function Candidate(props) {
                                 </div>
                             </div>
                             <div className="w-[50px] my-2">
-                                <Image
+                                {/* <Image
                                     src={medal}
                                     alt="Medal"
                                     className="w-[50px] h-[50px]"
-                                />
+                                /> */}
                             </div>
                         </div>
                         <div className="flex flex-wrap justify-between items-start mb-6">
@@ -310,7 +310,7 @@ function Candidate(props) {
                             </div>
                         </div>
                     </div>
-                    <div className="mb-8 py-4 px-8 bg-white shadow-normal rounded-[20px]">
+                    <div className="mb-8 py-4 px-8 bg-white shadow-normal rounded-[20px] min-h-[506px]">
                         <h2 className="font-semibold text-xl text-3xl mb-10">Talent Center</h2>
                         <Tabs>
                             <div className="mb-4">
@@ -329,7 +329,7 @@ function Candidate(props) {
                                     ))}
                                 </div>
                                 <div className="text-center">
-                                    <Link href="/marketplace/job-listing" className="inline-block bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">View More</Link>
+                                    <Link href="/marketplace/jobs" className="inline-block bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">View More</Link>
                                 </div>
                             </TabPanel>
                             
@@ -364,7 +364,7 @@ function Candidate(props) {
                         <p className="text-2xl font-medium mb-10">We will let you know when we are <span className="text-[#6D27F9]">Launching</span></p>
                         <h5 className="text-3xl mb-8">
                             Untill Then <br />
-                            <span className="text-[#5865F2] font-semibold text-4xl">Join Discord</span>
+                            <Link href="https://discord.gg/934TJUe6BF" target="_blank" rel="noreferrer" className="text-[#5865F2] font-semibold text-4xl">Join Discord</Link>
                         </h5>
                         <div className="rounded-xl relative bg-gradient-to-r from-[#F295EF] to-[#4D94E8] flex items-center">
                             <div className="w-[50%] p-4">

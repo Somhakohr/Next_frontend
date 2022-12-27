@@ -58,7 +58,7 @@ function OrgDetail() {
         setOrgDetailJob(res.data);
       })
       .catch((err) => {
-        router.push("/marketplace/job-listing");
+        router.push("/marketplace/jobs");
       });
 
     await axiosInstance
@@ -67,7 +67,7 @@ function OrgDetail() {
         setOrgDetail(res.data);
       })
       .catch((err) => {
-        router.push("/marketplace/job-listing");
+        router.push("/marketplace/jobs");
       });
 
     await axiosInstance
@@ -76,7 +76,7 @@ function OrgDetail() {
         setOrgDetailGallery(res.data);
       })
       .catch((err) => {
-        router.push("/marketplace/job-listing");
+        router.push("/marketplace/jobs");
       });
 
     await axiosInstance
@@ -85,13 +85,13 @@ function OrgDetail() {
         setOrgDetailLink(res.data);
       })
       .catch((err) => {
-        router.push("/marketplace/job-listing");
+        router.push("/marketplace/jobs");
       });
   }
 
   useEffect(() => {
     if (!param1) {
-      router.push("/marketplace/job-listing");
+      router.push("/marketplace/jobs");
     } else {
       loadOrgDetail(param1);
     }
@@ -99,7 +99,7 @@ function OrgDetail() {
 
   function goback() {
     updateParam1("");
-    router.push("/marketplace/job-listing");
+    router.push("/marketplace/jobs");
   }
 
   return (

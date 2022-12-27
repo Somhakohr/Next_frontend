@@ -11,6 +11,7 @@ body {
     font-family: Lexend;
   color: #111;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 a {

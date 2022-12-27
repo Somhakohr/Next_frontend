@@ -50,7 +50,7 @@ export default function CandidateUsers() {
         } else {
           setauth(false);
           alert("Password & Code Does Not Match");
-          router.push("/marketplace/");
+          router.push("/");
         }
       })
       .catch((err) => {
@@ -194,7 +194,7 @@ export default function CandidateUsers() {
         f.append("password", pw);
         verifyAgency(f, code);
       } else {
-        router.push("/marketplace/");
+        router.push("/");
       }
     }
   }, [code]);

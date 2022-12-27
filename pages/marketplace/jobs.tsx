@@ -10,6 +10,8 @@ import Image from 'next/image';
 import ChatBot from '../../components/chatbot';
 import Multiselect from 'multiselect-react-dropdown';
 import chatMini from '../../public/images/chat-mini.png'
+import { useStore } from '../../constants/code';
+import shallow from 'zustand/shallow';
 
 export default function JobListing() {
     const [sidebarToggle, setsidebarToggle] = useState(false);
@@ -17,6 +19,11 @@ export default function JobListing() {
     const [joblist2,setJobList2] = useState([])
     const [hasMore,setHasMore] = useState(false)
     const [loader,setLoader] = useState(<div></div>)
+    
+    const [userType, updateUserType] = useStore(
+        (state) => [state.userType, state.updateUserType],
+        shallow
+    )
     
     async function loadJobs() {
         await axiosInstance.get('/job/job/list/').then(async (res)=>{
@@ -187,13 +194,15 @@ export default function JobListing() {
                                 <div className="p-3 shadow-lg text-left filters">
                                     <TabList>
                                         <Tab>Filters</Tab>
+                                        {userType == "Candidate" &&
                                         <Tab>
                                             <div className='flex items-center'>
                                                  Chat Mini
                                             </div>
                                         </Tab>
+                                        }
                                     </TabList>
-                                    <Image src={chatMini} alt="Chat" width={35} className="ml-2" />
+                                    {userType == "Candidate" &&<Image src={chatMini} alt="Chat" width={35} className="ml-2" />}
                                 </div>
                                 <TabPanel>
                                     <div>
@@ -356,9 +365,11 @@ export default function JobListing() {
                                         </div>
                                     </div>
                                 </TabPanel>
+                                {userType == "Candidate" &&
                                 <TabPanel>
                                     <ChatBot setJobList={setJobList} setJobList2={setJobList2} />
                                 </TabPanel>
+                                }
                             </Tabs>
                         </div>
                         <button type="button" onClick={() => setsidebarToggle(!sidebarToggle)} className="lg:hidden shadow-normal bg-[#6D27F9] text-white rounded-full w-[60px] h-[60px] text-2xl">

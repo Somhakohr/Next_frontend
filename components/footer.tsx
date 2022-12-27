@@ -12,11 +12,11 @@ export default function Footer() {
 
     const quicklinks = [
         {
-            url: '/marketplace/contact',
+            url: '/contact',
             text: 'Contact Us'
         },
         {
-            url: '/marketplace/blog',
+            url: '/blog',
             text: 'Blog'
         }
     ];

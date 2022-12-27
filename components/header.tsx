@@ -190,19 +190,19 @@ function Header(props) {
     ];
     const menuNav = [
         {
-            url: '/marketplace/job-listing',
+            url: '/marketplace/jobs',
             text: 'Jobs'
         },
         {
-            url: '/marketplace/#features',
+            url: '/#features',
             text: 'Features'
         },
         {
-            url: '/marketplace/#protocol',
+            url: '/#protocol',
             text: 'Protocol'
         },
         {
-            url: '/marketplace/blog',
+            url: '/blog',
             text: 'Blog'
         },
         // {
@@ -210,11 +210,11 @@ function Header(props) {
         //     text: 'Career'
         // },
         {
-            url: '/marketplace/whitepaper',
+            url: '/whitepaper',
             text: 'Whitepaper'
         },
         {
-            url: '/marketplace/contact',
+            url: '/contact',
             text: 'Contact Us'
         }
     ];
@@ -295,7 +295,7 @@ function Header(props) {
                             </Menu>
                             <Menu as="div" className="relative border-l">
                                 <Menu.Button className="align-middle p-2 h-full">
-                                    <Image src={userImg} alt={userName} width={35} height={35}  className="w-[35px] h-[35px] rounded-full object-cover" />
+                                    <Image src={userImg} alt={userName} width={300} height={300}  className="w-[35px] h-[35px] rounded-full object-cover" />
                                 </Menu.Button>
                                 <Transition
                                     as={Fragment}
@@ -351,7 +351,7 @@ function Header(props) {
                             </Menu>
                             <Menu as="div" className="relative last:border-l">
                                 <Menu.Button className="align-middle p-2 h-full">
-                                    <Image src={userImg} alt={userName} width={35} height={35}  className="w-[35px] h-[35px] rounded-full object-cover" />
+                                    <Image src={userImg} alt={userName} width={300} height={300}  className="w-[35px] h-[35px] rounded-full object-cover" />
                                 </Menu.Button>
                                 <Transition
                                     as={Fragment}

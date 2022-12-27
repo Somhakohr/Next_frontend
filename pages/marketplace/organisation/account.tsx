@@ -259,7 +259,7 @@ function OrganisationAccount(props) {
 
   useEffect(() => {
     if (!session) {
-      router.push("/marketplace/");
+      router.push("/");
     }
   }, [session]);
 
@@ -537,8 +537,8 @@ function OrganisationAccount(props) {
                       <Image
                         src={userCImg}
                         alt="User"
-                        height={100}
-                        width={100}
+                        height={1600}
+                        width={800}
                         className="object-cover rounded-[16px] w-full h-[250px]"
                       />
                       <label
@@ -561,8 +561,8 @@ function OrganisationAccount(props) {
                         <Image
                           src={userImg}
                           alt="User"
-                          height={100}
-                          width={100}
+                          height={300}
+                          width={300}
                           className="rounded-full shadow-normal bg-white object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
                         />
                         <label

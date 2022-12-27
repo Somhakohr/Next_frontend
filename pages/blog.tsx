@@ -31,12 +31,12 @@ export default function Blog({ posts }) {
               return (
                 <div className="w-full md:max-w-[50%] lg:max-w-[calc(100%/3)] p-3" key={index}>
                   <article className="rounded-xl bg-white shadow-normal overflow-hidden border border-teal-400">
-                      <Link href={`/marketplace/posts/${slug}`} className="block">
+                      <Link href={`/posts/${slug}`} className="block">
                         <Image src={bannerImage} alt="Somhako" width={600} height={400} />
                       </Link>
                       <div className="p-6">
                         <h2 className="mb-2 font-bold">
-                          <Link href={`/marketplace/posts/${slug}`}>
+                          <Link href={`/posts/${slug}`}>
                             {title}
                           </Link>
                         </h2>
@@ -51,7 +51,7 @@ export default function Blog({ posts }) {
                               <span className="text-[10px] text-gray-500 dark:text-gray-400">{date}</span>
                             </div>
                           </div>
-                          <Link href={`/marketplace/posts/${slug}`} className="my-2 border border-[#6D27F9] rounded-full py-1.5 px-4 text-[12px] hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white">
+                          <Link href={`/posts/${slug}`} className="my-2 border border-[#6D27F9] rounded-full py-1.5 px-4 text-[12px] hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white">
                             Read more
                             <i className="fa-solid fa-angles-right ml-2"></i>
                           </Link>

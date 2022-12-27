@@ -226,7 +226,7 @@ export default function OrganisationJobsCard(props) {
     function update(num) {
         
         var check = true;
-        if(title.length <= 0 || dept.length <= 0 || exp.length <= 0 || type.length <= 0 || level.length <= 0 || deadline.length <= 0 || ind.length <= 0){
+        if(title.length <= 0 || dept.length <= 0 || type.length <= 0 || exp.length <= 0 || deadline.length <= 0 || ind.length <= 0){
             check = false;
             toastcomp("Fill Up Basic Details Section","error")
         }
@@ -419,9 +419,9 @@ export default function OrganisationJobsCard(props) {
                         </p>
                     </div>
                     <div className="flex items-center justify-between text-[12px]">
-                        <p>
+                        {/* <p>
                             {data.salary ? <>{data.curr} {data.salary}</> : <>Not Specified</>}
-                        </p>
+                        </p> */}
                         <p>
                             {data.publish_date ? moment(data.publish_date).fromNow(): <>Not Specified</>}
                         </p>

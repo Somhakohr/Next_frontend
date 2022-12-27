@@ -113,7 +113,7 @@ function OrganisationApplicants(props) {
 
     useEffect(() => {
         if(!session){
-          router.push("/marketplace/");
+          router.push("/");
         }
         else if(session && userObj){
             loadApplicant(userObj["orefid"])

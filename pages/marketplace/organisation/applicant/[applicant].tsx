@@ -125,7 +125,7 @@ function OrganisationCandidateProfileView(props) {
 
   useEffect(() => {
     if (!session) {
-      router.push("/marketplace/");
+      router.push("/");
     } else if (!param1) {
       router.push("/marketplace/organisation");
     } else {

@@ -1,6 +1,8 @@
 import axios from 'axios';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import shallow from 'zustand/shallow';
+import { useStore } from '../constants/code';
 import { axiosInstance } from '../pages/api/axiosApi';
 import chatMini from '../public/images/chat-mini.png'
 import userIcon from '../public/images/user-image.png'
@@ -11,7 +13,12 @@ export default function ChatBot(props) {
     const [input2,setInput2] = useState('')
     const [inpv,setInpv] = useState('')
     const [resv,setResv] = useState('')
+    const [data,setData] = useState([])
     const {setJobList,setJobList2} = props
+    const [userImg, updateUserImg] = useStore(
+        (state) => [state.userImg, state.updateUserImg],
+        shallow
+    )
     
     const axiosInstanceAuth2 = axios.create({
         baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
@@ -22,16 +29,23 @@ export default function ChatBot(props) {
     });
 
     async function chatmini() {
-        setInpv(input1)
+        let arr = data
+        arr.push(input1)
+        // setData(arr)
+        // setInpv(input1)
         
         var formData = new FormData()
         formData.append('promt',input1)
         await axiosInstanceAuth2.post('/job/chatmini/',formData).then(async (res)=>{
-            console.log(res.data)
-            setResv(res.data.res)
+            // console.log(res.data)
+            // setResv(res.data.res)
             if(res.data.Jobs){
                 filter(res.data.Jobs)
             }
+            // let arr = []
+            arr.push(res.data.res)
+            // setData(arr)
+            setData(arr)
             setInput1('')
         }).catch((err)=>{
             console.log(err)
@@ -40,6 +54,7 @@ export default function ChatBot(props) {
             }
             setInput1('')
         })
+
     }
 
     async function filter(param1) {
@@ -70,7 +85,7 @@ export default function ChatBot(props) {
                 </div> */}
                 <div className="h-[calc(100vh-241px)] p-3">
                     <div className="overflow-auto h-full">
-                        <ul className="flex flex-wrap text-[12px]">
+                        {/* <ul className="flex flex-wrap text-[12px]">
                             <button type="button" className="my-1 mr-2 bg-[#E5DDFA] rounded-[30px] py-1 px-3">
                                 Web Services?
                             </button>
@@ -83,15 +98,30 @@ export default function ChatBot(props) {
                             <button type="button" className="my-1 mr-2 bg-[#E5DDFA] rounded-[30px] py-1 px-3">
                                 Angular
                             </button>
-                        </ul>
+                        </ul> */}
                         <ol className="py-2 text-[11px]">
-                            <li className="left my-2">
+                            {/* <li className="left my-2">
                                 <span className="inline-block max-w-[85%] border border-teal-400 bg-white shadow rounded-[20px] py-2 px-3">Hi Roger</span>
                             </li>
                             <li className="left my-2">
                                 <span className="inline-block max-w-[85%] border border-teal-400 bg-white shadow rounded-[20px] py-2 px-3">How can I assist you?</span>
-                            </li>
-                            {inpv && inpv.length > 0 && <li className="right my-4">
+                            </li> */}
+                            {data && data.map((item, key) => (
+                                key % 2 ? 
+                                <li className="left my-2" key={key}>
+                                    <span className="inline-block max-w-[85%] border border-teal-400 bg-white shadow rounded-[20px] py-2 px-3">{item}</span>
+                                </li>
+                                :
+                                <li key={key}>
+                                    <div className="flex items-center justify-end">
+                                        <span className="inline-block max-w-[75%] bg-[#6D27F9] text-white shadow rounded-[20px] py-2 px-3 relative after:content-[''] after:border-[5px] after:border-[#6D27F9] after:absolute after:top-[50%] after:right-[-4px] after:translate-y-[-50%] after:rotate-45">{item}</span>
+                                        <Image src={userImg} alt="User" width={35} height={35} className="rounded-full object-cover w-[35px] h-[35px]" />
+                                    </div>
+                                </li>
+                            ))}
+                                
+                            
+                            {/* {inpv && inpv.length > 0 && <li className="right my-4">
                                 <div className="flex items-center justify-end">
                                     <span className="inline-block max-w-[75%] bg-[#6D27F9] text-white shadow rounded-[20px] py-2 px-3 relative after:content-[''] after:border-[5px] after:border-[#6D27F9] after:absolute after:top-[50%] after:right-[-4px] after:translate-y-[-50%] after:rotate-45">{inpv}</span>
                                     <Image src={userIcon} alt="User" width={35} height={35} className="rounded-full object-cover w-[35px] h-[35px]" />
@@ -102,7 +132,7 @@ export default function ChatBot(props) {
                             <li className="left my-2">
                                 <span className="inline-block max-w-[85%] border border-teal-400 bg-white shadow rounded-[20px] py-2 px-3">{resv}</span>
                             </li>
-                            }
+                            } */}
                         </ol>
                     </div>
                 </div>
@@ -113,8 +143,8 @@ export default function ChatBot(props) {
                         }}
                         onKeyDown={(e)=>{
                             if (e.key === 'Enter') {
-                                setInpv('')
-                                setResv('')
+                                // setInpv('')
+                                // setResv('')
                                 chatmini()
                             }
                         }}

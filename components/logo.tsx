@@ -25,7 +25,7 @@ export default function logo(props) {
                 </>
             :
                 <div className="w-full max-w-[170px] xl:max-w-[200px]">
-                    <Link href="/marketplace/" className="w-full inline-block align-middle">
+                    <Link href="/" className="w-full inline-block align-middle">
                         <Image src={logoImg} alt="Somhako" />
                     </Link>
                 </div>
