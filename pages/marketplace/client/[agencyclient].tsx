@@ -249,8 +249,8 @@ export default function CandidateUsers() {
                         <div className="userBgImage min-h-[268px] flex items-center justify-center">
                           <img
                             src={data.cand.profile}
-                            width={220}
-                            height={220}
+                            width={300}
+                            height={300}
                             alt="User"
                             className="w-[220px] h-[220px] rounded-full object-cover mx-auto "
                           />

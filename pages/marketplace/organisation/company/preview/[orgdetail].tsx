@@ -86,7 +86,7 @@ function OrgDetail() {
                         style={{ backgroundImage: "url(" + `${data.cover}` + ")", }}>
                             <div className="flex relative z-[1] mb-8">
                                 <div className="t bg-white w-[100px] h-[100px] rounded-full flex items-center justify-center p-5 shadow-normal mt-[-66px]">
-                                    <Image src={data.profile} width={100} height={100} alt="Company" className="w-full h-full rounded-full object-cover" />
+                                    <Image src={data.profile} width={300} height={300} alt="Company" className="w-full h-full rounded-full object-cover" />
                                 </div>
                                 <h1 className="font-semibold text-xl pl-2 flex-1">{data.title}</h1>
                             </div>

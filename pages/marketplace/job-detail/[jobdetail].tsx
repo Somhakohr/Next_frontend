@@ -300,7 +300,7 @@ return (
                         <aside>
                             <div className="w-[150px] h-[150px] mx-auto block mb-4 rounded-full p-4 shadow-insetview flex items-center justify-center">
                                 <div className="w-full h-full rounded-full bg-white shadow-lg p-5">
-                                    <Image src={data.org.profile} width={150} height={150} alt="Company Name" className="rounded-full object-cover" />
+                                    <Image src={data.org.profile} width={150} height={150} alt="Company Name" className="w-full h-full rounded-full object-cover" />
                                 </div>
                             </div>
                             <h2 className="font-semibold text-2xl">{data.user.company_name}</h2>
@@ -320,11 +320,11 @@ return (
                                 </p>
                             </aside>
                             <aside className="flex items-center flex-wrap mb-4 md:mb-0">
-                                <button type="button" className="flex items-center mr-8" onClick={() => mainShareJobOpen(true)}>
+                                <button type="button" className="cursor-pointer flex items-center mr-8" onClick={() => mainShareJobOpen(true)}>
                                     <span className="mr-2">Share Job</span>
                                     <i className="fa-solid fa-share text-[#6D27F9]"></i>
                                 </button>
-                                <button type="button" className="bg-white py-1.5 px-4 text-sm rounded-full border border-[#6D27F9] hover:bg-[#6D27F9] hover:text-white" onClick={(e)=>bookmark()} disabled={bookmarked}>{bookmarked?<>Already Saved</>:<>Save Job</>}</button>
+                                <button type="button" className="cursor-pointer bg-white py-1.5 px-4 text-sm rounded-full border border-[#6D27F9] hover:bg-[#6D27F9] hover:text-white" onClick={(e)=>bookmark()} disabled={bookmarked}>{bookmarked?<>Already Saved</>:<>Save Job</>}</button>
                             </aside>
                         </div>
                         <button type="button" className="mb-8 bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>apply()} disabled={applied}>{applied?<>Already Applied</>:<>Apply Now</>}</button>

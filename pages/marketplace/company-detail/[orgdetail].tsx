@@ -127,8 +127,8 @@ function OrgDetail() {
                       <div className="s bg-white w-[100px] h-[100px] rounded-full flex items-center justify-center p-5 shadow-normal mt-[-66px]">
                         <Image
                           src={data.profile}
-                          width={100}
-                          height={100}
+                          width={300}
+                          height={300}
                           alt="Company"
                           className="w-full h-full rounded-full object-cover"
                         />

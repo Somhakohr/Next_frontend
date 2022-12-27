@@ -226,8 +226,8 @@ function Candidate(props) {
                                 <Image
                                     src={userImg}
                                     alt="User"
-                                    width={100}
-                                    height={100}
+                                    width={300}
+                                    height={300}
                                     className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px] mb-3 md:mb-0"
                                 />
                                 <div className="w-full md:w-[calc(100%-150px)] md:pl-8">

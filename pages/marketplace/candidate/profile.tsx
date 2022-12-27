@@ -736,7 +736,7 @@ function CandidateProfile(props) {
                             <div className="bg-white shadow-normal rounded-[25px] h-full flex flex-wrap">
                                 <div className="w-[310px] mx-auto p-8">
                                     <div className="userBgImage min-h-[268px] flex items-center justify-center">
-                                        <Image src={userImg} width={220} height={220} alt="User" className="w-[220px] h-[220px] rounded-full object-cover mx-auto " />
+                                        <Image src={userImg} width={300} height={300} alt="User" className="w-[220px] h-[220px] rounded-full object-cover mx-auto " />
                                     </div>
                                 </div>
                                 <div className="w-full md:max-w-[calc(100%-310px)] p-6 xl:p-8 relative bg-gradient-to-r from-[#A382E5] to-[#60C3E2] rounded-[25px] flex items-center">

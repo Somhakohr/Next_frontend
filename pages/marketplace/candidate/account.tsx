@@ -202,8 +202,8 @@ function CandidateAcc(props) {
                                     src={pfile ? pfile : userImg}
                                     // src={userImg}
                                     alt="Users"
-                                    height={100}
-                                    width={100}
+                                    height={300}
+                                    width={300}
                                     className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
                                 />
                                 <label htmlFor="uploadImage" className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white">
