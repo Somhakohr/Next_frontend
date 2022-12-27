@@ -27,6 +27,23 @@ export default function SignUp() {
   const router = useRouter(); 
   const { asPath } = useRouter();
 
+  const [orgInputPass, orgInputPassToggle] = useState(false);
+  const [orgInputConfPass, orgInputConfPassToggle] = useState(false);
+  const [canInputPass, canInputPassToggle] = useState(false);
+  const [canInputConfPass, canInputConfPassToggle] = useState(false);
+  
+  function orgInputPassToggled(){
+    orgInputPassToggle(!orgInputPass);
+  }
+  function orgInputConfPassToggled(){
+    orgInputConfPassToggle(!orgInputConfPass);
+  }
+  function canInputPassToggled(){
+    canInputPassToggle(!canInputPass);
+  }
+  function canInputConfPassToggled(){
+    canInputConfPassToggle(!canInputConfPass);
+  }
   
   useEffect(() => {
     setCSRF(setCsrf);
@@ -233,11 +250,21 @@ export default function SignUp() {
                           <div className="flex flex-wrap justify-between">
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="password" className="font-medium mb-2 leading-none inline-block">Password</label>
-                              <input id="password" type="password" className="w-full rounded-full border-slate-300" value={cpassword} onChange={(e) => setCPassword(e.target.value)} />
+                              <div className="iconGroup right">
+                                <input type={`${orgInputPass ? 'text' : 'password'}`} name="password" id="input-password-for-credentials-provider" className="w-full rounded-full border-slate-300" value={cpassword} onChange={(e) => setCPassword(e.target.value)} />
+                                <button type="button" className="iconGroup__icon-right" onClick={orgInputPassToggled}>
+                                  <i className={`fa-solid text-black ${orgInputPass ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                </button>
+                              </div>
                             </div>
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="confirmpassword" className="font-medium mb-2 leading-none inline-block">Confirm Password</label>
-                              <input id="confirmpassword" type="password" className="w-full rounded-full border-slate-300" value={cpassword2} onChange={(e) => setCPassword2(e.target.value)} />
+                              <div className="iconGroup right">
+                                <input type={`${orgInputConfPass ? 'text' : 'password'}`} name="password" id="input-password-for-credentials-provider" className="w-full rounded-full border-slate-300" value={cpassword2} onChange={(e) => setCPassword2(e.target.value)} />
+                                <button type="button" className="iconGroup__icon-right" onClick={orgInputConfPassToggled}>
+                                  <i className={`fa-solid text-black ${orgInputConfPass ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                </button>
+                              </div>
                             </div>
                           </div>
                           <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
@@ -281,11 +308,21 @@ export default function SignUp() {
                           <div className="flex flex-wrap justify-between">
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="cand_password" className="font-medium mb-2 leading-none inline-block">Password</label>
-                              <input id="cand_password" type="password" className="w-full rounded-full border-slate-300"  value={password} onChange={(e) => setPassword(e.target.value)} />
+                              <div className="iconGroup right">
+                                <input type={`${canInputPass ? 'text' : 'password'}`} name="password" id="input-password-for-credentials-provider" className="w-full rounded-full border-slate-300" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                <button type="button" className="iconGroup__icon-right" onClick={canInputPassToggled}>
+                                  <i className={`fa-solid text-black ${canInputPass ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                </button>
+                              </div>
                             </div>
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="cand_confirmpassword" className="font-medium mb-2 leading-none inline-block">Confirm Password</label>
-                              <input id="cand_confirmpassword" type="password" className="w-full rounded-full border-slate-300" value={password2} onChange={(e) => setPassword2(e.target.value)}/>
+                              <div className="iconGroup right">
+                                <input type={`${canInputConfPass ? 'text' : 'password'}`} name="password" id="input-password-for-credentials-provider" className="w-full rounded-full border-slate-300" value={password2} onChange={(e) => setPassword2(e.target.value)} />
+                                <button type="button" className="iconGroup__icon-right" onClick={canInputConfPassToggled}>
+                                  <i className={`fa-solid text-black ${canInputConfPass ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                </button>
+                              </div>
                             </div>
                           </div>
                           {ref.length > 0 && 
