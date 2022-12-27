@@ -190,19 +190,19 @@ function Header(props) {
     ];
     const menuNav = [
         {
-            url: '/marketplace/job-listing',
+            url: '/marketplace/jobs',
             text: 'Jobs'
         },
         {
-            url: '/marketplace/#features',
+            url: '/#features',
             text: 'Features'
         },
         {
-            url: '/marketplace/#protocol',
+            url: '/#protocol',
             text: 'Protocol'
         },
         {
-            url: '/marketplace/blog',
+            url: '/blog',
             text: 'Blog'
         },
         // {
@@ -210,11 +210,11 @@ function Header(props) {
         //     text: 'Career'
         // },
         {
-            url: '/marketplace/whitepaper',
+            url: '/whitepaper',
             text: 'Whitepaper'
         },
         {
-            url: '/marketplace/contact',
+            url: '/contact',
             text: 'Contact Us'
         }
     ];

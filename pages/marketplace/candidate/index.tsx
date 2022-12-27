@@ -118,7 +118,7 @@ function Candidate(props) {
 
     useEffect(() => {
       if(!session){
-        router.push("/marketplace/");
+        router.push("/");
       }
     }, [session]);
 
@@ -329,7 +329,7 @@ function Candidate(props) {
                                     ))}
                                 </div>
                                 <div className="text-center">
-                                    <Link href="/marketplace/job-listing" className="inline-block bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">View More</Link>
+                                    <Link href="/marketplace/jobs" className="inline-block bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">View More</Link>
                                 </div>
                             </TabPanel>
                             

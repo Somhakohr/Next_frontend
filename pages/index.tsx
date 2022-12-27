@@ -333,7 +333,7 @@ export default function Home() {
                 <div className="p-8">
                   <h4 className="font-semibold text-2xl mb-6">Be a Part of <br /><span className="text-[#6D27F9]">Somhako</span></h4>
                   <p className="text-[#646464] font-light mb-8">Get started by signing up with and deep dive into the HR product in Web 3 Space </p>
-                  <Link href="/auth/signup" className="inline-block mb-6 text-center bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">Sign Up</Link>
+                  <Link href="/marketplace/auth/signup" className="inline-block mb-6 text-center bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">Sign Up</Link>
                 </div>
             </div>
             <div className="w-full md:max-w-[40%]">

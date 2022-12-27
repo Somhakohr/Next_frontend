@@ -25,6 +25,7 @@ export default function SignUp() {
   const [csrf, setCsrf] = useState('');
   const [ref, setref] = useState('');
   const router = useRouter(); 
+  const { asPath } = useRouter();
 
   
   useEffect(() => {
@@ -76,6 +77,29 @@ export default function SignUp() {
       .then(async (res) => {
         console.log(res);
         toastcomp("Refer Code Valid", "success");
+        
+        await axiosInstance.post('/auth/candidateregister/', {
+            email: email,
+            password: password,
+            password2: password2,
+            mobile: phone,
+            first_name: firstname,
+            last_name: lastname
+        }).then((response)=>{
+          router.push("/");
+          toastcomp("Successfully Registerd","success")
+          setTimeout(() => {
+            toastcomp("We Send Verification Email","info")
+          }, 100);
+        }).catch((err)=>{
+          // console.log(err);
+          if(err.response.data.errors.email){
+            err.response.data.errors.email.map((text) =>
+              toastcomp(text,"error")
+            );
+            return false;
+          }      
+        });
       })
       .catch((err) => {
         if (err.message != "Request failed with status code 401") {
@@ -87,28 +111,6 @@ export default function SignUp() {
     }
 
 
-    // await axiosInstance.post('/auth/candidateregister/', {
-    //     email: email,
-    //     password: password,
-    //     password2: password2,
-    //     mobile: phone,
-    //     first_name: firstname,
-    //     last_name: lastname
-    // }).then((response)=>{
-    //   router.push("/marketplace/");
-    //   toastcomp("Successfully Registerd","success")
-    //   setTimeout(() => {
-    //     toastcomp("We Send Verification Email","info")
-    //   }, 100);
-    // }).catch((err)=>{
-    //   // console.log(err);
-    //   if(err.response.data.errors.email){
-    //     err.response.data.errors.email.map((text) =>
-    //       toastcomp(text,"error")
-    //     );
-    //     return false;
-    //   }      
-    // });
   }
 
   async function handleOrgClick(event) {
@@ -121,7 +123,7 @@ export default function SignUp() {
         company_name: cname,
         company_type: ctype
     }).then((response)=>{
-      router.push("/marketplace/");
+      router.push("/");
       toastcomp("Successfully Registerd","success")
       setTimeout(() => {
         toastcomp("We Send Verification Email","info")
@@ -156,9 +158,10 @@ export default function SignUp() {
   }
 
   useEffect(() => {
-    if(router.query.referral){
+    var abc = asPath.substring(1).split("/")[2].split("?")[1]
+    if(abc.includes('referral') && abc.split('=')[1].length > 0){
       setSection(2)
-      setref(router.query.referral)
+      setref(abc.split('=')[1])
     }
   }, [])
   

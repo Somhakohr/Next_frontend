@@ -68,7 +68,7 @@ function CandidateProfile(props) {
     //session check useeffect
     useEffect(() => {
         if(!session){
-          router.push("/marketplace/");
+          router.push("/");
         }
     }, [session]);
 

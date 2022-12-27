@@ -56,7 +56,7 @@ function JobDetail(props) {
         await axiosInstance.get('/job/job/detail/'+id+'/').then(async (res)=>{
             setJobDetail(res.data)
         }).catch((err)=>{
-            router.push('/marketplace/job-listing')
+            router.push('/marketplace/jobs')
             // console.log(err)
             // if(err.message != "Request failed with status code 401"){
             //     toastcomp("Job Detail Not Loaded","error");
@@ -66,7 +66,7 @@ function JobDetail(props) {
 
     useEffect(() => {
       if(!param1){
-        router.push('/marketplace/job-listing')
+        router.push('/marketplace/jobs')
       }
       else{
         loadJobDetail(param1)

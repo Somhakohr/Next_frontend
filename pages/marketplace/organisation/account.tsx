@@ -259,7 +259,7 @@ function OrganisationAccount(props) {
 
   useEffect(() => {
     if (!session) {
-      router.push("/marketplace/");
+      router.push("/");
     }
   }, [session]);
 
