@@ -419,9 +419,9 @@ export default function OrganisationJobsCard(props) {
                         </p>
                     </div>
                     <div className="flex items-center justify-between text-[12px]">
-                        <p>
+                        {/* <p>
                             {data.salary ? <>{data.curr} {data.salary}</> : <>Not Specified</>}
-                        </p>
+                        </p> */}
                         <p>
                             {data.publish_date ? moment(data.publish_date).fromNow(): <>Not Specified</>}
                         </p>
