@@ -72,43 +72,59 @@ export default function SignUp() {
   async function handleCandClick(event) {
     event.preventDefault();
 
-    if(ref.length > 0){
-      await axiosInstance.get("/auth/main_view/" + ref + "/")
-      .then(async (res) => {
-        console.log(res);
-        toastcomp("Refer Code Valid", "success");
-        
-        await axiosInstance.post('/auth/candidateregister/', {
-            email: email,
-            password: password,
-            password2: password2,
-            mobile: phone,
-            first_name: firstname,
-            last_name: lastname
-        }).then((response)=>{
-          router.push("/");
-          toastcomp("Successfully Registerd","success")
-          setTimeout(() => {
-            toastcomp("We Send Verification Email","info")
-          }, 100);
-        }).catch((err)=>{
-          // console.log(err);
-          if(err.response.data.errors.email){
-            err.response.data.errors.email.map((text) =>
-              toastcomp(text,"error")
-            );
-            return false;
-          }      
-        });
-      })
-      .catch((err) => {
-        if (err.message != "Request failed with status code 401") {
-          toastcomp("Refer Code Not Valid", "error");
+    const axiosInstance2 = axios.create({
+        baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
+        timeout: 5000,
+        headers: {
+            // 'Authorization': 'Bearer '+accessToken,
+            "Content-Type": "multipart/form-data",
         }
-        console.log(err);
-        return false;
-      });
+    });
+
+    var formData = new FormData();
+    formData.append('email',email)
+    formData.append('password',password)
+    formData.append('password2',password2)
+    formData.append('mobile',mobile)
+    formData.append('first_name',first_name)
+    formData.append('last_name',last_name)
+    if(ref.length > 0){
+      formData.append('refferal',ref)
+
     }
+
+    await axiosInstance2.post('/auth/candidateregister/',formData).then((response)=>{
+      router.push("/");
+      toastcomp("Successfully Registerd","success")
+      setTimeout(() => {
+        toastcomp("We Send Verification Email","info")
+      }, 100);
+    }).catch((err)=>{
+      // console.log(err);
+      if(err.response.data.errors.email){
+        err.response.data.errors.email.map((text) =>
+          toastcomp(text,"error")
+        );
+        return false;
+      }      
+    });
+
+    // if(ref.length > 0){
+    //   await axiosInstance.get("/auth/main_view/" + ref + "/")
+    //   .then(async (res) => {
+    //     console.log(res);
+    //     toastcomp("Refer Code Valid", "success");
+        
+        
+    //   })
+    //   .catch((err) => {
+    //     if (err.message != "Request failed with status code 401") {
+    //       toastcomp("Refer Code Not Valid", "error");
+    //     }
+    //     console.log(err);
+    //     return false;
+    //   });
+    // }
 
 
   }
