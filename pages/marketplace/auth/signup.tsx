@@ -158,10 +158,10 @@ export default function SignUp() {
   }
 
   useEffect(() => {
-    var abc = asPath.substring(1).split("/")[2].split("?")[1]
-    if(abc.includes('referral') && abc.split('=')[1].length > 0){
+    var refer = asPath.substring(1).split("/")[2].split("?")[1]
+    if(refer && refer.includes('referral') && refer.split('=')[1].length > 0){
       setSection(2)
-      setref(abc.split('=')[1])
+      setref(refer.split('=')[1])
     }
   }, [])
   
