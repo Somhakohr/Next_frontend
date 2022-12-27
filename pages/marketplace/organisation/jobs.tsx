@@ -256,7 +256,7 @@ function OrganisationAllJobs(props) {
 
     function apply(status) {
         var check = true;
-        if(title.length <= 0 || dept.length <= 0 || exp.length <= 0 || type.length <= 0 || level.length <= 0 || deadline.length <= 0 || ind.length <= 0){
+        if(title.length <= 0 || dept.length <= 0 || type.length <= 0 || level.length <= 0 || deadline.length <= 0 || ind.length <= 0){
             check = false;
             toastcomp("Fill Up Basic Details Section","error")
         }
