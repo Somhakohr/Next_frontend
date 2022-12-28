@@ -240,6 +240,8 @@ function JobDetail(props) {
                 }
             })
         }
+        bookmarkedCheck();
+        appliedCheck();
     }
 
     async function bookmark(){
@@ -255,6 +257,8 @@ function JobDetail(props) {
                     toastcomp("Job Bookmarked Error","error");
                 }
             })
+            bookmarkedCheck();
+            appliedCheck();
         }
     }
 
@@ -264,8 +268,9 @@ function JobDetail(props) {
         }
         else{
             await axiosInstanceAuth2.post('/job/applicant/bookmarked/'+userObj['erefid']+'/'+refid+'/').then(async (res)=>{
+                console.log(res)
                 if(res.data.Message){setbookmarked(true)}
-                else{setbookmarked(true)}
+                else{setbookmarked(false)}
             }).catch((err)=>{
                 setbookmarked(true)
             })
@@ -278,8 +283,9 @@ function JobDetail(props) {
         }
         else{
             await axiosInstanceAuth2.post('/job/applicant/applied/'+userObj['erefid']+'/'+refid+'/').then(async (res)=>{
+                console.log(res)
                 if(res.data.Message){setapplied(true)}
-                else{setapplied(true)}
+                else{setapplied(false)}
             }).catch((err)=>{
                 setapplied(true)
             })
