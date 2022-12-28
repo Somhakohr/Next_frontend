@@ -13,6 +13,7 @@ import toastcomp from "../../../components/toast";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { getCsrfToken } from "next-auth/react";
+import Multiselect from "multiselect-react-dropdown";
 
 async function setCSRF(setCsrf) {
   const csrfToken = await getCsrfToken()
@@ -83,7 +84,7 @@ export default function SignUp() {
   }
 
   function validateOForm() {
-    return cemail.length > 0 && cpassword.length >= 8 && cpassword2 == cpassword && name.length > 0 && cname.length > 0 && ctype.length > 0;
+    return cemail.length > 0 && cpassword.length >= 8 && cpassword2 == cpassword && name.length > 0 && cname.length > 0 && ctype && ctype.length > 0;
   }
 
   async function handleCandClick(event) {
@@ -183,6 +184,18 @@ export default function SignUp() {
   }
 
   function creatAccBtn() {
+    setFirstName('')
+    setLastName('')
+    setEmail('')
+    setPhone('')
+    setPassword('')
+    setPassword2('')
+    setCName('')
+    setName('')
+    setCEmail('')
+    setCType('')
+    setCPassword('')
+    setCPassword2('')
     setSection(choice);
   }
 
@@ -241,10 +254,22 @@ export default function SignUp() {
                             </div>
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="accounttype" className="font-medium mb-2 leading-none inline-block">Account Type</label>
-                              <select id="accounttype" className="w-full rounded-full border-slate-300" value={ctype} onChange={(e) => setCType(e.target.value)}>
+                              {/* <select id="accounttype" className="w-full rounded-full border-slate-300" value={ctype} onChange={(e) => setCType(e.target.value)}>
                                 <option value="Agency">Agency</option>
                                 <option value="Corporate">Corporate</option>
-                              </select>
+                              </select> */}
+                              <Multiselect
+                                options={['Agency','Corporate']}
+                                isObject={false}
+                                customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
+                                showArrow={true}
+                                closeOnSelect={true}
+                                selectionLimit={1}
+                                selectedValues = {ctype && ctype.split(',')}
+                                onSelect={(selectedList, selectedItem)=> {setCType(selectedItem) }}
+                                onRemove={(selectedList, selectedItem)=> {setCType('') }}
+                                placeholder="Find Account Type"
+                                />
                             </div>
                           </div>
                           <div className="flex flex-wrap justify-between">

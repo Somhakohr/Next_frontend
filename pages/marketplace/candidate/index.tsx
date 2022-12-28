@@ -72,6 +72,7 @@ function Candidate(props) {
     const [joblist,setJobList] = useState([])
     const [applied,setapplied] = useState([])
     const [bookmarked,setbookmarked] = useState([])
+    const [rec,setrec] = useState([])
 
     const learningSlides = [
         {
@@ -157,6 +158,17 @@ function Candidate(props) {
         })
     }
 
+    async function loadRecJobs() {
+        await axiosInstanceAuth2.get('/candidate/rob/'+userObj['erefid']+'/').then(async (res)=>{
+           setrec(res.data)
+        }).catch((err)=>{
+            if(err.message != "Request failed with status code 401"){
+                // toastcomp("Lang Not Loaded",'error')
+                console.log(err)
+            }
+        })
+    }
+
     async function loadProgress() {
         await axiosInstanceAuth2.get('/candidate/progress/'+userObj['erefid']+'/').then(async (res)=>{
            setProgress(parseInt(res.data.count))
@@ -188,6 +200,7 @@ function Candidate(props) {
             loadJobs()
             loadAppliedJobs()
             loadBookmarkedJobs()
+            loadRecJobs()
         }
         
         if(progress > 0 && progress < 11){setProgressT('LOW')}
@@ -268,7 +281,7 @@ function Candidate(props) {
                             <div className="w-full md:w-[35%] flex flex-wrap md:justify-end">
                                 <div className="p-3 rounded-lg bg-[#FFE6A5] text-center mb-2">
                                     <span className="block mb-1">
-                                        10{" "}
+                                        {userProfile['acount']}{" "}
                                         <i className="fa-solid fa-briefcase text-[#274046] ml-2"></i>
                                     </span>
                                     <p className="font-medium text-[12px] text-black">
@@ -277,7 +290,7 @@ function Candidate(props) {
                                 </div>
                                 <div className="p-3 rounded-lg bg-[#D1FBD0] text-center mb-2 ml-4">
                                     <span className="block mb-1">
-                                        10 <i className="fa-solid fa-eye text-[#274046] ml-2"></i>
+                                        {userProfile['vcount']} <i className="fa-solid fa-eye text-[#274046] ml-2"></i>
                                     </span>
                                     <p className="font-medium text-[12px] text-black">
                                         Jobs Viewed
@@ -297,7 +310,7 @@ function Candidate(props) {
                         <div className="flex flex-wrap items-center justify-between mb-10">
                             <h2 className="font-semibold text-xl text-3xl mb-4 md:mb-0">Wallet</h2>
                             <aside>
-                                <ConnectButton />
+                                <ConnectButton accountStatus={userProfile['paddress']} />
                             </aside>
                         </div>
                         <div className="bg-[#f5f5f5] rounded-[20px] p-6 flex flex-wrap justify-between">
@@ -318,6 +331,7 @@ function Candidate(props) {
                                     <Tab>Job Listing</Tab>
                                     <Tab>Applied Jobs</Tab>
                                     <Tab>Saved Jobs</Tab>
+                                    <Tab>Recommended Jobs</Tab>
                                 </TabList>
                             </div>
                             <TabPanel>
@@ -342,9 +356,20 @@ function Candidate(props) {
                                     ))}
                                 </div>
                             </TabPanel>
+
                             <TabPanel>
                                 <div className="flex flex-wrap mx-[-15px]">
                                     {bookmarked.map((job, i) => (
+                                        <div className="px-[15px] w-full md:max-w-[50%] mb-6" key={i}>
+                                            <JobCard data={job} />
+                                        </div>
+                                    ))}
+                                </div>
+                            </TabPanel>
+                            
+                            <TabPanel>
+                                <div className="flex flex-wrap mx-[-15px]">
+                                    {rec.map((job, i) => (
                                         <div className="px-[15px] w-full md:max-w-[50%] mb-6" key={i}>
                                             <JobCard data={job} />
                                         </div>

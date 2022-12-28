@@ -1,10 +1,11 @@
+//@ts-nocheck
 import Image from "next/image";
 import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import JobCard from "../../../components/job-card";
 import Slider from "react-slick";
 import googleImg from "../../public/images/google-icon.png";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { axiosInstance } from "../../api/axiosApi";
 import { useStore } from '../../../constants/code';
 import { useEffect, useState } from 'react';
@@ -13,6 +14,11 @@ import moment from "moment";
 import { withAuth } from '../../../constants/HOCs';
 import toastcomp from '../../../components/toast';
 import axios from 'axios';
+import { FacebookShareButton, LinkedinShareButton } from "react-share";
+import LineIcon from "react-share/lib/LineIcon";
+import LinkedinIcon from "react-share/lib/LinkedinIcon";
+import TwitterShareButton from "react-share/lib/TwitterShareButton";
+import TelegramShareButton from "react-share/lib/TelegramShareButton";
 
 function JobDetail(props) {
     const [mainShareJob, mainShareJobOpen] = useState(false)
@@ -20,10 +26,12 @@ function JobDetail(props) {
     const [pskill, setPSkill] = useState([])
     const [rskill, setRSkill] = useState([])
     const [finfo, setFInfo] = useState([])
+    const [Similar, setSimilar] = useState([])
     const [refid, setRefid] = useState('')
     const [applied, setapplied] = useState(false)
     const [bookmarked, setbookmarked] = useState(false)
     const cancelButtonRef = useRef(null)
+    const { asPath } = useRouter();
     const [param1, updateParam1] = useStore(
         (state) => [state.param1, state.updateParam1],
         shallow
@@ -51,25 +59,59 @@ function JobDetail(props) {
         }
     });
     
+    
 
     async function loadJobDetail(id) {
-        await axiosInstance.get('/job/job/detail/'+id+'/').then(async (res)=>{
-            setJobDetail(res.data)
+        if(accessToken.length > 0 && userType == "candidate"){
+            await axiosInstanceAuth2.get('/job/job/detail/'+id+'/').then(async (res)=>{
+                setJobDetail(res.data)
+            }).catch((err)=>{
+                router.push('/marketplace/jobs')
+
+                // console.log(err)
+                // if(err.message != "Request failed with status code 401"){
+                //     toastcomp("Job Detail Not Loaded","error");
+                // }
+            })
+
+        }
+        else{
+            await axiosInstance.get('/job/job/detail/'+id+'/').then(async (res)=>{
+                setJobDetail(res.data)
+            }).catch((err)=>{
+                // router.push('/marketplace/jobs')
+
+                // console.log(err)
+                // if(err.message != "Request failed with status code 401"){
+                //     toastcomp("Job Detail Not Loaded","error");
+                // }
+            })
+
+        }
+    }
+
+    async function similar(id) {
+
+        await axiosInstance.get('/job/similar/'+id+'/').then(async (res)=>{
+            setSimilar(res.data)
         }).catch((err)=>{
             router.push('/marketplace/jobs')
             // console.log(err)
             // if(err.message != "Request failed with status code 401"){
-            //     toastcomp("Job Detail Not Loaded","error");
+            //     toastcomp("Job Detail S Not Loaded","error");
             // }
         })
     }
 
     useEffect(() => {
       if(!param1){
-        router.push('/marketplace/jobs')
+        console.log((window.location.href).toString().split("/"))
+        if(window.location.href.split("/").length > 0){updateParam1(((window.location.href).toString().split("/")).pop())}
+        else{router.push('/marketplace/jobs')}
       }
       else{
         loadJobDetail(param1)
+        similar(param1)
       }
     }, [param1])
 
@@ -404,42 +446,28 @@ return (
                             </div>
                         </div>
                     </div>
+                    {Similar.length > 0 && 
                     <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] overflow-hidden mb-8">
                         <div className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] py-4 px-6 md:px-10">
                             <h2 className="text-white">Similar to this Job</h2>
                         </div>
                         <div className="py-4 px-6 md:px-10">
-                            {/* <div className="flex flex-wrap mx-[-10px]">
-                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                    <JobCard />
+                        <div className="flex flex-wrap mx-[-10px]">
+                            {Similar.map((job, i) => (
+                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
+                                <JobCard data={job} />
                                 </div>
-                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                    <JobCard />
-                                </div>
-                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                    <JobCard />
-                                </div>
-                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                    <JobCard />
-                                </div>
-                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                    <JobCard />
-                                </div>
-                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                    <JobCard />
-                                </div>
-                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                    <JobCard />
-                                </div>
-                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                    <JobCard />
-                                </div>
-                            </div> */}
+                            ))}
+                        </div>
                         </div>
                     </div>
+                    }
+                    
             </div>
             </section>
             </main>
+
+
             <Transition.Root show={mainShareJob} as={Fragment}>
                 <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={mainShareJobOpen}>
                     <Transition.Child
@@ -476,27 +504,33 @@ return (
                                 <div className="shadow-md rounded-[20px] p-6">
                                     <ul className="flex items-center flex-wrap justify-center text-center text-[#6D27F9] text-xl">
                                         <li className="w-[33.33%] px-[10px] mb-2">
-                                            <button type="button" className="hover:text-black">
-                                                <i className="fa-brands fa-linkedin-in"></i>
-                                            </button>
+                                            <LinkedinShareButton url={window.location.href} ><i className="fa-brands fa-linkedin-in hover:text-black"></i></LinkedinShareButton>
                                         </li>
                                         <li className="w-[33.33%] px-[10px] mb-2">
-                                            <button type="button" className="hover:text-black">
+                                            <TwitterShareButton url={window.location.href}><i className="fa-brands fa-twitter hover:text-black"></i></TwitterShareButton>
+                                            {/* <button type="button" className="hover:text-black">
                                                 <i className="fa-brands fa-twitter"></i>
-                                            </button>
+                                            </button> */}
                                         </li>
                                         <li className="w-[33.33%] px-[10px] mb-2">
-                                            <button type="button" className="hover:text-black">
+                                            <FacebookShareButton url={window.location.href}><i className="fa-brands fa-facebook-f hover:text-black"></i></FacebookShareButton>
+                                            {/* <button type="button" className="hover:text-black">
                                                 <i className="fa-brands fa-facebook-f"></i>
-                                            </button>
+                                            </button> */}
                                         </li>
                                         <li className="w-[33.33%] px-[10px] mb-2">
-                                            <button type="button" className="hover:text-black">
+                                            <TelegramShareButton url={window.location.href}><i className="fa-brands fa-telegram hover:text-black"></i></TelegramShareButton>
+                                            {/* <button type="button" className="hover:text-black">
                                                 <i className="fa-brands fa-telegram"></i>
-                                            </button>
+                                            </button> */}
                                         </li>
                                         <li className="w-[33.33%] px-[10px] mb-2">
-                                            <button type="button" className="hover:text-black">
+                                            <button type="button" className="hover:text-black"  onClick={(e)=>{
+                                                navigator.clipboard.writeText(window.location.href).then((e)=>{
+                                                    toastcomp("Copid Successfully","Success")
+                                                }).catch((e)=>{
+                                                    toastcomp("Copid Unsuccessfully","error")
+                                                }) }}>
                                                 <i className="fa-regular fa-copy"></i>
                                             </button>
                                         </li>

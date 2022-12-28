@@ -1,16 +1,22 @@
 import axios from "axios";
 import Head from "next/head";
 import Link from 'next/link'
-import { useState } from "react";
-import Auth_Slider from "../../../components/auth-slider";
-import toastcomp from "../../../components/toast";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Auth_Slider from "../../../../components/auth-slider";
+import toastcomp from "../../../../components/toast";
 
-export default function ForgotPassword() {
+export default function ConfirmForgotPassword() {
 
-  const [email,setemail] = useState('')
+  const [password,setpassword] = useState('')
+  const [password2,setpassword2] = useState('')
+  const [i1,seti1] = useState('')
+  const [i2,seti2] = useState('')
+  const { asPath } = useRouter();
+  const router = useRouter();
 
   function validbtn(){
-    return email.length > 0
+    return password.length >= 8 && password2.length >= 8 && password == password2
   }
 
   const axiosInstance = axios.create({
@@ -24,14 +30,34 @@ export default function ForgotPassword() {
   });
 
   async function forgetpass() {
-    await axiosInstance.post('/auth/request-reset-email/',{'email':email}).then((response)=>{
-      toastcomp("Forget Password Mail Sent","success")
-      setemail('')
-    }).catch((err)=>{
-      // console.log(err);
-      toastcomp("Forget Password Error","error")      
-    });
+    if(i1.length > 0 && i2.length > 0){
+
+        await axiosInstance.patch('/auth/password-reset-complete/',
+            {
+                'password':password,
+                'uidb64':i1,
+                'token':i2,
+            }
+        ).then((response)=>{
+          toastcomp("Password Reset Suceesfully","success")
+          router.push("/marketplace/auth/signin")
+          setpassword('')
+          setpassword2('')
+        }).catch((err)=>{
+          // console.log(err);
+          toastcomp("Password Reset Unuceesfully","error")      
+        });
+    }
   }
+
+  useEffect(() => {
+    let c = asPath.substring(1).split("/")[3].split("&")
+    if(c){
+        seti1(c[2].split("=")[1])
+        seti2(c[3].split("=")[1])
+    }
+  }, [])
+  
 
 
   return (
@@ -54,8 +80,12 @@ export default function ForgotPassword() {
                       </h1>
                       <div className="mb-16">
                         <div className="mb-6">
-                          <label htmlFor="email" className="font-medium mb-2 leading-none inline-block">Email</label>
-                          <input id="email" type="email" className="w-full rounded-full border-slate-300" value={email} onChange={(e)=>setemail(e.target.value)} />
+                          <label htmlFor="email" className="font-medium mb-2 leading-none inline-block">Paasword</label>
+                          <input id="password" type="password" className="w-full rounded-full border-slate-300" value={password} onChange={(e)=>setpassword(e.target.value)} />
+                        </div>
+                        <div className="mb-6">
+                          <label htmlFor="email" className="font-medium mb-2 leading-none inline-block">Confirm Paasword</label>
+                          <input id="password2" type="password" className="w-full rounded-full border-slate-300" value={password2} onChange={(e)=>setpassword2(e.target.value)} />
                         </div>
                         <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
                           <button type="submit" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!validbtn()} onClick={(e)=>forgetpass()}>
@@ -63,13 +93,13 @@ export default function ForgotPassword() {
                           </button>
                         </div>
                       </div>
-                      <div className="relative mb-8">
+                      {/* <div className="relative mb-8">
                         <hr className="border-slate-600" />
                         <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Not a member yet?</span>
                       </div>
                       <div className="text-center">
                         <Link href="/marketplace/auth/signup" className="text-[#6D27F9] hover:underline">Sign Up</Link>
-                      </div>
+                      </div> */}
                   </div>
               </div>
           </div>

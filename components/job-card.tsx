@@ -46,7 +46,7 @@ export default function JobCard(props) {
                         {data.level ? data.level : <>Not Specified</>}
                     </p>
                     <p className="w-full sm:max-w-[50%] mb-3">
-                        {data.jobType || data.worktype ? `${data.jobType} , ${data.workType}` : <>Not Specified</>}
+                        {data.type ? data.type : <>Not Specified</>}
                     </p>
                     <p className="w-full sm:max-w-[50%] mb-3 sm:text-right">
                         {data.salary ? <>{data.curr} {data.salary}</> : <>Not Specified</>}

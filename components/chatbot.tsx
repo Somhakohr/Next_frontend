@@ -40,7 +40,12 @@ export default function ChatBot(props) {
             // console.log(res.data)
             // setResv(res.data.res)
             if(res.data.Jobs){
+                console.log(1)
                 filter(res.data.Jobs)
+            }
+            else{
+                console.log(2)
+                filter('')
             }
             // let arr = []
             arr.push(res.data.res)
@@ -59,6 +64,7 @@ export default function ChatBot(props) {
 
     async function filter(param1) {
         await axiosInstanceAuth2.get(`/job/chatmini/job/?refid=${param1}`).then(async (res)=>{
+            console.log("test1",res)
             setJobList(res.data)
             setJobList2(res.data.slice(0, 6))
         }).catch((err)=>{
