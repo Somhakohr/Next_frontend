@@ -120,7 +120,7 @@ export default function SignIn(props) {
                       </form>
                       <div className="relative mb-8">
                         <hr className="border-slate-600" />
-                        <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or Sign In with</span>
+                        <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or Sign In With</span>
                       </div>
                       
                       <div className="flex items-center justify-center">

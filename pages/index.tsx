@@ -47,27 +47,27 @@ export default function Home() {
     },
     {
       title: "Product Management",
-      icon: <i className="fa-solid fa-toolbox"></i>,
+      icon: <i className="fa-solid fa-list-check"></i>,
       iconBgColor: '#FFB619'
     },
     {
       title: "Testing & QA",
-      icon: <i className="fa-solid fa-toolbox"></i>,
+      icon: <i className="fa-solid fa-microscope"></i>,
       iconBgColor: '#FF1181'
     },
     {
       title: "Design",
-      icon: <i className="fa-solid fa-toolbox"></i>,
+      icon: <i className="fa-solid fa-paintbrush"></i>,
       iconBgColor: '#FF6C41'
     },
     {
       title: "Banking & Financial Services",
-      icon: <i className="fa-solid fa-toolbox"></i>,
+      icon: <i className="fa-solid fa-database"></i>,
       iconBgColor: '#58E780'
     },
     {
       title: "Human Resources",
-      icon: <i className="fa-solid fa-toolbox"></i>,
+      icon: <i className="fa-solid fa-users"></i>,
       iconBgColor: '#A382E5'
     }
   ]

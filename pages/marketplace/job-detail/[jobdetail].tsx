@@ -90,7 +90,7 @@ function JobDetail(props) {
       if(jobDetail.length > 0){
         for(let i =0;i<jobDetail.length;i++){
             setFInfo([{
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-recycle"></i>,
                 title: 'Experience',
                 desc: (jobDetail[i]["exp"])?jobDetail[i]["exp"]:'N/A'
             },
@@ -100,42 +100,42 @@ function JobDetail(props) {
                 desc: (jobDetail[i]["type"])?jobDetail[i]["type"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-recycle"></i>,
                 title: 'Experience Level',
                 desc: (jobDetail[i]["level"])?jobDetail[i]["level"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-location-dot"></i>,
                 title: 'Location',
                 desc: (jobDetail[i]["location"])?jobDetail[i]["location"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-building"></i>,
                 title: 'Work Type',
                 desc: (jobDetail[i]["worktype"])?jobDetail[i]["worktype"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-graduation-cap"></i>,
                 title: 'Qualification',
                 desc: (jobDetail[i]["qualification"])?jobDetail[i]["qualification"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-dollar-sign"></i>,
                 title: 'Offered Salary',
                 desc: (jobDetail[i]["salary"])?jobDetail[i]["salary"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-industry"></i>,
                 title: 'Industry',
                 desc: (jobDetail[i]["industry"])?jobDetail[i]["industry"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-building-user"></i>,
                 title: 'Department',
                 desc: (jobDetail[i]["dept"])?jobDetail[i]["dept"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-clipboard"></i>,
                 title: 'Application Deadline',
                 desc: (jobDetail[i]["deadline"])?moment(jobDetail[i]["deadline"]).format('YYYY-MM-DD'):'N/A'
             },
@@ -146,27 +146,27 @@ function JobDetail(props) {
             //     desc: jobDetail[i]["lang1"]+' '+jobDetail[i]["exp1"]+jobDetail[i]["lang1"]+' '+jobDetail[i]["exp3"]+jobDetail[i]["lang3"]+' '+jobDetail[i]["exp3"] +jobDetail[i]["lang4"]+' '+jobDetail[i]["exp4"]
             // },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-users-rays"></i>,
                 title: 'Vacancy',
                 desc: (jobDetail[i]["vacancy"])?jobDetail[i]["vacancy"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-dollar-sign"></i>,
                 title: 'Bonus',
                 desc: (jobDetail[i]["bonus"])?jobDetail[i]["bonus"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-money-bill-trend-up"></i>,
                 title: 'Stock Options',
                 desc: (jobDetail[i]["stock"])?jobDetail[i]["stock"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-brands fa-cc-visa"></i>,
                 title: 'Visa Sponsership',
                 desc: (jobDetail[i]["visa"])?jobDetail[i]["visa"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-map-location-dot"></i>,
                 title: 'Paid Relocation',
                 desc: (jobDetail[i]["relocation"])?jobDetail[i]["relocation"]:'N/A'
             },])
@@ -330,10 +330,10 @@ return (
                                     <span className="mr-2">Share Job</span>
                                     <i className="fa-solid fa-share text-[#6D27F9]"></i>
                                 </button>
-                                <button type="button" className="cursor-pointer bg-white py-1.5 px-4 text-sm rounded-full border border-[#6D27F9] hover:bg-[#6D27F9] hover:text-white" onClick={(e)=>bookmark()} disabled={bookmarked}>{bookmarked?<>Already Saved</>:<>Save Job</>}</button>
+                                <button type="button" className="disabled:opacity-30 disabled:cursor-normal cursor-pointer bg-white py-1.5 px-4 text-sm rounded-full border border-[#6D27F9] hover:bg-[#6D27F9] hover:text-white" onClick={(e)=>bookmark()} disabled={bookmarked}>{bookmarked?<>Already Saved</>:<>Save Job</>}</button>
                             </aside>
                         </div>
-                        <button type="button" className="mb-8 bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>apply()} disabled={applied}>{applied?<>Already Applied</>:<>Apply Now</>}</button>
+                        <button type="button" className="disabled:opacity-30 disabled:cursor-normal mb-8 bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>apply()} disabled={applied}>{applied?<>Already Applied</>:<>Apply Now</>}</button>
                         <div>
                             <Slider {...settings} className="sliderArrows">
                                 {finfo.map((featuredInfo, i) => (

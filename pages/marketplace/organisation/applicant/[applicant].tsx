@@ -457,7 +457,7 @@ function OrganisationCandidateProfileView(props) {
                           <li className="w-[50%] px-[10px]">
                             <button
                               type="button"
-                              className="w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#6D27F9] text-white"
+                              className="disabled:opacity-30 disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#6D27F9] text-white"
                               disabled
                             >
                               <i className="fa-solid fa-thumbs-up mr-2"></i>
@@ -486,7 +486,7 @@ function OrganisationCandidateProfileView(props) {
                           <li className="w-[50%] px-[10px]">
                             <button
                               type="button"
-                              className="w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FEF401] text-black"
+                              className="disabled:opacity-30 disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FEF401] text-black"
                               disabled
                             >
                               <i className="fa-solid fa-circle-pause mr-2"></i>
@@ -515,7 +515,7 @@ function OrganisationCandidateProfileView(props) {
                           <li className="w-[50%] px-[10px]">
                             <button
                               type="button"
-                              className="w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#58E780] text-white"
+                              className="disabled:opacity-30 disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#58E780] text-white"
                               disabled
                             >
                               <i className="fa-solid fa-user mr-2"></i>
@@ -544,7 +544,7 @@ function OrganisationCandidateProfileView(props) {
                           <li className="w-[50%] px-[10px]">
                             <button
                               type="button"
-                              className="w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FF5E5E] text-white"
+                              className="disabled:opacity-30 disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FF5E5E] text-white"
                               disabled
                             >
                               <i className="fa-solid fa-thumbs-down mr-2"></i>
@@ -575,7 +575,7 @@ function OrganisationCandidateProfileView(props) {
                         <li className="w-[50%] px-[10px]">
                           <button
                             type="button"
-                            className="w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#6D27F9] text-white"
+                            className="disabled:opacity-30 disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#6D27F9] text-white"
                             disabled
                           >
                             <i className="fa-solid fa-thumbs-up mr-2"></i>
@@ -590,7 +590,7 @@ function OrganisationCandidateProfileView(props) {
                                   <li className="w-[50%] px-[10px]">
                                     <button
                                       type="button"
-                                      className="w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FEF401] text-black"
+                                      className="disabled:opacity-30 disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FEF401] text-black"
                                       disabled
                                     >
                                       <i className="fa-solid fa-circle-pause mr-2"></i>
@@ -620,7 +620,7 @@ function OrganisationCandidateProfileView(props) {
                                   <li className="w-[50%] px-[10px]">
                                     <button
                                       type="button"
-                                      className="w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#58E780] text-white"
+                                      className="disabled:opacity-30 disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#58E780] text-white"
                                       disabled
                                     >
                                       <i className="fa-solid fa-user mr-2"></i>
@@ -650,7 +650,7 @@ function OrganisationCandidateProfileView(props) {
                                   <li className="w-[50%] px-[10px]">
                                     <button
                                       type="button"
-                                      className="w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FF5E5E] text-white"
+                                      className="disabled:opacity-30 disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FF5E5E] text-white"
                                       disabled
                                     >
                                       <i className="fa-solid fa-thumbs-down mr-2"></i>

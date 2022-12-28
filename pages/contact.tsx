@@ -150,7 +150,7 @@ export default function Contact() {
             <div className="text-left">
               <button
                 type="submit"
-                className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!validCon()} onClick={(e)=>sendCon()}
+                className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!validCon()} onClick={(e)=>sendCon()}
               >
                 Submit
               </button>

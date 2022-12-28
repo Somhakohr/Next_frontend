@@ -22,17 +22,17 @@ export default function Footer() {
     ];
     const followUs = [
         {
-            url: '#',
+            url: 'https://www.linkedin.com/company/somhako/',
             text: 'LinkedIn',
             icon: <i className="fa-brands fa-linkedin-in"></i>
         },
         {
-            url: '#',
+            url: 'https://discord.gg/934TJUe6BF',
             text: 'Discord',
             icon: <i className="fa-brands fa-discord"></i>
         },
         {
-            url: '#',
+            url: 'https://twitter.com/somhako',
             text: 'Twitter',
             icon: <i className="fa-brands fa-twitter"></i>
         }
@@ -74,14 +74,31 @@ export default function Footer() {
                     </ul>
                 </div>
                 <div className="w-full md:w-4/12 lg:w-3/12 mb-4">
-                    <h4 className="font-bold text-xl mt-2 mb-4">Newsletter</h4>
-                    <form>
+                    <h4 className="font-bold text-xl mt-2 mb-4">Featured</h4>
+                    {/* <form>
                         <div className="iconGroup mb-4">
                             <input type="email" placeholder="Email Address" className="w-full rounded-full border-slate-300" />
                             <i className="fa-solid fa-envelope iconGroup__icon"></i>
                         </div>
                         <button type="submit" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]">Submit</button>
-                    </form>
+                    </form> */}
+                    <ul>
+                        <li className="mb-3">
+                            <Link href="/marketplace/jobs" className="hover:text-[#6D27F9] inline-flex items-center font-medium">
+                                Talent Center
+                            </Link>
+                        </li>
+                        <li className="mb-3">
+                            <span className="inline-flex items-center font-medium">
+                                Community
+                            </span>
+                        </li>
+                        <li className="mb-3">
+                            <span className="inline-flex items-center font-medium">
+                                Learning Center
+                            </span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
