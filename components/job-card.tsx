@@ -30,7 +30,7 @@ export default function JobCard(props) {
                 <div className="flex mb-8">
                     <div className="bg-white rounded-full p-2.5 flex items-center justify-center w-[50px] h-[50px]">
                         {data.org.profile &&
-                        <Image src={`${data.org.profile}`} width={50} height={50} alt="Google" className="w-full rounded-full" />
+                        <Image src={`${data.org.profile}`} width={300} height={300} alt="Google" className="w-full h-full rounded-full" />
                         }
                     </div>
                     <div className="pl-3 w-[calc(100%-60px)]">
@@ -46,7 +46,7 @@ export default function JobCard(props) {
                         {data.level ? data.level : <>Not Specified</>}
                     </p>
                     <p className="w-full sm:max-w-[50%] mb-3">
-                        {data.jobType || data.worktype ? `${data.jobType} , ${data.workType}` : <>Not Specified</>}
+                        {data.type ? data.type : <>Not Specified</>}
                     </p>
                     <p className="w-full sm:max-w-[50%] mb-3 sm:text-right">
                         {data.salary ? <>{data.curr} {data.salary}</> : <>Not Specified</>}

@@ -45,7 +45,7 @@ export default function Blog({ posts }) {
                         </p>
                         <div className="flex justify-between items-center flex-wrap">
                           <div className="flex items-center">
-                            <Image src={bannerImage} alt="Somhako" width={40} height={40} className="w-[40px] h-[40px] rounded-full object-cover mr-3" />
+                            <Image src={bannerImage} alt="Somhako" width={300} height={300} className="w-[40px] h-[40px] rounded-full object-cover mr-3" />
                             <div>
                               <p className="font-semibold text-[12px] leading-none">{author}</p>
                               <span className="text-[10px] text-gray-500 dark:text-gray-400">{date}</span>

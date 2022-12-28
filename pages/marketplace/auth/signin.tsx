@@ -22,6 +22,11 @@ export default function SignIn(props) {
   const [csrf, setCsrf] = useState('');
   const router = useRouter();  
 
+  const [switchInputType, switchInputTypeToggle] = useState(false);
+  function inputTypeToggled(){
+    switchInputTypeToggle(!switchInputType);
+  }
+
   useEffect(() => {
     setCSRF(setCsrf);
   }, []);
@@ -94,7 +99,12 @@ export default function SignIn(props) {
                         </div>
                         <div className="mb-6">
                           <label htmlFor="password" className="font-medium mb-2 leading-none inline-block">Password</label>
-                          <input type="password" name="password" id="input-password-for-credentials-provider" className="w-full rounded-full border-slate-300" value={password} onChange={(e) => setPassword(e.target.value)} />
+                          <div className="iconGroup right">
+                            <input type={`${switchInputType ? 'text' : 'password'}`} name="password" id="input-password-for-credentials-provider" className="w-full rounded-full border-slate-300" value={password} onChange={(e) => setPassword(e.target.value)} />
+                            <button type="button" className="iconGroup__icon-right" onClick={inputTypeToggled}>
+                              <i className={`fa-solid text-black ${switchInputType ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                            </button>
+                          </div>
                         </div>
                         <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
                           <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!validateForm()} onClick={(e) => handleClick(e)}>
@@ -110,7 +120,7 @@ export default function SignIn(props) {
                       </form>
                       <div className="relative mb-8">
                         <hr className="border-slate-600" />
-                        <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or Sign In with</span>
+                        <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or Sign In With</span>
                       </div>
                       
                       <div className="flex items-center justify-center">

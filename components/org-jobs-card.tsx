@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import toastcomp from "./toast";
 import axios from "axios";
 import Multiselect from "multiselect-react-dropdown";
+import { LinkedinShareButton, TwitterShareButton, FacebookShareButton, TelegramShareButton } from "react-share";
 
 
 
@@ -395,7 +396,7 @@ export default function OrganisationJobsCard(props) {
                 <div className="p-5">
                     <div className="flex mb-8">
                         <div className="bg-white rounded-full p-2.5 flex items-center justify-center w-[50px] h-[50px]">
-                            <Image src={data.org.profile} width={50} height={50} alt="Google" className="w-full rounded-full" />
+                            <Image src={data.org.profile} width={300} height={300} alt="Google" className="w-full h-full rounded-full" />
                         </div>
                         <div className="pl-3 w-[calc(100%-60px)]">
                             <h3 className="font-bold text-[15px] mb-1">{data.title}</h3>
@@ -534,28 +535,34 @@ export default function OrganisationJobsCard(props) {
                                 </div>
                                 <div className="shadow-md rounded-[20px] p-6">
                                     <ul className="flex items-center flex-wrap justify-center text-center text-[#6D27F9] text-xl">
-                                        <li className="w-[33.33%] px-[10px] mb-2">
-                                            <button type="button" className="hover:text-black">
-                                                <i className="fa-brands fa-linkedin-in"></i>
-                                            </button>
+                                    <li className="w-[33.33%] px-[10px] mb-2">
+                                            <LinkedinShareButton url={`https://somhako.com/marketplace/job-detail/${data.refid}`} ><i className="fa-brands fa-linkedin-in hover:text-black"></i></LinkedinShareButton>
                                         </li>
                                         <li className="w-[33.33%] px-[10px] mb-2">
-                                            <button type="button" className="hover:text-black">
+                                            <TwitterShareButton url={`https://somhako.com/marketplace/job-detail/${data.refid}`}><i className="fa-brands fa-twitter hover:text-black"></i></TwitterShareButton>
+                                            {/* <button type="button" className="hover:text-black">
                                                 <i className="fa-brands fa-twitter"></i>
-                                            </button>
+                                            </button> */}
                                         </li>
                                         <li className="w-[33.33%] px-[10px] mb-2">
-                                            <button type="button" className="hover:text-black">
+                                            <FacebookShareButton url={`https://somhako.com/marketplace/job-detail/${data.refid}`}><i className="fa-brands fa-facebook-f hover:text-black"></i></FacebookShareButton>
+                                            {/* <button type="button" className="hover:text-black">
                                                 <i className="fa-brands fa-facebook-f"></i>
-                                            </button>
+                                            </button> */}
                                         </li>
                                         <li className="w-[33.33%] px-[10px] mb-2">
-                                            <button type="button" className="hover:text-black">
+                                            <TelegramShareButton url={`https://somhako.com/marketplace/job-detail/${data.refid}`}><i className="fa-brands fa-telegram hover:text-black"></i></TelegramShareButton>
+                                            {/* <button type="button" className="hover:text-black">
                                                 <i className="fa-brands fa-telegram"></i>
-                                            </button>
+                                            </button> */}
                                         </li>
                                         <li className="w-[33.33%] px-[10px] mb-2">
-                                            <button type="button" className="hover:text-black">
+                                            <button type="button" className="hover:text-black"  onClick={(e)=>{
+                                                navigator.clipboard.writeText(`https://somhako.com/marketplace/job-detail/${data.refid}`).then((e)=>{
+                                                    toastcomp("Copid Successfully","Success")
+                                                }).catch((e)=>{
+                                                    toastcomp("Copid Unsuccessfully","error")
+                                                }) }}>
                                                 <i className="fa-regular fa-copy"></i>
                                             </button>
                                         </li>

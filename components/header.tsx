@@ -70,6 +70,11 @@ function Header(props) {
         updateAccessToken('')
     }
 
+    useEffect(() => {
+      console.log(accessToken);
+    }, [accessToken])
+    
+
     async function readfn(pk) {
         const axiosInstanceAuth = axios.create({
             baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,

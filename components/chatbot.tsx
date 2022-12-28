@@ -40,7 +40,12 @@ export default function ChatBot(props) {
             // console.log(res.data)
             // setResv(res.data.res)
             if(res.data.Jobs){
+                console.log(1)
                 filter(res.data.Jobs)
+            }
+            else{
+                console.log(2)
+                filter('')
             }
             // let arr = []
             arr.push(res.data.res)
@@ -59,6 +64,7 @@ export default function ChatBot(props) {
 
     async function filter(param1) {
         await axiosInstanceAuth2.get(`/job/chatmini/job/?refid=${param1}`).then(async (res)=>{
+            console.log("test1",res)
             setJobList(res.data)
             setJobList2(res.data.slice(0, 6))
         }).catch((err)=>{
@@ -115,7 +121,7 @@ export default function ChatBot(props) {
                                 <li key={key}>
                                     <div className="flex items-center justify-end">
                                         <span className="inline-block max-w-[75%] bg-[#6D27F9] text-white shadow rounded-[20px] py-2 px-3 relative after:content-[''] after:border-[5px] after:border-[#6D27F9] after:absolute after:top-[50%] after:right-[-4px] after:translate-y-[-50%] after:rotate-45">{item}</span>
-                                        <Image src={userImg} alt="User" width={35} height={35} className="rounded-full object-cover w-[35px] h-[35px]" />
+                                        <Image src={userImg} alt="User" width={300} height={300} className="w-[35px] h-[35px] rounded-full object-cover w-[35px] h-[35px]" />
                                     </div>
                                 </li>
                             ))}

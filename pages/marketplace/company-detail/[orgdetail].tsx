@@ -1,3 +1,4 @@
+//@ts-nocheck
 import Image from "next/image";
 import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
@@ -91,7 +92,8 @@ function OrgDetail() {
 
   useEffect(() => {
     if (!param1) {
-      router.push("/marketplace/jobs");
+      if(window.location.href.split("/").length > 0){updateParam1(((window.location.href).toString().split("/")).pop())}
+      else{router.push('/marketplace/jobs')}
     } else {
       loadOrgDetail(param1);
     }
@@ -121,17 +123,17 @@ function OrgDetail() {
                 <div className="bg-white shadow-normal rounded-[25px] flex flex-wrap">
                   <div
                     className={`w-full lg:max-w-[40%] companyMainImage flex flex-col justify-between rounded-[25px] p-6 relative after:content-[''] after:w-full after:h-full after:bg-black after:opacity-20 after:absolute after:left-0 after:top-0 after:rounded-[25px] min-h-[280px]`}
-                    style={{ backgroundImage: "url(" + `${data.cover}` + ")" }}
+                    // style={{ backgroundImage: "url(" + `${data.cover}` + ")" }}
                   >
                     <div className="flex relative z-[1] mb-8">
                       <div className="s bg-white w-[100px] h-[100px] rounded-full flex items-center justify-center p-5 shadow-normal mt-[-66px]">
-                        <Image
+                        {/* <Image
                           src={data.profile}
-                          width={100}
-                          height={100}
+                          width={300}
+                          height={300}
                           alt="Company"
                           className="w-full h-full rounded-full object-cover"
-                        />
+                        /> */}
                       </div>
                       <h1 className="font-semibold text-xl pl-2 flex-1">
                         {data.title}

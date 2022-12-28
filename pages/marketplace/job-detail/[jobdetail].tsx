@@ -1,10 +1,11 @@
+//@ts-nocheck
 import Image from "next/image";
 import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import JobCard from "../../../components/job-card";
 import Slider from "react-slick";
 import googleImg from "../../public/images/google-icon.png";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { axiosInstance } from "../../api/axiosApi";
 import { useStore } from '../../../constants/code';
 import { useEffect, useState } from 'react';
@@ -13,6 +14,11 @@ import moment from "moment";
 import { withAuth } from '../../../constants/HOCs';
 import toastcomp from '../../../components/toast';
 import axios from 'axios';
+import { FacebookShareButton, LinkedinShareButton } from "react-share";
+import LineIcon from "react-share/lib/LineIcon";
+import LinkedinIcon from "react-share/lib/LinkedinIcon";
+import TwitterShareButton from "react-share/lib/TwitterShareButton";
+import TelegramShareButton from "react-share/lib/TelegramShareButton";
 
 function JobDetail(props) {
     const [mainShareJob, mainShareJobOpen] = useState(false)
@@ -20,10 +26,12 @@ function JobDetail(props) {
     const [pskill, setPSkill] = useState([])
     const [rskill, setRSkill] = useState([])
     const [finfo, setFInfo] = useState([])
+    const [Similar, setSimilar] = useState([])
     const [refid, setRefid] = useState('')
     const [applied, setapplied] = useState(false)
     const [bookmarked, setbookmarked] = useState(false)
     const cancelButtonRef = useRef(null)
+    const { asPath } = useRouter();
     const [param1, updateParam1] = useStore(
         (state) => [state.param1, state.updateParam1],
         shallow
@@ -51,25 +59,59 @@ function JobDetail(props) {
         }
     });
     
+    
 
     async function loadJobDetail(id) {
-        await axiosInstance.get('/job/job/detail/'+id+'/').then(async (res)=>{
-            setJobDetail(res.data)
+        if(accessToken.length > 0 && userType == "candidate"){
+            await axiosInstanceAuth2.get('/job/job/detail/'+id+'/').then(async (res)=>{
+                setJobDetail(res.data)
+            }).catch((err)=>{
+                router.push('/marketplace/jobs')
+
+                // console.log(err)
+                // if(err.message != "Request failed with status code 401"){
+                //     toastcomp("Job Detail Not Loaded","error");
+                // }
+            })
+
+        }
+        else{
+            await axiosInstance.get('/job/job/detail/'+id+'/').then(async (res)=>{
+                setJobDetail(res.data)
+            }).catch((err)=>{
+                // router.push('/marketplace/jobs')
+
+                // console.log(err)
+                // if(err.message != "Request failed with status code 401"){
+                //     toastcomp("Job Detail Not Loaded","error");
+                // }
+            })
+
+        }
+    }
+
+    async function similar(id) {
+
+        await axiosInstance.get('/job/similar/'+id+'/').then(async (res)=>{
+            setSimilar(res.data)
         }).catch((err)=>{
             router.push('/marketplace/jobs')
             // console.log(err)
             // if(err.message != "Request failed with status code 401"){
-            //     toastcomp("Job Detail Not Loaded","error");
+            //     toastcomp("Job Detail S Not Loaded","error");
             // }
         })
     }
 
     useEffect(() => {
       if(!param1){
-        router.push('/marketplace/jobs')
+        console.log((window.location.href).toString().split("/"))
+        if(window.location.href.split("/").length > 0){updateParam1(((window.location.href).toString().split("/")).pop())}
+        else{router.push('/marketplace/jobs')}
       }
       else{
         loadJobDetail(param1)
+        similar(param1)
       }
     }, [param1])
 
@@ -90,7 +132,7 @@ function JobDetail(props) {
       if(jobDetail.length > 0){
         for(let i =0;i<jobDetail.length;i++){
             setFInfo([{
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-recycle"></i>,
                 title: 'Experience',
                 desc: (jobDetail[i]["exp"])?jobDetail[i]["exp"]:'N/A'
             },
@@ -100,42 +142,42 @@ function JobDetail(props) {
                 desc: (jobDetail[i]["type"])?jobDetail[i]["type"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-recycle"></i>,
                 title: 'Experience Level',
                 desc: (jobDetail[i]["level"])?jobDetail[i]["level"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-location-dot"></i>,
                 title: 'Location',
                 desc: (jobDetail[i]["location"])?jobDetail[i]["location"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-building"></i>,
                 title: 'Work Type',
                 desc: (jobDetail[i]["worktype"])?jobDetail[i]["worktype"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-graduation-cap"></i>,
                 title: 'Qualification',
                 desc: (jobDetail[i]["qualification"])?jobDetail[i]["qualification"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-dollar-sign"></i>,
                 title: 'Offered Salary',
                 desc: (jobDetail[i]["salary"])?jobDetail[i]["salary"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-industry"></i>,
                 title: 'Industry',
                 desc: (jobDetail[i]["industry"])?jobDetail[i]["industry"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-building-user"></i>,
                 title: 'Department',
                 desc: (jobDetail[i]["dept"])?jobDetail[i]["dept"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-clipboard"></i>,
                 title: 'Application Deadline',
                 desc: (jobDetail[i]["deadline"])?moment(jobDetail[i]["deadline"]).format('YYYY-MM-DD'):'N/A'
             },
@@ -146,27 +188,27 @@ function JobDetail(props) {
             //     desc: jobDetail[i]["lang1"]+' '+jobDetail[i]["exp1"]+jobDetail[i]["lang1"]+' '+jobDetail[i]["exp3"]+jobDetail[i]["lang3"]+' '+jobDetail[i]["exp3"] +jobDetail[i]["lang4"]+' '+jobDetail[i]["exp4"]
             // },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-users-rays"></i>,
                 title: 'Vacancy',
                 desc: (jobDetail[i]["vacancy"])?jobDetail[i]["vacancy"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-dollar-sign"></i>,
                 title: 'Bonus',
                 desc: (jobDetail[i]["bonus"])?jobDetail[i]["bonus"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-money-bill-trend-up"></i>,
                 title: 'Stock Options',
                 desc: (jobDetail[i]["stock"])?jobDetail[i]["stock"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-brands fa-cc-visa"></i>,
                 title: 'Visa Sponsership',
                 desc: (jobDetail[i]["visa"])?jobDetail[i]["visa"]:'N/A'
             },
             {
-                icon: <i className="fa-solid fa-briefcase"></i>,
+                icon: <i className="fa-solid fa-map-location-dot"></i>,
                 title: 'Paid Relocation',
                 desc: (jobDetail[i]["relocation"])?jobDetail[i]["relocation"]:'N/A'
             },])
@@ -240,6 +282,8 @@ function JobDetail(props) {
                 }
             })
         }
+        bookmarkedCheck();
+        appliedCheck();
     }
 
     async function bookmark(){
@@ -255,6 +299,8 @@ function JobDetail(props) {
                     toastcomp("Job Bookmarked Error","error");
                 }
             })
+            bookmarkedCheck();
+            appliedCheck();
         }
     }
 
@@ -264,8 +310,9 @@ function JobDetail(props) {
         }
         else{
             await axiosInstanceAuth2.post('/job/applicant/bookmarked/'+userObj['erefid']+'/'+refid+'/').then(async (res)=>{
+                console.log(res)
                 if(res.data.Message){setbookmarked(true)}
-                else{setbookmarked(true)}
+                else{setbookmarked(false)}
             }).catch((err)=>{
                 setbookmarked(true)
             })
@@ -278,8 +325,9 @@ function JobDetail(props) {
         }
         else{
             await axiosInstanceAuth2.post('/job/applicant/applied/'+userObj['erefid']+'/'+refid+'/').then(async (res)=>{
+                console.log(res)
                 if(res.data.Message){setapplied(true)}
-                else{setapplied(true)}
+                else{setapplied(false)}
             }).catch((err)=>{
                 setapplied(true)
             })
@@ -300,7 +348,7 @@ return (
                         <aside>
                             <div className="w-[150px] h-[150px] mx-auto block mb-4 rounded-full p-4 shadow-insetview flex items-center justify-center">
                                 <div className="w-full h-full rounded-full bg-white shadow-lg p-5">
-                                    <Image src={data.org.profile} width={150} height={150} alt="Company Name" className="rounded-full object-cover" />
+                                    <Image src={data.org.profile} width={150} height={150} alt="Company Name" className="w-full h-full rounded-full object-cover" />
                                 </div>
                             </div>
                             <h2 className="font-semibold text-2xl">{data.user.company_name}</h2>
@@ -320,14 +368,14 @@ return (
                                 </p>
                             </aside>
                             <aside className="flex items-center flex-wrap mb-4 md:mb-0">
-                                <button type="button" className="flex items-center mr-8" onClick={() => mainShareJobOpen(true)}>
+                                <button type="button" className="cursor-pointer flex items-center mr-8" onClick={() => mainShareJobOpen(true)}>
                                     <span className="mr-2">Share Job</span>
                                     <i className="fa-solid fa-share text-[#6D27F9]"></i>
                                 </button>
-                                <button type="button" className="bg-white py-1.5 px-4 text-sm rounded-full border border-[#6D27F9] hover:bg-[#6D27F9] hover:text-white" onClick={(e)=>bookmark()} disabled={bookmarked}>{bookmarked?<>Already Saved</>:<>Save Job</>}</button>
+                                <button type="button" className="disabled:opacity-30 disabled:cursor-normal cursor-pointer bg-white py-1.5 px-4 text-sm rounded-full border border-[#6D27F9] hover:bg-[#6D27F9] hover:text-white" onClick={(e)=>bookmark()} disabled={bookmarked}>{bookmarked?<>Already Saved</>:<>Save Job</>}</button>
                             </aside>
                         </div>
-                        <button type="button" className="mb-8 bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>apply()} disabled={applied}>{applied?<>Already Applied</>:<>Apply Now</>}</button>
+                        <button type="button" className="disabled:opacity-30 disabled:cursor-normal mb-8 bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>apply()} disabled={applied}>{applied?<>Already Applied</>:<>Apply Now</>}</button>
                         <div>
                             <Slider {...settings} className="sliderArrows">
                                 {finfo.map((featuredInfo, i) => (
@@ -398,42 +446,28 @@ return (
                             </div>
                         </div>
                     </div>
+                    {Similar.length > 0 && 
                     <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] overflow-hidden mb-8">
                         <div className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] py-4 px-6 md:px-10">
                             <h2 className="text-white">Similar to this Job</h2>
                         </div>
                         <div className="py-4 px-6 md:px-10">
-                            {/* <div className="flex flex-wrap mx-[-10px]">
-                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                    <JobCard />
+                        <div className="flex flex-wrap mx-[-10px]">
+                            {Similar.map((job, i) => (
+                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4" key={i}>
+                                <JobCard data={job} />
                                 </div>
-                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                    <JobCard />
-                                </div>
-                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                    <JobCard />
-                                </div>
-                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                    <JobCard />
-                                </div>
-                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                    <JobCard />
-                                </div>
-                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                    <JobCard />
-                                </div>
-                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                    <JobCard />
-                                </div>
-                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
-                                    <JobCard />
-                                </div>
-                            </div> */}
+                            ))}
+                        </div>
                         </div>
                     </div>
+                    }
+                    
             </div>
             </section>
             </main>
+
+
             <Transition.Root show={mainShareJob} as={Fragment}>
                 <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={mainShareJobOpen}>
                     <Transition.Child
@@ -470,27 +504,33 @@ return (
                                 <div className="shadow-md rounded-[20px] p-6">
                                     <ul className="flex items-center flex-wrap justify-center text-center text-[#6D27F9] text-xl">
                                         <li className="w-[33.33%] px-[10px] mb-2">
-                                            <button type="button" className="hover:text-black">
-                                                <i className="fa-brands fa-linkedin-in"></i>
-                                            </button>
+                                            <LinkedinShareButton url={window.location.href} ><i className="fa-brands fa-linkedin-in hover:text-black"></i></LinkedinShareButton>
                                         </li>
                                         <li className="w-[33.33%] px-[10px] mb-2">
-                                            <button type="button" className="hover:text-black">
+                                            <TwitterShareButton url={window.location.href}><i className="fa-brands fa-twitter hover:text-black"></i></TwitterShareButton>
+                                            {/* <button type="button" className="hover:text-black">
                                                 <i className="fa-brands fa-twitter"></i>
-                                            </button>
+                                            </button> */}
                                         </li>
                                         <li className="w-[33.33%] px-[10px] mb-2">
-                                            <button type="button" className="hover:text-black">
+                                            <FacebookShareButton url={window.location.href}><i className="fa-brands fa-facebook-f hover:text-black"></i></FacebookShareButton>
+                                            {/* <button type="button" className="hover:text-black">
                                                 <i className="fa-brands fa-facebook-f"></i>
-                                            </button>
+                                            </button> */}
                                         </li>
                                         <li className="w-[33.33%] px-[10px] mb-2">
-                                            <button type="button" className="hover:text-black">
+                                            <TelegramShareButton url={window.location.href}><i className="fa-brands fa-telegram hover:text-black"></i></TelegramShareButton>
+                                            {/* <button type="button" className="hover:text-black">
                                                 <i className="fa-brands fa-telegram"></i>
-                                            </button>
+                                            </button> */}
                                         </li>
                                         <li className="w-[33.33%] px-[10px] mb-2">
-                                            <button type="button" className="hover:text-black">
+                                            <button type="button" className="hover:text-black"  onClick={(e)=>{
+                                                navigator.clipboard.writeText(window.location.href).then((e)=>{
+                                                    toastcomp("Copid Successfully","Success")
+                                                }).catch((e)=>{
+                                                    toastcomp("Copid Unsuccessfully","error")
+                                                }) }}>
                                                 <i className="fa-regular fa-copy"></i>
                                             </button>
                                         </li>

@@ -13,6 +13,7 @@ import toastcomp from "../../../components/toast";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { getCsrfToken } from "next-auth/react";
+import Multiselect from "multiselect-react-dropdown";
 
 async function setCSRF(setCsrf) {
   const csrfToken = await getCsrfToken()
@@ -27,6 +28,23 @@ export default function SignUp() {
   const router = useRouter(); 
   const { asPath } = useRouter();
 
+  const [orgInputPass, orgInputPassToggle] = useState(false);
+  const [orgInputConfPass, orgInputConfPassToggle] = useState(false);
+  const [canInputPass, canInputPassToggle] = useState(false);
+  const [canInputConfPass, canInputConfPassToggle] = useState(false);
+  
+  function orgInputPassToggled(){
+    orgInputPassToggle(!orgInputPass);
+  }
+  function orgInputConfPassToggled(){
+    orgInputConfPassToggle(!orgInputConfPass);
+  }
+  function canInputPassToggled(){
+    canInputPassToggle(!canInputPass);
+  }
+  function canInputConfPassToggled(){
+    canInputConfPassToggle(!canInputConfPass);
+  }
   
   useEffect(() => {
     setCSRF(setCsrf);
@@ -66,7 +84,7 @@ export default function SignUp() {
   }
 
   function validateOForm() {
-    return cemail.length > 0 && cpassword.length >= 8 && cpassword2 == cpassword && name.length > 0 && cname.length > 0 && ctype.length > 0;
+    return cemail.length > 0 && cpassword.length >= 8 && cpassword2 == cpassword && name.length > 0 && cname.length > 0 && ctype && ctype.length > 0;
   }
 
   async function handleCandClick(event) {
@@ -166,6 +184,18 @@ export default function SignUp() {
   }
 
   function creatAccBtn() {
+    setFirstName('')
+    setLastName('')
+    setEmail('')
+    setPhone('')
+    setPassword('')
+    setPassword2('')
+    setCName('')
+    setName('')
+    setCEmail('')
+    setCType('')
+    setCPassword('')
+    setCPassword2('')
     setSection(choice);
   }
 
@@ -224,20 +254,42 @@ export default function SignUp() {
                             </div>
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="accounttype" className="font-medium mb-2 leading-none inline-block">Account Type</label>
-                              <select id="accounttype" className="w-full rounded-full border-slate-300" value={ctype} onChange={(e) => setCType(e.target.value)}>
+                              {/* <select id="accounttype" className="w-full rounded-full border-slate-300" value={ctype} onChange={(e) => setCType(e.target.value)}>
                                 <option value="Agency">Agency</option>
                                 <option value="Corporate">Corporate</option>
-                              </select>
+                              </select> */}
+                              <Multiselect
+                                options={['Agency','Corporate']}
+                                isObject={false}
+                                customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
+                                showArrow={true}
+                                closeOnSelect={true}
+                                selectionLimit={1}
+                                selectedValues = {ctype && ctype.split(',')}
+                                onSelect={(selectedList, selectedItem)=> {setCType(selectedItem) }}
+                                onRemove={(selectedList, selectedItem)=> {setCType('') }}
+                                placeholder="Find Account Type"
+                                />
                             </div>
                           </div>
                           <div className="flex flex-wrap justify-between">
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="password" className="font-medium mb-2 leading-none inline-block">Password</label>
-                              <input id="password" type="password" className="w-full rounded-full border-slate-300" value={cpassword} onChange={(e) => setCPassword(e.target.value)} />
+                              <div className="iconGroup right">
+                                <input type={`${orgInputPass ? 'text' : 'password'}`} name="password" id="input-password-for-credentials-provider" className="w-full rounded-full border-slate-300" value={cpassword} onChange={(e) => setCPassword(e.target.value)} />
+                                <button type="button" className="iconGroup__icon-right" onClick={orgInputPassToggled}>
+                                  <i className={`fa-solid text-black ${orgInputPass ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                </button>
+                              </div>
                             </div>
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="confirmpassword" className="font-medium mb-2 leading-none inline-block">Confirm Password</label>
-                              <input id="confirmpassword" type="password" className="w-full rounded-full border-slate-300" value={cpassword2} onChange={(e) => setCPassword2(e.target.value)} />
+                              <div className="iconGroup right">
+                                <input type={`${orgInputConfPass ? 'text' : 'password'}`} name="password" id="input-password-for-credentials-provider" className="w-full rounded-full border-slate-300" value={cpassword2} onChange={(e) => setCPassword2(e.target.value)} />
+                                <button type="button" className="iconGroup__icon-right" onClick={orgInputConfPassToggled}>
+                                  <i className={`fa-solid text-black ${orgInputConfPass ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                </button>
+                              </div>
                             </div>
                           </div>
                           <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
@@ -281,11 +333,21 @@ export default function SignUp() {
                           <div className="flex flex-wrap justify-between">
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="cand_password" className="font-medium mb-2 leading-none inline-block">Password</label>
-                              <input id="cand_password" type="password" className="w-full rounded-full border-slate-300"  value={password} onChange={(e) => setPassword(e.target.value)} />
+                              <div className="iconGroup right">
+                                <input type={`${canInputPass ? 'text' : 'password'}`} name="password" id="input-password-for-credentials-provider" className="w-full rounded-full border-slate-300" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                <button type="button" className="iconGroup__icon-right" onClick={canInputPassToggled}>
+                                  <i className={`fa-solid text-black ${canInputPass ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                </button>
+                              </div>
                             </div>
                             <div className="w-full lg:w-[47%] mb-6">
                               <label htmlFor="cand_confirmpassword" className="font-medium mb-2 leading-none inline-block">Confirm Password</label>
-                              <input id="cand_confirmpassword" type="password" className="w-full rounded-full border-slate-300" value={password2} onChange={(e) => setPassword2(e.target.value)}/>
+                              <div className="iconGroup right">
+                                <input type={`${canInputConfPass ? 'text' : 'password'}`} name="password" id="input-password-for-credentials-provider" className="w-full rounded-full border-slate-300" value={password2} onChange={(e) => setPassword2(e.target.value)} />
+                                <button type="button" className="iconGroup__icon-right" onClick={canInputConfPassToggled}>
+                                  <i className={`fa-solid text-black ${canInputConfPass ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                </button>
+                              </div>
                             </div>
                           </div>
                           {ref.length > 0 && 
@@ -305,7 +367,7 @@ export default function SignUp() {
                         </form>
                         <div className="relative mb-8">
                           <hr className="border-slate-600" />
-                          <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or sign Up with</span>
+                          <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or Sign Up With</span>
                         </div>
                         <div className="flex items-center justify-center">
                           <form action={`${process.env.NODE_ENV === 'production' ? 'https://somhako.com/' : 'http://localhost:3000/'}api/auth/signin/google`} method="POST">

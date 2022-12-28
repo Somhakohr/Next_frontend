@@ -18,6 +18,7 @@ import { useStore } from "../../../constants/code";
 import axios from "axios";
 import toastcomp from "../../../components/toast";
 import Multiselect from 'multiselect-react-dropdown';
+import { signOut } from "next-auth/react";
 
 function OrganisationAccount(props) {
   const cancelButtonRef = useRef(null);
@@ -347,6 +348,30 @@ function OrganisationAccount(props) {
       });
   }
 
+  async function delacc() {
+    const axiosInstanceAuth = axios.create({
+    baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
+    timeout: 5000,
+    headers: {
+        'Authorization': 'Bearer '+accessToken,
+        'Content-Type': 'application/json',
+        'accept': 'application/json'
+    }
+    });
+    await axiosInstanceAuth.get('/auth/deleteOrgAccount/'+userObj['orefid']+'/').then((res)=>{
+        toastcomp("Account Deleted :)","success");
+        updateUserType('')
+        updateUserName('')
+        updateUserImg('')
+        updateUserObj({})
+        updateUserProfile({})
+        updateAccessToken('')
+        signOut()
+    }).catch((err)=>{
+        toastcomp("Account Not Deleted :)","error");
+    });
+    
+}
   async function saveAccount(formData) {
     await axiosInstanceAuth2
       .put("/auth/organizationaccont/" + userObj["orefid"] + "/", formData)
@@ -1428,7 +1453,7 @@ function OrganisationAccount(props) {
                             </button>
                             <button
                               type="submit"
-                              className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mx-3 md:min-w-[90px] transition-all hover:from-[#391188] hover:to-[#391188]"
+                              className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mx-3 md:min-w-[90px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>delacc()}
                             >
                               Yes
                             </button>
