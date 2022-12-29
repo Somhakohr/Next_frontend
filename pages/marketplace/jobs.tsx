@@ -29,7 +29,6 @@ export default function JobListing() {
     
     async function loadJobs() {
         await axiosInstance.get('/job/job/list/').then(async (res)=>{
-            console.log(res)
             setJobList(res.data)
             setJobList2(res.data.slice(0, 6))
         }).catch((err)=>{
@@ -76,7 +75,6 @@ export default function JobListing() {
     async function filters(query) {
         // await axiosInstance.get(`/job/job/list/?sJob=${search}&levelFilter=${level}&jtFilter=${type}&locFilter=${loc}&skillFilter=${skill}&indFilter=${ind}&catFilter=${dept}&wpFilter=${wtype}&expFilter=${exp}`).then(async (res)=>{
         await axiosInstance.get(`/job/job/list/?${query}`).then(async (res)=>{
-            console.log("filter",res)
             setJobList(res.data)
             setJobList2(res.data.slice(0, 6))
         }).catch((err)=>{

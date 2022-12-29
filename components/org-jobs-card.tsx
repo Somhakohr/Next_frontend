@@ -264,7 +264,6 @@ export default function OrganisationJobsCard(props) {
             if(pskill){formData.append("preskill", pskill)}
             if(qf){formData.append("qualification", qf)}
             if(lang.length>0){
-                console.log(lang);
                 for(let i=0;i<lang.length;i++){
                     formData.append('lng'+(i+1), lang[i]['title'])
                     formData.append('exp'+(i+1), lang[i]['exp'])

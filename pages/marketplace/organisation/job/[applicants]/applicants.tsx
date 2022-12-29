@@ -66,7 +66,7 @@ function OrganisationJOBApplicants(props) {
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
         baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-        timeout: 5000,
+        timeout: process.env.NODE_ENV === 'production' ? 5000 : 10000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
             "Content-Type": "multipart/form-data",
@@ -76,7 +76,6 @@ function OrganisationJOBApplicants(props) {
     async function loadApplicant(refid,orefid) {
         await axiosInstanceAuth2.get('/job/job/applicant/'+orefid+'/'+refid+'/').then(async (res)=>{
             setApplicant(res.data)
-            console.log(res.data)
         }).catch((err)=>{
             // console.log(err)
             // if(err.message != "Request failed with status code 401"){
@@ -88,7 +87,6 @@ function OrganisationJOBApplicants(props) {
     
     async function loadApplicantF(refid,orefid) {
         await axiosInstanceAuth2.get(`/job/job/applicant/${orefid}/${refid}/?user__first_name=${fname}&job__dept=${dept}`).then(async (res)=>{
-            console.log("res",res.data)
             setApplicant(res.data)
         }).catch((err)=>{
             console.log(err)
@@ -259,7 +257,7 @@ function OrganisationJOBApplicants(props) {
                                                 <td className="p-3 text-center w-[15%]">{data.cand.noticeperiod?data.cand.noticeperiod:<>N/A</>}</td>
                                                 <td className="p-3 text-center">
                                                     {data.status ? 
-                                                    <span className="border rounded-full py-1 px-4 text-center text-[12px] min-w-[90px] inline-block"  style={{ ["border-color" as any]: `${getColor(data.status)}`,["color" as any]: `${getColor(data.status)}`}} onClick={(e)=>{console.log(check)}}>
+                                                    <span className="border rounded-full py-1 px-4 text-center text-[12px] min-w-[90px] inline-block"  style={{ ["border-color" as any]: `${getColor(data.status)}`,["color" as any]: `${getColor(data.status)}`}}>
                                                         {data.status}
                                                     </span>
                                                     :

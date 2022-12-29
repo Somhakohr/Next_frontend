@@ -90,7 +90,7 @@ function OrganisationAllJobs(props) {
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
         baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-        timeout: 5000,
+        timeout: process.env.NODE_ENV === 'production' ? 5000 : 10000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
             "Content-Type": "multipart/form-data",
@@ -100,7 +100,6 @@ function OrganisationAllJobs(props) {
     async function loadJobs() {
         await axiosInstanceAuth2.get('/job/organization/jobs/'+userObj['orefid']+'/',).then(async (res)=>{
             setJobs(res.data)
-            console.log(res.data)
         }).catch((err)=>{
             console.log(err)
             if(err.message != "Request failed with status code 401"){
@@ -130,7 +129,6 @@ function OrganisationAllJobs(props) {
 
     useEffect(() => {
       if(Object.keys(editJob).length > 0){
-        console.log(editJob)
         resetJOBFORM()
         if(editJob['title']){setTitle(editJob['title'])}
         if(editJob['dept']){setDept(editJob['dept'])}

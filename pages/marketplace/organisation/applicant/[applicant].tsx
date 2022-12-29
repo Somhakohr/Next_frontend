@@ -82,7 +82,7 @@ function OrganisationCandidateProfileView(props) {
   //axios auth var
   const axiosInstanceAuth2 = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: 5000,
+    timeout: process.env.NODE_ENV === 'production' ? 5000 : 10000,
     headers: {
       Authorization: "Bearer " + accessToken,
       "Content-Type": "multipart/form-data",
@@ -94,7 +94,6 @@ function OrganisationCandidateProfileView(props) {
       .get("/job/single/applicant/" + id + "/")
       .then(async (res) => {
         setApplicantData(res.data);
-        console.log(res.data);
         let abc = res.data;
         for (let i = 0; i < abc.length; i++) {
           setCrefid(abc[i].user.erefid);
