@@ -30,11 +30,11 @@ export default function JobCard(props) {
                 <div className="flex mb-8">
                     <div className="bg-white rounded-full p-2.5 flex items-center justify-center w-[50px] h-[50px]">
                         {data.org.profile &&
-                        <Image src={`${data.org.profile}`} width={300} height={300} alt="Google" className="w-full h-full rounded-full" />
+                        <Image src={`${data.org.profile}`} width={300} height={300} alt="Google" className="w-full h-full rounded-full object-cover" />
                         }
                     </div>
                     <div className="pl-3 w-[calc(100%-60px)]">
-                        <h3 className="font-bold text-md mb-1">{data.title}</h3>
+                        <h3 className="font-bold text-md mb-1 line_clamp_1">{data.title}</h3>
                         <h5 className="font-medium text-sm">{data.user.company_name}</h5>
                     </div>
                 </div>

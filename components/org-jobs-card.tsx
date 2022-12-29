@@ -396,7 +396,7 @@ export default function OrganisationJobsCard(props) {
                 <div className="p-5">
                     <div className="flex mb-8">
                         <div className="bg-white rounded-full p-2.5 flex items-center justify-center w-[50px] h-[50px]">
-                            <Image src={data.org.profile} width={300} height={300} alt="Google" className="w-full h-full rounded-full" />
+                            <Image src={data.org.profile} width={300} height={300} alt="Google" className="w-full h-full rounded-full object-cover" />
                         </div>
                         <div className="pl-3 w-[calc(100%-60px)]">
                             <h3 className="font-bold text-[15px] mb-1">{data.title}</h3>

@@ -12,6 +12,8 @@ import Multiselect from 'multiselect-react-dropdown';
 import chatMini from '../../public/images/chat-mini.png'
 import { useStore } from '../../constants/code';
 import shallow from 'zustand/shallow';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export default function JobListing() {
     const [sidebarToggle, setsidebarToggle] = useState(false);
@@ -186,6 +188,43 @@ export default function JobListing() {
     return (
         <>
             <main className="py-8">
+                <section className='container flex flex-wrap min-h-[500px]'>
+                    <div className='w-full lg:max-w-[300px]'>
+                        <div className="bg-white shadow-normal border rounded-[30px] p-6 h-full">
+                            <Skeleton width={100} />
+                            <Skeleton height={35} count={8} style={{margin: '10px 0'}} />
+                        </div>
+                    </div>
+                    <div className='w-full lg:max-w-[calc(100%-300px)] lg:pl-4'>
+                        <div className="bg-white shadow-normal border rounded-[30px] p-6 h-full">
+                            <Skeleton width={300} height={25} />
+                            <div className="flex flex-wrap pt-4 mx-[-10px]">
+                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
+                                    <div className=''>
+                                        <div className='flex flex-wrap items-center mb-4'>       
+                                            <Skeleton width={40} height={40} style={{borderRadius: '100%', marginRight: '10px'}} />
+                                            <Skeleton width={150} height={20} />
+                                        </div>
+                                        <Skeleton height={25} style={{margin: '0 0 10px 0'}} />
+                                        <Skeleton width={180} height={20} style={{margin: '0 0 10px 0'}} />
+                                        <Skeleton width={120} height={20} />
+                                    </div>
+                                </div>
+                                <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
+                                    <div className=''>
+                                        <div className='flex flex-wrap items-center mb-4'>       
+                                            <Skeleton width={40} height={40} style={{borderRadius: '100%', marginRight: '10px'}} />
+                                            <Skeleton width={150} height={20} />
+                                        </div>
+                                        <Skeleton height={25} style={{margin: '0 0 10px 0'}} />
+                                        <Skeleton width={180} height={20} style={{margin: '0 0 10px 0'}} />
+                                        <Skeleton width={120} height={20} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
                 <section className="container flex flex-wrap">
                     <div className={sidebarToggle ? 'fixed z-[9] left-0 top-0 w-full h-full bg-[#0000006b] block' : 'fixed z-[9] left-0 top-0 w-full bg-[#0000006b] hidden'} onClick={() => setsidebarToggle(false)}></div>
                     <div className={sidebarToggle ? 'w-full lg:max-w-[300px] p-4 lg:p-0 fixed z-10 lg:static right-0 bottom-0 text-right lg:text-left' : 'w-full lg:max-w-[300px] p-4 lg:p-0 fixed z-10 lg:static right-0 bottom-0 text-right lg:text-left'}>
