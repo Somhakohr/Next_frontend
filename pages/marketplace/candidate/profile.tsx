@@ -18,6 +18,7 @@ import toastcomp from "../../../components/toast";
 import "@rainbow-me/rainbowkit/styles.css";
 import { ConnectButton,getDefaultWallets,RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import Multiselect from "multiselect-react-dropdown";
+import { Editor } from "@tinymce/tinymce-react";
 
 function CandidateProfile(props) {
 
@@ -836,7 +837,23 @@ function CandidateProfile(props) {
                                         </div>
                                         <div className="relative">
                                             <label htmlFor="summary" className="font-medium mb-2 leading-none inline-block">Summary</label>
-                                            <textarea id="summary" placeholder="Something about yourself..." className="w-full rounded-[25px] h-[120px] border-slate-300 resize-none pb-6" value={summary} onChange={(e)=>setSummary(e.target.value)} onBlur={(e)=>setFSummary(e.target.value)} ></textarea>
+                                            {/* <textarea id="summary" placeholder="Something about yourself..." className="w-full rounded-[25px] h-[120px] border-slate-300 resize-none pb-6" value={summary} onChange={(e)=>setSummary(e.target.value)} onBlur={(e)=>setFSummary(e.target.value)} ></textarea> */}
+                                            <Editor
+                                            apiKey="veckejpcr82yx9s84tl0ifqqrg7h6zgfdkkmjc69kifrx9rc"
+                                            onChange={(evt, editor) => setSummary(editor.getContent())}
+                                            onBlur={(evt, editor) => setFSummary(editor.getContent())}
+                                            initialValue={summary}
+                                            init={{
+                                                height: 300,
+                                                menubar: false,
+                                                plugins: 'autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount',
+                                                toolbar: 'undo redo | formatselect | ' +
+                                                'bold italic backcolor | alignleft aligncenter ' +
+                                                'alignright alignjustify | bullist numlist outdent indent | ' +
+                                                'removeformat | help',
+                                                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                                            }}
+                                            />
                                             <span className="absolute right-3 bottom-3 text-gray-500">20/300</span>
                                         </div>
                                     </div>

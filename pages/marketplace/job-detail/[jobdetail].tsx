@@ -403,7 +403,7 @@ return (
                         </div>
                         <div className="py-4 px-6 md:px-10">
                             <article className="text-[#7e7e7e] font-light">
-                                <p>{data.desc}</p>
+                                <p dangerouslySetInnerHTML={{ __html: data.desc }}></p>
                             </article>
                         </div>
                     </div>
@@ -413,7 +413,8 @@ return (
                         </div>
                         <div className="py-4 px-6 md:px-10">
                             <article className="text-[#7e7e7e] font-light">
-                                <p>{data.resp}</p>
+                                <p dangerouslySetInnerHTML={{ __html: data.resp }}></p>
+                                {/* <p>{JSON.stringify(data.resp)}</p> */}
                             </article>
                         </div>
                     </div>

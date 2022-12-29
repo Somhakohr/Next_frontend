@@ -14,6 +14,7 @@ import shallow from 'zustand/shallow';
 import toastcomp from '../../../components/toast';
 import moment from 'moment';
 import Multiselect from 'multiselect-react-dropdown';
+import { Editor } from '@tinymce/tinymce-react';
 
 function OrganisationAllJobs(props) {
     
@@ -542,7 +543,23 @@ function OrganisationAllJobs(props) {
                                         <h2 className="text-lg font-semibold">Description *</h2>
                                     </div>
                                     <div className="py-6 px-4 md:px-10">
-                                        <textarea className="w-full rounded-[25px] min-h-[250px] border-slate-300" value={desc} onChange={(e)=>setDesc(e.target.value)}></textarea>
+                                        {/* <textarea className="w-full rounded-[25px] min-h-[250px] border-slate-300" value={desc} onChange={(e)=>setDesc(e.target.value)}></textarea> */}
+                                        <Editor
+                                            apiKey="veckejpcr82yx9s84tl0ifqqrg7h6zgfdkkmjc69kifrx9rc"
+                                            onChange={(evt, editor) => setDesc(editor.getContent())}
+                                            // onBlur={(evt, editor) => setFAdd(editor.getContent())}
+                                            initialValue={desc}
+                                            init={{
+                                                height: 300,
+                                                menubar: false,
+                                                plugins: 'autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount',
+                                                toolbar: 'undo redo | formatselect | ' +
+                                                'bold italic backcolor | alignleft aligncenter ' +
+                                                'alignright alignjustify | bullist numlist outdent indent | ' +
+                                                'removeformat | help',
+                                                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                                            }}
+                                            />
                                     </div>
                                 </div>
                                 <div className="bg-white shadow-normal rounded-[30px]  mb-6">
@@ -550,7 +567,23 @@ function OrganisationAllJobs(props) {
                                         <h2 className="text-lg font-semibold">What are we looking for</h2>
                                     </div>
                                     <div className="py-6 px-4 md:px-10">
-                                        <textarea className="w-full rounded-[25px] min-h-[250px] border-slate-300" value={res} onChange={(e)=>setRes(e.target.value)}></textarea>
+                                        {/* <textarea className="w-full rounded-[25px] min-h-[250px] border-slate-300" value={res} onChange={(e)=>setRes(e.target.value)}></textarea> */}
+                                        <Editor
+                                            apiKey="veckejpcr82yx9s84tl0ifqqrg7h6zgfdkkmjc69kifrx9rc"
+                                            onChange={(evt, editor) => setRes(editor.getContent())}
+                                            // onBlur={(evt, editor) => setFAdd(editor.getContent())}
+                                            initialValue={res}
+                                            init={{
+                                                height: 300,
+                                                menubar: false,
+                                                plugins: 'autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount',
+                                                toolbar: 'undo redo | formatselect | ' +
+                                                'bold italic backcolor | alignleft aligncenter ' +
+                                                'alignright alignjustify | bullist numlist outdent indent | ' +
+                                                'removeformat | help',
+                                                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                                            }}
+                                            />
                                     </div>
                                 </div>
                                 <div className="bg-white shadow-normal rounded-[30px]  mb-6">

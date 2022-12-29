@@ -831,7 +831,7 @@ function OrganisationCandidateProfileView(props) {
               <div className="w-full lg:w-[70%] lg:pl-6">
                 <div className="bg-white shadow-normal border border-teal-400 rounded-[25px] p-6 mb-6">
                   <h3 className="text-lg font-semibold mb-4">Summary</h3>
-                  <article>{data.cand.summary}</article>
+                  <article>{JSON.stringify(data.cand.summary)}</article>
                 </div>
                 <div className="bg-white shadow-normal border border-teal-400 rounded-[25px] p-6 mb-6">
                   <h3 className="text-lg font-semibold mb-4">Skills</h3>

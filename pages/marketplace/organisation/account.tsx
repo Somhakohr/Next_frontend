@@ -19,6 +19,8 @@ import axios from "axios";
 import toastcomp from "../../../components/toast";
 import Multiselect from 'multiselect-react-dropdown';
 import { signOut } from "next-auth/react";
+import { Editor } from '@tinymce/tinymce-react';
+
 
 function OrganisationAccount(props) {
   const cancelButtonRef = useRef(null);
@@ -104,6 +106,16 @@ function OrganisationAccount(props) {
   const [gallery, setGallery] = useState([]);
   const [file, setFile] = useState([] as any);
 
+  //chnage pass
+  const [pass, setpass] = useState("");
+  const [pass2, setpass2] = useState("");
+
+  function valudateCP() {
+    return pass.length >= 8 && pass2.length >= 8 && pass == pass2
+  }
+
+
+
   //axios auth var
   const axiosInstanceAuth2 = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
@@ -120,6 +132,23 @@ function OrganisationAccount(props) {
 
   function verifyGalPopup() {
     return file.length > 0;
+  }
+
+
+  async function changePass() {
+    await axiosInstanceAuth2
+      .post("/auth/changepassword/",{
+        'password':pass,
+        'password2':pass2
+      })
+      .then(async (res) => {
+        changePasswordOpen(false)
+        toastcomp("Password Successfully Changed","successs")
+      })
+      .catch((err) => {
+        changePasswordOpen(false)
+        toastcomp("Password Not Successfully Changed","error")
+      });
   }
 
   async function loadLink() {
@@ -910,28 +939,61 @@ function OrganisationAccount(props) {
                     >
                       Headquarters Location Address
                     </label>
-                    <textarea
+                    {/* <textarea
                       id="orgCompHeadAddress"
                       className="w-full rounded-[25px] resize-none border-slate-300 h-[150px]"
                       value={add}
                       onChange={(e) => setAdd(e.target.value)}
                       onBlur={(e) => setFAdd(e.target.value)}
-                    ></textarea>
+                    ></textarea> */}
+                    <Editor
+                        apiKey="veckejpcr82yx9s84tl0ifqqrg7h6zgfdkkmjc69kifrx9rc"
+                        onChange={(evt, editor) => setAdd(editor.getContent())}
+                        onBlur={(evt, editor) => setFAdd(editor.getContent())}
+                        initialValue={add}
+                        init={{
+                          height: 300,
+                          menubar: false,
+                          plugins: 'autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount',
+                          toolbar: 'undo redo | formatselect | ' +
+                          'bold italic backcolor | alignleft aligncenter ' +
+                          'alignright alignjustify | bullist numlist outdent indent | ' +
+                          'removeformat | help',
+                          content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                        }}
+                      />
                   </div>
                   <div className="mb-6">
                     <label
                       htmlFor="orgCompDesc"
                       className="font-medium mb-2 leading-none inline-block"
+                      onClick={(e)=>{console.log(desc)}}
                     >
                       Company Description
                     </label>
-                    <textarea
+                    {/* <textarea
                       id="orgCompDesc"
                       className="w-full rounded-[25px] resize-none border-slate-300 h-[150px]"
                       value={desc}
                       onChange={(e) => setDesc(e.target.value)}
                       onBlur={(e) => setFDesc(e.target.value)}
-                    ></textarea>
+                    ></textarea> */}
+                     <Editor
+                        apiKey="veckejpcr82yx9s84tl0ifqqrg7h6zgfdkkmjc69kifrx9rc"
+                        onChange={(evt, editor) => setDesc(editor.getContent())}
+                        onBlur={(evt, editor) => setFDesc(editor.getContent())}
+                        initialValue={desc}
+                        init={{
+                          height: 300,
+                          menubar: false,
+                          plugins: 'autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount',
+                          toolbar: 'undo redo | formatselect | ' +
+                          'bold italic backcolor | alignleft aligncenter ' +
+                          'alignright alignjustify | bullist numlist outdent indent | ' +
+                          'removeformat | help',
+                          content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                        }}
+                      />
                   </div>
                   <div className="mb-6">
                     <label
@@ -1341,7 +1403,7 @@ function OrganisationAccount(props) {
                             <i className="fa-solid fa-xmark"></i>
                           </button>
                         </div>
-                        <div className="mb-6">
+                        {/* <div className="mb-6">
                           <label
                             htmlFor="orgOldPass"
                             className="font-medium mb-2 leading-none inline-block"
@@ -1353,7 +1415,7 @@ function OrganisationAccount(props) {
                             id="orgOldPass"
                             className="w-full rounded-full border-slate-300"
                           />
-                        </div>
+                        </div> */}
                         <div className="mb-6">
                           <label
                             htmlFor="orgNewPass"
@@ -1365,6 +1427,8 @@ function OrganisationAccount(props) {
                             type="password"
                             id="orgNewPass"
                             className="w-full rounded-full border-slate-300"
+                            value={pass}
+                            onChange={(e)=>setpass(e.target.value)}
                           />
                         </div>
                         <div className="mb-6">
@@ -1378,12 +1442,14 @@ function OrganisationAccount(props) {
                             type="password"
                             id="orgConfirmPass"
                             className="w-full rounded-full border-slate-300"
+                            value={pass2}
+                            onChange={(e)=>setpass2(e.target.value)}
                           />
                         </div>
                         <div className="text-center">
                           <button
                             type="button"
-                            className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
+                            className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!valudateCP()} onClick={(e)=>changePass()}
                           >
                             Submit
                           </button>
