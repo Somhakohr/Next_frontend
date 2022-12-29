@@ -108,7 +108,7 @@ function CandidateAcc(props) {
         }
         const axiosInstanceAuth2 = axios.create({
         baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-        timeout: 5000,
+        timeout: process.env.NODE_ENV === 'production' ? 5000 : 10000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
             "Content-Type": "multipart/form-data",
@@ -144,7 +144,7 @@ function CandidateAcc(props) {
     async function delacc() {
         const axiosInstanceAuth = axios.create({
         baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-        timeout: 5000,
+        timeout: process.env.NODE_ENV === 'production' ? 5000 : 10000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
             'Content-Type': 'application/json',

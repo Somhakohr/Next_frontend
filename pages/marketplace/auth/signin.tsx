@@ -20,6 +20,7 @@ export default function SignIn(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [csrf, setCsrf] = useState('');
+  const [loader, setloader] = useState(false);
   const router = useRouter();  
 
   const [switchInputType, switchInputTypeToggle] = useState(false);
@@ -33,7 +34,7 @@ export default function SignIn(props) {
 
   const axiosInstance = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: 5000,
+    timeout: 10000,
     headers: {
       // 'Authorization': "JWT " + access_token,
       'Content-Type': 'application/json',
@@ -42,31 +43,37 @@ export default function SignIn(props) {
   });
 
   function validateForm() {
-    return email.length > 0 && password.length >= 8;
+    return email.length > 0 && password.length >= 8 && !loader;
   }
 
   async function handleClick(event) {
     event.preventDefault();
+    setloader(true)
 
     await axiosInstance.post('/auth/login/', {
         email: email,
         password: password,
     }).then(async (response)=>{
       // console.log(response);
-      await signIn('credentials', { password: password,email: email,callbackUrl: (process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND)+response.data.type.toLowerCase()+'/' }) 
-      // return true;
+      var callback = `${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}${response.data.type.toLowerCase()}/`
+      await signIn('credentials', { password: password,email: email,callbackUrl: callback}).catch((err)=>{
+        console.log(err)
+      }) 
+            // return true;
     }).catch((err)=>{
+      setloader(false)
       console.log(err);
-      if(err.response.data.non_field_errors){
-        err.response.data.non_field_errors.map((text) =>
-          toastcomp(text,"error")
-        );
-        return false;
-      }
-      if(err.response.data.detail){
-        toastcomp(err.response.data.detail,"error");
-        return false;
-      }
+      // if(err.response.data.non_field_errors){
+      //   err.response.data.non_field_errors.map((text) =>
+      //     toastcomp(text,"error")
+      //   );
+      //   return false;
+      // }
+      // if(err.response.data.detail){
+      //   toastcomp(err.response.data.detail,"error");
+      //   return false;
+      // }
+      
       
     });
   }
@@ -108,7 +115,7 @@ export default function SignIn(props) {
                         </div>
                         <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
                           <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!validateForm()} onClick={(e) => handleClick(e)}>
-                            <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                            {loader && <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>}
                             Sign In
                             <i className="fa-solid fa-arrow-right-to-bracket ml-2"></i>
                           </button>

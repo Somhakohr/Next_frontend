@@ -110,7 +110,7 @@ function Candidate(props) {
     //axios auth var
     const axiosInstanceAuth2 = axios.create({
         baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-        timeout: 5000,
+        timeout: process.env.NODE_ENV === 'production' ? 5000 : 10000,
         headers: {
             'Authorization': 'Bearer '+accessToken,
             "Content-Type": "multipart/form-data",
@@ -182,7 +182,6 @@ function Candidate(props) {
 
     async function updateAddress(formData) {
         await axiosInstanceAuth2.put('/auth/candidateaccont/'+userObj['erefid']+'/',formData).then(async(res2)=>{
-            console.log(res2)
             userObj["paddress"]=res2.data.paddress
             toastcomp("Address Updated :)","success");
         }).catch((err)=>{

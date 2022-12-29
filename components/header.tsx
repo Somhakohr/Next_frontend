@@ -69,16 +69,12 @@ function Header(props) {
         updateUserProfile({})
         updateAccessToken('')
     }
-
-    useEffect(() => {
-      console.log(accessToken);
-    }, [accessToken])
     
 
     async function readfn(pk) {
         const axiosInstanceAuth = axios.create({
             baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-            timeout: 5000,
+            timeout: process.env.NODE_ENV === 'production' ? 5000 : 10000,
             headers: {
                 'Authorization': 'Bearer '+accessToken,
                 'Content-Type': 'application/json',
@@ -86,7 +82,6 @@ function Header(props) {
             }
             });
             await axiosInstanceAuth.get('/auth/notifi/'+userObj['erefid']+'/'+pk+'/read/').then((res)=>{
-                console.log(res.data)
                 toastcomp("LOL","Success")
                 // setreadn(res.data.read_data)
                 // setunreadn(res.data.unread_data)
@@ -107,7 +102,7 @@ function Header(props) {
             if(res.data.type == "Candidate"){
                 const axiosInstanceAuth = axios.create({
                 baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-                timeout: 5000,
+                timeout: process.env.NODE_ENV === 'production' ? 5000 : 10000,
                 headers: {
                     'Authorization': 'Bearer '+session.accessToken,
                     'Content-Type': 'application/json',
@@ -116,10 +111,8 @@ function Header(props) {
                 });
                 const res2 = await axiosInstanceAuth.get('/candidate/candidateprofile/'+res.data.userObj[0].erefid+'/');
                 updateUserProfile(res2.data)
-                console.log("lol",res2.data)
                 
                 await axiosInstanceAuth.get('/auth/notifi/'+res.data.userObj[0].erefid+'/').then((res)=>{
-                    console.log(res.data)
                     setreadn(res.data.read_data)
                     setunreadn(res.data.unread_data)
                 })
@@ -127,7 +120,7 @@ function Header(props) {
             else if(res.data.type == "Organisation"){
                 const axiosInstanceAuth = axios.create({
                 baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-                timeout: 5000,
+                timeout: process.env.NODE_ENV === 'production' ? 5000 : 10000,
                 headers: {
                     'Authorization': 'Bearer '+session.accessToken,
                     'Content-Type': 'application/json',
@@ -135,11 +128,9 @@ function Header(props) {
                 }
                 });
                 const res2 = await axiosInstanceAuth.get('/organisation/organisationprofile/'+res.data.userObj[0].orefid+'/');
-                console.log(res2);
                 updateUserProfile(res2.data)
                 
                 await axiosInstanceAuth.get('/auth/orgnotifi/'+res.data.userObj[0].orefid+'/').then((res)=>{
-                    console.log(res.data)
                     setreadn(res.data.read_data)
                     setunreadn(res.data.unread_data)
                 })

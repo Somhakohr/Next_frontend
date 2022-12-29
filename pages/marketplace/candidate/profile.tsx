@@ -532,7 +532,6 @@ function CandidateProfile(props) {
                 formData.append("yearofexp",yearsOfExp);
             }
             if(userProfile["snoticeperiod"]!=serveNP){
-                console.log(serveNP)
                 formData.append("snoticeperiod",JSON.stringify(serveNP));
             }
             if(userProfile["noticeperiod"]!=noticeP){
@@ -540,7 +539,6 @@ function CandidateProfile(props) {
             }
 
             if(Array.from(formData.keys()).length > 0){
-                console.log("abc")
                 saveProfile(formData)
             }
         }        

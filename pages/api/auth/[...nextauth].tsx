@@ -41,7 +41,7 @@ namespace NextAuthUtils {
 
 const axiosInstance = axios.create({
   baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-  timeout: 5000,
+  timeout: process.env.NODE_ENV === 'production' ? 5000 : 10000,
   headers: {
     // 'Authorization': "JWT " + access_token,
     "Content-Type": "application/json",
@@ -90,7 +90,6 @@ const settings: NextAuthOptions = {
           //   email: user.email,
           //   password: user.password,
           // });
-          // console.log(res);
           return user;
         } else {
           return null;
@@ -104,7 +103,6 @@ const settings: NextAuthOptions = {
         if (account.provider === "google") {
           const accessToken = account.access_token;
           const idToken = account.id_token;
-          console.log(account);
           await axiosInstance
             .post("/auth/signin/" + account.provider + "/", {
               access_token: accessToken,
@@ -147,10 +145,9 @@ const settings: NextAuthOptions = {
           await axiosInstance
             .post("/auth/login/", {
               email: user.email,
-              password: user['password'],
+              password: user.password,
             })
             .then((response) => {
-              // console.log(response);
               const { access, refresh } = response.data.tokens;
               token = {
                 ...token,

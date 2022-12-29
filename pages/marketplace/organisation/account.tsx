@@ -107,7 +107,7 @@ function OrganisationAccount(props) {
   //axios auth var
   const axiosInstanceAuth2 = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: 5000,
+    timeout: process.env.NODE_ENV === 'production' ? 5000 : 10000,
     headers: {
       Authorization: "Bearer " + accessToken,
       "Content-Type": "multipart/form-data",
@@ -351,7 +351,7 @@ function OrganisationAccount(props) {
   async function delacc() {
     const axiosInstanceAuth = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: 5000,
+    timeout: process.env.NODE_ENV === 'production' ? 5000 : 10000,
     headers: {
         'Authorization': 'Bearer '+accessToken,
         'Content-Type': 'application/json',
@@ -390,24 +390,24 @@ function OrganisationAccount(props) {
 
   useEffect(() => {
     if (userProfile) {
-      console.log("---------");
-      console.log("CNAME", cname);
-      console.log("ind", ind);
-      console.log("curl", curl);
-      console.log("fdate", fdate);
-      console.log("founder", founder);
-      console.log("cemail", cemail);
-      console.log("lname", lname);
-      console.log("rname", rname);
-      console.log("rdes", rdes);
-      console.log("cstrength", cstrength);
-      console.log("orgstatus", orgstatus);
-      console.log("opestatus", opestatus);
-      console.log("fundround", fundround);
-      console.log("fund", fund);
-      console.log("desc", desc);
-      console.log("add", add);
-      console.log("otype", otype);
+      // console.log("---------");
+      // console.log("CNAME", cname);
+      // console.log("ind", ind);
+      // console.log("curl", curl);
+      // console.log("fdate", fdate);
+      // console.log("founder", founder);
+      // console.log("cemail", cemail);
+      // console.log("lname", lname);
+      // console.log("rname", rname);
+      // console.log("rdes", rdes);
+      // console.log("cstrength", cstrength);
+      // console.log("orgstatus", orgstatus);
+      // console.log("opestatus", opestatus);
+      // console.log("fundround", fundround);
+      // console.log("fund", fund);
+      // console.log("desc", desc);
+      // console.log("add", add);
+      // console.log("otype", otype);
 
       var formData = new FormData();
       var formData2 = new FormData();

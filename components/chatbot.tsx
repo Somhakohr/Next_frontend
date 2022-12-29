@@ -22,7 +22,7 @@ export default function ChatBot(props) {
     
     const axiosInstanceAuth2 = axios.create({
         baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-        timeout: 5000,
+        timeout: process.env.NODE_ENV === 'production' ? 5000 : 10000,
         headers: {
             "Content-Type": "multipart/form-data",
         }
@@ -37,19 +37,13 @@ export default function ChatBot(props) {
         var formData = new FormData()
         formData.append('promt',input1)
         await axiosInstanceAuth2.post('/job/chatmini/',formData).then(async (res)=>{
-            // console.log(res.data)
-            // setResv(res.data.res)
             if(res.data.Jobs){
-                console.log(1)
                 filter(res.data.Jobs)
             }
             else{
-                console.log(2)
                 filter('')
             }
-            // let arr = []
             arr.push(res.data.res)
-            // setData(arr)
             setData(arr)
             setInput1('')
         }).catch((err)=>{
@@ -64,7 +58,6 @@ export default function ChatBot(props) {
 
     async function filter(param1) {
         await axiosInstanceAuth2.get(`/job/chatmini/job/?refid=${param1}`).then(async (res)=>{
-            console.log("test1",res)
             setJobList(res.data)
             setJobList2(res.data.slice(0, 6))
         }).catch((err)=>{
