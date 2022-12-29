@@ -94,11 +94,11 @@ export default function SignIn(props) {
                       {/* <form className="mb-16" action="http://localhost:3000/api/auth/callback/credentials" method="POST"> */}
                       {/* <input type="hidden" name="csrfToken" value={csrf} /> */}
                         <div className="mb-6">
-                          <label htmlFor="email" className="font-medium mb-2 leading-none inline-block">Email</label>
+                          <label htmlFor="input-email-for-credentials-provider" className="font-medium mb-2 leading-none inline-block">Email</label>
                           <input type="email" name="email" id="input-email-for-credentials-provider" className="w-full rounded-full border-slate-300" value={email} onChange={(e) => setEmail(e.target.value)}/>
                         </div>
                         <div className="mb-6">
-                          <label htmlFor="password" className="font-medium mb-2 leading-none inline-block">Password</label>
+                          <label htmlFor="input-password-for-credentials-provider" className="font-medium mb-2 leading-none inline-block">Password</label>
                           <div className="iconGroup right">
                             <input type={`${switchInputType ? 'text' : 'password'}`} name="password" id="input-password-for-credentials-provider" className="w-full rounded-full border-slate-300" value={password} onChange={(e) => setPassword(e.target.value)} />
                             <button type="button" className="iconGroup__icon-right" onClick={inputTypeToggled}>
@@ -108,6 +108,7 @@ export default function SignIn(props) {
                         </div>
                         <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
                           <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!validateForm()} onClick={(e) => handleClick(e)}>
+                            <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
                             Sign In
                             <i className="fa-solid fa-arrow-right-to-bracket ml-2"></i>
                           </button>

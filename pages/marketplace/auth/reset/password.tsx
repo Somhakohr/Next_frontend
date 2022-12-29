@@ -15,6 +15,15 @@ export default function ConfirmForgotPassword() {
   const { asPath } = useRouter();
   const router = useRouter();
 
+  const [switchInputType, switchInputTypeToggle] = useState(false);
+  const [switchConfInputType, switchConfInputTypeToggle] = useState(false);
+  function inputTypeToggled(){
+    switchInputTypeToggle(!switchInputType);
+  }
+  function inputConfTypeToggled(){
+    switchConfInputTypeToggle(!switchConfInputType);
+  }
+
   function validbtn(){
     return password.length >= 8 && password2.length >= 8 && password == password2
   }
@@ -76,16 +85,26 @@ export default function ConfirmForgotPassword() {
               <div className="w-full lg:w-[60%]">
                   <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] p-10 lg:px-24 min-h-[550px] flex flex-col justify-center">
                       <h1 className="font-medium text-xl md:text-3xl mb-12">
-                        Forgot Password
+                        Reset Password
                       </h1>
                       <div className="mb-16">
                         <div className="mb-6">
-                          <label htmlFor="email" className="font-medium mb-2 leading-none inline-block">Paasword</label>
-                          <input id="password" type="password" className="w-full rounded-full border-slate-300" value={password} onChange={(e)=>setpassword(e.target.value)} />
+                          <label htmlFor="email" className="font-medium mb-2 leading-none inline-block">Password</label>
+                          <div className="iconGroup right">
+                            <input type={`${switchInputType ? 'text' : 'password'}`} id="password" className="w-full rounded-full border-slate-300" value={password} onChange={(e)=>setpassword(e.target.value)} />
+                            <button type="button" className="iconGroup__icon-right" onClick={inputTypeToggled}>
+                              <i className={`fa-solid text-black ${switchInputType ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                            </button>
+                          </div>
                         </div>
                         <div className="mb-6">
-                          <label htmlFor="email" className="font-medium mb-2 leading-none inline-block">Confirm Paasword</label>
-                          <input id="password2" type="password" className="w-full rounded-full border-slate-300" value={password2} onChange={(e)=>setpassword2(e.target.value)} />
+                          <label htmlFor="email" className="font-medium mb-2 leading-none inline-block">Confirm Password</label>
+                          <div className="iconGroup right">
+                            <input type={`${switchConfInputType ? 'text' : 'password'}`} id="password2" className="w-full rounded-full border-slate-300" value={password2} onChange={(e)=>setpassword2(e.target.value)} />
+                            <button type="button" className="iconGroup__icon-right" onClick={inputConfTypeToggled}>
+                              <i className={`fa-solid text-black ${switchConfInputType ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                            </button>
+                          </div>
                         </div>
                         <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
                           <button type="submit" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!validbtn()} onClick={(e)=>forgetpass()}>

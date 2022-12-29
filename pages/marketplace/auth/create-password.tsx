@@ -1,7 +1,18 @@
 import Head from "next/head";
+import React, { useState } from "react";
 import Auth_Slider from "../../../components/auth-slider";
 
 export default function ForgotPassword() {
+
+  const [switchInputType, switchInputTypeToggle] = useState(false);
+  const [switchConfInputType, switchConfInputTypeToggle] = useState(false);
+  function inputTypeToggled(){
+    switchInputTypeToggle(!switchInputType);
+  }
+  function inputConfTypeToggled(){
+    switchConfInputTypeToggle(!switchConfInputType);
+  }
+  
   return (
     <>
       <Head>
@@ -23,11 +34,21 @@ export default function ForgotPassword() {
                       <form>
                         <div className="mb-6">
                           <label htmlFor="newpassword" className="font-medium mb-2 leading-none inline-block">New Password</label>
-                          <input id="newpassword" type="password" className="w-full rounded-full border-slate-300" />
+                          <div className="iconGroup right">
+                            <input type={`${switchInputType ? 'text' : 'password'}`} id="newpassword" className="w-full rounded-full border-slate-300" />
+                            <button type="button" className="iconGroup__icon-right" onClick={inputTypeToggled}>
+                              <i className={`fa-solid text-black ${switchInputType ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                            </button>
+                          </div>
                         </div>
                         <div className="mb-6">
                           <label htmlFor="confirmnewpassword" className="font-medium mb-2 leading-none inline-block">Confirm New Password</label>
-                          <input id="confirmnewpassword" type="password" className="w-full rounded-full border-slate-300" />
+                          <div className="iconGroup right">
+                            <input type={`${switchConfInputType ? 'text' : 'password'}`} id="confirmnewpassword" className="w-full rounded-full border-slate-300" />
+                            <button type="button" className="iconGroup__icon-right" onClick={inputConfTypeToggled}>
+                              <i className={`fa-solid text-black ${switchConfInputType ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                            </button>
+                          </div>
                         </div>
                         <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
                           <button type="submit" className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]">
