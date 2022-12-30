@@ -374,7 +374,7 @@ function PreviewDetail(props) {
                       </div>
                       <button
                         type="button"
-                        className="disabled:opacity-30 disabled:cursor-normal mb-8 bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
+                        className="disabled:opacity-30 disabled:cursor-normal cursor-pointer mb-8 bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
                         disabled
                       >
                         Apply Now

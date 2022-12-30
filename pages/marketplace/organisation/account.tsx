@@ -20,6 +20,8 @@ import toastcomp from "../../../components/toast";
 import Multiselect from "multiselect-react-dropdown";
 import { signOut } from "next-auth/react";
 import { Editor } from "@tinymce/tinymce-react";
+import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css"
 
 function OrganisationAccount(props) {
   const cancelButtonRef = useRef(null);
@@ -598,56 +600,66 @@ function OrganisationAccount(props) {
                     <span className="text-[#646464] text-[12px] block mb-2">
                       Supported Formats: png, jpg upto 2 MB
                     </span>
-                    <div className="relative border border-slate-300 rounded-[16px]">
-                      <Image
-                        src={userCImg}
-                        alt="User"
-                        height={1600}
-                        width={800}
-                        className="object-cover rounded-[16px] w-full h-[250px]"
-                      />
-                      <label
-                        htmlFor="uploadCImage"
-                        className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white"
-                      >
-                        <i className="fa-solid fa-plus text-xl"></i>
-                        <input
-                          type="file"
-                          id="uploadCImage"
-                          className="absolute left-0 top-0 z-20"
-                          hidden
-                          accept="image/png, image/jpeg"
-                          onChange={(e) => {
-                            setCoverImg(e.target.files[0]);
-                          }}
-                        />
-                      </label>
-                      <div className="absolute left-[50%] bottom-[-50px] translate-x-[-50%] inline-block">
-                        <Image
-                          src={userImg}
-                          alt="User"
-                          height={300}
-                          width={300}
-                          className="rounded-full shadow-normal bg-white object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
-                        />
-                        <label
-                          htmlFor="uploadImage"
-                          className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white"
-                        >
-                          <i className="fa-solid fa-plus text-xl"></i>
-                          <input
-                            type="file"
-                            id="uploadImage"
-                            className="absolute left-0 top-0 z-20"
-                            hidden
-                            accept="image/png, image/jpeg"
-                            onChange={(e) => {
-                              setProfileImg(e.target.files[0]);
-                            }}
+                    {
+                      userCImg && userImg
+                      ?
+                      <>
+                        <div className="relative border border-slate-300 rounded-[16px]">
+                          <Image
+                            src={userCImg}
+                            alt="User"
+                            height={1600}
+                            width={800}
+                            className="object-cover rounded-[16px] w-full h-[250px]"
                           />
-                        </label>
-                      </div>
-                    </div>
+                          <label
+                            htmlFor="uploadCImage"
+                            className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white"
+                          >
+                            <i className="fa-solid fa-plus text-xl"></i>
+                            <input
+                              type="file"
+                              id="uploadCImage"
+                              className="absolute left-0 top-0 z-20"
+                              hidden
+                              accept="image/png, image/jpeg"
+                              onChange={(e) => {
+                                setCoverImg(e.target.files[0]);
+                              }}
+                            />
+                          </label>
+                          <div className="absolute left-[50%] bottom-[-50px] translate-x-[-50%] inline-block">
+                            <Image
+                              src={userImg}
+                              alt="User"
+                              height={300}
+                              width={300}
+                              className="rounded-full shadow-normal bg-white object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
+                            />
+                            <label
+                              htmlFor="uploadImage"
+                              className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white"
+                            >
+                              <i className="fa-solid fa-plus text-xl"></i>
+                              <input
+                                type="file"
+                                id="uploadImage"
+                                className="absolute left-0 top-0 z-20"
+                                hidden
+                                accept="image/png, image/jpeg"
+                                onChange={(e) => {
+                                  setProfileImg(e.target.files[0]);
+                                }}
+                              />
+                            </label>
+                          </div>
+                        </div>
+                      </>
+                      :
+                      <>
+                        <Skeleton height={250} />
+                      </>
+                    }
                   </aside>
                   <div className="flex flex-wrap justify-between">
                     <div className="w-full lg:w-[47%] mb-6">
