@@ -23,6 +23,8 @@ import {
 } from "@rainbow-me/rainbowkit";
 import Multiselect from "multiselect-react-dropdown";
 import { Editor } from "@tinymce/tinymce-react";
+import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css"
 
 function CandidateProfile(props) {
   //global var
@@ -953,22 +955,29 @@ function CandidateProfile(props) {
               <div className="bg-white shadow-normal rounded-[25px] h-full flex flex-wrap">
                 <div className="w-[310px] mx-auto p-8">
                   <div className="userBgImage min-h-[268px] flex items-center justify-center">
-                    <Image
-                      src={userImg}
-                      width={300}
-                      height={300}
-                      alt="User"
-                      className="w-[220px] h-[220px] rounded-full object-cover mx-auto "
-                    />
+                    {userImg ? 
+                      <>
+                        <Image
+                          src={userImg}
+                          width={300}
+                          height={300}
+                          alt="User"
+                          className="w-[220px] h-[220px] rounded-full object-cover mx-auto "
+                        />
+                      </> : 
+                      <>
+                        <Skeleton width={180} height={180} style={{borderRadius: '100%', margin: '0 0 10px'}} />
+                      </>
+                      }
                   </div>
                 </div>
                 <div className="w-full md:max-w-[calc(100%-310px)] p-6 xl:p-8 relative bg-gradient-to-r from-[#A382E5] to-[#60C3E2] rounded-[25px] flex items-center">
                   <aside className="w-full">
                     <h2 className="font-semibold text-xl md:text-3xl mb-2 text-white">
-                      {userName}
+                      {userName || <Skeleton width={200} height={25} />}
                     </h2>
                     <p className="text-white font-light text-sm mb-6">
-                      {userProfile["title"]}
+                      {userProfile["title"] || <Skeleton width={120} height={15} />}
                     </p>
                     <ul className="flex flex-wrap">
                       {userObj["email"] && (
@@ -977,7 +986,7 @@ function CandidateProfile(props) {
                           <span className="mr-2">:</span>
                           <p>{userObj["email"]}</p>
                         </li>
-                      )}
+                      ) || <Skeleton width={220} style={{margin: '10px'}} />}
 
                       {userObj["mobile"] && (
                         <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
@@ -985,7 +994,7 @@ function CandidateProfile(props) {
                           <span className="mr-2">:</span>
                           <p>{userObj["mobile"]}</p>
                         </li>
-                      )}
+                      ) || <Skeleton width={220} style={{margin: '10px'}} />}
 
                       {userProfile["salary"] && (
                         <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
@@ -993,7 +1002,7 @@ function CandidateProfile(props) {
                           <span className="mr-2">:</span>
                           <p>{userProfile["salary"]}</p>
                         </li>
-                      )}
+                      ) || <Skeleton width={220} style={{margin: '10px'}} />}
 
                       {userProfile["prejobtype"] && (
                         <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
@@ -1001,7 +1010,7 @@ function CandidateProfile(props) {
                           <span className="mr-2">:</span>
                           <p>{userProfile["prejobtype"]}</p>
                         </li>
-                      )}
+                      ) || <Skeleton width={220} style={{margin: '10px'}} />}
 
                       {userProfile["prelocation"] && (
                         <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
@@ -1009,7 +1018,7 @@ function CandidateProfile(props) {
                           <span className="mr-2">:</span>
                           <p>{userProfile["prelocation"]}</p>
                         </li>
-                      )}
+                      ) || <Skeleton width={220} style={{margin: '10px'}} />}
                     </ul>
                   </aside>
                 </div>

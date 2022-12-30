@@ -23,6 +23,8 @@ import gallery_2 from "../../public/images/gallery-2.png";
 import gallery_3 from "../../public/images/gallery-3.png";
 import gallery_4 from "../../public/images/gallery-4.png";
 import gallery_5 from "../../public/images/gallery-5.png";
+import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css"
 
 function OrgDetail() {
   const [orgDetail, setOrgDetail] = useState([]);
@@ -112,6 +114,56 @@ function OrgDetail() {
       {orgDetail.length > 0 && (
         <>
           {orgDetail.map((data, i) => (
+            <>
+            <main className="py-8">
+              <div className="w-full max-w-[1200px] mx-auto mb-8 px-4">
+                <div className="bg-white shadow-normal rounded-[25px] flex flex-wrap overflow-hidden">
+                  <div className="w-full lg:max-w-[40%]">
+                    <Skeleton height={300} />
+                  </div>
+                  <div className="w-full lg:max-w-[60%] p-6">
+                    <ul className="flex flex-wrap">
+                      <li className="w-full sm:max-w-[50%] pr-2 mb-5">
+                        <Skeleton height={15} />
+                        <Skeleton width={120} height={15} />
+                      </li>
+                      <li className="w-full sm:max-w-[50%] pr-2 mb-5">
+                        <Skeleton height={15} />
+                        <Skeleton width={120} height={15} />
+                      </li>
+                      <li className="w-full sm:max-w-[50%] pr-2 mb-5">
+                        <Skeleton height={15} />
+                        <Skeleton width={120} height={15} />
+                      </li>
+                      <li className="w-full sm:max-w-[50%] pr-2 mb-5">
+                        <Skeleton height={15} />
+                        <Skeleton width={120} height={15} />
+                      </li>
+                      <li className="w-full sm:max-w-[50%] pr-2 mb-5">
+                        <Skeleton height={15} />
+                        <Skeleton width={120} height={15} />
+                      </li>
+                      <li className="w-full sm:max-w-[50%] pr-2 mb-5">
+                        <Skeleton height={15} />
+                        <Skeleton width={120} height={15} />
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full max-w-[1100px] mx-auto px-4">
+                <div className="bg-white rounded-[30px] overflow-hidden">
+                  <ul className="flex flex-wrap">
+                    <li className="w-full md:max-w-[50%] md:pr-4">
+                      <Skeleton height={300} />
+                    </li>
+                    <li className="w-full md:max-w-[50%] md:pl-4">
+                      <Skeleton height={300} />
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </main>
             <main className="py-8" key={i}>
               <div className="container mb-12">
                 <button
@@ -344,6 +396,7 @@ function OrgDetail() {
                 </div>
               </div>
             </main>
+            </>
           ))}
         </>
       )}

@@ -49,7 +49,7 @@ export default function JobCard(props) {
           <p className="w-full sm:max-w-[50%] mb-3">
             Place: {data.location ? data.location : <>Not Specified</>}
           </p>
-          <p className="w-full sm:max-w-[5  0%] mb-3 sm:text-right">
+          <p className="w-full sm:max-w-[50%] mb-3 sm:text-right">
             {data.exp ? data.exp : <>Not Specified</>}
           </p>
           <p className="w-full sm:max-w-[50%] mb-3">

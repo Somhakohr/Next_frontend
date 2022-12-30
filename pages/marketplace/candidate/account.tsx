@@ -277,14 +277,21 @@ function CandidateAcc(props) {
                 <form className="mb-16">
                   <div className="mb-6">
                     <div className="relative inline-block">
-                      <Image
-                        src={pfile ? pfile : userImg}
-                        // src={userImg}
-                        alt="Users"
-                        height={300}
-                        width={300}
-                        className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
-                      />
+                    {userImg ? 
+                      <>
+                        <Image
+                          src={pfile ? pfile : userImg}
+                          // src={userImg}
+                          alt="Users"
+                          height={300}
+                          width={300}
+                          className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
+                        />
+                      </> : 
+                      <>
+                        <Skeleton width={125} height={125} style={{borderRadius: '100%', margin: '0 0 10px'}} />
+                      </>
+                      }
                       <label
                         htmlFor="uploadImage"
                         className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white"

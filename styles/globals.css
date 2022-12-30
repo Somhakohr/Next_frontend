@@ -371,6 +371,9 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
+.react-loading-skeleton {
+  vertical-align: middle;
+}
 
 @media (max-width: 1199px) {
   .radiusCurve {
