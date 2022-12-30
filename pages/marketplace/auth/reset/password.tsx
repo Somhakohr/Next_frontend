@@ -1,73 +1,75 @@
 import axios from "axios";
 import Head from "next/head";
-import Link from 'next/link'
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Auth_Slider from "../../../../components/auth-slider";
 import toastcomp from "../../../../components/toast";
 
 export default function ConfirmForgotPassword() {
-
-  const [password,setpassword] = useState('')
-  const [password2,setpassword2] = useState('')
-  const [i1,seti1] = useState('')
-  const [i2,seti2] = useState('')
+  const [password, setpassword] = useState("");
+  const [password2, setpassword2] = useState("");
+  const [i1, seti1] = useState("");
+  const [i2, seti2] = useState("");
   const { asPath } = useRouter();
   const router = useRouter();
 
   const [switchInputType, switchInputTypeToggle] = useState(false);
   const [switchConfInputType, switchConfInputTypeToggle] = useState(false);
-  function inputTypeToggled(){
+  function inputTypeToggled() {
     switchInputTypeToggle(!switchInputType);
   }
-  function inputConfTypeToggled(){
+  function inputConfTypeToggled() {
     switchConfInputTypeToggle(!switchConfInputType);
   }
 
-  function validbtn(){
-    return password.length >= 8 && password2.length >= 8 && password == password2
+  function validbtn() {
+    return (
+      password.length >= 8 && password2.length >= 8 && password == password2
+    );
   }
 
   const axiosInstance = axios.create({
-    baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: process.env.NODE_ENV === 'production' ? 5000 : 10000,
+    baseURL:
+      process.env.NODE_ENV === "production"
+        ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
+        : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
+    timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
     headers: {
-        // 'Authorization': "JWT " + access_token,
-        'Content-Type': 'application/json',
-        'accept': 'application/json'
-    }
+      // 'Authorization': "JWT " + access_token,
+      "Content-Type": "application/json",
+      accept: "application/json",
+    },
   });
 
   async function forgetpass() {
-    if(i1.length > 0 && i2.length > 0){
-
-        await axiosInstance.patch('/auth/password-reset-complete/',
-            {
-                'password':password,
-                'uidb64':i1,
-                'token':i2,
-            }
-        ).then((response)=>{
-          toastcomp("Password Reset Suceesfully","success")
-          router.push("/marketplace/auth/signin")
-          setpassword('')
-          setpassword2('')
-        }).catch((err)=>{
+    if (i1.length > 0 && i2.length > 0) {
+      await axiosInstance
+        .patch("/auth/password-reset-complete/", {
+          password: password,
+          uidb64: i1,
+          token: i2,
+        })
+        .then((response) => {
+          toastcomp("Password Reset Suceesfully", "success");
+          router.push("/marketplace/auth/signin");
+          setpassword("");
+          setpassword2("");
+        })
+        .catch((err) => {
           // console.log(err);
-          toastcomp("Password Reset Unuceesfully","error")      
+          toastcomp("Password Reset Unuceesfully", "error");
         });
     }
   }
 
   useEffect(() => {
-    let c = asPath.substring(1).split("/")[3].split("&")
-    if(c){
-        seti1(c[2].split("=")[1])
-        seti2(c[3].split("=")[1])
+    let c = asPath.substring(1).split("/")[3].split("&");
+    if (c) {
+      seti1(c[2].split("=")[1]);
+      seti2(c[3].split("=")[1]);
     }
-  }, [])
-  
-
+  }, []);
 
   return (
     <>
@@ -79,48 +81,91 @@ export default function ConfirmForgotPassword() {
       <main>
         <section className="py-12">
           <div className="mx-auto max-w-[1200px] w-full px-4 flex flex-wrap items-center">
-              <div className="mb-6 lg:mb-0 lg:pr-20 w-full lg:w-[40%] hidden lg:block">
-                  <Auth_Slider />
-              </div>
-              <div className="w-full lg:w-[60%]">
-                  <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] p-10 lg:px-24 min-h-[550px] flex flex-col justify-center">
-                      <h1 className="font-medium text-xl md:text-3xl mb-12">
-                        Reset Password
-                      </h1>
-                      <div className="mb-16">
-                        <div className="mb-6">
-                          <label htmlFor="email" className="font-medium mb-2 leading-none inline-block">Password</label>
-                          <div className="iconGroup right">
-                            <input type={`${switchInputType ? 'text' : 'password'}`} id="password" className="w-full rounded-full border-slate-300" value={password} onChange={(e)=>setpassword(e.target.value)} />
-                            <button type="button" className="iconGroup__icon-right" onClick={inputTypeToggled}>
-                              <i className={`fa-solid text-black ${switchInputType ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-                            </button>
-                          </div>
-                        </div>
-                        <div className="mb-6">
-                          <label htmlFor="email" className="font-medium mb-2 leading-none inline-block">Confirm Password</label>
-                          <div className="iconGroup right">
-                            <input type={`${switchConfInputType ? 'text' : 'password'}`} id="password2" className="w-full rounded-full border-slate-300" value={password2} onChange={(e)=>setpassword2(e.target.value)} />
-                            <button type="button" className="iconGroup__icon-right" onClick={inputConfTypeToggled}>
-                              <i className={`fa-solid text-black ${switchConfInputType ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-                            </button>
-                          </div>
-                        </div>
-                        <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
-                          <button type="submit" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!validbtn()} onClick={(e)=>forgetpass()}>
-                            Submit
-                          </button>
-                        </div>
-                      </div>
-                      {/* <div className="relative mb-8">
+            <div className="mb-6 lg:mb-0 lg:pr-20 w-full lg:w-[40%] hidden lg:block">
+              <Auth_Slider />
+            </div>
+            <div className="w-full lg:w-[60%]">
+              <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] p-10 lg:px-24 min-h-[550px] flex flex-col justify-center">
+                <h1 className="font-medium text-xl md:text-3xl mb-12">
+                  Reset Password
+                </h1>
+                <div className="mb-16">
+                  <div className="mb-6">
+                    <label
+                      htmlFor="email"
+                      className="font-medium mb-2 leading-none inline-block"
+                    >
+                      Password
+                    </label>
+                    <div className="iconGroup right">
+                      <input
+                        type={`${switchInputType ? "text" : "password"}`}
+                        id="password"
+                        className="w-full rounded-full border-slate-300"
+                        value={password}
+                        onChange={(e) => setpassword(e.target.value)}
+                      />
+                      <button
+                        type="button"
+                        className="iconGroup__icon-right"
+                        onClick={inputTypeToggled}
+                      >
+                        <i
+                          className={`fa-solid text-black ${
+                            switchInputType ? "fa-eye-slash" : "fa-eye"
+                          }`}
+                        ></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mb-6">
+                    <label
+                      htmlFor="email"
+                      className="font-medium mb-2 leading-none inline-block"
+                    >
+                      Confirm Password
+                    </label>
+                    <div className="iconGroup right">
+                      <input
+                        type={`${switchConfInputType ? "text" : "password"}`}
+                        id="password2"
+                        className="w-full rounded-full border-slate-300"
+                        value={password2}
+                        onChange={(e) => setpassword2(e.target.value)}
+                      />
+                      <button
+                        type="button"
+                        className="iconGroup__icon-right"
+                        onClick={inputConfTypeToggled}
+                      >
+                        <i
+                          className={`fa-solid text-black ${
+                            switchConfInputType ? "fa-eye-slash" : "fa-eye"
+                          }`}
+                        ></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
+                    <button
+                      type="submit"
+                      className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
+                      disabled={!validbtn()}
+                      onClick={(e) => forgetpass()}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+                {/* <div className="relative mb-8">
                         <hr className="border-slate-600" />
                         <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Not a member yet?</span>
                       </div>
                       <div className="text-center">
                         <Link href="/marketplace/auth/signup" className="text-[#6D27F9] hover:underline">Sign Up</Link>
                       </div> */}
-                  </div>
               </div>
+            </div>
           </div>
         </section>
       </main>

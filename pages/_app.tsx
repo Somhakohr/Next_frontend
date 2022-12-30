@@ -1,11 +1,11 @@
-import '../styles/globals.css'
-import Head from 'next/head'
-import Header from '../components/header';
-import Footer from '../components/footer';
+import "../styles/globals.css";
+import Head from "next/head";
+import Header from "../components/header";
+import Footer from "../components/footer";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import React, { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import "nprogress/nprogress.css";
 import Router from "next/router";
 import NProgress from "nprogress";

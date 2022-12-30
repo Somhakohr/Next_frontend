@@ -1,30 +1,36 @@
 import Head from "next/head";
-import Image from 'next/image';
-import Link from 'next/link'
+import Image from "next/image";
+import Link from "next/link";
 import AuthSlider from "../../../components/auth-slider";
-import Google_Icon from '../../../public/images/google-icon.png';
-import Github_Icon from '../../../public/images/github-icon.png';
+import Google_Icon from "../../../public/images/google-icon.png";
+import Github_Icon from "../../../public/images/github-icon.png";
 import React from "react";
 import { useState, useEffect } from "react";
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import { getCsrfToken, getSession, SessionProvider, signIn, useSession } from "next-auth/react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import {
+  getCsrfToken,
+  getSession,
+  SessionProvider,
+  signIn,
+  useSession,
+} from "next-auth/react";
 import toastcomp from "../../../components/toast";
 
 async function setCSRF(setCsrf) {
-  const csrfToken = await getCsrfToken()
+  const csrfToken = await getCsrfToken();
   setCsrf(csrfToken);
 }
 
 export default function SignIn(props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [csrf, setCsrf] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [csrf, setCsrf] = useState("");
   const [loader, setloader] = useState(false);
-  const router = useRouter();  
+  const router = useRouter();
 
   const [switchInputType, switchInputTypeToggle] = useState(false);
-  function inputTypeToggled(){
+  function inputTypeToggled() {
     switchInputTypeToggle(!switchInputType);
   }
 
@@ -33,13 +39,16 @@ export default function SignIn(props) {
   }, []);
 
   const axiosInstance = axios.create({
-    baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
+    baseURL:
+      process.env.NODE_ENV === "production"
+        ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
+        : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
     timeout: 10000,
     headers: {
       // 'Authorization': "JWT " + access_token,
-      'Content-Type': 'application/json',
-      'accept': 'application/json'
-    }
+      "Content-Type": "application/json",
+      accept: "application/json",
+    },
   });
 
   function validateForm() {
@@ -48,34 +57,43 @@ export default function SignIn(props) {
 
   async function handleClick(event) {
     event.preventDefault();
-    setloader(true)
+    setloader(true);
 
-    await axiosInstance.post('/auth/login/', {
+    await axiosInstance
+      .post("/auth/login/", {
         email: email,
         password: password,
-    }).then(async (response)=>{
-      // console.log(response);
-      var callback = `${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}${response.data.type.toLowerCase()}/`
-      await signIn('credentials', { password: password,email: email,callbackUrl: callback}).catch((err)=>{
-        console.log(err)
-      }) 
-            // return true;
-    }).catch((err)=>{
-      setloader(false)
-      console.log(err);
-      if(err.response.data.non_field_errors){
-        err.response.data.non_field_errors.map((text) =>
-          toastcomp(text,"error")
-        );
-        return false;
-      }
-      if(err.response.data.detail){
-        toastcomp(err.response.data.detail,"error");
-        return false;
-      }
-      
-      
-    });
+      })
+      .then(async (response) => {
+        // console.log(response);
+        var callback = `${
+          process.env.NODE_ENV === "production"
+            ? process.env.NEXT_PUBLIC_PROD_FRONTEND
+            : process.env.NEXT_PUBLIC_DEV_FRONTEND
+        }${response.data.type.toLowerCase()}/`;
+        await signIn("credentials", {
+          password: password,
+          email: email,
+          callbackUrl: callback,
+        }).catch((err) => {
+          console.log(err);
+        });
+        // return true;
+      })
+      .catch((err) => {
+        setloader(false);
+        console.log(err);
+        if (err.response.data.non_field_errors) {
+          err.response.data.non_field_errors.map((text) =>
+            toastcomp(text, "error")
+          );
+          return false;
+        }
+        if (err.response.data.detail) {
+          toastcomp(err.response.data.detail, "error");
+          return false;
+        }
+      });
   }
 
   return (
@@ -97,58 +115,143 @@ export default function SignIn(props) {
                   Sign In
                 </h1>
 
-                      <form className="mb-16">
-                      {/* <form className="mb-16" action="http://localhost:3000/api/auth/callback/credentials" method="POST"> */}
-                      {/* <input type="hidden" name="csrfToken" value={csrf} /> */}
-                        <div className="mb-6">
-                          <label htmlFor="input-email-for-credentials-provider" className="font-medium mb-2 leading-none inline-block">Email</label>
-                          <input type="email" name="email" id="input-email-for-credentials-provider" className="w-full rounded-full border-slate-300" value={email} onChange={(e) => setEmail(e.target.value)}/>
-                        </div>
-                        <div className="mb-6">
-                          <label htmlFor="input-password-for-credentials-provider" className="font-medium mb-2 leading-none inline-block">Password</label>
-                          <div className="iconGroup right">
-                            <input type={`${switchInputType ? 'text' : 'password'}`} name="password" id="input-password-for-credentials-provider" className="w-full rounded-full border-slate-300" value={password} onChange={(e) => setPassword(e.target.value)} />
-                            <button type="button" className="iconGroup__icon-right" onClick={inputTypeToggled}>
-                              <i className={`fa-solid text-black ${switchInputType ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-                            </button>
-                          </div>
-                        </div>
-                        <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
-                          <button type="button" className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!validateForm()} onClick={(e) => handleClick(e)}>
-                            {loader && <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>}
-                            Sign In
-                            <i className="fa-solid fa-arrow-right-to-bracket ml-2"></i>
-                          </button>
-                          <div>
-                          <Link href="/marketplace/auth/forgot-password" className="my-3 inline-block text-[#6D27F9] hover:underline">Forgot Password</Link>&nbsp;|&nbsp; 
-                          <Link href="/marketplace/auth/signup" className="my-3 inline-block text-[#6D27F9] hover:underline">Register</Link>
-                          </div>
-                          
-                        </div>
-                      </form>
-                      <div className="relative mb-8">
-                        <hr className="border-slate-600" />
-                        <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">Or Sign In With</span>
-                      </div>
-                      
-                      <div className="flex items-center justify-center">
-                        <form action={`${process.env.NODE_ENV === 'production' ? 'https://somhako.com/' : 'http://localhost:3000/'}api/auth/signin/google`} method="POST">
-                          <div className="border rounded border-slate-300 cursor-pointer mx-2 flex item-center justify-center">
-                            <input type="hidden" name="csrfToken" value={csrf} />
-                            <input type="hidden" name="callbackUrl" value={`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}candidate`} />
-                            <button type="submit" className="p-3"><Image src={Google_Icon} width={18} alt="Google" /></button>
-                          </div>
-                        </form>
-
-                        <form action={`${process.env.NODE_ENV === 'production' ? 'https://somhako.com/' : 'http://localhost:3000/'}api/auth/signin/github`} method="POST">
-                          <div className="border rounded border-slate-300 cursor-pointer mx-2 flex item-center justify-center">
-                            <input type="hidden" name="csrfToken" value={csrf} />
-                            <input type="hidden" name="callbackUrl" value={`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_FRONTEND : process.env.NEXT_PUBLIC_DEV_FRONTEND}candidate`} />
-                            <button type="submit" className="p-3"><Image src={Github_Icon} width={18} alt="GitHub" /></button>
-                          </div>
-                        </form>
-                      </div>
+                <form className="mb-16">
+                  {/* <form className="mb-16" action="http://localhost:3000/api/auth/callback/credentials" method="POST"> */}
+                  {/* <input type="hidden" name="csrfToken" value={csrf} /> */}
+                  <div className="mb-6">
+                    <label
+                      htmlFor="input-email-for-credentials-provider"
+                      className="font-medium mb-2 leading-none inline-block"
+                    >
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      id="input-email-for-credentials-provider"
+                      className="w-full rounded-full border-slate-300"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
                   </div>
+                  <div className="mb-6">
+                    <label
+                      htmlFor="input-password-for-credentials-provider"
+                      className="font-medium mb-2 leading-none inline-block"
+                    >
+                      Password
+                    </label>
+                    <div className="iconGroup right">
+                      <input
+                        type={`${switchInputType ? "text" : "password"}`}
+                        name="password"
+                        id="input-password-for-credentials-provider"
+                        className="w-full rounded-full border-slate-300"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                      <button
+                        type="button"
+                        className="iconGroup__icon-right"
+                        onClick={inputTypeToggled}
+                      >
+                        <i
+                          className={`fa-solid text-black ${
+                            switchInputType ? "fa-eye-slash" : "fa-eye"
+                          }`}
+                        ></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
+                    <button
+                      type="button"
+                      className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
+                      disabled={!validateForm()}
+                      onClick={(e) => handleClick(e)}
+                    >
+                      {loader && (
+                        <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                      )}
+                      Sign In
+                      <i className="fa-solid fa-arrow-right-to-bracket ml-2"></i>
+                    </button>
+                    <div>
+                      <Link
+                        href="/marketplace/auth/forgot-password"
+                        className="my-3 inline-block text-[#6D27F9] hover:underline"
+                      >
+                        Forgot Password
+                      </Link>
+                      &nbsp;|&nbsp;
+                      <Link
+                        href="/marketplace/auth/signup"
+                        className="my-3 inline-block text-[#6D27F9] hover:underline"
+                      >
+                        Register
+                      </Link>
+                    </div>
+                  </div>
+                </form>
+                <div className="relative mb-8">
+                  <hr className="border-slate-600" />
+                  <span className="text-center absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%] bg-white px-2 md:px-5">
+                    Or Sign In With
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-center">
+                  <form
+                    action={`${
+                      process.env.NODE_ENV === "production"
+                        ? "https://somhako.com/"
+                        : "http://localhost:3000/"
+                    }api/auth/signin/google`}
+                    method="POST"
+                  >
+                    <div className="border rounded border-slate-300 cursor-pointer mx-2 flex item-center justify-center">
+                      <input type="hidden" name="csrfToken" value={csrf} />
+                      <input
+                        type="hidden"
+                        name="callbackUrl"
+                        value={`${
+                          process.env.NODE_ENV === "production"
+                            ? process.env.NEXT_PUBLIC_PROD_FRONTEND
+                            : process.env.NEXT_PUBLIC_DEV_FRONTEND
+                        }candidate`}
+                      />
+                      <button type="submit" className="p-3">
+                        <Image src={Google_Icon} width={18} alt="Google" />
+                      </button>
+                    </div>
+                  </form>
+
+                  <form
+                    action={`${
+                      process.env.NODE_ENV === "production"
+                        ? "https://somhako.com/"
+                        : "http://localhost:3000/"
+                    }api/auth/signin/github`}
+                    method="POST"
+                  >
+                    <div className="border rounded border-slate-300 cursor-pointer mx-2 flex item-center justify-center">
+                      <input type="hidden" name="csrfToken" value={csrf} />
+                      <input
+                        type="hidden"
+                        name="callbackUrl"
+                        value={`${
+                          process.env.NODE_ENV === "production"
+                            ? process.env.NEXT_PUBLIC_PROD_FRONTEND
+                            : process.env.NEXT_PUBLIC_DEV_FRONTEND
+                        }candidate`}
+                      />
+                      <button type="submit" className="p-3">
+                        <Image src={Github_Icon} width={18} alt="GitHub" />
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
         </section>

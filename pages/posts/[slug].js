@@ -1,4 +1,4 @@
-import Head from 'next/head';
+import Head from "next/head";
 import fs from "fs";
 import matter from "gray-matter";
 import md from "markdown-it";
@@ -10,13 +10,11 @@ export default function Post({ frontmatter, content }) {
 
   return (
     <>
-    <Head>
-        <title>
-        {title} | Somhako
-        </title>
+      <Head>
+        <title>{title} | Somhako</title>
         <meta
-        name="description"
-        content="Make your job search easier with trackable resumes and enhanced applications."
+          name="description"
+          content="Make your job search easier with trackable resumes and enhanced applications."
         />
       </Head>
       <article className="max-w-[1000px] px-6 py-12 mx-auto space-y-12 dark:bg-gray-800 dark:text-gray-50">
@@ -28,7 +26,8 @@ export default function Post({ frontmatter, content }) {
             <span className="mr-1">by</span>
             <a
               href="#"
-              target="_blank" rel="noreferrer"
+              target="_blank"
+              rel="noreferrer"
               className="underline dark:text-violet-400 mr-1"
             >
               <span>{author}</span>
@@ -36,9 +35,18 @@ export default function Post({ frontmatter, content }) {
             <span className="mr-1">on</span>
             <time dateTime="2021-02-12 15:34:18-0200">{date}</time>
           </p>
-          <Image src={bannerImage} width={1600} height={800} alt={title} className="w-full rounded-[20px]" />
+          <Image
+            src={bannerImage}
+            width={1600}
+            height={800}
+            alt={title}
+            className="w-full rounded-[20px]"
+          />
         </div>
-        <article className="blogSummay bg-white border border-teal-400 rounded-[25px] p-8" dangerouslySetInnerHTML={{ __html: md().render(content) }} ></article>
+        <article
+          className="blogSummay bg-white border border-teal-400 rounded-[25px] p-8"
+          dangerouslySetInnerHTML={{ __html: md().render(content) }}
+        ></article>
       </article>
     </>
   );

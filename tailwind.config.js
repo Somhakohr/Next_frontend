@@ -8,16 +8,14 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: '1rem',
+      padding: "1rem",
     },
     extend: {
       boxShadow: {
-        'normal': '0 0px 10px rgba(0, 0, 0, 0.15)',
-        'insetview': 'inset 0 5px 10px rgba(0, 0, 0, 0.15)',
-      }
+        normal: "0 0px 10px rgba(0, 0, 0, 0.15)",
+        insetview: "inset 0 5px 10px rgba(0, 0, 0, 0.15)",
+      },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms')
-  ],
-}
+  plugins: [require("@tailwindcss/forms")],
+};

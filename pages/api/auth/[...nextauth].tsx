@@ -15,7 +15,9 @@ namespace NextAuthUtils {
   export const refreshToken = async function (refreshToken) {
     try {
       const response = await axios.post(
-        process.env.NODE_ENV === 'production' ? `${process.env.NEXT_PUBLIC_PROD_BACKEND_BASE}djrestauth/token/refresh/` : `${process.env.NEXT_PUBLIC_DEV_BACKEND_BASE}djrestauth/token/refresh/`,
+        process.env.NODE_ENV === "production"
+          ? `${process.env.NEXT_PUBLIC_PROD_BACKEND_BASE}djrestauth/token/refresh/`
+          : `${process.env.NEXT_PUBLIC_DEV_BACKEND_BASE}djrestauth/token/refresh/`,
         // UrlUtils.makeUrl(
         //   process.env.BACKEND_API_BASE,
         //   "djrestauth",
@@ -40,8 +42,11 @@ namespace NextAuthUtils {
 }
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-  timeout: process.env.NODE_ENV === 'production' ? 5000 : 10000,
+  baseURL:
+    process.env.NODE_ENV === "production"
+      ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
+      : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
+  timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
   headers: {
     // 'Authorization': "JWT " + access_token,
     "Content-Type": "application/json",
@@ -69,8 +74,14 @@ const settings: NextAuthOptions = {
     //   clientSecret: process.env.LINKEDIN_CLIENT_SECRET
     // }),
     GitHubProvider({
-      clientId: process.env.NODE_ENV === 'production' ? process.env.GITHUB_CLIENT_PROD_ID : process.env.GITHUB_CLIENT_DEV_ID ,
-      clientSecret: process.env.NODE_ENV === 'production' ? process.env.GITHUB_CLIENT_PROD_SECRET : process.env.GITHUB_CLIENT_DEV_SECRET ,
+      clientId:
+        process.env.NODE_ENV === "production"
+          ? process.env.GITHUB_CLIENT_PROD_ID
+          : process.env.GITHUB_CLIENT_DEV_ID,
+      clientSecret:
+        process.env.NODE_ENV === "production"
+          ? process.env.GITHUB_CLIENT_PROD_SECRET
+          : process.env.GITHUB_CLIENT_DEV_SECRET,
     }),
     CredentialsProvider({
       name: "Credentials",
@@ -186,7 +197,7 @@ const settings: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      session['accessToken'] = token.accessToken;
+      session["accessToken"] = token.accessToken;
       return session;
     },
   },

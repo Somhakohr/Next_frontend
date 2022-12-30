@@ -17,10 +17,9 @@ import shallow from "zustand/shallow";
 import { useStore } from "../../../constants/code";
 import axios from "axios";
 import toastcomp from "../../../components/toast";
-import Multiselect from 'multiselect-react-dropdown';
+import Multiselect from "multiselect-react-dropdown";
 import { signOut } from "next-auth/react";
-import { Editor } from '@tinymce/tinymce-react';
-
+import { Editor } from "@tinymce/tinymce-react";
 
 function OrganisationAccount(props) {
   const cancelButtonRef = useRef(null);
@@ -111,15 +110,16 @@ function OrganisationAccount(props) {
   const [pass2, setpass2] = useState("");
 
   function valudateCP() {
-    return pass.length >= 8 && pass2.length >= 8 && pass == pass2
+    return pass.length >= 8 && pass2.length >= 8 && pass == pass2;
   }
-
-
 
   //axios auth var
   const axiosInstanceAuth2 = axios.create({
-    baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: process.env.NODE_ENV === 'production' ? 5000 : 10000,
+    baseURL:
+      process.env.NODE_ENV === "production"
+        ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
+        : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
+    timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
     headers: {
       Authorization: "Bearer " + accessToken,
       "Content-Type": "multipart/form-data",
@@ -134,20 +134,19 @@ function OrganisationAccount(props) {
     return file.length > 0;
   }
 
-
   async function changePass() {
     await axiosInstanceAuth2
-      .post("/auth/changepassword/",{
-        'password':pass,
-        'password2':pass2
+      .post("/auth/changepassword/", {
+        password: pass,
+        password2: pass2,
       })
       .then(async (res) => {
-        changePasswordOpen(false)
-        toastcomp("Password Successfully Changed","successs")
+        changePasswordOpen(false);
+        toastcomp("Password Successfully Changed", "successs");
       })
       .catch((err) => {
-        changePasswordOpen(false)
-        toastcomp("Password Not Successfully Changed","error")
+        changePasswordOpen(false);
+        toastcomp("Password Not Successfully Changed", "error");
       });
   }
 
@@ -379,28 +378,33 @@ function OrganisationAccount(props) {
 
   async function delacc() {
     const axiosInstanceAuth = axios.create({
-    baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: process.env.NODE_ENV === 'production' ? 5000 : 10000,
-    headers: {
-        'Authorization': 'Bearer '+accessToken,
-        'Content-Type': 'application/json',
-        'accept': 'application/json'
-    }
+      baseURL:
+        process.env.NODE_ENV === "production"
+          ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
+          : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
+      timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
+      headers: {
+        Authorization: "Bearer " + accessToken,
+        "Content-Type": "application/json",
+        accept: "application/json",
+      },
     });
-    await axiosInstanceAuth.get('/auth/deleteOrgAccount/'+userObj['orefid']+'/').then((res)=>{
-        toastcomp("Account Deleted :)","success");
-        updateUserType('')
-        updateUserName('')
-        updateUserImg('')
-        updateUserObj({})
-        updateUserProfile({})
-        updateAccessToken('')
-        signOut()
-    }).catch((err)=>{
-        toastcomp("Account Not Deleted :)","error");
-    });
-    
-}
+    await axiosInstanceAuth
+      .get("/auth/deleteOrgAccount/" + userObj["orefid"] + "/")
+      .then((res) => {
+        toastcomp("Account Deleted :)", "success");
+        updateUserType("");
+        updateUserName("");
+        updateUserImg("");
+        updateUserObj({});
+        updateUserProfile({});
+        updateAccessToken("");
+        signOut();
+      })
+      .catch((err) => {
+        toastcomp("Account Not Deleted :)", "error");
+      });
+  }
   async function saveAccount(formData) {
     await axiosInstanceAuth2
       .put("/auth/organizationaccont/" + userObj["orefid"] + "/", formData)
@@ -673,17 +677,56 @@ function OrganisationAccount(props) {
                         <option value="Industry 2">Industry 2</option>
                       </select> */}
                       <Multiselect
-                        options={['IT Services & Consulting','Recruitment','Software Product','Consulting','Financial Services','Hardware & Networking','Internet','Analytics & KPO','IT / ITES','Computer Software','Engineering & Construction','Manufacturing','Education & Training','Telecom','Marketing & Advertising','Management Consulting','Emerging Technologies','BPO/KPO','BPO','EdTech','Media & Entertainment / Publishing','Industrial Machinery','Retail','Power','Advertising / PR / Events','Recruitment consultant','Design','Gaming','Banking / Insurance / Accounting','Consumer Electronics & Appliances']}
+                        options={[
+                          "IT Services & Consulting",
+                          "Recruitment",
+                          "Software Product",
+                          "Consulting",
+                          "Financial Services",
+                          "Hardware & Networking",
+                          "Internet",
+                          "Analytics & KPO",
+                          "IT / ITES",
+                          "Computer Software",
+                          "Engineering & Construction",
+                          "Manufacturing",
+                          "Education & Training",
+                          "Telecom",
+                          "Marketing & Advertising",
+                          "Management Consulting",
+                          "Emerging Technologies",
+                          "BPO/KPO",
+                          "BPO",
+                          "EdTech",
+                          "Media & Entertainment / Publishing",
+                          "Industrial Machinery",
+                          "Retail",
+                          "Power",
+                          "Advertising / PR / Events",
+                          "Recruitment consultant",
+                          "Design",
+                          "Gaming",
+                          "Banking / Insurance / Accounting",
+                          "Consumer Electronics & Appliances",
+                        ]}
                         isObject={false}
-                        customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
+                        customCloseIcon={
+                          <>
+                            <i className="fa-solid fa-xmark"></i>
+                          </>
+                        }
                         showArrow={true}
                         closeOnSelect={true}
                         selectionLimit={1}
-                        selectedValues = {ind && ind.split(',')}
-                        onSelect={(selectedList, selectedItem)=> {setInd(selectedItem) }}
-                        onRemove={(selectedList, selectedItem)=> {setInd('') }}
+                        selectedValues={ind && ind.split(",")}
+                        onSelect={(selectedList, selectedItem) => {
+                          setInd(selectedItem);
+                        }}
+                        onRemove={(selectedList, selectedItem) => {
+                          setInd("");
+                        }}
                         placeholder="Find Preferred Industry"
-                        />
+                      />
                     </div>
                   </div>
                   <div className="flex flex-wrap justify-between">
@@ -821,19 +864,38 @@ function OrganisationAccount(props) {
                         <option value="0-10">0-10</option>
                         <option value="10-20">10-20</option>
                       </select> */}
-                      
+
                       <Multiselect
-                        options={['0-10','10-50','50-100','100-250','250-500','500-1000','1000-2000','2000-5000','5000-10000','10000+']}
+                        options={[
+                          "0-10",
+                          "10-50",
+                          "50-100",
+                          "100-250",
+                          "250-500",
+                          "500-1000",
+                          "1000-2000",
+                          "2000-5000",
+                          "5000-10000",
+                          "10000+",
+                        ]}
                         isObject={false}
-                        customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
+                        customCloseIcon={
+                          <>
+                            <i className="fa-solid fa-xmark"></i>
+                          </>
+                        }
                         showArrow={true}
                         closeOnSelect={true}
                         selectionLimit={1}
-                        selectedValues = {cstrength && cstrength.split(',')}
-                        onSelect={(selectedList, selectedItem)=> {setCStrength(selectedItem) }}
-                        onRemove={(selectedList, selectedItem)=> {setCStrength('') }}
+                        selectedValues={cstrength && cstrength.split(",")}
+                        onSelect={(selectedList, selectedItem) => {
+                          setCStrength(selectedItem);
+                        }}
+                        onRemove={(selectedList, selectedItem) => {
+                          setCStrength("");
+                        }}
                         placeholder="Find Strength of Company"
-                        />
+                      />
                     </div>
                   </div>
                   <div className="flex flex-wrap justify-between">
@@ -855,17 +917,25 @@ function OrganisationAccount(props) {
                         <option value="Private">Private</option>
                       </select> */}
                       <Multiselect
-                        options={['Public','Private']}
+                        options={["Public", "Private"]}
                         isObject={false}
-                        customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
+                        customCloseIcon={
+                          <>
+                            <i className="fa-solid fa-xmark"></i>
+                          </>
+                        }
                         showArrow={true}
                         closeOnSelect={true}
                         selectionLimit={1}
-                        selectedValues = {orgstatus && orgstatus.split(',')}
-                        onSelect={(selectedList, selectedItem)=> {setOrgStatus(selectedItem) }}
-                        onRemove={(selectedList, selectedItem)=> {setOrgStatus('') }}
+                        selectedValues={orgstatus && orgstatus.split(",")}
+                        onSelect={(selectedList, selectedItem) => {
+                          setOrgStatus(selectedItem);
+                        }}
+                        onRemove={(selectedList, selectedItem) => {
+                          setOrgStatus("");
+                        }}
                         placeholder="Find Status of Organisation"
-                        />
+                      />
                     </div>
                     <div className="w-full lg:w-[47%] mb-6">
                       <label
@@ -885,17 +955,25 @@ function OrganisationAccount(props) {
                         <option value="Inactive">Inactive</option>
                       </select> */}
                       <Multiselect
-                        options={['Active','Inactive']}
+                        options={["Active", "Inactive"]}
                         isObject={false}
-                        customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
+                        customCloseIcon={
+                          <>
+                            <i className="fa-solid fa-xmark"></i>
+                          </>
+                        }
                         showArrow={true}
                         closeOnSelect={true}
                         selectionLimit={1}
-                        selectedValues = {opestatus && opestatus.split(',')}
-                        onSelect={(selectedList, selectedItem)=> {setOpeStatus(selectedItem) }}
-                        onRemove={(selectedList, selectedItem)=> {setOpeStatus('') }}
+                        selectedValues={opestatus && opestatus.split(",")}
+                        onSelect={(selectedList, selectedItem) => {
+                          setOpeStatus(selectedItem);
+                        }}
+                        onRemove={(selectedList, selectedItem) => {
+                          setOpeStatus("");
+                        }}
                         placeholder="Find Status of Operation"
-                        />
+                      />
                     </div>
                   </div>
                   <div className="flex flex-wrap justify-between">
@@ -947,27 +1025,32 @@ function OrganisationAccount(props) {
                       onBlur={(e) => setFAdd(e.target.value)}
                     ></textarea> */}
                     <Editor
-                        apiKey="veckejpcr82yx9s84tl0ifqqrg7h6zgfdkkmjc69kifrx9rc"
-                        onChange={(evt, editor) => setAdd(editor.getContent())}
-                        onBlur={(evt, editor) => setFAdd(editor.getContent())}
-                        initialValue={add}
-                        init={{
-                          height: 300,
-                          menubar: false,
-                          plugins: 'autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount',
-                          toolbar: 'undo redo | formatselect | ' +
-                          'bold italic backcolor | alignleft aligncenter ' +
-                          'alignright alignjustify | bullist numlist outdent indent | ' +
-                          'removeformat | help',
-                          content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                        }}
-                      />
+                      apiKey="veckejpcr82yx9s84tl0ifqqrg7h6zgfdkkmjc69kifrx9rc"
+                      onChange={(evt, editor) => setAdd(editor.getContent())}
+                      onBlur={(evt, editor) => setFAdd(editor.getContent())}
+                      initialValue={add}
+                      init={{
+                        height: 300,
+                        menubar: false,
+                        plugins:
+                          "autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount",
+                        toolbar:
+                          "undo redo | formatselect | " +
+                          "bold italic backcolor | alignleft aligncenter " +
+                          "alignright alignjustify | bullist numlist outdent indent | " +
+                          "removeformat | help",
+                        content_style:
+                          "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                      }}
+                    />
                   </div>
                   <div className="mb-6">
                     <label
                       htmlFor="orgCompDesc"
                       className="font-medium mb-2 leading-none inline-block"
-                      onClick={(e)=>{console.log(desc)}}
+                      onClick={(e) => {
+                        console.log(desc);
+                      }}
                     >
                       Company Description
                     </label>
@@ -978,22 +1061,25 @@ function OrganisationAccount(props) {
                       onChange={(e) => setDesc(e.target.value)}
                       onBlur={(e) => setFDesc(e.target.value)}
                     ></textarea> */}
-                     <Editor
-                        apiKey="veckejpcr82yx9s84tl0ifqqrg7h6zgfdkkmjc69kifrx9rc"
-                        onChange={(evt, editor) => setDesc(editor.getContent())}
-                        onBlur={(evt, editor) => setFDesc(editor.getContent())}
-                        initialValue={desc}
-                        init={{
-                          height: 300,
-                          menubar: false,
-                          plugins: 'autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount',
-                          toolbar: 'undo redo | formatselect | ' +
-                          'bold italic backcolor | alignleft aligncenter ' +
-                          'alignright alignjustify | bullist numlist outdent indent | ' +
-                          'removeformat | help',
-                          content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                        }}
-                      />
+                    <Editor
+                      apiKey="veckejpcr82yx9s84tl0ifqqrg7h6zgfdkkmjc69kifrx9rc"
+                      onChange={(evt, editor) => setDesc(editor.getContent())}
+                      onBlur={(evt, editor) => setFDesc(editor.getContent())}
+                      initialValue={desc}
+                      init={{
+                        height: 300,
+                        menubar: false,
+                        plugins:
+                          "autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount",
+                        toolbar:
+                          "undo redo | formatselect | " +
+                          "bold italic backcolor | alignleft aligncenter " +
+                          "alignright alignjustify | bullist numlist outdent indent | " +
+                          "removeformat | help",
+                        content_style:
+                          "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                      }}
+                    />
                   </div>
                   <div className="mb-6">
                     <label
@@ -1011,18 +1097,26 @@ function OrganisationAccount(props) {
                       <option value="Corporate">Corporate</option>
                       <option value="Agency">Agency</option>
                     </select> */}
-                      <Multiselect
-                        options={['Agency','Corporate']}
-                        isObject={false}
-                        customCloseIcon={<><i className="fa-solid fa-xmark"></i></>}
-                        showArrow={true}
-                        closeOnSelect={true}
-                        selectionLimit={1}
-                        selectedValues = {otype && otype.split(',')}
-                        onSelect={(selectedList, selectedItem)=> {setOType(selectedItem) }}
-                        onRemove={(selectedList, selectedItem)=> {setOType('') }}
-                        placeholder="Find Preferred Company Type"
-                        />
+                    <Multiselect
+                      options={["Agency", "Corporate"]}
+                      isObject={false}
+                      customCloseIcon={
+                        <>
+                          <i className="fa-solid fa-xmark"></i>
+                        </>
+                      }
+                      showArrow={true}
+                      closeOnSelect={true}
+                      selectionLimit={1}
+                      selectedValues={otype && otype.split(",")}
+                      onSelect={(selectedList, selectedItem) => {
+                        setOType(selectedItem);
+                      }}
+                      onRemove={(selectedList, selectedItem) => {
+                        setOType("");
+                      }}
+                      placeholder="Find Preferred Company Type"
+                    />
                   </div>
                 </div>
                 {/* <div className="bg-white shadow-normal rounded-[30px] overflow-hidden p-8 mb-6">
@@ -1428,7 +1522,7 @@ function OrganisationAccount(props) {
                             id="orgNewPass"
                             className="w-full rounded-full border-slate-300"
                             value={pass}
-                            onChange={(e)=>setpass(e.target.value)}
+                            onChange={(e) => setpass(e.target.value)}
                           />
                         </div>
                         <div className="mb-6">
@@ -1443,13 +1537,15 @@ function OrganisationAccount(props) {
                             id="orgConfirmPass"
                             className="w-full rounded-full border-slate-300"
                             value={pass2}
-                            onChange={(e)=>setpass2(e.target.value)}
+                            onChange={(e) => setpass2(e.target.value)}
                           />
                         </div>
                         <div className="text-center">
                           <button
                             type="button"
-                            className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]" disabled={!valudateCP()} onClick={(e)=>changePass()}
+                            className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
+                            disabled={!valudateCP()}
+                            onClick={(e) => changePass()}
                           >
                             Submit
                           </button>
@@ -1519,7 +1615,8 @@ function OrganisationAccount(props) {
                             </button>
                             <button
                               type="submit"
-                              className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mx-3 md:min-w-[90px] transition-all hover:from-[#391188] hover:to-[#391188]" onClick={(e)=>delacc()}
+                              className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mx-3 md:min-w-[90px] transition-all hover:from-[#391188] hover:to-[#391188]"
+                              onClick={(e) => delacc()}
                             >
                               Yes
                             </button>
