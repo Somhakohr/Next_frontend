@@ -87,6 +87,8 @@ function OrganisationAllJobs(props) {
   const [jobReload, setJobReload] = useState(false);
   const [editJob, setEditJob] = useState(false);
 
+  const [loader, setloader] = useState(false);
+
   //axios auth var
   const axiosInstanceAuth2 = axios.create({
     baseURL:
@@ -263,6 +265,7 @@ function OrganisationAllJobs(props) {
         toastcomp("Job Added", "success");
         resetJOBFORM();
         loadJobs();
+        setloader(false);
       })
       .catch((err) => {
         toastcomp("Job Not Added", "error");
@@ -316,6 +319,7 @@ function OrganisationAllJobs(props) {
 
   function apply(status) {
     var check = true;
+    setloader(true);
     if (
       title.length <= 0 ||
       dept.length <= 0 ||
@@ -416,9 +420,10 @@ function OrganisationAllJobs(props) {
         addJob(formData);
       }
     }
+    setloader(false);
   }
   function verifyLangPopup() {
-    return alang && alang.length > 0 && aprof && aprof.length > 0;
+    return alang && alang.length > 0 && aprof && aprof.length > 0 && !loader;
   }
   //save spoken lang
   function saveLang(e) {
@@ -435,6 +440,7 @@ function OrganisationAllJobs(props) {
     setALang("");
     setAProf("");
     langPopupOpen(false);
+    setloader(false);
   }
 
   //delete Lang
@@ -1410,6 +1416,9 @@ function OrganisationAllJobs(props) {
                         className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mr-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
                         onClick={(e) => apply("Review")}
                       >
+                        {/* {loader && (
+                          <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                        )} */}
                         Post
                       </button>
                       <button
@@ -1417,6 +1426,9 @@ function OrganisationAllJobs(props) {
                         className="border border-[#6D27F9] font-bold rounded-full py-2.5 px-6 my-2 mr-6 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
                         onClick={(e) => apply("Draft")}
                       >
+                        {loader && (
+                          <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                        )}
                         Save as Draft
                       </button>
                       {/* <button type="button" className="text-[#6D27F9] my-2 font-bold">Preview</button> */}
@@ -1984,6 +1996,9 @@ function OrganisationAllJobs(props) {
                               disabled={!verifyLangPopup()}
                               onClick={(e) => saveLang(e)}
                             >
+                              {loader && (
+                                <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                              )}
                               Save
                             </button>
                           </div>

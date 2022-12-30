@@ -1,26 +1,26 @@
-import Image from "next/image"
-import Link from "next/link"
-import googleIcon from "../public/images/google-icon.png"
-import moment from "moment"
-import shallow from "zustand/shallow"
-import { useStore } from "../constants/code"
-import { useRouter } from "next/navigation"
+import Image from "next/image";
+import Link from "next/link";
+import googleIcon from "../public/images/google-icon.png";
+import moment from "moment";
+import shallow from "zustand/shallow";
+import { useStore } from "../constants/code";
+import { useRouter } from "next/navigation";
 
 export default function JobCard(props) {
-  const { data, org } = props
+  const { data, org } = props;
   const [param1, updateParam1] = useStore(
-    state => [state.param1, state.updateParam1],
+    (state) => [state.param1, state.updateParam1],
     shallow
-  )
-  const router = useRouter()
+  );
+  const router = useRouter();
 
   function viewJob(refid) {
-    refid = refid.toUpperCase()
-    updateParam1(refid)
+    refid = refid.toUpperCase();
+    updateParam1(refid);
     if (org) {
-      router.push(`/marketplace/organisation/job/preview/${refid}`)
+      router.push(`/marketplace/organisation/job/preview/${refid}`);
     } else {
-      router.push(`/marketplace/job-detail/${refid}`)
+      router.push(`/marketplace/job-detail/${refid}`);
     }
   }
   return (
@@ -69,7 +69,7 @@ export default function JobCard(props) {
           <p>{moment(data.timestamp).fromNow()}</p>
           <button
             type="button"
-            onClick={e => viewJob(data.refid)}
+            onClick={(e) => viewJob(data.refid)}
             className="text-[#6D27F9] hover:underline hover:text-black"
           >
             View Job
@@ -77,5 +77,5 @@ export default function JobCard(props) {
         </div>
       </div>
     </>
-  )
+  );
 }

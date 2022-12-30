@@ -76,6 +76,9 @@ function CandidateProfile(props) {
     }
   }, [session]);
 
+  //loader
+  const [loader, setloader] = useState(false);
+
   //local var
   const [langPopup, langPopupOpen] = useState(false);
   const cancelButtonRef = useRef(null);
@@ -148,10 +151,10 @@ function CandidateProfile(props) {
 
   //local fun
   function verifyLangPopup() {
-    return alang && alang.length > 0 && aprof && aprof.length > 0;
+    return alang && alang.length > 0 && aprof && aprof.length > 0 && !loader;
   }
   function verifyLinkPopup() {
-    return atitle.length > 0;
+    return atitle.length > 0 && !loader;
   }
   function verifySkillPopup() {
     return (
@@ -160,7 +163,8 @@ function CandidateProfile(props) {
       sprf &&
       sprf.length > 0 &&
       sset &&
-      sset.length > 0
+      sset.length > 0 &&
+      !loader
     );
   }
   function verifyCertPopup() {
@@ -170,7 +174,8 @@ function CandidateProfile(props) {
       cidate.length > 0 &&
       cid.length > 0 &&
       curl.length > 0 &&
-      (cexp || cedate.length > 0)
+      (cexp || cedate.length > 0) &&
+      !loader
     );
   }
   function verifyEduPopup() {
@@ -179,7 +184,8 @@ function CandidateProfile(props) {
       eorg.length > 0 &&
       esdate.length > 0 &&
       eedate.length > 0 &&
-      eabout.length > 0
+      eabout.length > 0 &&
+      !loader
     );
   }
   function verifyExpPopup() {
@@ -190,11 +196,12 @@ function CandidateProfile(props) {
       exabout.length > 0 &&
       extype &&
       extype.length > 0 &&
-      (exexp || exedate.length > 0)
+      (exexp || exedate.length > 0) &&
+      !loader
     );
   }
   function verifyAchievePopup() {
-    return amtitle.length > 0 && amdesc.length > 0;
+    return amtitle.length > 0 && amdesc.length > 0 && !loader;
   }
 
   //axios auth var
@@ -246,11 +253,13 @@ function CandidateProfile(props) {
   }
 
   async function addLang(formdata) {
+    setloader(true);
     await axiosInstanceAuth2
       .post("/candidate/candidatelanguage/" + userObj["erefid"] + "/", formdata)
       .then(async (res) => {
         toastcomp("Spoken Lang Added", "success");
         loadLang();
+        setloader(false);
       })
       .catch((err) => {
         toastcomp("Spoken Lang Not Added", "error");
@@ -275,11 +284,13 @@ function CandidateProfile(props) {
   }
 
   async function addLink(formdata) {
+    setloader(true);
     await axiosInstanceAuth2
       .post("/candidate/candidatelink/" + userObj["erefid"] + "/", formdata)
       .then(async (res) => {
         toastcomp("Social Link Added", "success");
         loadLink();
+        setloader(false);
       })
       .catch((err) => {
         toastcomp("Link Not Added", "error");
@@ -385,11 +396,13 @@ function CandidateProfile(props) {
   }
 
   async function addSkill(formdata) {
+    setloader(true);
     await axiosInstanceAuth2
       .post("/candidate/candidateskill/" + userObj["erefid"] + "/", formdata)
       .then(async (res) => {
         toastcomp("Skill Added", "success");
         loadSkill();
+        setloader(false);
       })
       .catch((err) => {
         toastcomp("Skill Not Added", "error");
@@ -433,6 +446,7 @@ function CandidateProfile(props) {
   }
 
   async function addCertification(formdata) {
+    setloader(true);
     await axiosInstanceAuth2
       .post(
         "/candidate/candidatecertificate/" + userObj["erefid"] + "/",
@@ -441,6 +455,7 @@ function CandidateProfile(props) {
       .then(async (res) => {
         toastcomp("Certificate Added", "success");
         loadCertification();
+        setloader(false);
       })
       .catch((err) => {
         toastcomp("Certificate Not Added", "error");
@@ -484,6 +499,7 @@ function CandidateProfile(props) {
   }
 
   async function addEducation(formdata) {
+    setloader(true);
     await axiosInstanceAuth2
       .post(
         "/candidate/candidateeducation/" + userObj["erefid"] + "/",
@@ -492,6 +508,7 @@ function CandidateProfile(props) {
       .then(async (res) => {
         toastcomp("Education Added", "success");
         loadEducation();
+        setloader(false);
       })
       .catch((err) => {
         toastcomp("Education Not Added", "error");
@@ -535,6 +552,7 @@ function CandidateProfile(props) {
   }
 
   async function addExperience(formdata) {
+    setloader(true);
     await axiosInstanceAuth2
       .post(
         "/candidate/candidateexperience/" + userObj["erefid"] + "/",
@@ -543,6 +561,7 @@ function CandidateProfile(props) {
       .then(async (res) => {
         toastcomp("Experience Added", "success");
         loadExperience();
+        setloader(false);
       })
       .catch((err) => {
         toastcomp("Experience Not Added", "error");
@@ -586,6 +605,7 @@ function CandidateProfile(props) {
   }
 
   async function addAchieve(formdata) {
+    setloader(true);
     await axiosInstanceAuth2
       .post(
         "/candidate/candidateachievement/" + userObj["erefid"] + "/",
@@ -594,6 +614,7 @@ function CandidateProfile(props) {
       .then(async (res) => {
         toastcomp("Achievement Added", "success");
         loadAchieve();
+        setloader(false);
       })
       .catch((err) => {
         toastcomp("Achievement Not Added", "error");
@@ -2142,6 +2163,9 @@ function CandidateProfile(props) {
                           disabled={!verifyLangPopup()}
                           onClick={(e) => saveLang(e)}
                         >
+                          {loader && (
+                            <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                          )}
                           Save
                         </button>
                       </div>
@@ -2220,6 +2244,9 @@ function CandidateProfile(props) {
                           onClick={(e) => saveLink(e)}
                           disabled={!verifyLinkPopup()}
                         >
+                          {loader && (
+                            <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                          )}
                           Save
                         </button>
                       </div>
@@ -2385,6 +2412,9 @@ function CandidateProfile(props) {
                           onClick={(e) => saveSkill(e)}
                           disabled={!verifySkillPopup()}
                         >
+                          {loader && (
+                            <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                          )}
                           Save
                         </button>
                       </div>
@@ -2557,6 +2587,9 @@ function CandidateProfile(props) {
                           onClick={(e) => saveCert(e)}
                           disabled={!verifyCertPopup()}
                         >
+                          {loader && (
+                            <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                          )}
                           Save
                         </button>
                       </div>
@@ -2698,6 +2731,9 @@ function CandidateProfile(props) {
                           onClick={(e) => saveEdu(e)}
                           disabled={!verifyEduPopup()}
                         >
+                          {loader && (
+                            <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                          )}
                           Save
                         </button>
                       </div>
@@ -2889,6 +2925,9 @@ function CandidateProfile(props) {
                           onClick={(e) => saveExp(e)}
                           disabled={!verifyExpPopup()}
                         >
+                          {loader && (
+                            <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                          )}
                           Save
                         </button>
                       </div>
@@ -2981,6 +3020,9 @@ function CandidateProfile(props) {
                           onClick={(e) => saveAchieve(e)}
                           disabled={!verifyAchievePopup()}
                         >
+                          {loader && (
+                            <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                          )}
                           Save
                         </button>
                       </div>

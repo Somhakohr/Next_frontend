@@ -27,6 +27,7 @@ export default function OrganisationJobsCard(props) {
   const cancelButtonRef = useRef(null);
   const { data } = props;
   const router = useRouter();
+  const [loader, setloader] = useState(true);
 
   const [param1, updateParam1] = useStore(
     (state) => [state.param1, state.updateParam1],
@@ -283,7 +284,8 @@ export default function OrganisationJobsCard(props) {
       });
   }
 
-  function update(num) {
+  async function update(num) {
+    setloader(true);
     var check = true;
     if (
       title.length <= 0 ||
@@ -389,14 +391,16 @@ export default function OrganisationJobsCard(props) {
         }
       }
     }
+    setloader(false);
   }
 
   function verifyLangPopup() {
-    return alang && alang.length > 0 && aprof && aprof.length > 0;
+    return alang && alang.length > 0 && aprof && aprof.length > 0 && !loader;
   }
 
   //save spoken lang
   function saveLang(e) {
+    setloader(true);
     if (lang.length > 3) {
       toastcomp("4 Spoken Lang Only ALlowed", "error");
     } else {
@@ -410,6 +414,7 @@ export default function OrganisationJobsCard(props) {
     setALang("");
     setAProf("");
     langPopupOpen(false);
+    setloader(false);
   }
 
   //delete Lang
@@ -1123,6 +1128,9 @@ export default function OrganisationJobsCard(props) {
                           disabled={!verifyLangPopup()}
                           onClick={(e) => saveLang(e)}
                         >
+                          {loader && (
+                            <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                          )}
                           Save
                         </button>
                       </div>
@@ -2036,6 +2044,9 @@ export default function OrganisationJobsCard(props) {
                             className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mr-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
                             onClick={(e) => update(1)}
                           >
+                            {loader && (
+                              <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                            )}
                             Clone
                           </button>
                         </div>
@@ -2046,6 +2057,9 @@ export default function OrganisationJobsCard(props) {
                             className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mr-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
                             onClick={(e) => update(0)}
                           >
+                            {loader && (
+                              <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                            )}
                             Update
                           </button>
                         </div>

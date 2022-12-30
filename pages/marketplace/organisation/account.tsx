@@ -27,6 +27,7 @@ function OrganisationAccount(props) {
   const [socialPopup, socialPopupOpen] = useState(false);
   const [galleryImages, galleryImagesAdd] = useState(false);
   const [changePassword, changePasswordOpen] = useState(false);
+  const [loader, setloader] = useState(false);
 
   const { router, session } = props;
 
@@ -110,7 +111,7 @@ function OrganisationAccount(props) {
   const [pass2, setpass2] = useState("");
 
   function valudateCP() {
-    return pass.length >= 8 && pass2.length >= 8 && pass == pass2;
+    return pass.length >= 8 && pass2.length >= 8 && pass == pass2 && !loader;
   }
 
   //axios auth var
@@ -127,14 +128,15 @@ function OrganisationAccount(props) {
   });
 
   function verifyLinkPopup() {
-    return atitle.length > 0;
+    return atitle.length > 0 && !loader;
   }
 
   function verifyGalPopup() {
-    return file.length > 0;
+    return file.length > 0 && !loader;
   }
 
   async function changePass() {
+    setloader(true);
     await axiosInstanceAuth2
       .post("/auth/changepassword/", {
         password: pass,
@@ -142,6 +144,7 @@ function OrganisationAccount(props) {
       })
       .then(async (res) => {
         changePasswordOpen(false);
+        setloader(false);
         toastcomp("Password Successfully Changed", "successs");
       })
       .catch((err) => {
@@ -167,6 +170,7 @@ function OrganisationAccount(props) {
   }
 
   async function addLink(formdata) {
+    setloader(true);
     await axiosInstanceAuth2
       .post(
         "/organisation/organisationlink/" + userObj["orefid"] + "/",
@@ -175,6 +179,7 @@ function OrganisationAccount(props) {
       .then(async (res) => {
         toastcomp("Social Link Added", "success");
         loadLink();
+        setloader(false);
       })
       .catch((err) => {
         toastcomp("Link Not Added", "error");
@@ -236,6 +241,7 @@ function OrganisationAccount(props) {
   }
 
   async function addGallery(formdata) {
+    setloader(true);
     await axiosInstanceAuth2
       .post(
         "/organisation/organisationgallery/" + userObj["orefid"] + "/",
@@ -246,6 +252,7 @@ function OrganisationAccount(props) {
         loadGalllery();
         setFile([]);
         galleryImagesAdd(false);
+        setloader(false);
       })
       .catch((err) => {
         toastcomp("Gallery Not Added", "error");
@@ -1293,6 +1300,9 @@ function OrganisationAccount(props) {
                               onClick={(e) => saveLink(e)}
                               disabled={!verifyLinkPopup()}
                             >
+                              {loader && (
+                                <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                              )}
                               Save
                             </button>
                           </div>
@@ -1443,6 +1453,9 @@ function OrganisationAccount(props) {
                             disabled={!verifyGalPopup()}
                             onClick={(e) => saveGallery()}
                           >
+                            {loader && (
+                              <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                            )}
                             SAVE
                           </button>
                         </div>
@@ -1547,6 +1560,9 @@ function OrganisationAccount(props) {
                             disabled={!valudateCP()}
                             onClick={(e) => changePass()}
                           >
+                            {loader && (
+                              <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                            )}
                             Submit
                           </button>
                         </div>
@@ -1618,6 +1634,9 @@ function OrganisationAccount(props) {
                               className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mx-3 md:min-w-[90px] transition-all hover:from-[#391188] hover:to-[#391188]"
                               onClick={(e) => delacc()}
                             >
+                              {loader && (
+                                <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                              )}
                               Yes
                             </button>
                           </div>

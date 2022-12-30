@@ -411,7 +411,9 @@ function PreviewDetail(props) {
                       </div>
                       <div className="py-4 px-6 md:px-10">
                         <article className="text-[#7e7e7e] font-light">
-                          <p>{JSON.stringify(data.desc)}</p>
+                          <p
+                            dangerouslySetInnerHTML={{ __html: data.desc }}
+                          ></p>
                         </article>
                       </div>
                     </div>
@@ -421,7 +423,9 @@ function PreviewDetail(props) {
                       </div>
                       <div className="py-4 px-6 md:px-10">
                         <article className="text-[#7e7e7e] font-light">
-                          <p>{JSON.stringify(data.resp)}</p>
+                          <p
+                            dangerouslySetInnerHTML={{ __html: data.resp }}
+                          ></p>
                         </article>
                       </div>
                     </div>

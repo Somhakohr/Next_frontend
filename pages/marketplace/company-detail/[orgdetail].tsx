@@ -1,110 +1,110 @@
 //@ts-nocheck
-import Image from "next/image"
-import { Fragment, useRef } from "react"
-import { Dialog, Transition } from "@headlessui/react"
-import JobCard from "../../../components/job-card"
-import Slider from "react-slick"
-import googleImg from "../../public/images/google-icon.png"
-import { useRouter } from "next/navigation"
-import { axiosInstance } from "../../api/axiosApi"
-import { useStore } from "../../../constants/code"
-import { useEffect, useState } from "react"
-import shallow from "zustand/shallow"
+import Image from "next/image";
+import { Fragment, useRef } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import JobCard from "../../../components/job-card";
+import Slider from "react-slick";
+import googleImg from "../../public/images/google-icon.png";
+import { useRouter } from "next/navigation";
+import { axiosInstance } from "../../api/axiosApi";
+import { useStore } from "../../../constants/code";
+import { useEffect, useState } from "react";
+import shallow from "zustand/shallow";
 // import moment from "moment";
-import { withAuth } from "../../../constants/HOCs"
-import toastcomp from "../../../components/toast"
-import axios from "axios"
-import Link from "next/link"
-import React from "react"
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
-import googleIcon from "../../public/images/google-icon.png"
-import gallery_1 from "../../public/images/gallery-1.png"
-import gallery_2 from "../../public/images/gallery-2.png"
-import gallery_3 from "../../public/images/gallery-3.png"
-import gallery_4 from "../../public/images/gallery-4.png"
-import gallery_5 from "../../public/images/gallery-5.png"
+import { withAuth } from "../../../constants/HOCs";
+import toastcomp from "../../../components/toast";
+import axios from "axios";
+import Link from "next/link";
+import React from "react";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import googleIcon from "../../public/images/google-icon.png";
+import gallery_1 from "../../public/images/gallery-1.png";
+import gallery_2 from "../../public/images/gallery-2.png";
+import gallery_3 from "../../public/images/gallery-3.png";
+import gallery_4 from "../../public/images/gallery-4.png";
+import gallery_5 from "../../public/images/gallery-5.png";
 
 function OrgDetail() {
-  const [orgDetail, setOrgDetail] = useState([])
-  const [orgDetailJob, setOrgDetailJob] = useState([])
-  const [orgDetailGallery, setOrgDetailGallery] = useState([])
-  const [orgDetailLink, setOrgDetailLink] = useState([])
+  const [orgDetail, setOrgDetail] = useState([]);
+  const [orgDetailJob, setOrgDetailJob] = useState([]);
+  const [orgDetailGallery, setOrgDetailGallery] = useState([]);
+  const [orgDetailLink, setOrgDetailLink] = useState([]);
   // const [pskill, setPSkill] = useState([])
   // const [rskill, setRSkill] = useState([])
   // const [finfo, setFInfo] = useState([])
   // const [refid, setRefid] = useState('')
   // const cancelButtonRef = useRef(null)
   const [param1, updateParam1] = useStore(
-    state => [state.param1, state.updateParam1],
+    (state) => [state.param1, state.updateParam1],
     shallow
-  )
+  );
   const [userType, updateUserType] = useStore(
-    state => [state.userType, state.updateUserType],
+    (state) => [state.userType, state.updateUserType],
     shallow
-  )
+  );
   const [userObj, updateUserObj] = useStore(
-    state => [state.userObj, state.updateUserObj],
+    (state) => [state.userObj, state.updateUserObj],
     shallow
-  )
+  );
   // const [accessToken, updateAccessToken] = useStore(
   //     (state) => [state.accessToken, state.updateAccessToken],
   //     shallow
   // )
-  const router = useRouter()
+  const router = useRouter();
 
   async function loadOrgDetail(id) {
     await axiosInstance
       .get("/job/company/jobdetail/" + id + "/")
-      .then(async res => {
-        setOrgDetailJob(res.data)
+      .then(async (res) => {
+        setOrgDetailJob(res.data);
       })
-      .catch(err => {
-        router.push("/marketplace/jobs")
-      })
+      .catch((err) => {
+        router.push("/marketplace/jobs");
+      });
 
     await axiosInstance
       .get("/job/company/detail/" + id + "/")
-      .then(async res => {
-        setOrgDetail(res.data)
+      .then(async (res) => {
+        setOrgDetail(res.data);
       })
-      .catch(err => {
-        router.push("/marketplace/jobs")
-      })
+      .catch((err) => {
+        router.push("/marketplace/jobs");
+      });
 
     await axiosInstance
       .get("/job/company/gallery/" + id + "/")
-      .then(async res => {
-        setOrgDetailGallery(res.data)
+      .then(async (res) => {
+        setOrgDetailGallery(res.data);
       })
-      .catch(err => {
-        router.push("/marketplace/jobs")
-      })
+      .catch((err) => {
+        router.push("/marketplace/jobs");
+      });
 
     await axiosInstance
       .get("/job/company/link/" + id + "/")
-      .then(async res => {
-        setOrgDetailLink(res.data)
+      .then(async (res) => {
+        setOrgDetailLink(res.data);
       })
-      .catch(err => {
-        router.push("/marketplace/jobs")
-      })
+      .catch((err) => {
+        router.push("/marketplace/jobs");
+      });
   }
 
   useEffect(() => {
     if (!param1) {
       if (window.location.href.split("/").length > 0) {
-        updateParam1(window.location.href.toString().split("/").pop())
+        updateParam1(window.location.href.toString().split("/").pop());
       } else {
-        router.push("/marketplace/jobs")
+        router.push("/marketplace/jobs");
       }
     } else {
-      loadOrgDetail(param1)
+      loadOrgDetail(param1);
     }
-  }, [param1])
+  }, [param1]);
 
   function goback() {
-    updateParam1("")
-    router.push("/marketplace/jobs")
+    updateParam1("");
+    router.push("/marketplace/jobs");
   }
 
   return (
@@ -117,7 +117,7 @@ function OrgDetail() {
                 <button
                   type="button"
                   className="rounded-full bg-black text-white p-4 mr-4 w-[25px] h-[25px] flex items-center justify-center"
-                  onClick={e => goback()}
+                  onClick={(e) => goback()}
                 >
                   <i className="fa-solid fa-arrow-left"></i>
                 </button>
@@ -282,7 +282,7 @@ function OrgDetail() {
                           <button
                             type="button"
                             onClick={() => {
-                              window.location.href = `mailto:${data.company_email}`
+                              window.location.href = `mailto:${data.company_email}`;
                             }}
                             className="border border-[#6D27F9] rounded-full py-2 px-8 text-sm text-[#6D27F9] hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
                           >
@@ -348,7 +348,7 @@ function OrgDetail() {
         </>
       )}
     </>
-  )
+  );
 }
 
-export default OrgDetail
+export default OrgDetail;
