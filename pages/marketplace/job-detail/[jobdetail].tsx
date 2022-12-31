@@ -34,6 +34,7 @@ function JobDetail(props) {
   const [bookmarked, setbookmarked] = useState(false)
   const [loader1, setloader1] = useState(false)
   const [loader2, setloader2] = useState(false)
+  const [ske, setske] = useState(false)
   const cancelButtonRef = useRef(null)
   const { asPath } = useRouter()
   const [param1, updateParam1] = useStore(
@@ -75,6 +76,7 @@ function JobDetail(props) {
   }
 
   async function loadJobDetail(id) {
+    setske(true)
     if (accessToken.length > 0 && userType == "candidate") {
       await axiosInstanceAuth2
         .get("/job/job/detail/" + id + "/")
@@ -106,6 +108,7 @@ function JobDetail(props) {
   }
 
   async function similar(id) {
+    setske(true)
     await axiosInstance
       .get("/job/similar/" + id + "/")
       .then(async res => {
@@ -118,6 +121,7 @@ function JobDetail(props) {
         //     toastcomp("Job Detail S Not Loaded","error");
         // }
       })
+    setske(false)
   }
 
   useEffect(() => {
@@ -383,54 +387,7 @@ function JobDetail(props) {
 
   return (
     <>
-      <main className="py-8">
-        <section className="container">
-          <div className="flex flex-wrap mb-8">
-            <div className="w-full lg:max-w-[30%] 2xl:max-w-[20%] mb-6 lg:mb-0 relative bg-white shadow-lg rounded-[25px] py-6 px-8 min-h-[350px] flex flex-col justify-between items-center">
-              <Skeleton width={120} height={120} style={{borderRadius: '100%'}} />
-              <Skeleton width={200} height={30} />
-            </div>
-            <div className="w-full lg:max-w-[70%] 2xl:max-w-[80%] bg-white shadow-lg rounded-[25px] py-6 px-6 md:px-10">
-              <div className="flex flex-wrap justify-between flex-col-reverse md:flex-row mb-10">
-                <aside>
-                  <Skeleton width={200} height={30} style={{margin: '0 0 10px'}} />
-                  <Skeleton width={120} height={20} />
-                </aside>
-                <Skeleton width={200} height={30} />
-              </div>
-              <div className="flex flex-wrap">
-                <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
-                  <Skeleton height={100} />
-                </div>
-                <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
-                  <Skeleton height={100} />
-                </div>
-                <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
-                  <Skeleton height={100} />
-                </div>
-                <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
-                  <Skeleton height={100} />
-                </div>
-                <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
-                  <Skeleton height={100} />
-                </div>
-                <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
-                  <Skeleton height={100} />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="w-full max-w-[1100px] mx-auto">
-            <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-8">
-              <Skeleton height={250} />
-            </div>
-            <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-8">
-              <Skeleton height={250} />
-            </div>
-          </div>
-        </section>
-      </main>
-      {jobDetail.length > 0 && (
+      {jobDetail.length > 0 && !ske ? (
         <>
           {jobDetail.map((data, i) => (
             <>
@@ -733,6 +690,62 @@ function JobDetail(props) {
             </>
           ))}
         </>
+      ) : (
+        <main className="py-8">
+          <section className="container">
+            <div className="flex flex-wrap mb-8">
+              <div className="w-full lg:max-w-[30%] 2xl:max-w-[20%] mb-6 lg:mb-0 relative bg-white shadow-lg rounded-[25px] py-6 px-8 min-h-[350px] flex flex-col justify-between items-center">
+                <Skeleton
+                  width={120}
+                  height={120}
+                  style={{ borderRadius: "100%" }}
+                />
+                <Skeleton width={200} height={30} />
+              </div>
+              <div className="w-full lg:max-w-[70%] 2xl:max-w-[80%] bg-white shadow-lg rounded-[25px] py-6 px-6 md:px-10">
+                <div className="flex flex-wrap justify-between flex-col-reverse md:flex-row mb-10">
+                  <aside>
+                    <Skeleton
+                      width={200}
+                      height={30}
+                      style={{ margin: "0 0 10px" }}
+                    />
+                    <Skeleton width={120} height={20} />
+                  </aside>
+                  <Skeleton width={200} height={30} />
+                </div>
+                <div className="flex flex-wrap">
+                  <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
+                    <Skeleton height={100} />
+                  </div>
+                  <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
+                    <Skeleton height={100} />
+                  </div>
+                  <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
+                    <Skeleton height={100} />
+                  </div>
+                  <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
+                    <Skeleton height={100} />
+                  </div>
+                  <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
+                    <Skeleton height={100} />
+                  </div>
+                  <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
+                    <Skeleton height={100} />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="w-full max-w-[1100px] mx-auto">
+              <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-8">
+                <Skeleton height={250} />
+              </div>
+              <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-8">
+                <Skeleton height={250} />
+              </div>
+            </div>
+          </section>
+        </main>
       )}
     </>
   )
