@@ -19,6 +19,8 @@ import LineIcon from "react-share/lib/LineIcon"
 import LinkedinIcon from "react-share/lib/LinkedinIcon"
 import TwitterShareButton from "react-share/lib/TwitterShareButton"
 import TelegramShareButton from "react-share/lib/TelegramShareButton"
+import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css"
 
 function JobDetail(props) {
   const [mainShareJob, mainShareJobOpen] = useState(false)
@@ -381,6 +383,53 @@ function JobDetail(props) {
 
   return (
     <>
+      <main className="py-8">
+        <section className="container">
+          <div className="flex flex-wrap mb-8">
+            <div className="w-full lg:max-w-[30%] 2xl:max-w-[20%] mb-6 lg:mb-0 relative bg-white shadow-lg rounded-[25px] py-6 px-8 min-h-[350px] flex flex-col justify-between items-center">
+              <Skeleton width={120} height={120} style={{borderRadius: '100%'}} />
+              <Skeleton width={200} height={30} />
+            </div>
+            <div className="w-full lg:max-w-[70%] 2xl:max-w-[80%] bg-white shadow-lg rounded-[25px] py-6 px-6 md:px-10">
+              <div className="flex flex-wrap justify-between flex-col-reverse md:flex-row mb-10">
+                <aside>
+                  <Skeleton width={200} height={30} style={{margin: '0 0 10px'}} />
+                  <Skeleton width={120} height={20} />
+                </aside>
+                <Skeleton width={200} height={30} />
+              </div>
+              <div className="flex flex-wrap">
+                <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
+                  <Skeleton height={100} />
+                </div>
+                <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
+                  <Skeleton height={100} />
+                </div>
+                <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
+                  <Skeleton height={100} />
+                </div>
+                <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
+                  <Skeleton height={100} />
+                </div>
+                <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
+                  <Skeleton height={100} />
+                </div>
+                <div className="w-full md:max-w-[50%] lg:max-w-[33.3333%] p-2">
+                  <Skeleton height={100} />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="w-full max-w-[1100px] mx-auto">
+            <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-8">
+              <Skeleton height={250} />
+            </div>
+            <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-8">
+              <Skeleton height={250} />
+            </div>
+          </div>
+        </section>
+      </main>
       {jobDetail.length > 0 && (
         <>
           {jobDetail.map((data, i) => (
