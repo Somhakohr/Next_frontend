@@ -1,77 +1,78 @@
 //@ts-nocheck
-import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import Slider from "react-slick";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
-import JobCard from "../../../components/job-card";
-import userDummyImg from "../../../public/images/user-image.png";
-import medal from "../../../public/images/medal.png";
-import token from "../../../public/images/token.png";
-import walletCard from "../../../public/images/wallet-card.png";
-import LaunchingSoon from "../../../public/images/Launching-Soon.png";
-import LaunchingGraphic from "../../../public/images/Launching-Graphic.png";
-import mediaDashBg from "../../../public/images/media-dash-bg.jpg";
-import blogDashBg from "../../../public/images/blog-dash-bg.jpg";
-import learningSlide from "../../../public/images/learning-slide.png";
-import { useStore } from "../../../constants/code";
-import shallow from "zustand/shallow";
-import { withAuth } from "../../../constants/HOCs";
-import axios from "axios";
-import "@rainbow-me/rainbowkit/styles.css";
+import Head from "next/head"
+import Image from "next/image"
+import Link from "next/link"
+import React, { useEffect, useState } from "react"
+import Slider from "react-slick"
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs"
+import "react-tabs/style/react-tabs.css"
+import JobCard from "../../../components/job-card"
+import userDummyImg from "../../../public/images/user-image.png"
+import medal from "../../../public/images/medal.png"
+import token from "../../../public/images/token.png"
+import walletCard from "../../../public/images/wallet-card.png"
+import LaunchingSoon from "../../../public/images/Launching-Soon.png"
+import LaunchingGraphic from "../../../public/images/Launching-Graphic.png"
+import mediaDashBg from "../../../public/images/media-dash-bg.jpg"
+import blogDashBg from "../../../public/images/blog-dash-bg.jpg"
+import learningSlide from "../../../public/images/learning-slide.png"
+import { useStore } from "../../../constants/code"
+import shallow from "zustand/shallow"
+import { withAuth } from "../../../constants/HOCs"
+import axios from "axios"
+import "@rainbow-me/rainbowkit/styles.css"
 import {
   ConnectButton,
   getDefaultWallets,
   RainbowKitProvider,
-} from "@rainbow-me/rainbowkit";
-import { useAccount } from "wagmi";
-import toastcomp from "../../../components/toast";
-import { axiosInstance } from "../../api/axiosApi";
+} from "@rainbow-me/rainbowkit"
+import { useAccount } from "wagmi"
+import toastcomp from "../../../components/toast"
+import { axiosInstance } from "../../api/axiosApi"
 import Skeleton from "react-loading-skeleton"
 import "react-loading-skeleton/dist/skeleton.css"
 
 function Candidate(props) {
   const [userName, updateUserName] = useStore(
-    (state) => [state.userName, state.updateUserName],
+    state => [state.userName, state.updateUserName],
     shallow
-  );
+  )
 
   const [userImg, updateUserImg] = useStore(
-    (state) => [state.userImg, state.updateUserImg],
+    state => [state.userImg, state.updateUserImg],
     shallow
-  );
+  )
 
   const [userType, updateUserType] = useStore(
-    (state) => [state.userType, state.updateUserType],
+    state => [state.userType, state.updateUserType],
     shallow
-  );
+  )
 
   const [userObj, updateUserObj] = useStore(
-    (state) => [state.userObj, state.updateUserObj],
+    state => [state.userObj, state.updateUserObj],
     shallow
-  );
+  )
 
   const [userProfile, updateUserProfile] = useStore(
-    (state) => [state.userProfile, state.updateUserProfile],
+    state => [state.userProfile, state.updateUserProfile],
     shallow
-  );
+  )
 
   const [accessToken, updateAccessToken] = useStore(
-    (state) => [state.accessToken, state.updateAccessToken],
+    state => [state.accessToken, state.updateAccessToken],
     shallow
-  );
+  )
 
-  const { address, isConnecting, isDisconnected } = useAccount();
+  const { address, isConnecting, isDisconnected } = useAccount()
 
-  const { router, session } = props;
-  const [progress, setProgress] = useState(0);
-  const [progressT, setProgressT] = useState("");
-  const [joblist, setJobList] = useState([]);
-  const [applied, setapplied] = useState([]);
-  const [bookmarked, setbookmarked] = useState([]);
-  const [rec, setrec] = useState([]);
+  const { router, session } = props
+  const [progress, setProgress] = useState(0)
+  const [progressT, setProgressT] = useState("")
+  const [joblist, setJobList] = useState([])
+  const [applied, setapplied] = useState([])
+  const [bookmarked, setbookmarked] = useState([])
+  const [rec, setrec] = useState([])
+  const [ske, setske] = useState(true)
 
   const learningSlides = [
     {
@@ -94,7 +95,7 @@ function Candidate(props) {
       title: "Webinar",
       img: learningSlide,
     },
-  ];
+  ]
   const settings = {
     dots: false,
     arrows: true,
@@ -105,7 +106,7 @@ function Candidate(props) {
     adaptiveHeight: false,
     autoplay: true,
     autoplaySpeed: 5000,
-  };
+  }
   //axios auth var
   const axiosInstanceAuth2 = axios.create({
     baseURL:
@@ -117,133 +118,138 @@ function Candidate(props) {
       Authorization: "Bearer " + accessToken,
       "Content-Type": "multipart/form-data",
     },
-  });
+  })
 
   useEffect(() => {
     if (!session) {
-      router.push("/");
+      router.push("/")
     }
-  }, [session]);
+  }, [session])
 
   async function loadJobs() {
+    setske(true)
     await axiosInstance
       .get("/job/job/list/")
-      .then(async (res) => {
-        console.log(res);
-        setJobList(res.data.slice(0, 4));
+      .then(async res => {
+        console.log(res)
+        setJobList(res.data.slice(0, 4))
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(err => {
+        console.log(err)
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Job Not Loaded", "error");
+          toastcomp("Job Not Loaded", "error")
         }
-      });
+      })
   }
 
   async function loadAppliedJobs() {
+    setske(true)
     await axiosInstanceAuth2
       .get("/job/candidate/applied/jobs/" + userObj["erefid"] + "/")
-      .then(async (res) => {
-        setapplied(res.data);
+      .then(async res => {
+        setapplied(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
           // toastcomp("Lang Not Loaded",'error')
-          console.log(err);
+          console.log(err)
         }
-      });
+      })
   }
 
   async function loadBookmarkedJobs() {
+    setske(true)
     await axiosInstanceAuth2
       .get("/job/candidate/saved/jobs/" + userObj["erefid"] + "/")
-      .then(async (res) => {
-        setbookmarked(res.data);
+      .then(async res => {
+        setbookmarked(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
           // toastcomp("Lang Not Loaded",'error')
-          console.log(err);
+          console.log(err)
         }
-      });
+      })
   }
 
   async function loadRecJobs() {
+    setske(true)
     await axiosInstanceAuth2
       .get("/candidate/rob/" + userObj["erefid"] + "/")
-      .then(async (res) => {
-        setrec(res.data);
+      .then(async res => {
+        setrec(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
           // toastcomp("Lang Not Loaded",'error')
-          console.log(err);
+          console.log(err)
         }
-      });
+      })
+    setske(false)
   }
 
   async function loadProgress() {
     await axiosInstanceAuth2
       .get("/candidate/progress/" + userObj["erefid"] + "/")
-      .then(async (res) => {
-        setProgress(parseInt(res.data.count));
+      .then(async res => {
+        setProgress(parseInt(res.data.count))
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
           // toastcomp("Lang Not Loaded",'error')
-          console.log(err);
+          console.log(err)
         }
-      });
+      })
   }
 
   async function updateAddress(formData) {
     await axiosInstanceAuth2
       .put("/auth/candidateaccont/" + userObj["erefid"] + "/", formData)
-      .then(async (res2) => {
-        userObj["paddress"] = res2.data.paddress;
-        toastcomp("Address Updated :)", "success");
+      .then(async res2 => {
+        userObj["paddress"] = res2.data.paddress
+        toastcomp("Address Updated :)", "success")
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          console.log(err);
-          toastcomp("Address Not Updated :)", "error");
+          console.log(err)
+          toastcomp("Address Not Updated :)", "error")
         }
-      });
+      })
   }
 
   useEffect(() => {
     if (userObj) {
-      loadProgress();
-      loadJobs();
-      loadAppliedJobs();
-      loadBookmarkedJobs();
-      loadRecJobs();
+      loadProgress()
+      loadJobs()
+      loadAppliedJobs()
+      loadBookmarkedJobs()
+      loadRecJobs()
     }
 
     if (progress > 0 && progress < 11) {
-      setProgressT("LOW");
+      setProgressT("LOW")
     }
     if (progress > 11 && progress < 31) {
-      setProgressT("BELOW AVG");
+      setProgressT("BELOW AVG")
     }
     if (progress > 31 && progress < 61) {
-      setProgressT("AVG");
+      setProgressT("AVG")
     }
     if (progress > 61 && progress < 81) {
-      setProgressT("GOOD");
+      setProgressT("GOOD")
     }
     if (progress > 81) {
-      setProgressT("GREAT");
+      setProgressT("GREAT")
     }
 
     if (address && userObj) {
       if (userObj["paddress"] != address) {
-        var formData = new FormData();
-        formData.append("paddress", address);
-        updateAddress(formData);
+        var formData = new FormData()
+        formData.append("paddress", address)
+        updateAddress(formData)
       }
     }
-  }, [userObj, progress, address]);
+  }, [userObj, progress, address])
 
   return (
     <>
@@ -258,26 +264,33 @@ function Candidate(props) {
             <div className="mb-8 py-4 px-8 bg-white shadow-normal rounded-[20px]">
               <div className="flex flex-wrap md:items-center items-start justify-between mb-6">
                 <div className="w-[calc(100%-70px)] flex flex-wrap md:items-center items-start flex-col md:flex-row">
-                  {userImg ? 
-                  <>
-                    <Image
-                      src={userImg}
-                      alt="User"
-                      width={300}
-                      height={300}
-                      className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px] mb-3 md:mb-0"
-                    />
-                  </> : 
-                  <>
-                    <Skeleton width={125} height={125} style={{borderRadius: '100%', margin: '0 0 10px'}} />
-                  </>
-                  }
+                  {userImg ? (
+                    <>
+                      <Image
+                        src={userImg}
+                        alt="User"
+                        width={300}
+                        height={300}
+                        className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px] mb-3 md:mb-0"
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Skeleton
+                        width={125}
+                        height={125}
+                        style={{ borderRadius: "100%", margin: "0 0 10px" }}
+                      />
+                    </>
+                  )}
                   <div className="w-full md:w-[calc(100%-150px)] md:pl-8">
                     <h2 className="font-semibold text-xl md:text-3xl mb-1">
                       {userName || <Skeleton width={200} />}
                     </h2>
                     <p className="text-[#646464] font-light text-sm">
-                      Web Development
+                      {userProfile["title"] || (
+                        <Skeleton width={120} height={15} />
+                      )}
                     </p>
                   </div>
                 </div>
@@ -307,8 +320,7 @@ function Candidate(props) {
                     </div>
                   </div>
                   <p className="text-[#646464] font-light text-sm">
-                    Do the following to attract your profile to the
-                    Recruiters
+                    Do the following to attract your profile to the Recruiters
                   </p>
                 </div>
                 <div className="w-full md:w-[35%] flex flex-wrap md:justify-end">
@@ -335,7 +347,7 @@ function Candidate(props) {
               <button
                 type="button"
                 onClick={() => {
-                  router.push("/marketplace/candidate/profile");
+                  router.push("/marketplace/candidate/profile")
                 }}
                 className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
               >
@@ -379,103 +391,285 @@ function Candidate(props) {
                   </TabList>
                 </div>
                 <TabPanel>
-                  <div className="flex flex-wrap mx-[-15px]">
-                    {joblist.map((job, i) => (
-                      <div
-                        className="px-[15px] w-full md:max-w-[50%] mb-6"
-                        key={i}
-                      >
-                        <JobCard data={job} />
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex flex-wrap mx-[-15px]">
-                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                      <div className="">
-                        <div className="flex flex-wrap items-center mb-4">
+                  {ske ? (
+                    <div className="flex flex-wrap mx-[-15px]">
+                      <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                        <div className="">
+                          <div className="flex flex-wrap items-center mb-4">
+                            <Skeleton
+                              width={40}
+                              height={40}
+                              style={{
+                                borderRadius: "100%",
+                                marginRight: "10px",
+                              }}
+                            />
+                            <Skeleton width={150} height={20} />
+                          </div>
                           <Skeleton
-                            width={40}
-                            height={40}
-                            style={{ borderRadius: "100%", marginRight: "10px" }}
+                            height={25}
+                            style={{ margin: "0 0 10px 0" }}
                           />
-                          <Skeleton width={150} height={20} />
+                          <Skeleton
+                            width={180}
+                            height={20}
+                            style={{ margin: "0 0 10px 0" }}
+                          />
+                          <Skeleton width={120} height={20} />
                         </div>
-                        <Skeleton height={25} style={{ margin: "0 0 10px 0" }} />
-                        <Skeleton
-                          width={180}
-                          height={20}
-                          style={{ margin: "0 0 10px 0" }}
-                        />
-                        <Skeleton width={120} height={20} />
+                      </div>
+                      <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                        <div className="">
+                          <div className="flex flex-wrap items-center mb-4">
+                            <Skeleton
+                              width={40}
+                              height={40}
+                              style={{
+                                borderRadius: "100%",
+                                marginRight: "10px",
+                              }}
+                            />
+                            <Skeleton width={150} height={20} />
+                          </div>
+                          <Skeleton
+                            height={25}
+                            style={{ margin: "0 0 10px 0" }}
+                          />
+                          <Skeleton
+                            width={180}
+                            height={20}
+                            style={{ margin: "0 0 10px 0" }}
+                          />
+                          <Skeleton width={120} height={20} />
+                        </div>
                       </div>
                     </div>
-                    <div className="px-[15px] w-full md:max-w-[50%] mb-6">
-                      <div className="">
-                        <div className="flex flex-wrap items-center mb-4">
+                  ) : (
+                    <>
+                      <div className="flex flex-wrap mx-[-15px]">
+                        {joblist.map((job, i) => (
+                          <div
+                            className="px-[15px] w-full md:max-w-[50%] mb-6"
+                            key={i}
+                          >
+                            <JobCard data={job} />
+                          </div>
+                        ))}
+                      </div>
+                      <div className="text-center">
+                        <Link
+                          href="/marketplace/jobs"
+                          className="inline-block bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
+                        >
+                          View More
+                        </Link>
+                      </div>
+                    </>
+                  )}
+                </TabPanel>
+
+                <TabPanel>
+                  {ske ? (
+                    <div className="flex flex-wrap mx-[-15px]">
+                      <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                        <div className="">
+                          <div className="flex flex-wrap items-center mb-4">
+                            <Skeleton
+                              width={40}
+                              height={40}
+                              style={{
+                                borderRadius: "100%",
+                                marginRight: "10px",
+                              }}
+                            />
+                            <Skeleton width={150} height={20} />
+                          </div>
                           <Skeleton
-                            width={40}
-                            height={40}
-                            style={{ borderRadius: "100%", marginRight: "10px" }}
+                            height={25}
+                            style={{ margin: "0 0 10px 0" }}
                           />
-                          <Skeleton width={150} height={20} />
+                          <Skeleton
+                            width={180}
+                            height={20}
+                            style={{ margin: "0 0 10px 0" }}
+                          />
+                          <Skeleton width={120} height={20} />
                         </div>
-                        <Skeleton height={25} style={{ margin: "0 0 10px 0" }} />
-                        <Skeleton
-                          width={180}
-                          height={20}
-                          style={{ margin: "0 0 10px 0" }}
-                        />
-                        <Skeleton width={120} height={20} />
+                      </div>
+                      <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                        <div className="">
+                          <div className="flex flex-wrap items-center mb-4">
+                            <Skeleton
+                              width={40}
+                              height={40}
+                              style={{
+                                borderRadius: "100%",
+                                marginRight: "10px",
+                              }}
+                            />
+                            <Skeleton width={150} height={20} />
+                          </div>
+                          <Skeleton
+                            height={25}
+                            style={{ margin: "0 0 10px 0" }}
+                          />
+                          <Skeleton
+                            width={180}
+                            height={20}
+                            style={{ margin: "0 0 10px 0" }}
+                          />
+                          <Skeleton width={120} height={20} />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="text-center">
-                    <Link
-                      href="/marketplace/jobs"
-                      className="inline-block bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                    >
-                      View More
-                    </Link>
-                  </div>
+                  ) : (
+                    <div className="flex flex-wrap mx-[-15px]">
+                      {applied.map((job, i) => (
+                        <div
+                          className="px-[15px] w-full md:max-w-[50%] mb-6"
+                          key={i}
+                        >
+                          <JobCard data={job} />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </TabPanel>
 
                 <TabPanel>
-                  <div className="flex flex-wrap mx-[-15px]">
-                    {applied.map((job, i) => (
-                      <div
-                        className="px-[15px] w-full md:max-w-[50%] mb-6"
-                        key={i}
-                      >
-                        <JobCard data={job} />
+                  {ske ? (
+                    <div className="flex flex-wrap mx-[-15px]">
+                      <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                        <div className="">
+                          <div className="flex flex-wrap items-center mb-4">
+                            <Skeleton
+                              width={40}
+                              height={40}
+                              style={{
+                                borderRadius: "100%",
+                                marginRight: "10px",
+                              }}
+                            />
+                            <Skeleton width={150} height={20} />
+                          </div>
+                          <Skeleton
+                            height={25}
+                            style={{ margin: "0 0 10px 0" }}
+                          />
+                          <Skeleton
+                            width={180}
+                            height={20}
+                            style={{ margin: "0 0 10px 0" }}
+                          />
+                          <Skeleton width={120} height={20} />
+                        </div>
                       </div>
-                    ))}
-                  </div>
+                      <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                        <div className="">
+                          <div className="flex flex-wrap items-center mb-4">
+                            <Skeleton
+                              width={40}
+                              height={40}
+                              style={{
+                                borderRadius: "100%",
+                                marginRight: "10px",
+                              }}
+                            />
+                            <Skeleton width={150} height={20} />
+                          </div>
+                          <Skeleton
+                            height={25}
+                            style={{ margin: "0 0 10px 0" }}
+                          />
+                          <Skeleton
+                            width={180}
+                            height={20}
+                            style={{ margin: "0 0 10px 0" }}
+                          />
+                          <Skeleton width={120} height={20} />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex flex-wrap mx-[-15px]">
+                      {bookmarked.map((job, i) => (
+                        <div
+                          className="px-[15px] w-full md:max-w-[50%] mb-6"
+                          key={i}
+                        >
+                          <JobCard data={job} />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </TabPanel>
 
                 <TabPanel>
-                  <div className="flex flex-wrap mx-[-15px]">
-                    {bookmarked.map((job, i) => (
-                      <div
-                        className="px-[15px] w-full md:max-w-[50%] mb-6"
-                        key={i}
-                      >
-                        <JobCard data={job} />
+                  {ske ? (
+                    <div className="flex flex-wrap mx-[-15px]">
+                      <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                        <div className="">
+                          <div className="flex flex-wrap items-center mb-4">
+                            <Skeleton
+                              width={40}
+                              height={40}
+                              style={{
+                                borderRadius: "100%",
+                                marginRight: "10px",
+                              }}
+                            />
+                            <Skeleton width={150} height={20} />
+                          </div>
+                          <Skeleton
+                            height={25}
+                            style={{ margin: "0 0 10px 0" }}
+                          />
+                          <Skeleton
+                            width={180}
+                            height={20}
+                            style={{ margin: "0 0 10px 0" }}
+                          />
+                          <Skeleton width={120} height={20} />
+                        </div>
                       </div>
-                    ))}
-                  </div>
-                </TabPanel>
-
-                <TabPanel>
-                  <div className="flex flex-wrap mx-[-15px]">
-                    {rec.map((job, i) => (
-                      <div
-                        className="px-[15px] w-full md:max-w-[50%] mb-6"
-                        key={i}
-                      >
-                        <JobCard data={job} />
+                      <div className="px-[15px] w-full md:max-w-[50%] mb-6">
+                        <div className="">
+                          <div className="flex flex-wrap items-center mb-4">
+                            <Skeleton
+                              width={40}
+                              height={40}
+                              style={{
+                                borderRadius: "100%",
+                                marginRight: "10px",
+                              }}
+                            />
+                            <Skeleton width={150} height={20} />
+                          </div>
+                          <Skeleton
+                            height={25}
+                            style={{ margin: "0 0 10px 0" }}
+                          />
+                          <Skeleton
+                            width={180}
+                            height={20}
+                            style={{ margin: "0 0 10px 0" }}
+                          />
+                          <Skeleton width={120} height={20} />
+                        </div>
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ) : (
+                    <div className="flex flex-wrap mx-[-15px]">
+                      {rec.map((job, i) => (
+                        <div
+                          className="px-[15px] w-full md:max-w-[50%] mb-6"
+                          key={i}
+                        >
+                          <JobCard data={job} />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </TabPanel>
               </Tabs>
             </div>
@@ -539,8 +733,7 @@ function Candidate(props) {
                   href="#"
                   className="text-[#6D27F9] font-medium hover:text-black"
                 >
-                  More{" "}
-                  <i className="fa-sharp fa-solid fa-chevron-right"></i>
+                  More <i className="fa-sharp fa-solid fa-chevron-right"></i>
                 </Link>
               </div>
               <p className="mb-6">
@@ -570,15 +763,12 @@ function Candidate(props) {
             </div>
             <div className="mb-8 py-4 px-8 bg-white shadow-normal rounded-[20px]">
               <div className="mb-10 flex items-center justify-between">
-                <h2 className="font-semibold text-xl text-3xl">
-                  Media Center
-                </h2>
+                <h2 className="font-semibold text-xl text-3xl">Media Center</h2>
                 <Link
                   href="#"
                   className="text-[#6D27F9] font-medium hover:text-black"
                 >
-                  More{" "}
-                  <i className="fa-sharp fa-solid fa-chevron-right"></i>
+                  More <i className="fa-sharp fa-solid fa-chevron-right"></i>
                 </Link>
               </div>
               <div className="flex flex-wrap">
@@ -633,7 +823,7 @@ function Candidate(props) {
         </div>
       </main>
     </>
-  );
+  )
 }
 
-export default withAuth(3 * 60)(Candidate);
+export default withAuth(3 * 60)(Candidate)

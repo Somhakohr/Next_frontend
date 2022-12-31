@@ -1,56 +1,56 @@
 //@ts-nocheck
-import Image from "next/image";
-import { Fragment, useRef } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import JobCard from "../../../components/job-card";
-import Slider from "react-slick";
-import googleImg from "../../public/images/google-icon.png";
-import { useRouter } from "next/router";
-import { axiosInstance } from "../../api/axiosApi";
-import { useStore } from "../../../constants/code";
-import { useEffect, useState } from "react";
-import shallow from "zustand/shallow";
-import moment from "moment";
-import { withAuth } from "../../../constants/HOCs";
-import toastcomp from "../../../components/toast";
-import axios from "axios";
-import { FacebookShareButton, LinkedinShareButton } from "react-share";
-import LineIcon from "react-share/lib/LineIcon";
-import LinkedinIcon from "react-share/lib/LinkedinIcon";
-import TwitterShareButton from "react-share/lib/TwitterShareButton";
-import TelegramShareButton from "react-share/lib/TelegramShareButton";
+import Image from "next/image"
+import { Fragment, useRef } from "react"
+import { Dialog, Transition } from "@headlessui/react"
+import JobCard from "../../../components/job-card"
+import Slider from "react-slick"
+import googleImg from "../../public/images/google-icon.png"
+import { useRouter } from "next/router"
+import { axiosInstance } from "../../api/axiosApi"
+import { useStore } from "../../../constants/code"
+import { useEffect, useState } from "react"
+import shallow from "zustand/shallow"
+import moment from "moment"
+import { withAuth } from "../../../constants/HOCs"
+import toastcomp from "../../../components/toast"
+import axios from "axios"
+import { FacebookShareButton, LinkedinShareButton } from "react-share"
+import LineIcon from "react-share/lib/LineIcon"
+import LinkedinIcon from "react-share/lib/LinkedinIcon"
+import TwitterShareButton from "react-share/lib/TwitterShareButton"
+import TelegramShareButton from "react-share/lib/TelegramShareButton"
 
 function JobDetail(props) {
-  const [mainShareJob, mainShareJobOpen] = useState(false);
-  const [jobDetail, setJobDetail] = useState([]);
-  const [pskill, setPSkill] = useState([]);
-  const [rskill, setRSkill] = useState([]);
-  const [finfo, setFInfo] = useState([]);
-  const [Similar, setSimilar] = useState([]);
-  const [refid, setRefid] = useState("");
-  const [applied, setapplied] = useState(false);
-  const [bookmarked, setbookmarked] = useState(false);
-  const [loader1, setloader1] = useState(false);
-  const [loader2, setloader2] = useState(false);
-  const cancelButtonRef = useRef(null);
-  const { asPath } = useRouter();
+  const [mainShareJob, mainShareJobOpen] = useState(false)
+  const [jobDetail, setJobDetail] = useState([])
+  const [pskill, setPSkill] = useState([])
+  const [rskill, setRSkill] = useState([])
+  const [finfo, setFInfo] = useState([])
+  const [Similar, setSimilar] = useState([])
+  const [refid, setRefid] = useState("")
+  const [applied, setapplied] = useState(false)
+  const [bookmarked, setbookmarked] = useState(false)
+  const [loader1, setloader1] = useState(false)
+  const [loader2, setloader2] = useState(false)
+  const cancelButtonRef = useRef(null)
+  const { asPath } = useRouter()
   const [param1, updateParam1] = useStore(
-    (state) => [state.param1, state.updateParam1],
+    state => [state.param1, state.updateParam1],
     shallow
-  );
+  )
   const [userType, updateUserType] = useStore(
-    (state) => [state.userType, state.updateUserType],
+    state => [state.userType, state.updateUserType],
     shallow
-  );
+  )
   const [userObj, updateUserObj] = useStore(
-    (state) => [state.userObj, state.updateUserObj],
+    state => [state.userObj, state.updateUserObj],
     shallow
-  );
+  )
   const [accessToken, updateAccessToken] = useStore(
-    (state) => [state.accessToken, state.updateAccessToken],
+    state => [state.accessToken, state.updateAccessToken],
     shallow
-  );
-  const { session, router } = props;
+  )
+  const { session, router } = props
   //axios auth var
   const axiosInstanceAuth2 = axios.create({
     baseURL:
@@ -62,85 +62,85 @@ function JobDetail(props) {
       Authorization: "Bearer " + accessToken,
       "Content-Type": "multipart/form-data",
     },
-  });
+  })
 
   function dbook() {
-    return bookmarked || loader2;
+    return bookmarked || loader2
   }
 
   function dapy() {
-    return applied || loader1;
+    return applied || loader1
   }
 
   async function loadJobDetail(id) {
     if (accessToken.length > 0 && userType == "candidate") {
       await axiosInstanceAuth2
         .get("/job/job/detail/" + id + "/")
-        .then(async (res) => {
-          setJobDetail(res.data);
+        .then(async res => {
+          setJobDetail(res.data)
         })
-        .catch((err) => {
-          router.push("/marketplace/jobs");
+        .catch(err => {
+          router.push("/marketplace/jobs")
 
           // console.log(err)
           // if(err.message != "Request failed with status code 401"){
           //     toastcomp("Job Detail Not Loaded","error");
           // }
-        });
+        })
     } else {
       await axiosInstance
         .get("/job/job/detail/" + id + "/")
-        .then(async (res) => {
-          setJobDetail(res.data);
+        .then(async res => {
+          setJobDetail(res.data)
         })
-        .catch((err) => {
+        .catch(err => {
           // router.push('/marketplace/jobs')
           // console.log(err)
           // if(err.message != "Request failed with status code 401"){
           //     toastcomp("Job Detail Not Loaded","error");
           // }
-        });
+        })
     }
   }
 
   async function similar(id) {
     await axiosInstance
       .get("/job/similar/" + id + "/")
-      .then(async (res) => {
-        setSimilar(res.data);
+      .then(async res => {
+        setSimilar(res.data)
       })
-      .catch((err) => {
-        router.push("/marketplace/jobs");
+      .catch(err => {
+        router.push("/marketplace/jobs")
         // console.log(err)
         // if(err.message != "Request failed with status code 401"){
         //     toastcomp("Job Detail S Not Loaded","error");
         // }
-      });
+      })
   }
 
   useEffect(() => {
     if (!param1) {
       if (window.location.href.split("/").length > 0) {
-        updateParam1(window.location.href.toString().split("/").pop());
+        updateParam1(window.location.href.toString().split("/").pop())
       } else {
-        router.push("/marketplace/jobs");
+        router.push("/marketplace/jobs")
       }
-    } else {
-      loadJobDetail(param1);
-      similar(param1);
+    } else if (!param1.includes("OR")) {
+      loadJobDetail(param1)
+      similar(param1)
     }
-  }, [param1]);
+  }, [param1])
 
   useEffect(() => {
     if (refid) {
-      appliedCheck();
-      bookmarkedCheck();
+      appliedCheck()
+      bookmarkedCheck()
     }
-  }, [refid]);
+  }, [refid])
 
   function companyDetail(orefid) {
-    updateParam1(orefid);
-    router.push("/marketplace/company-detail/" + orefid);
+    updateParam1(orefid)
+    router.push("/marketplace/company-detail/" + orefid)
   }
 
   useEffect(() => {
@@ -234,33 +234,33 @@ function JobDetail(props) {
               ? jobDetail[i]["relocation"]
               : "N/A",
           },
-        ]);
+        ])
 
         let arr = [],
-          rarr = [];
+          rarr = []
         if (jobDetail[i]["preskill"]) {
-          let preskill = jobDetail[i]["preskill"].split(",");
+          let preskill = jobDetail[i]["preskill"].split(",")
           for (let j = 0; j < preskill.length; j++) {
             arr.push({
               title: preskill[j],
-            });
+            })
           }
-          setPSkill(arr);
+          setPSkill(arr)
         }
         if (jobDetail[i]["recsskill"]) {
-          let recskill = jobDetail[i]["recskill"].split(",");
+          let recskill = jobDetail[i]["recskill"].split(",")
           for (let j = 0; j < recskill.length; j++) {
             rarr.push({
               title: recskill[j],
-            });
+            })
           }
-          setRSkill(rarr);
+          setRSkill(rarr)
         }
 
-        setRefid(jobDetail[i]["refid"]);
+        setRefid(jobDetail[i]["refid"])
       }
     }
-  }, [jobDetail]);
+  }, [jobDetail])
 
   const settings = {
     dots: false,
@@ -287,95 +287,95 @@ function JobDetail(props) {
         },
       },
     ],
-  };
+  }
 
   async function apply() {
-    setloader1(true);
+    setloader1(true)
     if (!session || userType != "Candidate") {
-      toastcomp("Register Yourself As Candidate", "error");
-      setloader1(false);
+      toastcomp("Register Yourself As Candidate", "error")
+      setloader1(false)
     } else {
       await axiosInstanceAuth2
         .post("/job/applicant/apply/" + userObj["erefid"] + "/" + refid + "/")
-        .then(async (res) => {
-          toastcomp(res.data.Message, "success");
+        .then(async res => {
+          toastcomp(res.data.Message, "success")
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(err => {
+          console.log(err)
           if (err.message != "Request failed with status code 401") {
-            toastcomp("Job Applied Error", "error");
+            toastcomp("Job Applied Error", "error")
           }
-        });
-      bookmarkedCheck();
-      appliedCheck();
+        })
+      bookmarkedCheck()
+      appliedCheck()
     }
   }
 
   async function bookmark() {
-    setloader2(true);
+    setloader2(true)
     if (!session || userType != "Candidate") {
-      toastcomp("Register Yourself As Candidate", "error");
-      setloader2(false);
+      toastcomp("Register Yourself As Candidate", "error")
+      setloader2(false)
     } else {
       await axiosInstanceAuth2
         .post(
           "/job/applicant/bookmark/" + userObj["erefid"] + "/" + refid + "/"
         )
-        .then(async (res) => {
-          toastcomp(res.data.Message, "success");
+        .then(async res => {
+          toastcomp(res.data.Message, "success")
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(err => {
+          console.log(err)
           if (err.message != "Request failed with status code 401") {
-            toastcomp("Job Bookmarked Error", "error");
+            toastcomp("Job Bookmarked Error", "error")
           }
-        });
-      bookmarkedCheck();
-      appliedCheck();
+        })
+      bookmarkedCheck()
+      appliedCheck()
     }
   }
 
   async function bookmarkedCheck() {
     if (!session || userType != "Candidate") {
-      setbookmarked(false);
+      setbookmarked(false)
     } else {
       await axiosInstanceAuth2
         .post(
           "/job/applicant/bookmarked/" + userObj["erefid"] + "/" + refid + "/"
         )
-        .then(async (res) => {
-          console.log(res);
+        .then(async res => {
+          console.log(res)
           if (res.data.Message) {
-            setbookmarked(true);
+            setbookmarked(true)
           } else {
-            setbookmarked(false);
+            setbookmarked(false)
           }
         })
-        .catch((err) => {
-          setbookmarked(true);
-        });
-      setloader2(false);
+        .catch(err => {
+          setbookmarked(true)
+        })
+      setloader2(false)
     }
   }
 
   async function appliedCheck() {
     if (!session || userType != "Candidate") {
-      setapplied(false);
+      setapplied(false)
     } else {
       await axiosInstanceAuth2
         .post("/job/applicant/applied/" + userObj["erefid"] + "/" + refid + "/")
-        .then(async (res) => {
-          console.log(res);
+        .then(async res => {
+          console.log(res)
           if (res.data.Message) {
-            setapplied(true);
+            setapplied(true)
           } else {
-            setapplied(false);
+            setapplied(false)
           }
         })
-        .catch((err) => {
-          setapplied(true);
-        });
-      setloader1(false);
+        .catch(err => {
+          setapplied(true)
+        })
+      setloader1(false)
     }
   }
 
@@ -406,7 +406,7 @@ function JobDetail(props) {
                         </h2>
                       </aside>
                       <button
-                        onClick={(e) => companyDetail(data.user.orefid)}
+                        onClick={e => companyDetail(data.user.orefid)}
                         type="button"
                         className="w-full font-semibold bg-white shadow-normal rounded-lg py-2 px-4 hover:bg-[#6D27F9] hover:text-white"
                       >
@@ -437,7 +437,7 @@ function JobDetail(props) {
                           <button
                             type="button"
                             className="disabled:opacity-30 disabled:cursor-normal cursor-pointer bg-white py-1.5 px-4 text-sm rounded-full border border-[#6D27F9] hover:bg-[#6D27F9] hover:text-white"
-                            onClick={(e) => bookmark()}
+                            onClick={e => bookmark()}
                             disabled={dbook()}
                           >
                             {loader2 && (
@@ -450,7 +450,7 @@ function JobDetail(props) {
                       <button
                         type="button"
                         className="disabled:opacity-30 disabled:cursor-normal mb-8 bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                        onClick={(e) => apply()}
+                        onClick={e => apply()}
                         disabled={dapy()}
                       >
                         {loader1 && (
@@ -652,21 +652,21 @@ function JobDetail(props) {
                                   <button
                                     type="button"
                                     className="hover:text-black"
-                                    onClick={(e) => {
+                                    onClick={e => {
                                       navigator.clipboard
                                         .writeText(window.location.href)
-                                        .then((e) => {
+                                        .then(e => {
                                           toastcomp(
                                             "Copid Successfully",
                                             "Success"
-                                          );
+                                          )
                                         })
-                                        .catch((e) => {
+                                        .catch(e => {
                                           toastcomp(
                                             "Copid Unsuccessfully",
                                             "error"
-                                          );
-                                        });
+                                          )
+                                        })
                                     }}
                                   >
                                     <i className="fa-regular fa-copy"></i>
@@ -686,7 +686,7 @@ function JobDetail(props) {
         </>
       )}
     </>
-  );
+  )
 }
 
-export default withAuth(3 * 60)(JobDetail);
+export default withAuth(3 * 60)(JobDetail)

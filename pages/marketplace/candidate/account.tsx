@@ -1,122 +1,123 @@
 //@ts-nocheck
-import axios from "axios";
-import React from "react";
-import { Fragment, useEffect, useRef, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { signOut } from "next-auth/react";
-import Image from "next/image";
-import shallow from "zustand/shallow";
-import toastcomp from "../../../components/toast";
-import { useStore } from "../../../constants/code";
-import { withAuth } from "../../../constants/HOCs";
-import userImg from "../../public/images/user-image.png";
-import { axiosInstance } from "../../api/axiosApi";
-import Multiselect from "multiselect-react-dropdown";
+import axios from "axios"
+import React from "react"
+import { Fragment, useEffect, useRef, useState } from "react"
+import { Dialog, Transition } from "@headlessui/react"
+import { signOut } from "next-auth/react"
+import Image from "next/image"
+import shallow from "zustand/shallow"
+import toastcomp from "../../../components/toast"
+import { useStore } from "../../../constants/code"
+import { withAuth } from "../../../constants/HOCs"
+import userImg from "../../public/images/user-image.png"
+import { axiosInstance } from "../../api/axiosApi"
+import Multiselect from "multiselect-react-dropdown"
+import Skeleton from "react-loading-skeleton"
 
 function CandidateAcc(props) {
-  const [deletePopup, deletePopupOpen] = useState(false);
-  const [changePassword, changePasswordOpen] = useState(false);
-  const cancelButtonRef = useRef(null);
-  const [loader, setloader] = useState(false);
-  const [loader1, setloader1] = useState(false);
+  const [deletePopup, deletePopupOpen] = useState(false)
+  const [changePassword, changePasswordOpen] = useState(false)
+  const cancelButtonRef = useRef(null)
+  const [loader, setloader] = useState(false)
+  const [loader1, setloader1] = useState(false)
 
   const [userName, updateUserName] = useStore(
-    (state) => [state.userName, state.updateUserName],
+    state => [state.userName, state.updateUserName],
     shallow
-  );
+  )
 
   const [userImg, updateUserImg] = useStore(
-    (state) => [state.userImg, state.updateUserImg],
+    state => [state.userImg, state.updateUserImg],
     shallow
-  );
+  )
 
   const [userType, updateUserType] = useStore(
-    (state) => [state.userType, state.updateUserType],
+    state => [state.userType, state.updateUserType],
     shallow
-  );
+  )
 
   const [userObj, updateUserObj] = useStore(
-    (state) => [state.userObj, state.updateUserObj],
+    state => [state.userObj, state.updateUserObj],
     shallow
-  );
+  )
 
   const [userProfile, updateUserProfile] = useStore(
-    (state) => [state.userProfile, state.updateUserProfile],
+    state => [state.userProfile, state.updateUserProfile],
     shallow
-  );
+  )
 
   const [accessToken, updateAccessToken] = useStore(
-    (state) => [state.accessToken, state.updateAccessToken],
+    state => [state.accessToken, state.updateAccessToken],
     shallow
-  );
+  )
 
   const [country, updateCountry] = useStore(
-    (state) => [state.country, state.updateCountry],
+    state => [state.country, state.updateCountry],
     shallow
-  );
+  )
 
-  const [fcountry, setfcountry] = useState([]);
+  const [fcountry, setfcountry] = useState([])
 
-  const { router, session } = props;
+  const { router, session } = props
 
   useEffect(() => {
     if (!session) {
-      router.push("/");
+      router.push("/")
     } else {
-      setEmail(userObj["email"]);
-      setFName(userName.split(" ")[0]);
-      setLName(userName.split(" ")[1]);
+      setEmail(userObj["email"])
+      setFName(userName.split(" ")[0])
+      setLName(userName.split(" ")[1])
       if (userObj["mobile"]) {
-        setMobile(userObj["mobile"]);
+        setMobile(userObj["mobile"])
       }
     }
-  }, [session]);
+  }, [session])
 
-  const [email, setEmail] = useState("");
-  const [fname, setFName] = useState("");
-  const [lname, setLName] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [countryDrop, setCountryDrop] = useState("");
-  const [file, setFile] = useState();
-  const [pfile, setPFile] = useState();
+  const [email, setEmail] = useState("")
+  const [fname, setFName] = useState("")
+  const [lname, setLName] = useState("")
+  const [mobile, setMobile] = useState("")
+  const [countryDrop, setCountryDrop] = useState("")
+  const [file, setFile] = useState()
+  const [pfile, setPFile] = useState()
   //chnage pass
-  const [pass, setpass] = useState("");
-  const [pass2, setpass2] = useState("");
+  const [pass, setpass] = useState("")
+  const [pass2, setpass2] = useState("")
 
   function valudateCP() {
-    return pass.length >= 8 && pass2.length >= 8 && pass == pass2 && !loader1;
+    return pass.length >= 8 && pass2.length >= 8 && pass == pass2 && !loader1
   }
 
   function isEmpty(obj) {
-    return Object.keys(obj).length === 0;
+    return Object.keys(obj).length === 0
   }
 
   function validateForm() {
-    return fname.length > 0 && lname.length > 0 && !loader;
+    return fname.length > 0 && lname.length > 0 && !loader
   }
 
   useEffect(() => {
     async function fetchData() {
-      const res = await axiosInstance.get("/job/load/country/");
-      updateCountry(res.data);
+      const res = await axiosInstance.get("/job/load/country/")
+      updateCountry(res.data)
     }
     if (isEmpty(country)) {
-      fetchData();
+      fetchData()
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     if (userProfile["country"]) {
-      setCountryDrop(userProfile["country"]);
+      setCountryDrop(userProfile["country"])
     }
-  }, [userProfile]);
+  }, [userProfile])
 
   async function saveChange(event) {
-    setloader(true);
-    event.preventDefault();
+    setloader(true)
+    event.preventDefault()
     if (fname.length <= 0 || lname.length <= 0) {
-      toastcomp("Enter Name", "Error");
-      return;
+      toastcomp("Enter Name", "Error")
+      return
     }
     const axiosInstanceAuth2 = axios.create({
       baseURL:
@@ -128,27 +129,25 @@ function CandidateAcc(props) {
         Authorization: "Bearer " + accessToken,
         "Content-Type": "multipart/form-data",
       },
-    });
-    var formData2 = new FormData();
-    mobile
-      ? formData2.append("mobile", mobile)
-      : formData2.append("mobile", "");
-    formData2.append("first_name", fname);
-    formData2.append("last_name", lname);
+    })
+    var formData2 = new FormData()
+    mobile ? formData2.append("mobile", mobile) : formData2.append("mobile", "")
+    formData2.append("first_name", fname)
+    formData2.append("last_name", lname)
     await axiosInstanceAuth2
       .put("/auth/candidateaccont/" + userObj["erefid"] + "/", formData2)
-      .then(async (res) => {
-        userObj["mobile"] = res.data.mobile;
-        userObj["first_name"] = res.data.first_name;
-        userObj["last_name"] = res.data.last_name;
-        updateUserName(fname + " " + lname);
-        var formData = new FormData();
+      .then(async res => {
+        userObj["mobile"] = res.data.mobile
+        userObj["first_name"] = res.data.first_name
+        userObj["last_name"] = res.data.last_name
+        updateUserName(fname + " " + lname)
+        var formData = new FormData()
         if (file) {
-          formData.append("profile", file);
+          formData.append("profile", file)
         }
         countryDrop
           ? formData.append("country", countryDrop)
-          : formData.append("country", "");
+          : formData.append("country", "")
 
         if (Array.from(formData.keys()).length > 0) {
           await axiosInstanceAuth2
@@ -156,33 +155,33 @@ function CandidateAcc(props) {
               "/candidate/candidateprofileaccont/" + userObj["erefid"] + "/",
               formData
             )
-            .then(async (res2) => {
+            .then(async res2 => {
               updateUserImg(
                 (process.env.NODE_ENV === "production"
                   ? process.env.NEXT_PUBLIC_PROD_BACKEND
                   : process.env.NEXT_PUBLIC_DEV_BACKEND) + res2.data.profile
-              );
-              userProfile["country"] = res2.data.country;
-              userProfile["profile"] = res2.data.profile;
-              toastcomp("Account Updated :)", "success");
-              setloader(false);
+              )
+              userProfile["country"] = res2.data.country
+              userProfile["profile"] = res2.data.profile
+              toastcomp("Account Updated :)", "success")
+              setloader(false)
             })
-            .catch((err) => {
-              console.log(err);
-              toastcomp("Account Not Updated :)", "error");
-            });
+            .catch(err => {
+              console.log(err)
+              toastcomp("Account Not Updated :)", "error")
+            })
         } else {
-          toastcomp("Account Updated :)", "success");
-          setloader(false);
+          toastcomp("Account Updated :)", "success")
+          setloader(false)
         }
       })
-      .catch((err) => {
-        toastcomp("Account Not Updated :)", "error");
-      });
+      .catch(err => {
+        toastcomp("Account Not Updated :)", "error")
+      })
   }
 
   async function delacc() {
-    setloader1(true);
+    setloader1(true)
     const axiosInstanceAuth = axios.create({
       baseURL:
         process.env.NODE_ENV === "production"
@@ -194,26 +193,26 @@ function CandidateAcc(props) {
         "Content-Type": "application/json",
         accept: "application/json",
       },
-    });
+    })
     await axiosInstanceAuth
       .get("/auth/deleteCandidateAccount/" + userObj["erefid"] + "/")
-      .then((res) => {
-        toastcomp("Account Deleted :)", "success");
-        updateUserType("");
-        updateUserName("");
-        updateUserImg("");
-        updateUserObj({});
-        updateUserProfile({});
-        updateAccessToken("");
-        signOut();
-        setloader1(false);
+      .then(res => {
+        toastcomp("Account Deleted :)", "success")
+        updateUserType("")
+        updateUserName("")
+        updateUserImg("")
+        updateUserObj({})
+        updateUserProfile({})
+        updateAccessToken("")
+        signOut()
+        setloader1(false)
       })
-      .catch((err) => {
-        toastcomp("Account Not Deleted :)", "error");
-      });
+      .catch(err => {
+        toastcomp("Account Not Deleted :)", "error")
+      })
   }
   async function changePass() {
-    setloader1(true);
+    setloader1(true)
     const axiosInstanceAuth2 = axios.create({
       baseURL:
         process.env.NODE_ENV === "production"
@@ -224,37 +223,37 @@ function CandidateAcc(props) {
         Authorization: "Bearer " + accessToken,
         "Content-Type": "multipart/form-data",
       },
-    });
+    })
     await axiosInstanceAuth2
       .post("/auth/changepassword/", {
         password: pass,
         password2: pass2,
       })
-      .then(async (res) => {
-        changePasswordOpen(false);
-        toastcomp("Password Successfully Changed", "successs");
-        setloader1(false);
+      .then(async res => {
+        changePasswordOpen(false)
+        toastcomp("Password Successfully Changed", "successs")
+        setloader1(false)
       })
-      .catch((err) => {
-        changePasswordOpen(false);
-        toastcomp("Password Not Successfully Changed", "error");
-      });
-    setpass("");
-    setpass2("");
+      .catch(err => {
+        changePasswordOpen(false)
+        toastcomp("Password Not Successfully Changed", "error")
+      })
+    setpass("")
+    setpass2("")
   }
 
   useEffect(() => {
     if (fcountry.length <= 0 && country) {
-      let arr = [];
+      let arr = []
       for (const [key, value] of Object.entries(country)) {
         // let a = {}
         // a["name"] = country[key];
         // arr.push(a)
-        arr.push(country[key]);
+        arr.push(country[key])
       }
-      setfcountry(arr);
+      setfcountry(arr)
     }
-  }, [country]);
+  }, [country])
 
   return (
     <>
@@ -277,21 +276,26 @@ function CandidateAcc(props) {
                 <form className="mb-16">
                   <div className="mb-6">
                     <div className="relative inline-block">
-                    {userImg ? 
-                      <>
-                        <Image
-                          src={pfile ? pfile : userImg}
-                          // src={userImg}
-                          alt="Users"
-                          height={300}
-                          width={300}
-                          className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
-                        />
-                      </> : 
-                      <>
-                        <Skeleton width={125} height={125} style={{borderRadius: '100%', margin: '0 0 10px'}} />
-                      </>
-                      }
+                      {userImg ? (
+                        <>
+                          <Image
+                            src={pfile ? pfile : userImg}
+                            // src={userImg}
+                            alt="Users"
+                            height={300}
+                            width={300}
+                            className="rounded-full object-cover w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <Skeleton
+                            width={125}
+                            height={125}
+                            style={{ borderRadius: "100%", margin: "0 0 10px" }}
+                          />
+                        </>
+                      )}
                       <label
                         htmlFor="uploadImage"
                         className="overflow-hidden cursor-pointer z-10 absolute bottom-0 right-0 bg-white w-[40px] h-[40px] rounded-full flex items-center justify-center shadow-normal hover:bg-gray-600 hover:text-white"
@@ -303,9 +307,9 @@ function CandidateAcc(props) {
                           className="absolute left-0 top-0 z-20"
                           hidden
                           accept="image/png, image/jpeg"
-                          onChange={(e) => {
-                            setPFile(URL.createObjectURL(e.target.files[0]));
-                            setFile(e.target.files[0]);
+                          onChange={e => {
+                            setPFile(URL.createObjectURL(e.target.files[0]))
+                            setFile(e.target.files[0])
                           }}
                         />
                       </label>
@@ -324,7 +328,7 @@ function CandidateAcc(props) {
                         type="text"
                         className="w-full rounded-full border-slate-300"
                         value={fname}
-                        onChange={(e) => setFName(e.target.value)}
+                        onChange={e => setFName(e.target.value)}
                       />
                     </div>
                     <div className="w-full lg:w-[47%] mb-6">
@@ -339,7 +343,7 @@ function CandidateAcc(props) {
                         type="text"
                         className="w-full rounded-full border-slate-300"
                         value={lname}
-                        onChange={(e) => setLName(e.target.value)}
+                        onChange={e => setLName(e.target.value)}
                       />
                     </div>
                   </div>
@@ -371,7 +375,7 @@ function CandidateAcc(props) {
                         type="number"
                         className="w-full rounded-full border-slate-300"
                         value={mobile}
-                        onChange={(e) => setMobile(e.target.value)}
+                        onChange={e => setMobile(e.target.value)}
                       />
                     </div>
                     <div className="w-full lg:w-[47%] mb-6">
@@ -394,10 +398,10 @@ function CandidateAcc(props) {
                         selectionLimit={1}
                         selectedValues={countryDrop && countryDrop.split(",")}
                         onSelect={(selectedList, selectedItem) => {
-                          setCountryDrop(selectedItem);
+                          setCountryDrop(selectedItem)
                         }}
                         onRemove={(selectedList, selectedItem) => {
-                          setCountryDrop(null);
+                          setCountryDrop(null)
                         }}
                         placeholder="Find Country"
                       />
@@ -407,8 +411,8 @@ function CandidateAcc(props) {
                     <button
                       type="submit"
                       className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                      onClick={(e) => {
-                        saveChange(e);
+                      onClick={e => {
+                        saveChange(e)
                       }}
                       disabled={!validateForm()}
                     >
@@ -588,7 +592,7 @@ function CandidateAcc(props) {
                             id="orgNewPass"
                             className="w-full rounded-full border-slate-300"
                             value={pass}
-                            onChange={(e) => setpass(e.target.value)}
+                            onChange={e => setpass(e.target.value)}
                           />
                         </div>
                         <div className="mb-6">
@@ -603,7 +607,7 @@ function CandidateAcc(props) {
                             id="orgConfirmPass"
                             className="w-full rounded-full border-slate-300"
                             value={pass2}
-                            onChange={(e) => setpass2(e.target.value)}
+                            onChange={e => setpass2(e.target.value)}
                           />
                         </div>
                         <div className="text-center">
@@ -611,7 +615,7 @@ function CandidateAcc(props) {
                             type="button"
                             className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
                             disabled={!valudateCP()}
-                            onClick={(e) => changePass()}
+                            onClick={e => changePass()}
                           >
                             {loader1 && (
                               <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
@@ -631,7 +635,7 @@ function CandidateAcc(props) {
         <></>
       )}
     </>
-  );
+  )
 }
 
-export default withAuth(3 * 60)(CandidateAcc);
+export default withAuth(3 * 60)(CandidateAcc)
