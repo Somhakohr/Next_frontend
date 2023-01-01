@@ -8,7 +8,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    font-family: Lexend;
+  font-family: Lexend;
   color: #111;
   scroll-behavior: smooth;
   overflow-x: hidden;
@@ -32,7 +32,6 @@ a {
   }
 }
 
-
 @media (min-width: 1366px) {
   .container {
     max-width: 1366px;
@@ -46,29 +45,31 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
-input,textarea, select {
+input,
+textarea,
+select {
   font-size: 14px !important;
 }
 
 :root {
-  --primary: #6D27F9;
+  --primary: #6d27f9;
 }
 
 /* width */
 ::-webkit-scrollbar {
-	width: 5px;
+  width: 5px;
 }
 /* Track */
 ::-webkit-scrollbar-track {
-	background: #f1f1f1; 
+  background: #f1f1f1;
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: var(--primary); 
+  background: var(--primary);
 }
 
 i.fa-solid {
@@ -126,7 +127,6 @@ i.fa-solid {
   border-color: var(--primary);
 }
 
-
 .slick-dots li button:before {
   font-size: 18px !important;
 }
@@ -134,7 +134,8 @@ i.fa-solid {
   color: rgb(211, 211, 211) !important;
   opacity: 1 !important;
 }
-.slick-dots li.slick-active button::before, .slick-dots li:hover button::before {
+.slick-dots li.slick-active button::before,
+.slick-dots li:hover button::before {
   color: var(--primary) !important;
 }
 .slick-dots li:focus button::before {
@@ -174,37 +175,38 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected {
   border-bottom-color: var(--primary);
   color: var(--primary);
   font-weight: 700;
-  backgroundColor: transparent;
+  backgroundcolor: transparent;
 }
 ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   display: none;
 }
 .userBgImage {
-  background-image: url('../public/images/can-profile-bg.png');
+  background-image: url("../public/images/can-profile-bg.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 .companyMainImage {
-  background-image: url('../public/images/company-bg.png');
+  background-image: url("../public/images/company-bg.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 .homebanner_slide {
-  background-image: url('../public/images/homebanner-shape.png');
+  background-image: url("../public/images/homebanner-shape.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
 .launchSoon {
-  background-image: url('../public/images/launch-bg.png');
+  background-image: url("../public/images/launch-bg.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
-.masonary_grid, .masonary_grid > div {
-  gap: 10px !important
+.masonary_grid,
+.masonary_grid > div {
+  gap: 10px !important;
 }
 .responsive-table {
   overflow: auto;
@@ -214,7 +216,8 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   max-height: 200px;
   overflow: auto;
 }
-.responsive-table thead, .responsive-table tbody tr {
+.responsive-table thead,
+.responsive-table tbody tr {
   display: table;
   width: 100%;
   table-layout: fixed;
@@ -223,14 +226,15 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   border: 0;
   margin-bottom: 0px;
 }
-.orgDashCards li, .orgDashCards li i {
+.orgDashCards li,
+.orgDashCards li i {
   transition: all 0.3s ease;
 }
 .orgDashCards li:hover i {
   transform: rotate(360deg);
 }
 .orgDashCards li:hover {
-  box-shadow: 0px 10px 10px rgba(0,0,0,0.2);
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
 }
 .parent:hover .child {
   display: block;
@@ -243,8 +247,8 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   max-width: 1100px;
   margin: 0 auto 30px;
   overflow-x: auto;
-  backgroundColor: white;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+  backgroundcolor: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 .candidate_profile ul.react-tabs__tab-list {
   margin: 0;
@@ -258,17 +262,17 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   width: 8px;
   height: 8px;
   border-radius: 20px;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   left: 0;
   top: 8px;
 }
 .radiusCurve {
-  border-bottom: 15px solid #60C3E2;
-  border-bottom-right-radius: 50%
+  border-bottom: 15px solid #60c3e2;
+  border-bottom-right-radius: 50%;
 }
 .radiusCurve.radiusCurve__small {
-  border-bottom-right-radius: 20%
+  border-bottom-right-radius: 20%;
 }
 .blogSummay {
   color: #646464;
@@ -327,7 +331,7 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
 }
 .multiSelectContainer .search-wrapper .chip {
   font-size: 12px;
-  background:#c9b3ff;
+  background: #c9b3ff;
   color: #000;
   margin: 2px;
   border-radius: 15px;
@@ -355,23 +359,30 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   text-align: center;
   font-size: 12px;
 }
+.line_clamp_1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
 .line_clamp_2 {
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
-
-
+.react-loading-skeleton {
+  vertical-align: middle;
+}
 
 @media (max-width: 1199px) {
   .radiusCurve {
-    border-bottom-right-radius: 30%
+    border-bottom-right-radius: 30%;
   }
 }
 @media (max-width: 991px) {
   .radiusCurve {
-    border-bottom-right-radius: 20%
+    border-bottom-right-radius: 20%;
   }
 }
 @media (max-width: 767px) {
@@ -380,7 +391,7 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
     border-bottom-width: 10px;
   }
   .radiusCurve.radiusCurve__small {
-    border-bottom-right-radius: 10%
+    border-bottom-right-radius: 10%;
   }
 }
 
@@ -398,7 +409,7 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   left: 58px;
   width: 60%;
   height: 60%;
-  border: 2px #4A437F dashed;
+  border: 2px #4a437f dashed;
   border-radius: 100%;
   -webkit-animation: spin-right 6s linear infinite;
   animation: spin-right 6s linear infinite;
@@ -410,7 +421,7 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   height: 10px;
   width: 10px;
   border-radius: 100%;
-  background-color: #9F98E6;
+  background-color: #9f98e6;
 }
 #middle-orbit {
   position: absolute;
@@ -418,7 +429,7 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   left: 29px;
   width: 80%;
   height: 80%;
-  border: 2px #4A437F dashed;
+  border: 2px #4a437f dashed;
   border-radius: 100%;
   -webkit-animation: spin-left 12s linear infinite;
   animation: spin-left 12s linear infinite;
@@ -430,7 +441,7 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   height: 20px;
   width: 20px;
   border-radius: 100%;
-  background-color: #4A437F;
+  background-color: #4a437f;
 }
 #outer-orbit {
   position: absolute;
@@ -438,7 +449,7 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   left: 0;
   width: 100%;
   height: 100%;
-  border: 2px #4A437F dashed;
+  border: 2px #4a437f dashed;
   border-radius: 100%;
   -webkit-animation: spin-right 24s linear infinite;
   animation: spin-right 24s linear infinite;
@@ -450,7 +461,7 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   height: 30px;
   width: 30px;
   border-radius: 100%;
-  background-color: #60C3E2;
+  background-color: #60c3e2;
 }
 @keyframes spin-right {
   100% {

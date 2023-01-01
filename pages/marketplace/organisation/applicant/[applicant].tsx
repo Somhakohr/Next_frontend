@@ -1,3 +1,4 @@
+//@ts-nocheck
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from "react";
@@ -32,13 +33,16 @@ function OrganisationCandidateProfileView(props) {
   const [stime, setstime] = useState("");
   const [etime, setetime] = useState("");
 
+  const [loader, setloader] = useState(false);
+
   function verifyIntPopup() {
     return (
       title.length > 0 &&
       round.length > 0 &&
       date.length > 0 &&
       stime.length > 0 &&
-      etime.length > 0
+      etime.length > 0 &&
+      !loader
     );
   }
 
@@ -81,8 +85,11 @@ function OrganisationCandidateProfileView(props) {
 
   //axios auth var
   const axiosInstanceAuth2 = axios.create({
-    baseURL: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: 5000,
+    baseURL:
+      process.env.NODE_ENV === "production"
+        ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
+        : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
+    timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
     headers: {
       Authorization: "Bearer " + accessToken,
       "Content-Type": "multipart/form-data",
@@ -94,7 +101,6 @@ function OrganisationCandidateProfileView(props) {
       .get("/job/single/applicant/" + id + "/")
       .then(async (res) => {
         setApplicantData(res.data);
-        console.log(res.data);
         let abc = res.data;
         for (let i = 0; i < abc.length; i++) {
           setCrefid(abc[i].user.erefid);
@@ -127,7 +133,11 @@ function OrganisationCandidateProfileView(props) {
     if (!session) {
       router.push("/");
     } else if (!param1) {
-      router.push("/marketplace/organisation");
+      if (window.location.href.split("/").length > 0) {
+        updateParam1(window.location.href.toString().split("/").pop());
+      } else {
+        router.push("/marketplace/organisation");
+      }
     } else {
       loadApplicantData(param1);
     }
@@ -260,11 +270,13 @@ function OrganisationCandidateProfileView(props) {
   }
 
   async function updateStatus(status, arefid, refid) {
+    setloader(true);
     await axiosInstanceAuth2
       .post("/job/" + status + "/applicant/" + arefid + "/" + refid + "/")
       .then(async (res) => {
         loadApplicantData(param1);
         toastcomp("Status Updated", "success");
+        setloader(false);
       })
       .catch((err) => {
         if (err.message != "Request failed with status code 401") {
@@ -275,6 +287,7 @@ function OrganisationCandidateProfileView(props) {
   }
 
   async function addInterview() {
+    setloader(true);
     var formdata = new FormData();
     formdata.append("title", title);
     formdata.append("round_no", round);
@@ -286,6 +299,8 @@ function OrganisationCandidateProfileView(props) {
       .then(async (res) => {
         loadInterview(refid, crefid);
         toastcomp("Interview Added", "success");
+        setloader(false);
+        addRoundPopupOpen(false);
       })
       .catch((err) => {
         if (err.message != "Request failed with status code 401") {
@@ -296,6 +311,7 @@ function OrganisationCandidateProfileView(props) {
   }
 
   async function updateIStatus(status, pk, refid, arefid) {
+    setloader(true);
     await axiosInstanceAuth2
       .post("/job/" + status + "/interview/" + pk + "/" + refid + "/")
       .then(async (res) => {
@@ -310,6 +326,7 @@ function OrganisationCandidateProfileView(props) {
         if (status == "hold") {
           updateStatus("hold", arefid, refid);
         }
+        setloader(false);
       })
       .catch((err) => {
         if (err.message != "Request failed with status code 401") {
@@ -457,7 +474,7 @@ function OrganisationCandidateProfileView(props) {
                           <li className="w-[50%] px-[10px]">
                             <button
                               type="button"
-                              className="disabled:opacity-30 disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#6D27F9] text-white"
+                              className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#6D27F9] text-white"
                               disabled
                             >
                               <i className="fa-solid fa-thumbs-up mr-2"></i>
@@ -477,6 +494,9 @@ function OrganisationCandidateProfileView(props) {
                                 )
                               }
                             >
+                              {loader && (
+                                <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                              )}
                               <i className="fa-solid fa-thumbs-up mr-2"></i>
                               Shortlist
                             </button>
@@ -486,7 +506,7 @@ function OrganisationCandidateProfileView(props) {
                           <li className="w-[50%] px-[10px]">
                             <button
                               type="button"
-                              className="disabled:opacity-30 disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FEF401] text-black"
+                              className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FEF401] text-black"
                               disabled
                             >
                               <i className="fa-solid fa-circle-pause mr-2"></i>
@@ -506,6 +526,9 @@ function OrganisationCandidateProfileView(props) {
                                 )
                               }
                             >
+                              {loader && (
+                                <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                              )}
                               <i className="fa-solid fa-circle-pause mr-2"></i>
                               On Hold
                             </button>
@@ -515,7 +538,7 @@ function OrganisationCandidateProfileView(props) {
                           <li className="w-[50%] px-[10px]">
                             <button
                               type="button"
-                              className="disabled:opacity-30 disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#58E780] text-white"
+                              className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#58E780] text-white"
                               disabled
                             >
                               <i className="fa-solid fa-user mr-2"></i>
@@ -535,6 +558,9 @@ function OrganisationCandidateProfileView(props) {
                                 )
                               }
                             >
+                              {loader && (
+                                <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                              )}
                               <i className="fa-solid fa-user mr-2"></i>
                               Hire
                             </button>
@@ -544,7 +570,7 @@ function OrganisationCandidateProfileView(props) {
                           <li className="w-[50%] px-[10px]">
                             <button
                               type="button"
-                              className="disabled:opacity-30 disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FF5E5E] text-white"
+                              className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FF5E5E] text-white"
                               disabled
                             >
                               <i className="fa-solid fa-thumbs-down mr-2"></i>
@@ -564,6 +590,9 @@ function OrganisationCandidateProfileView(props) {
                                 )
                               }
                             >
+                              {loader && (
+                                <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                              )}
                               <i className="fa-solid fa-thumbs-down mr-2"></i>
                               Reject
                             </button>
@@ -575,9 +604,12 @@ function OrganisationCandidateProfileView(props) {
                         <li className="w-[50%] px-[10px]">
                           <button
                             type="button"
-                            className="disabled:opacity-30 disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#6D27F9] text-white"
+                            className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#6D27F9] text-white"
                             disabled
                           >
+                            {loader && (
+                              <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                            )}
                             <i className="fa-solid fa-thumbs-up mr-2"></i>
                             Shortlisted
                           </button>
@@ -590,7 +622,7 @@ function OrganisationCandidateProfileView(props) {
                                   <li className="w-[50%] px-[10px]">
                                     <button
                                       type="button"
-                                      className="disabled:opacity-30 disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FEF401] text-black"
+                                      className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FEF401] text-black"
                                       disabled
                                     >
                                       <i className="fa-solid fa-circle-pause mr-2"></i>
@@ -611,6 +643,9 @@ function OrganisationCandidateProfileView(props) {
                                         )
                                       }
                                     >
+                                      {loader && (
+                                        <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                                      )}
                                       <i className="fa-solid fa-circle-pause mr-2"></i>
                                       On Hold
                                     </button>
@@ -620,7 +655,7 @@ function OrganisationCandidateProfileView(props) {
                                   <li className="w-[50%] px-[10px]">
                                     <button
                                       type="button"
-                                      className="disabled:opacity-30 disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#58E780] text-white"
+                                      className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#58E780] text-white"
                                       disabled
                                     >
                                       <i className="fa-solid fa-user mr-2"></i>
@@ -641,6 +676,9 @@ function OrganisationCandidateProfileView(props) {
                                         )
                                       }
                                     >
+                                      {loader && (
+                                        <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                                      )}
                                       <i className="fa-solid fa-user mr-2"></i>
                                       Hire
                                     </button>
@@ -650,7 +688,7 @@ function OrganisationCandidateProfileView(props) {
                                   <li className="w-[50%] px-[10px]">
                                     <button
                                       type="button"
-                                      className="disabled:opacity-30 disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FF5E5E] text-white"
+                                      className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FF5E5E] text-white"
                                       disabled
                                     >
                                       <i className="fa-solid fa-thumbs-down mr-2"></i>
@@ -671,6 +709,9 @@ function OrganisationCandidateProfileView(props) {
                                         )
                                       }
                                     >
+                                      {loader && (
+                                        <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                                      )}
                                       <i className="fa-solid fa-thumbs-down mr-2"></i>
                                       Reject
                                     </button>
@@ -757,21 +798,33 @@ function OrganisationCandidateProfileView(props) {
                             <div className="relative z-[2]">
                               {data.status == "Hired" && (
                                 <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border border-[#58E780]  text-center rounded-full min-w-[115px]">
+                                  {loader && (
+                                    <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                                  )}
                                   Hired
                                 </span>
                               )}
                               {data.status == "Rejected" && (
                                 <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border border-[#FF5E5E]  text-center rounded-full min-w-[115px]">
+                                  {loader && (
+                                    <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                                  )}
                                   Rejected
                                 </span>
                               )}
                               {data.status == "Hold" && (
                                 <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border border-[#FEF401]  text-center rounded-full min-w-[115px]">
+                                  {loader && (
+                                    <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                                  )}
                                   On Hold
                                 </span>
                               )}
                               {data.status == "Shortlisted" && (
                                 <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border border-[#6D27F9]  text-center rounded-full min-w-[115px]">
+                                  {loader && (
+                                    <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                                  )}
                                   Shortlisted
                                 </span>
                               )}
@@ -831,8 +884,18 @@ function OrganisationCandidateProfileView(props) {
               </div>
               <div className="w-full lg:w-[70%] lg:pl-6">
                 <div className="bg-white shadow-normal border border-teal-400 rounded-[25px] p-6 mb-6">
+                  <h3 className="text-lg font-semibold mb-4">
+                    Resume HeadLine
+                  </h3>
+                  {resume.map((resume, i) => (
+                    <article key={i}>{resume.title}</article>
+                  ))}
+                </div>
+                <div className="bg-white shadow-normal border border-teal-400 rounded-[25px] p-6 mb-6">
                   <h3 className="text-lg font-semibold mb-4">Summary</h3>
-                  <article>{data.cand.summary}</article>
+                  <article
+                    dangerouslySetInnerHTML={{ __html: data.cand.summary }}
+                  ></article>
                 </div>
                 <div className="bg-white shadow-normal border border-teal-400 rounded-[25px] p-6 mb-6">
                   <h3 className="text-lg font-semibold mb-4">Skills</h3>
@@ -1106,6 +1169,9 @@ function OrganisationCandidateProfileView(props) {
                           onClick={(e) => addInterview()}
                           disabled={!verifyIntPopup()}
                         >
+                          {loader && (
+                            <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                          )}
                           Submit
                         </button>
                       </div>

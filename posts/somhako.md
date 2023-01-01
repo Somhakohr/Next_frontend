@@ -22,4 +22,4 @@ Developers can integrate the **Somhako Protocol** for importing existing Somhako
 
 Somhako is a decentralized platform that is designed to enable the open web of the future and power its HR community and economy.
 
-***Stay tuned for more updates…..***
+**_Stay tuned for more updates….._**

@@ -1,49 +1,62 @@
-import moment from "moment"
+import moment from "moment";
 
 export default function Notifications(props) {
-    const {read,unread,readfn}=props
-    return (
-        <>
-        <div className="bg-white max-h-[200px] overflow-y-auto">
-            {unread.length > 0 && unread.map((data, i) => (
-                <div className="flex items-center justify-between py-3 px-2 border-b border-slate-300 last:border-b-0" key={i}>
-                    <div className="w-[70%]">
-                        <div className="flex items-center">
-                            <span className="block w-[10px] h-[10px] rounded-full bg-[#6D27F9] mr-2"></span>
-                            <p className="w-[calc(100%-10px)] text-[12px] text-left line_clamp_2">
-                            {data.fields.verb}
-                            </p>
-                        </div>
-                    </div>
-                    <small className="w-[30%] text-right text-[10px] text-gray-500">{moment(data.fields.timestamp).fromNow()}</small>
+  const { read, unread, readfn } = props;
+  return (
+    <>
+      <div className="bg-white max-h-[200px] overflow-y-auto">
+        {unread.length > 0 &&
+          unread.map((data, i) => (
+            <div
+              className="flex items-center justify-between py-3 px-2 border-b border-slate-300 last:border-b-0"
+              key={i}
+            >
+              <div className="w-[70%]">
+                <div className="flex items-center">
+                  <span className="block w-[10px] h-[10px] rounded-full bg-[#6D27F9] mr-2"></span>
+                  <p className="w-[calc(100%-10px)] text-[12px] text-left line_clamp_2">
+                    {data.fields.verb}
+                  </p>
                 </div>
-            ))}
-            {read.length>0 && read.map((data, i) => (
-                <div className="flex items-center justify-between py-3 px-2 border-b border-slate-300 last:border-b-0" key={i}>
-                    <div className="w-[70%]">
-                        <div className="flex items-center">
-                            <span className="block w-[10px] h-[10px] rounded-full bg-gray-400 mr-2"></span>
-                            <p className="w-[calc(100%-10px)] text-[12px] text-left line_clamp_2">
-                            {data.fields.verb}
-                            </p>
-                        </div>
-                    </div>
-                    <small className="w-[30%] text-right text-[10px] text-gray-500">{moment(data.fields.timestamp).fromNow()}</small>
+              </div>
+              <small className="w-[30%] text-right text-[10px] text-gray-500">
+                {moment(data.fields.timestamp).fromNow()}
+              </small>
+            </div>
+          ))}
+        {read.length > 0 &&
+          read.map((data, i) => (
+            <div
+              className="flex items-center justify-between py-3 px-2 border-b border-slate-300 last:border-b-0"
+              key={i}
+            >
+              <div className="w-[70%]">
+                <div className="flex items-center">
+                  <span className="block w-[10px] h-[10px] rounded-full bg-gray-400 mr-2"></span>
+                  <p className="w-[calc(100%-10px)] text-[12px] text-left line_clamp_2">
+                    {data.fields.verb}
+                  </p>
                 </div>
-            ))}
-            {read.length <= 0 && unread.length <=0 && 
-            <>
+              </div>
+              <small className="w-[30%] text-right text-[10px] text-gray-500">
+                {moment(data.fields.timestamp).fromNow()}
+              </small>
+            </div>
+          ))}
+        {read.length <= 0 && unread.length <= 0 && (
+          <>
             <div className="flex items-center justify-between py-3 px-2 border-b border-slate-300 last:border-b-0">
-                    <div className="w-[100%]">
-                        <div className="flex items-center">
-                            <p className="w-full text-[12px] text-center line_clamp_2">
-                            No Notification
-                            </p>
-                        </div>
-                    </div>
+              <div className="w-[100%]">
+                <div className="flex items-center">
+                  <p className="w-full text-[12px] text-center line_clamp_2">
+                    No Notification
+                  </p>
                 </div>
-            </>}
-            {/* <div className="flex items-center justify-between py-3 px-2 border-b border-slate-300 last:border-b-0">
+              </div>
+            </div>
+          </>
+        )}
+        {/* <div className="flex items-center justify-between py-3 px-2 border-b border-slate-300 last:border-b-0">
                 <div className="w-[70%]">
                     <div className="flex items-center">
                         <span className="block w-[10px] h-[10px] rounded-full bg-[#6D27F9] mr-2"></span>
@@ -76,7 +89,7 @@ export default function Notifications(props) {
                 </div>
                 <small className="w-[30%] text-right text-[10px] text-gray-500">45 min ago</small>
             </div> */}
-        </div>
-        </>
-    )
+      </div>
+    </>
+  );
 }

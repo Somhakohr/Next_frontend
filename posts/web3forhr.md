@@ -26,4 +26,4 @@ With great resignations all around the world, those who resigned will find diffe
 6. **Immutability:** Completed transactions are cryptographically signed, time-stamped, and sequentially added to the ledger. Records can’t be changed unless all participants agree on the need to do so.
 7. **Professional Development:** the learn-to-earn. Many existing Web 3 platforms offer great incentives as part of user acquisitions with a learning curve included. For example, exchanges or protocol uses token grants to both onboard new users and teach existing users about new features. These are part of investment in the community. In essence, these investments in their communities are a down payment on future growth and adoption of their networks.”
 
-***Stay tuned for more updates…..***
+**_Stay tuned for more updates….._**

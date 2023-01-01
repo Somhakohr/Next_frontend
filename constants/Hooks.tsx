@@ -74,7 +74,7 @@ export function useAuth(refreshInterval?: number) {
   useEffect(() => {
     const intervalId = setInterval(
       () => mutate(sessionUrl),
-      (refreshInterval || 20) * 1000,
+      (refreshInterval || 20) * 1000
     );
 
     return () => clearInterval(intervalId);
