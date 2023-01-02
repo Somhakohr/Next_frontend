@@ -1,41 +1,28 @@
-import axios from "axios";
-import Head from "next/head";
-import Link from "next/link";
-import { useState } from "react";
-import Auth_Slider from "../../../components/auth-slider";
-import toastcomp from "../../../components/toast";
+import Head from "next/head"
+import Link from "next/link"
+import { useState } from "react"
+import Auth_Slider from "../../../components/auth-slider"
+import toastcomp from "../../../components/toast"
+import { axiosInstance } from "../../api/axiosApi"
 
 export default function ForgotPassword() {
-  const [email, setemail] = useState("");
+  const [email, setemail] = useState("")
 
   function validbtn() {
-    return email.length > 0;
+    return email.length > 0
   }
-
-  const axiosInstance = axios.create({
-    baseURL:
-      process.env.NODE_ENV === "production"
-        ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-        : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-    headers: {
-      // 'Authorization': "JWT " + access_token,
-      "Content-Type": "application/json",
-      accept: "application/json",
-    },
-  });
 
   async function forgetpass() {
     await axiosInstance
       .post("/auth/request-reset-email/", { email: email })
-      .then((response) => {
-        toastcomp("Forget Password Mail Sent", "success");
-        setemail("");
+      .then(response => {
+        toastcomp("Forget Password Mail Sent", "success")
+        setemail("")
       })
-      .catch((err) => {
+      .catch(err => {
         // console.log(err);
-        toastcomp("Forget Password Error", "error");
-      });
+        toastcomp("Forget Password Error", "error")
+      })
   }
 
   return (
@@ -69,7 +56,7 @@ export default function ForgotPassword() {
                       type="email"
                       className="w-full rounded-full border-slate-300"
                       value={email}
-                      onChange={(e) => setemail(e.target.value)}
+                      onChange={e => setemail(e.target.value)}
                     />
                   </div>
                   <div className="flex flex-wrap items-center justify-between md:flex-row flex-col">
@@ -77,7 +64,7 @@ export default function ForgotPassword() {
                       type="submit"
                       className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
                       disabled={!validbtn()}
-                      onClick={(e) => forgetpass()}
+                      onClick={e => forgetpass()}
                     >
                       Submit
                     </button>
@@ -103,5 +90,5 @@ export default function ForgotPassword() {
         </section>
       </main>
     </>
-  );
+  )
 }

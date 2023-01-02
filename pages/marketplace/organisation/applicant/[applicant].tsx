@@ -1,39 +1,36 @@
 //@ts-nocheck
-import Image from "next/image";
-import Link from "next/link";
-import { Fragment, useEffect, useRef, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import userImg from "../../../public/images/user-image.png";
-import { withAuth } from "../../../../constants/HOCs";
-import axios from "axios";
-import shallow from "zustand/shallow";
-import { useStore } from "../../../../constants/code";
-import toastcomp from "../../../../components/toast";
+import Link from "next/link"
+import { Fragment, useEffect, useRef, useState } from "react"
+import { Dialog, Transition } from "@headlessui/react"
+import shallow from "zustand/shallow"
+import { useStore } from "../../../../constants/code"
+import toastcomp from "../../../../components/toast"
+import { axiosInstanceAuth } from "../../../api/axiosApi"
 
-function OrganisationCandidateProfileView(props) {
-  const [addRoundPopup, addRoundPopupOpen] = useState(false);
-  const cancelButtonRef = useRef(null);
-  const [crefid, setCrefid] = useState("");
-  const [refid, setRefid] = useState("");
-  const [pk, setpk] = useState("");
-  const [applicantData, setApplicantData] = useState([]);
-  const [lang, setLang] = useState([]);
-  const [link, setLink] = useState([]);
-  const [resume, setResume] = useState([]);
-  const [skill, setSkill] = useState([]);
-  const [cert, setCert] = useState([]);
-  const [edu, setEdu] = useState([]);
-  const [exp, setExp] = useState([]);
-  const [achieve, setAchieve] = useState([]);
-  const [interview, setInterview] = useState([]);
+export default function OrganisationCandidateProfileView(props) {
+  const [addRoundPopup, addRoundPopupOpen] = useState(false)
+  const cancelButtonRef = useRef(null)
+  const [crefid, setCrefid] = useState("")
+  const [refid, setRefid] = useState("")
+  const [pk, setpk] = useState("")
+  const [applicantData, setApplicantData] = useState([])
+  const [lang, setLang] = useState([])
+  const [link, setLink] = useState([])
+  const [resume, setResume] = useState([])
+  const [skill, setSkill] = useState([])
+  const [cert, setCert] = useState([])
+  const [edu, setEdu] = useState([])
+  const [exp, setExp] = useState([])
+  const [achieve, setAchieve] = useState([])
+  const [interview, setInterview] = useState([])
 
-  const [title, settitle] = useState("");
-  const [round, setround] = useState("");
-  const [date, setdate] = useState("");
-  const [stime, setstime] = useState("");
-  const [etime, setetime] = useState("");
+  const [title, settitle] = useState("")
+  const [round, setround] = useState("")
+  const [date, setdate] = useState("")
+  const [stime, setstime] = useState("")
+  const [etime, setetime] = useState("")
 
-  const [loader, setloader] = useState(false);
+  const [loader, setloader] = useState(false)
 
   function verifyIntPopup() {
     return (
@@ -43,297 +40,287 @@ function OrganisationCandidateProfileView(props) {
       stime.length > 0 &&
       etime.length > 0 &&
       !loader
-    );
+    )
   }
 
-  const { router, session } = props;
+  const { router, session } = props
 
   const [userName, updateUserName] = useStore(
-    (state) => [state.userName, state.updateUserName],
+    state => [state.userName, state.updateUserName],
     shallow
-  );
+  )
 
   const [userImg, updateUserImg] = useStore(
-    (state) => [state.userImg, state.updateUserImg],
+    state => [state.userImg, state.updateUserImg],
     shallow
-  );
+  )
 
   const [userType, updateUserType] = useStore(
-    (state) => [state.userType, state.updateUserType],
+    state => [state.userType, state.updateUserType],
     shallow
-  );
+  )
 
   const [userObj, updateUserObj] = useStore(
-    (state) => [state.userObj, state.updateUserObj],
+    state => [state.userObj, state.updateUserObj],
     shallow
-  );
+  )
 
   const [userProfile, updateUserProfile] = useStore(
-    (state) => [state.userProfile, state.updateUserProfile],
+    state => [state.userProfile, state.updateUserProfile],
     shallow
-  );
+  )
 
   const [accessToken, updateAccessToken] = useStore(
-    (state) => [state.accessToken, state.updateAccessToken],
+    state => [state.accessToken, state.updateAccessToken],
     shallow
-  );
+  )
 
   const [param1, updateParam1] = useStore(
-    (state) => [state.param1, state.updateParam1],
+    state => [state.param1, state.updateParam1],
     shallow
-  );
+  )
 
   //axios auth var
-  const axiosInstanceAuth2 = axios.create({
-    baseURL:
-      process.env.NODE_ENV === "production"
-        ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-        : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const axiosInstanceAuth2 = axiosInstanceAuth(accessToken)
 
   async function loadApplicantData(id) {
     await axiosInstanceAuth2
       .get("/job/single/applicant/" + id + "/")
-      .then(async (res) => {
-        setApplicantData(res.data);
-        let abc = res.data;
+      .then(async res => {
+        setApplicantData(res.data)
+        let abc = res.data
         for (let i = 0; i < abc.length; i++) {
-          setCrefid(abc[i].user.erefid);
-          setRefid(abc[i].job.refid);
+          setCrefid(abc[i].user.erefid)
+          setRefid(abc[i].job.refid)
         }
       })
-      .catch((err) => {
+      .catch(err => {
         // router.push("/marketplace/organisation");
-      });
+      })
   }
 
   async function loadInterview(id, erfid) {
     await axiosInstanceAuth2
       .get("/job/interviews/" + id + "/" + erfid + "/")
-      .then(async (res) => {
-        setInterview(res.data);
+      .then(async res => {
+        setInterview(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         // router.push("/marketplace/organisation");
-        toastcomp("Interview Not Loaded", "error");
-      });
+        toastcomp("Interview Not Loaded", "error")
+      })
   }
 
   function goback() {
-    updateParam1("");
-    router.push("/marketplace/organisation/applicants");
+    updateParam1("")
+    router.push("/marketplace/organisation/applicants")
   }
 
   useEffect(() => {
     if (!session) {
-      router.push("/");
+      router.push("/")
     } else if (!param1) {
       if (window.location.href.split("/").length > 0) {
-        updateParam1(window.location.href.toString().split("/").pop());
+        updateParam1(window.location.href.toString().split("/").pop())
       } else {
-        router.push("/marketplace/organisation");
+        router.push("/marketplace/organisation")
       }
     } else {
-      loadApplicantData(param1);
+      loadApplicantData(param1)
     }
-  }, [session, param1]);
+  }, [session, param1])
 
   useEffect(() => {
     if (crefid != "") {
-      loadLang();
-      loadLink();
-      loadReume();
-      loadSkill();
-      loadAchieve();
-      loadEducation();
-      loadExperience();
-      loadCertification();
-      loadInterview(refid, crefid);
+      loadLang()
+      loadLink()
+      loadReume()
+      loadSkill()
+      loadAchieve()
+      loadEducation()
+      loadExperience()
+      loadCertification()
+      loadInterview(refid, crefid)
     }
-  }, [crefid, refid]);
+  }, [crefid, refid])
 
   async function loadLang() {
     await axiosInstanceAuth2
       .get("/candidate/listlang/" + crefid + "/")
-      .then(async (res) => {
-        setLang(res.data);
+      .then(async res => {
+        setLang(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Lang Not Loaded", "error");
+          toastcomp("Lang Not Loaded", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function loadLink() {
     await axiosInstanceAuth2
       .get("/candidate/listlink/" + crefid + "/")
-      .then(async (res) => {
-        setLink(res.data);
+      .then(async res => {
+        setLink(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Link Not Loaded", "error");
+          toastcomp("Link Not Loaded", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function loadReume() {
     await axiosInstanceAuth2
       .get("/candidate/listresume/" + crefid + "/")
-      .then(async (res) => {
-        setResume(res.data);
+      .then(async res => {
+        setResume(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Resume Not Loaded", "error");
+          toastcomp("Resume Not Loaded", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function loadSkill() {
     await axiosInstanceAuth2
       .get("/candidate/listskill/" + crefid + "/")
-      .then(async (res) => {
-        setSkill(res.data);
+      .then(async res => {
+        setSkill(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Skills Not Loaded", "error");
+          toastcomp("Skills Not Loaded", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function loadCertification() {
     await axiosInstanceAuth2
       .get("/candidate/listcertificate/" + crefid + "/")
-      .then(async (res) => {
-        setCert(res.data);
+      .then(async res => {
+        setCert(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Certification Not Loaded", "error");
+          toastcomp("Certification Not Loaded", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function loadEducation() {
     await axiosInstanceAuth2
       .get("/candidate/listeducation/" + crefid + "/")
-      .then(async (res) => {
-        setEdu(res.data);
+      .then(async res => {
+        setEdu(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Education Not Loaded", "error");
+          toastcomp("Education Not Loaded", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function loadExperience() {
     await axiosInstanceAuth2
       .get("/candidate/listexperience/" + crefid + "/")
-      .then(async (res) => {
-        setExp(res.data);
+      .then(async res => {
+        setExp(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Exp Not Loaded", "error");
+          toastcomp("Exp Not Loaded", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function loadAchieve() {
     await axiosInstanceAuth2
       .get("/candidate/listachievement/" + crefid + "/")
-      .then(async (res) => {
-        setAchieve(res.data);
+      .then(async res => {
+        setAchieve(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Achieve Not Loaded", "error");
+          toastcomp("Achieve Not Loaded", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function updateStatus(status, arefid, refid) {
-    setloader(true);
+    setloader(true)
     await axiosInstanceAuth2
       .post("/job/" + status + "/applicant/" + arefid + "/" + refid + "/")
-      .then(async (res) => {
-        loadApplicantData(param1);
-        toastcomp("Status Updated", "success");
-        setloader(false);
+      .then(async res => {
+        loadApplicantData(param1)
+        toastcomp("Status Updated", "success")
+        setloader(false)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Status Not Updated", "error");
+          toastcomp("Status Not Updated", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function addInterview() {
-    setloader(true);
-    var formdata = new FormData();
-    formdata.append("title", title);
-    formdata.append("round_no", round);
-    formdata.append("interview_date", date);
-    formdata.append("interview_start_time", stime);
-    formdata.append("interview_end_time", etime);
+    setloader(true)
+    var formdata = new FormData()
+    formdata.append("title", title)
+    formdata.append("round_no", round)
+    formdata.append("interview_date", date)
+    formdata.append("interview_start_time", stime)
+    formdata.append("interview_end_time", etime)
     await axiosInstanceAuth2
       .post("/job/create/interview/" + refid + "/" + crefid + "/", formdata)
-      .then(async (res) => {
-        loadInterview(refid, crefid);
-        toastcomp("Interview Added", "success");
-        setloader(false);
-        addRoundPopupOpen(false);
+      .then(async res => {
+        loadInterview(refid, crefid)
+        toastcomp("Interview Added", "success")
+        setloader(false)
+        addRoundPopupOpen(false)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Interview Not Added", "error");
+          toastcomp("Interview Not Added", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function updateIStatus(status, pk, refid, arefid) {
-    setloader(true);
+    setloader(true)
     await axiosInstanceAuth2
       .post("/job/" + status + "/interview/" + pk + "/" + refid + "/")
-      .then(async (res) => {
-        loadInterview(refid, crefid);
-        toastcomp("Interview Status Updated", "success");
+      .then(async res => {
+        loadInterview(refid, crefid)
+        toastcomp("Interview Status Updated", "success")
         if (status == "passed") {
-          updateStatus("hire", arefid, refid);
+          updateStatus("hire", arefid, refid)
         }
         if (status == "reject") {
-          updateStatus("reject", arefid, refid);
+          updateStatus("reject", arefid, refid)
         }
         if (status == "hold") {
-          updateStatus("hold", arefid, refid);
+          updateStatus("hold", arefid, refid)
         }
-        setloader(false);
+        setloader(false)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Intrview Status Not Updated", "error");
+          toastcomp("Intrview Status Not Updated", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   return (
@@ -343,7 +330,7 @@ function OrganisationCandidateProfileView(props) {
           <div className="container" key={i}>
             <button
               type="button"
-              onClick={(e) => goback()}
+              onClick={e => goback()}
               className="mb-2 rounded-full bg-black text-white p-4 mr-4 w-[25px] h-[25px] flex items-center justify-center"
             >
               <i className="fa-solid fa-arrow-left"></i>
@@ -486,7 +473,7 @@ function OrganisationCandidateProfileView(props) {
                             <button
                               type="button"
                               className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#6D27F9] hover:text-white"
-                              onClick={(e) =>
+                              onClick={e =>
                                 updateStatus(
                                   "shortlist",
                                   data.arefid,
@@ -518,7 +505,7 @@ function OrganisationCandidateProfileView(props) {
                             <button
                               type="button"
                               className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#FEF401] hover:text-black"
-                              onClick={(e) =>
+                              onClick={e =>
                                 updateStatus(
                                   "hold",
                                   data.arefid,
@@ -550,7 +537,7 @@ function OrganisationCandidateProfileView(props) {
                             <button
                               type="button"
                               className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#58E780] hover:text-white"
-                              onClick={(e) =>
+                              onClick={e =>
                                 updateStatus(
                                   "hire",
                                   data.arefid,
@@ -582,7 +569,7 @@ function OrganisationCandidateProfileView(props) {
                             <button
                               type="button"
                               className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#FF5E5E] hover:text-white"
-                              onClick={(e) =>
+                              onClick={e =>
                                 updateStatus(
                                   "reject",
                                   data.arefid,
@@ -634,7 +621,7 @@ function OrganisationCandidateProfileView(props) {
                                     <button
                                       type="button"
                                       className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#FEF401] hover:text-black"
-                                      onClick={(e) =>
+                                      onClick={e =>
                                         updateIStatus(
                                           "hold",
                                           data2.id,
@@ -667,7 +654,7 @@ function OrganisationCandidateProfileView(props) {
                                     <button
                                       type="button"
                                       className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#58E780] hover:text-white"
-                                      onClick={(e) =>
+                                      onClick={e =>
                                         updateIStatus(
                                           "passed",
                                           data2.id,
@@ -700,7 +687,7 @@ function OrganisationCandidateProfileView(props) {
                                     <button
                                       type="button"
                                       className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#FF5E5E] hover:text-white"
-                                      onClick={(e) =>
+                                      onClick={e =>
                                         updateIStatus(
                                           "reject",
                                           data2.id,
@@ -1095,7 +1082,7 @@ function OrganisationCandidateProfileView(props) {
                           id="interViewTitle"
                           className="w-full rounded-full border-slate-300"
                           value={title}
-                          onChange={(e) => settitle(e.target.value)}
+                          onChange={e => settitle(e.target.value)}
                         />
                       </div>
                       <div className="flex flex-wrap justify-between">
@@ -1111,7 +1098,7 @@ function OrganisationCandidateProfileView(props) {
                             type="text"
                             className="w-full rounded-full border-slate-300"
                             value={round}
-                            onChange={(e) => setround(e.target.value)}
+                            onChange={e => setround(e.target.value)}
                           />
                         </div>
                         <div className="w-full lg:w-[47%] mb-6">
@@ -1126,7 +1113,7 @@ function OrganisationCandidateProfileView(props) {
                             type="date"
                             className="w-full rounded-full border-slate-300"
                             value={date}
-                            onChange={(e) => setdate(e.target.value)}
+                            onChange={e => setdate(e.target.value)}
                           />
                         </div>
                       </div>
@@ -1143,7 +1130,7 @@ function OrganisationCandidateProfileView(props) {
                             type="time"
                             className="w-full rounded-full border-slate-300"
                             value={stime}
-                            onChange={(e) => setstime(e.target.value)}
+                            onChange={e => setstime(e.target.value)}
                           />
                         </div>
                         <div className="w-full lg:w-[47%] mb-6">
@@ -1158,7 +1145,7 @@ function OrganisationCandidateProfileView(props) {
                             type="time"
                             className="w-full rounded-full border-slate-300"
                             value={etime}
-                            onChange={(e) => setetime(e.target.value)}
+                            onChange={e => setetime(e.target.value)}
                           />
                         </div>
                       </div>
@@ -1166,7 +1153,7 @@ function OrganisationCandidateProfileView(props) {
                         <button
                           type="button"
                           className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                          onClick={(e) => addInterview()}
+                          onClick={e => addInterview()}
                           disabled={!verifyIntPopup()}
                         >
                           {loader && (
@@ -1184,7 +1171,5 @@ function OrganisationCandidateProfileView(props) {
         </Dialog>
       </Transition.Root>
     </>
-  );
+  )
 }
-
-export default withAuth(3 * 60)(OrganisationCandidateProfileView);

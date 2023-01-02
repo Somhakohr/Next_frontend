@@ -1,32 +1,31 @@
-import axios from "axios";
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import Auth_Slider from "../../../../components/auth-slider";
-import toastcomp from "../../../../components/toast";
+import axios from "axios"
+import Head from "next/head"
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
+import Auth_Slider from "../../../../components/auth-slider"
+import toastcomp from "../../../../components/toast"
 
 export default function ConfirmForgotPassword() {
-  const [password, setpassword] = useState("");
-  const [password2, setpassword2] = useState("");
-  const [i1, seti1] = useState("");
-  const [i2, seti2] = useState("");
-  const { asPath } = useRouter();
-  const router = useRouter();
+  const [password, setpassword] = useState("")
+  const [password2, setpassword2] = useState("")
+  const [i1, seti1] = useState("")
+  const [i2, seti2] = useState("")
+  const { asPath } = useRouter()
+  const router = useRouter()
 
-  const [switchInputType, switchInputTypeToggle] = useState(false);
-  const [switchConfInputType, switchConfInputTypeToggle] = useState(false);
+  const [switchInputType, switchInputTypeToggle] = useState(false)
+  const [switchConfInputType, switchConfInputTypeToggle] = useState(false)
   function inputTypeToggled() {
-    switchInputTypeToggle(!switchInputType);
+    switchInputTypeToggle(!switchInputType)
   }
   function inputConfTypeToggled() {
-    switchConfInputTypeToggle(!switchConfInputType);
+    switchConfInputTypeToggle(!switchConfInputType)
   }
 
   function validbtn() {
     return (
       password.length >= 8 && password2.length >= 8 && password == password2
-    );
+    )
   }
 
   const axiosInstance = axios.create({
@@ -40,7 +39,7 @@ export default function ConfirmForgotPassword() {
       "Content-Type": "application/json",
       accept: "application/json",
     },
-  });
+  })
 
   async function forgetpass() {
     if (i1.length > 0 && i2.length > 0) {
@@ -50,26 +49,26 @@ export default function ConfirmForgotPassword() {
           uidb64: i1,
           token: i2,
         })
-        .then((response) => {
-          toastcomp("Password Reset Suceesfully", "success");
-          router.push("/marketplace/auth/signin");
-          setpassword("");
-          setpassword2("");
+        .then(response => {
+          toastcomp("Password Reset Suceesfully", "success")
+          router.push("/marketplace/auth/signin")
+          setpassword("")
+          setpassword2("")
         })
-        .catch((err) => {
+        .catch(err => {
           // console.log(err);
-          toastcomp("Password Reset Unuceesfully", "error");
-        });
+          toastcomp("Password Reset Unuceesfully", "error")
+        })
     }
   }
 
   useEffect(() => {
-    let c = asPath.substring(1).split("/")[3].split("&");
+    let c = asPath.substring(1).split("/")[3].split("&")
     if (c) {
-      seti1(c[2].split("=")[1]);
-      seti2(c[3].split("=")[1]);
+      seti1(c[2].split("=")[1])
+      seti2(c[3].split("=")[1])
     }
-  }, []);
+  }, [])
 
   return (
     <>
@@ -103,7 +102,7 @@ export default function ConfirmForgotPassword() {
                         id="password"
                         className="w-full rounded-full border-slate-300"
                         value={password}
-                        onChange={(e) => setpassword(e.target.value)}
+                        onChange={e => setpassword(e.target.value)}
                       />
                       <button
                         type="button"
@@ -131,7 +130,7 @@ export default function ConfirmForgotPassword() {
                         id="password2"
                         className="w-full rounded-full border-slate-300"
                         value={password2}
-                        onChange={(e) => setpassword2(e.target.value)}
+                        onChange={e => setpassword2(e.target.value)}
                       />
                       <button
                         type="button"
@@ -151,7 +150,7 @@ export default function ConfirmForgotPassword() {
                       type="submit"
                       className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
                       disabled={!validbtn()}
-                      onClick={(e) => forgetpass()}
+                      onClick={e => forgetpass()}
                     >
                       Submit
                     </button>
@@ -170,5 +169,5 @@ export default function ConfirmForgotPassword() {
         </section>
       </main>
     </>
-  );
+  )
 }

@@ -1,276 +1,265 @@
-import React, { useEffect } from "react";
-import { Fragment, useRef, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import Image from "next/image";
-import Sidebar from "../../../components/org-sidebar";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
-import OrgJobsCard from "../../../components/org-jobs-card";
-import noGraphic from "../../../public/images/no-found-graphic.png";
-import { withAuth } from "../../../constants/HOCs";
-import axios from "axios";
-import { useStore } from "../../../constants/code";
-import shallow from "zustand/shallow";
-import toastcomp from "../../../components/toast";
-import moment from "moment";
-import Multiselect from "multiselect-react-dropdown";
-import { Editor } from "@tinymce/tinymce-react";
+import React, { useEffect } from "react"
+import { Fragment, useRef, useState } from "react"
+import { Dialog, Transition } from "@headlessui/react"
+import Image from "next/image"
+import Sidebar from "../../../components/org-sidebar"
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs"
+import "react-tabs/style/react-tabs.css"
+import OrgJobsCard from "../../../components/org-jobs-card"
+import noGraphic from "../../../public/images/no-found-graphic.png"
+import { useStore } from "../../../constants/code"
+import shallow from "zustand/shallow"
+import toastcomp from "../../../components/toast"
+import moment from "moment"
+import Multiselect from "multiselect-react-dropdown"
+import { Editor } from "@tinymce/tinymce-react"
+import { axiosInstance, axiosInstanceAuth } from "../../api/axiosApi"
 
-function OrganisationAllJobs(props) {
-  const { router, session } = props;
+export default function OrganisationAllJobs(props) {
+  const { router, session } = props
   const [userName, updateUserName] = useStore(
-    (state) => [state.userName, state.updateUserName],
+    state => [state.userName, state.updateUserName],
     shallow
-  );
+  )
 
   const [userImg, updateUserImg] = useStore(
-    (state) => [state.userImg, state.updateUserImg],
+    state => [state.userImg, state.updateUserImg],
     shallow
-  );
+  )
 
   const [userType, updateUserType] = useStore(
-    (state) => [state.userType, state.updateUserType],
+    state => [state.userType, state.updateUserType],
     shallow
-  );
+  )
 
   const [userObj, updateUserObj] = useStore(
-    (state) => [state.userObj, state.updateUserObj],
+    state => [state.userObj, state.updateUserObj],
     shallow
-  );
+  )
 
   const [userProfile, updateUserProfile] = useStore(
-    (state) => [state.userProfile, state.updateUserProfile],
+    state => [state.userProfile, state.updateUserProfile],
     shallow
-  );
+  )
 
   const [accessToken, updateAccessToken] = useStore(
-    (state) => [state.accessToken, state.updateAccessToken],
+    state => [state.accessToken, state.updateAccessToken],
     shallow
-  );
+  )
 
-  const [langPopup, langPopupOpen] = useState(false);
-  const cancelButtonRef = useRef(null);
+  const [langPopup, langPopupOpen] = useState(false)
+  const cancelButtonRef = useRef(null)
   //local jobpost state
 
-  const [title, setTitle] = useState("");
-  const [dept, setDept] = useState("");
-  const [exp, setExp] = useState("");
-  const [type, setType] = useState("");
-  const [level, setLevel] = useState("");
-  const [deadline, setDeadline] = useState("");
-  const [ind, setInd] = useState("");
-  const [desc, setDesc] = useState("");
-  const [res, setRes] = useState("");
-  const [salary, setSalary] = useState("");
-  const [stype, setStype] = useState("");
-  const [scurr, setScurr] = useState("");
-  const [reloc, setReloc] = useState("");
-  const [bonus, setBonus] = useState("");
-  const [stock, setStock] = useState("");
-  const [visa, setVisa] = useState("");
-  const [vacancy, setVacancy] = useState("");
-  const [wtype, setWtype] = useState("");
-  const [loc, setLoc] = useState("");
-  const [rskill, setrSkill] = useState("");
-  const [pskill, setpSkill] = useState("");
-  const [qf, setQf] = useState("");
-  const [lang, setLang] = useState([]);
-  const [alang, setALang] = useState("");
-  const [aprof, setAProf] = useState("");
+  const [title, setTitle] = useState("")
+  const [dept, setDept] = useState("")
+  const [exp, setExp] = useState("")
+  const [type, setType] = useState("")
+  const [level, setLevel] = useState("")
+  const [deadline, setDeadline] = useState("")
+  const [ind, setInd] = useState("")
+  const [desc, setDesc] = useState("")
+  const [res, setRes] = useState("")
+  const [salary, setSalary] = useState("")
+  const [stype, setStype] = useState("")
+  const [scurr, setScurr] = useState("")
+  const [reloc, setReloc] = useState("")
+  const [bonus, setBonus] = useState("")
+  const [stock, setStock] = useState("")
+  const [visa, setVisa] = useState("")
+  const [vacancy, setVacancy] = useState("")
+  const [wtype, setWtype] = useState("")
+  const [loc, setLoc] = useState("")
+  const [rskill, setrSkill] = useState("")
+  const [pskill, setpSkill] = useState("")
+  const [qf, setQf] = useState("")
+  const [lang, setLang] = useState([])
+  const [alang, setALang] = useState("")
+  const [aprof, setAProf] = useState("")
   //local job state
-  const [jobs, setJobs] = useState([]);
-  const [active, setActive] = useState(false);
-  const [Archived, setArcheve] = useState(false);
-  const [draft, setDraft] = useState(false);
-  const [review, setReview] = useState(false);
-  const [close, setClose] = useState(false);
-  const [jobReload, setJobReload] = useState(false);
-  const [editJob, setEditJob] = useState(false);
+  const [jobs, setJobs] = useState([])
+  const [active, setActive] = useState(false)
+  const [Archived, setArcheve] = useState(false)
+  const [draft, setDraft] = useState(false)
+  const [review, setReview] = useState(false)
+  const [close, setClose] = useState(false)
+  const [jobReload, setJobReload] = useState(false)
+  const [editJob, setEditJob] = useState(false)
 
-  const [loader, setloader] = useState(false);
+  const [loader, setloader] = useState(false)
 
   //axios auth var
-  const axiosInstanceAuth2 = axios.create({
-    baseURL:
-      process.env.NODE_ENV === "production"
-        ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-        : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const axiosInstanceAuth2 = axiosInstanceAuth(accessToken)
 
   async function loadJobs() {
     await axiosInstanceAuth2
       .get("/job/organization/jobs/" + userObj["orefid"] + "/")
-      .then(async (res) => {
-        setJobs(res.data);
+      .then(async res => {
+        setJobs(res.data)
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(err => {
+        console.log(err)
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Job Not Loaded", "error");
+          toastcomp("Job Not Loaded", "error")
         }
-      });
-    setEditJob(false);
+      })
+    setEditJob(false)
   }
 
   useEffect(() => {
     if (jobs) {
-      setActive(false);
-      setArcheve(false);
-      setDraft(false);
-      setReview(false);
-      setClose(false);
+      setActive(false)
+      setArcheve(false)
+      setDraft(false)
+      setReview(false)
+      setClose(false)
       for (let i = 0; i < jobs.length; i++) {
         if (jobs[i].jobStatus == "Active") {
-          setActive(true);
+          setActive(true)
         }
         if (jobs[i].jobStatus == "Archived") {
-          setArcheve(true);
+          setArcheve(true)
         }
         if (jobs[i].jobStatus == "Draft") {
-          setDraft(true);
+          setDraft(true)
         }
         if (jobs[i].jobStatus == "Review") {
-          setReview(true);
+          setReview(true)
         }
         if (jobs[i].jobStatus == "Close") {
-          setClose(true);
+          setClose(true)
         }
       }
     }
     if (jobReload) {
-      loadJobs();
-      setJobReload(false);
+      loadJobs()
+      setJobReload(false)
     }
-  }, [jobs, jobReload]);
+  }, [jobs, jobReload])
 
   useEffect(() => {
     if (Object.keys(editJob).length > 0) {
-      resetJOBFORM();
+      resetJOBFORM()
       if (editJob["title"]) {
-        setTitle(editJob["title"]);
+        setTitle(editJob["title"])
       }
       if (editJob["dept"]) {
-        setDept(editJob["dept"]);
+        setDept(editJob["dept"])
       }
       if (editJob["exp"]) {
-        setExp(editJob["exp"]);
+        setExp(editJob["exp"])
       }
       if (editJob["type"]) {
-        setType(editJob["type"]);
+        setType(editJob["type"])
       }
       if (editJob["level"]) {
-        setLevel(editJob["level"]);
+        setLevel(editJob["level"])
       }
       if (editJob["deadline"]) {
-        setDeadline(moment(editJob["deadline"]).format("YYYY-MM-DD"));
+        setDeadline(moment(editJob["deadline"]).format("YYYY-MM-DD"))
       }
       if (editJob["industry"]) {
-        setInd(editJob["industry"]);
+        setInd(editJob["industry"])
       }
       if (editJob["desc"]) {
-        setDesc(editJob["desc"]);
+        setDesc(editJob["desc"])
       }
       if (editJob["resp"]) {
-        setRes(editJob["resp"]);
+        setRes(editJob["resp"])
       }
       if (editJob["salary"]) {
-        setSalary(editJob["salary"]);
+        setSalary(editJob["salary"])
       }
       if (editJob["curr"]) {
-        setScurr(editJob["curr"]);
+        setScurr(editJob["curr"])
       }
       if (editJob["relocation"]) {
-        setReloc(editJob["relocation"]);
+        setReloc(editJob["relocation"])
       }
       if (editJob["bonus"]) {
-        setBonus(editJob["bonus"]);
+        setBonus(editJob["bonus"])
       }
       if (editJob["stock"]) {
-        setStock(editJob["stock"]);
+        setStock(editJob["stock"])
       }
       if (editJob["visa"]) {
-        setVisa(editJob["visa"]);
+        setVisa(editJob["visa"])
       }
       if (editJob["vacancy"]) {
-        setVacancy(editJob["vacancy"]);
+        setVacancy(editJob["vacancy"])
       }
       if (editJob["worktype"]) {
-        setWtype(editJob["worktype"]);
+        setWtype(editJob["worktype"])
       }
       if (editJob["location"]) {
-        setLoc(editJob["location"]);
+        setLoc(editJob["location"])
       }
       if (editJob["recskill"]) {
-        setrSkill(editJob["recskill"]);
+        setrSkill(editJob["recskill"])
       }
       if (editJob["preskill"]) {
-        setpSkill(editJob["preskill"]);
+        setpSkill(editJob["preskill"])
       }
       if (editJob["qualification"]) {
-        setQf(editJob["qualification"]);
+        setQf(editJob["qualification"])
       }
       if (editJob["lng1"]) {
-        let dic = {};
-        dic["title"] = editJob["lng1"];
-        dic["exp"] = editJob["exp1"];
-        let abc = lang;
-        abc.push(dic);
-        setLang(abc);
+        let dic = {}
+        dic["title"] = editJob["lng1"]
+        dic["exp"] = editJob["exp1"]
+        let abc = lang
+        abc.push(dic)
+        setLang(abc)
       }
       if (editJob["lng2"]) {
-        let dic = {};
-        dic["title"] = editJob["lng2"];
-        dic["exp"] = editJob["exp2"];
-        let abc = lang;
-        abc.push(dic);
-        setLang(abc);
+        let dic = {}
+        dic["title"] = editJob["lng2"]
+        dic["exp"] = editJob["exp2"]
+        let abc = lang
+        abc.push(dic)
+        setLang(abc)
       }
       if (editJob["lng3"]) {
-        let dic = {};
-        dic["title"] = editJob["lng3"];
-        dic["exp"] = editJob["exp3"];
-        let abc = lang;
-        abc.push(dic);
-        setLang(abc);
+        let dic = {}
+        dic["title"] = editJob["lng3"]
+        dic["exp"] = editJob["exp3"]
+        let abc = lang
+        abc.push(dic)
+        setLang(abc)
       }
       if (editJob["lng4"]) {
-        let dic = {};
-        dic["title"] = editJob["lng4"];
-        dic["exp"] = editJob["exp4"];
-        let abc = lang;
-        abc.push(dic);
-        setLang(abc);
+        let dic = {}
+        dic["title"] = editJob["lng4"]
+        dic["exp"] = editJob["exp4"]
+        let abc = lang
+        abc.push(dic)
+        setLang(abc)
       }
-      toastcomp("Job In Edit Mode", "Success");
+      toastcomp("Job In Edit Mode", "Success")
     }
-  }, [editJob]);
+  }, [editJob])
 
   useEffect(() => {
     if (!session) {
-      router.push("/marketplace/");
+      router.push("/marketplace/")
     } else if (session && userObj) {
-      loadJobs();
+      loadJobs()
     }
-  }, [session, userObj]);
+  }, [session, userObj])
 
   async function addJob(formdata) {
     await axiosInstanceAuth2
       .post("/job/create/", formdata)
-      .then(async (res) => {
-        toastcomp("Job Added", "success");
-        resetJOBFORM();
-        loadJobs();
-        setloader(false);
+      .then(async res => {
+        toastcomp("Job Added", "success")
+        resetJOBFORM()
+        loadJobs()
+        setloader(false)
       })
-      .catch((err) => {
-        toastcomp("Job Not Added", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Job Not Added", "error")
+        console.log(err)
+      })
   }
 
   // async function updateJob(formdata,refid) {
@@ -287,39 +276,39 @@ function OrganisationAllJobs(props) {
 
   useEffect(() => {
     if (editJob) {
-      loadJobs();
+      loadJobs()
     }
-  }, [editJob]);
+  }, [editJob])
 
   function resetJOBFORM() {
-    setTitle("");
-    setDept("");
-    setExp("");
-    setType("");
-    setLevel("");
-    setDeadline("");
-    setInd("");
-    setDesc("");
-    setRes("");
-    setSalary("");
-    setStype("");
-    setScurr("");
-    setReloc("");
-    setBonus("");
-    setStock("");
-    setVisa("");
-    setVacancy("");
-    setWtype("");
-    setLoc("");
-    setrSkill("");
-    setpSkill("");
-    setQf("");
-    setLang([]);
+    setTitle("")
+    setDept("")
+    setExp("")
+    setType("")
+    setLevel("")
+    setDeadline("")
+    setInd("")
+    setDesc("")
+    setRes("")
+    setSalary("")
+    setStype("")
+    setScurr("")
+    setReloc("")
+    setBonus("")
+    setStock("")
+    setVisa("")
+    setVacancy("")
+    setWtype("")
+    setLoc("")
+    setrSkill("")
+    setpSkill("")
+    setQf("")
+    setLang([])
   }
 
   function apply(status) {
-    var check = true;
-    setloader(true);
+    var check = true
+    setloader(true)
     if (
       title.length <= 0 ||
       dept.length <= 0 ||
@@ -328,217 +317,181 @@ function OrganisationAllJobs(props) {
       deadline.length <= 0 ||
       ind.length <= 0
     ) {
-      check = false;
-      toastcomp("Fill Up Basic Details Section", "error");
+      check = false
+      toastcomp("Fill Up Basic Details Section", "error")
     }
     if (desc.length <= 0) {
-      check = false;
-      toastcomp("Fill Up Description Section", "error");
+      check = false
+      toastcomp("Fill Up Description Section", "error")
     }
     if (rskill.length <= 0 || pskill.length <= 0 || qf.length <= 0) {
-      check = false;
-      toastcomp("Fill Up Skills & Qualification Section", "error");
+      check = false
+      toastcomp("Fill Up Skills & Qualification Section", "error")
     }
 
     if (check) {
-      var formData = new FormData();
+      var formData = new FormData()
       if (title) {
-        formData.append("title", title);
+        formData.append("title", title)
       }
       if (dept) {
-        formData.append("dept", dept);
+        formData.append("dept", dept)
       }
       if (exp) {
-        formData.append("exp", exp);
+        formData.append("exp", exp)
       }
       if (type) {
-        formData.append("type", type);
+        formData.append("type", type)
       }
       if (level) {
-        formData.append("level", level);
+        formData.append("level", level)
       }
       if (deadline) {
-        formData.append("deadline", deadline);
+        formData.append("deadline", deadline)
       }
       if (ind) {
-        formData.append("industry", ind);
+        formData.append("industry", ind)
       }
       if (desc) {
-        formData.append("desc", desc);
+        formData.append("desc", desc)
       }
       if (res) {
-        formData.append("resp", res);
+        formData.append("resp", res)
       }
       if (salary) {
-        formData.append("salary", salary);
+        formData.append("salary", salary)
       }
       if (scurr) {
-        formData.append("curr", scurr);
+        formData.append("curr", scurr)
       }
       if (reloc) {
-        formData.append("relocation", reloc);
+        formData.append("relocation", reloc)
       }
       if (bonus) {
-        formData.append("bonus", bonus);
+        formData.append("bonus", bonus)
       }
       if (stock) {
-        formData.append("stock", stock);
+        formData.append("stock", stock)
       }
       if (visa) {
-        formData.append("visa", visa);
+        formData.append("visa", visa)
       }
       if (vacancy) {
-        formData.append("vacancy", vacancy);
+        formData.append("vacancy", vacancy)
       }
       if (wtype) {
-        formData.append("worktype", wtype);
+        formData.append("worktype", wtype)
       }
       if (loc) {
-        formData.append("location", loc);
+        formData.append("location", loc)
       }
       if (rskill) {
-        formData.append("recskill", rskill);
+        formData.append("recskill", rskill)
       }
       if (pskill) {
-        formData.append("preskill", pskill);
+        formData.append("preskill", pskill)
       }
       if (qf) {
-        formData.append("qualification", qf);
+        formData.append("qualification", qf)
       }
       if (lang.length > 0) {
-        console.log(lang);
+        console.log(lang)
         for (let i = 0; i < lang.length; i++) {
-          formData.append("lng" + (i + 1), lang[i]["title"]);
-          formData.append("exp" + (i + 1), lang[i]["exp"]);
+          formData.append("lng" + (i + 1), lang[i]["title"])
+          formData.append("exp" + (i + 1), lang[i]["exp"])
         }
       }
 
       if (Array.from(formData.keys()).length > 0) {
         if (status) {
-          formData.append("jobStatus", status);
+          formData.append("jobStatus", status)
         }
-        addJob(formData);
+        addJob(formData)
       }
     }
-    setloader(false);
+    setloader(false)
   }
   function verifyLangPopup() {
-    return alang && alang.length > 0 && aprof && aprof.length > 0 && !loader;
+    return alang && alang.length > 0 && aprof && aprof.length > 0 && !loader
   }
   //save spoken lang
   function saveLang(e) {
     if (lang.length > 3) {
-      toastcomp("4 Spoken Lang Only ALlowed", "error");
+      toastcomp("4 Spoken Lang Only ALlowed", "error")
     } else {
-      var dic = {};
-      dic["title"] = alang;
-      dic["exp"] = aprof;
-      let abc = lang;
-      abc.push(dic);
-      setLang(abc);
+      var dic = {}
+      dic["title"] = alang
+      dic["exp"] = aprof
+      let abc = lang
+      abc.push(dic)
+      setLang(abc)
     }
-    setALang("");
-    setAProf("");
-    langPopupOpen(false);
-    setloader(false);
+    setALang("")
+    setAProf("")
+    langPopupOpen(false)
+    setloader(false)
   }
 
   //delete Lang
   function delLang(num) {
-    lang.splice(num, 1);
-    document.getElementById("lang" + num).remove();
+    lang.splice(num, 1)
+    document.getElementById("lang" + num).remove()
   }
 
-  const [locf, setLocf] = useState([]);
-  const [ski, setski] = useState([]);
-  const [pski, setpski] = useState([]);
-  const [load, setload] = useState(false);
+  const [locf, setLocf] = useState([])
+  const [ski, setski] = useState([])
+  const [pski, setpski] = useState([])
+  const [load, setload] = useState(false)
 
   async function searchLoc(value) {
-    const axiosInstance22 = axios.create({
-      baseURL:
-        process.env.NODE_ENV === "production"
-          ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-          : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-      // timeout: 10000,
-      headers: {
-        // 'Authorization': "JWT " + access_token,
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
-    });
-    await axiosInstance22
+    await axiosInstance
       .get(`/job/load/location/?search=${value}`)
-      .then(async (res) => {
-        let obj = res.data;
-        let arr = [];
+      .then(async res => {
+        let obj = res.data
+        let arr = []
         for (const [key, value] of Object.entries(obj)) {
-          arr.push(value);
+          arr.push(value)
         }
-        setLocf(arr);
-        setload(false);
+        setLocf(arr)
+        setload(false)
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   async function searchSkill(value) {
-    const axiosInstance22 = axios.create({
-      baseURL:
-        process.env.NODE_ENV === "production"
-          ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-          : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-      // timeout: 10000,
-      headers: {
-        // 'Authorization': "JWT " + access_token,
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
-    });
-    await axiosInstance22
+    await axiosInstance
       .get(`/job/load/skills/?search=${value}`)
-      .then(async (res) => {
-        let obj = res.data;
-        let arr = [];
+      .then(async res => {
+        let obj = res.data
+        let arr = []
         for (const [key, value] of Object.entries(obj)) {
-          arr.push(value);
+          arr.push(value)
         }
-        setski(arr);
-        setload(false);
+        setski(arr)
+        setload(false)
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   async function searchpSkill(value) {
-    const axiosInstance22 = axios.create({
-      baseURL:
-        process.env.NODE_ENV === "production"
-          ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-          : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-      // timeout: 10000,
-      headers: {
-        // 'Authorization': "JWT " + access_token,
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
-    });
-    await axiosInstance22
+    await axiosInstance
       .get(`/job/load/skills/?search=${value}`)
-      .then(async (res) => {
-        let obj = res.data;
-        let arr = [];
+      .then(async res => {
+        let obj = res.data
+        let arr = []
         for (const [key, value] of Object.entries(obj)) {
-          arr.push(value);
+          arr.push(value)
         }
-        setpski(arr);
-        setload(false);
+        setpski(arr)
+        setload(false)
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   return (
@@ -583,7 +536,7 @@ function OrganisationAllJobs(props) {
                               type="text"
                               className="w-full rounded-full border-slate-300"
                               value={title}
-                              onChange={(e) => setTitle(e.target.value)}
+                              onChange={e => setTitle(e.target.value)}
                             />
                           </div>
                           <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
@@ -634,10 +587,10 @@ function OrganisationAllJobs(props) {
                               selectionLimit={1}
                               selectedValues={dept && dept.split(",")}
                               onSelect={(selectedList, selectedItem) => {
-                                setDept(selectedItem);
+                                setDept(selectedItem)
                               }}
                               onRemove={(selectedList, selectedItem) => {
-                                setDept("");
+                                setDept("")
                               }}
                               placeholder="Find Department"
                             />
@@ -674,10 +627,10 @@ function OrganisationAllJobs(props) {
                               selectionLimit={1}
                               selectedValues={exp && exp.split(",")}
                               onSelect={(selectedList, selectedItem) => {
-                                setExp(selectedItem);
+                                setExp(selectedItem)
                               }}
                               onRemove={(selectedList, selectedItem) => {
-                                setExp("");
+                                setExp("")
                               }}
                               placeholder="Find Preferred Experience In Years"
                             />
@@ -713,10 +666,10 @@ function OrganisationAllJobs(props) {
                               selectionLimit={1}
                               selectedValues={type && type.split(",")}
                               onSelect={(selectedList, selectedItem) => {
-                                setType(selectedItem);
+                                setType(selectedItem)
                               }}
                               onRemove={(selectedList, selectedItem) => {
-                                setType("");
+                                setType("")
                               }}
                               placeholder="Find Preferred Job Type"
                             />
@@ -748,7 +701,7 @@ function OrganisationAllJobs(props) {
                               id="addJobDeadLine"
                               className="w-full rounded-full border-slate-300"
                               value={deadline}
-                              onChange={(e) => setDeadline(e.target.value)}
+                              onChange={e => setDeadline(e.target.value)}
                             />
                           </div>
                           <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
@@ -806,10 +759,10 @@ function OrganisationAllJobs(props) {
                               selectionLimit={1}
                               selectedValues={ind && ind.split(",")}
                               onSelect={(selectedList, selectedItem) => {
-                                setInd(selectedItem);
+                                setInd(selectedItem)
                               }}
                               onRemove={(selectedList, selectedItem) => {
-                                setInd("");
+                                setInd("")
                               }}
                               placeholder="Find Preferred Industry"
                             />
@@ -895,7 +848,7 @@ function OrganisationAllJobs(props) {
                               type="number"
                               className="w-full rounded-full border-slate-300"
                               value={salary}
-                              onChange={(e) => setSalary(e.target.value)}
+                              onChange={e => setSalary(e.target.value)}
                             />
                           </div>
                           <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
@@ -1043,10 +996,10 @@ function OrganisationAllJobs(props) {
                               selectionLimit={1}
                               selectedValues={scurr && scurr.split(",")}
                               onSelect={(selectedList, selectedItem) => {
-                                setScurr(selectedItem);
+                                setScurr(selectedItem)
                               }}
                               onRemove={(selectedList, selectedItem) => {
-                                setScurr("");
+                                setScurr("")
                               }}
                               placeholder="Find Preferred Currency"
                             />
@@ -1076,10 +1029,10 @@ function OrganisationAllJobs(props) {
                               selectionLimit={1}
                               selectedValues={reloc && reloc.split(",")}
                               onSelect={(selectedList, selectedItem) => {
-                                setReloc(selectedItem);
+                                setReloc(selectedItem)
                               }}
                               onRemove={(selectedList, selectedItem) => {
-                                setReloc("");
+                                setReloc("")
                               }}
                               placeholder="Find Preferred Relocation"
                             />
@@ -1096,7 +1049,7 @@ function OrganisationAllJobs(props) {
                               type="text"
                               className="w-full rounded-full border-slate-300"
                               value={bonus}
-                              onChange={(e) => setBonus(e.target.value)}
+                              onChange={e => setBonus(e.target.value)}
                             />
                           </div>
                           <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
@@ -1111,7 +1064,7 @@ function OrganisationAllJobs(props) {
                               type="text"
                               className="w-full rounded-full border-slate-300"
                               value={stock}
-                              onChange={(e) => setStock(e.target.value)}
+                              onChange={e => setStock(e.target.value)}
                             />
                           </div>
                           <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
@@ -1139,10 +1092,10 @@ function OrganisationAllJobs(props) {
                               selectionLimit={1}
                               selectedValues={visa && visa.split(",")}
                               onSelect={(selectedList, selectedItem) => {
-                                setVisa(selectedItem);
+                                setVisa(selectedItem)
                               }}
                               onRemove={(selectedList, selectedItem) => {
-                                setVisa("");
+                                setVisa("")
                               }}
                               placeholder="Find Preferred VISA"
                             />
@@ -1170,7 +1123,7 @@ function OrganisationAllJobs(props) {
                               type="text"
                               className="w-full rounded-full border-slate-300"
                               value={vacancy}
-                              onChange={(e) => setVacancy(e.target.value)}
+                              onChange={e => setVacancy(e.target.value)}
                             />
                           </div>
                           <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
@@ -1197,10 +1150,10 @@ function OrganisationAllJobs(props) {
                               selectionLimit={1}
                               selectedValues={wtype && wtype.split(",")}
                               onSelect={(selectedList, selectedItem) => {
-                                setWtype(selectedItem);
+                                setWtype(selectedItem)
                               }}
                               onRemove={(selectedList, selectedItem) => {
-                                setWtype("");
+                                setWtype("")
                               }}
                               placeholder="Find Preferred WORK TYPE"
                             />
@@ -1227,16 +1180,16 @@ function OrganisationAllJobs(props) {
                               }
                               showArrow={true}
                               closeOnSelect={true}
-                              onSearch={(value) => {
-                                setload(true);
-                                searchLoc(value);
+                              onSearch={value => {
+                                setload(true)
+                                searchLoc(value)
                               }}
                               selectedValues={loc && loc.split("|")}
                               onSelect={(selectedList, selectedItem) => {
-                                setLoc(selectedList.join("|"));
+                                setLoc(selectedList.join("|"))
                               }}
                               onRemove={(selectedList, selectedItem) => {
-                                setLoc(selectedList.join("|"));
+                                setLoc(selectedList.join("|"))
                               }}
                               placeholder="Find Preferred Location"
                             />
@@ -1289,7 +1242,7 @@ function OrganisationAllJobs(props) {
                                   <button
                                     type="button"
                                     className="absolute right-[0] top-[-5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded"
-                                    onClick={(e) => delLang(i)}
+                                    onClick={e => delLang(i)}
                                   >
                                     <i className="fa-solid fa-xmark"></i>
                                   </button>
@@ -1343,15 +1296,15 @@ function OrganisationAllJobs(props) {
                               showArrow={true}
                               closeOnSelect={true}
                               selectedValues={rskill && rskill.split(",")}
-                              onSearch={(value) => {
-                                setload(true);
-                                searchSkill(value);
+                              onSearch={value => {
+                                setload(true)
+                                searchSkill(value)
                               }}
                               onSelect={(selectedList, selectedItem) => {
-                                setrSkill(selectedList.join(","));
+                                setrSkill(selectedList.join(","))
                               }}
                               onRemove={(selectedList, selectedItem) => {
-                                setrSkill(selectedList.join(","));
+                                setrSkill(selectedList.join(","))
                               }}
                               placeholder="Find Recommended Skills"
                             />
@@ -1379,15 +1332,15 @@ function OrganisationAllJobs(props) {
                               showArrow={true}
                               closeOnSelect={true}
                               selectedValues={pskill && pskill.split(",")}
-                              onSearch={(value) => {
-                                setload(true);
-                                searchpSkill(value);
+                              onSearch={value => {
+                                setload(true)
+                                searchpSkill(value)
                               }}
                               onSelect={(selectedList, selectedItem) => {
-                                setpSkill(selectedList.join(","));
+                                setpSkill(selectedList.join(","))
                               }}
                               onRemove={(selectedList, selectedItem) => {
-                                setpSkill(selectedList.join(","));
+                                setpSkill(selectedList.join(","))
                               }}
                               placeholder="Find Preffered Skills"
                             />
@@ -1404,7 +1357,7 @@ function OrganisationAllJobs(props) {
                               type="text"
                               className="w-full rounded-full border-slate-300"
                               value={qf}
-                              onChange={(e) => setQf(e.target.value)}
+                              onChange={e => setQf(e.target.value)}
                             />
                           </div>
                         </div>
@@ -1414,7 +1367,7 @@ function OrganisationAllJobs(props) {
                       <button
                         type="submit"
                         className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mr-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                        onClick={(e) => apply("Review")}
+                        onClick={e => apply("Review")}
                       >
                         {/* {loader && (
                           <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
@@ -1424,7 +1377,7 @@ function OrganisationAllJobs(props) {
                       <button
                         type="submit"
                         className="border border-[#6D27F9] font-bold rounded-full py-2.5 px-6 my-2 mr-6 text-sm hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
-                        onClick={(e) => apply("Draft")}
+                        onClick={e => apply("Draft")}
                       >
                         {loader && (
                           <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
@@ -1941,10 +1894,10 @@ function OrganisationAllJobs(props) {
                               selectionLimit={1}
                               selectedValues={alang && alang.split(",")}
                               onSelect={(selectedList, selectedItem) => {
-                                setALang(selectedItem);
+                                setALang(selectedItem)
                               }}
                               onRemove={(selectedList, selectedItem) => {
-                                setALang(null);
+                                setALang(null)
                               }}
                               placeholder="Find Language"
                             />
@@ -1981,10 +1934,10 @@ function OrganisationAllJobs(props) {
                               selectionLimit={1}
                               // selectedValues = {yearsOfExp && yearsOfExp.split(',')}
                               onSelect={(selectedList, selectedItem) => {
-                                setAProf(selectedItem);
+                                setAProf(selectedItem)
                               }}
                               onRemove={(selectedList, selectedItem) => {
-                                setAProf(null);
+                                setAProf(null)
                               }}
                               placeholder="Find Preferred Profeciency"
                             />
@@ -1994,7 +1947,7 @@ function OrganisationAllJobs(props) {
                               type="button"
                               className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
                               disabled={!verifyLangPopup()}
-                              onClick={(e) => saveLang(e)}
+                              onClick={e => saveLang(e)}
                             >
                               {loader && (
                                 <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
@@ -2013,7 +1966,5 @@ function OrganisationAllJobs(props) {
         </>
       )}
     </>
-  );
+  )
 }
-
-export default withAuth(3 * 60)(OrganisationAllJobs);

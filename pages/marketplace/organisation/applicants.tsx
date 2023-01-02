@@ -1,92 +1,80 @@
 //@ts-nocheck
-import Link from "next/link";
-import { Fragment, useEffect, useRef, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import Sidebar from "../../../components/org-sidebar";
-import { withAuth } from "../../../constants/HOCs";
-import shallow from "zustand/shallow";
-import { useStore } from "../../../constants/code";
-import toastcomp from "../../../components/toast";
-import axios from "axios";
-import Multiselect from "multiselect-react-dropdown";
+import { Fragment, useEffect, useRef, useState } from "react"
+import { Dialog, Transition } from "@headlessui/react"
+import Sidebar from "../../../components/org-sidebar"
+import shallow from "zustand/shallow"
+import { useStore } from "../../../constants/code"
+import toastcomp from "../../../components/toast"
+import Multiselect from "multiselect-react-dropdown"
+import { axiosInstanceAuth } from "../../api/axiosApi"
 
-function OrganisationApplicants(props) {
-  const { session, router } = props;
-  const [shareCandidate, shareCandidatePopupOpen] = useState(false);
-  const cancelButtonRef = useRef(null);
+export default function OrganisationApplicants(props) {
+  const { session, router } = props
+  const [shareCandidate, shareCandidatePopupOpen] = useState(false)
+  const cancelButtonRef = useRef(null)
 
   const [userName, updateUserName] = useStore(
-    (state) => [state.userName, state.updateUserName],
+    state => [state.userName, state.updateUserName],
     shallow
-  );
+  )
 
   const [userImg, updateUserImg] = useStore(
-    (state) => [state.userImg, state.updateUserImg],
+    state => [state.userImg, state.updateUserImg],
     shallow
-  );
+  )
 
   const [userType, updateUserType] = useStore(
-    (state) => [state.userType, state.updateUserType],
+    state => [state.userType, state.updateUserType],
     shallow
-  );
+  )
 
   const [userObj, updateUserObj] = useStore(
-    (state) => [state.userObj, state.updateUserObj],
+    state => [state.userObj, state.updateUserObj],
     shallow
-  );
+  )
 
   const [userProfile, updateUserProfile] = useStore(
-    (state) => [state.userProfile, state.updateUserProfile],
+    state => [state.userProfile, state.updateUserProfile],
     shallow
-  );
+  )
 
   const [accessToken, updateAccessToken] = useStore(
-    (state) => [state.accessToken, state.updateAccessToken],
+    state => [state.accessToken, state.updateAccessToken],
     shallow
-  );
+  )
 
   const [param1, updateParam1] = useStore(
-    (state) => [state.param1, state.updateParam1],
+    state => [state.param1, state.updateParam1],
     shallow
-  );
+  )
 
-  const [applicant, setApplicant] = useState([]);
-  const [name, setName] = useState("");
-  const [fname, setFName] = useState("");
-  const [dept, setdept] = useState("");
-  const [check, setCheck] = useState([]);
+  const [applicant, setApplicant] = useState([])
+  const [name, setName] = useState("")
+  const [fname, setFName] = useState("")
+  const [dept, setdept] = useState("")
+  const [check, setCheck] = useState([])
 
-  const [email, setemail] = useState("");
+  const [email, setemail] = useState("")
   // const [clist,setclist] = useState('')
 
   function verifySharePopup() {
-    return email.length > 0 && check.length > 0;
+    return email.length > 0 && check.length > 0
   }
   //axios auth var
-  const axiosInstanceAuth2 = axios.create({
-    baseURL:
-      process.env.NODE_ENV === "production"
-        ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-        : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const axiosInstanceAuth2 = axiosInstanceAuth(accessToken)
 
   async function loadApplicant(orefid) {
     await axiosInstanceAuth2
       .get("/job/applicants/alls/" + orefid + "/")
-      .then(async (res) => {
-        setApplicant(res.data);
+      .then(async res => {
+        setApplicant(res.data)
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(err => {
+        console.log(err)
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Applicant Fetch Error", "error");
+          toastcomp("Applicant Fetch Error", "error")
         }
-      });
+      })
   }
 
   async function loadApplicantF(orefid) {
@@ -94,63 +82,63 @@ function OrganisationApplicants(props) {
       .get(
         `/job/applicants/alls/${orefid}/?user__first_name=${name}&job__dept=${dept}`
       )
-      .then(async (res) => {
-        setApplicant(res.data);
+      .then(async res => {
+        setApplicant(res.data)
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(err => {
+        console.log(err)
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Applicant F Fetch Error", "error");
+          toastcomp("Applicant F Fetch Error", "error")
         }
-      });
+      })
   }
 
   async function sharetoClient() {
-    var f = new FormData();
-    f.append("email", email);
-    f.append("applicant", check.toString());
+    var f = new FormData()
+    f.append("email", email)
+    f.append("applicant", check.toString())
     await axiosInstanceAuth2
       .post(`/job/agency/${userObj["orefid"]}/`, f)
-      .then(async (res) => {
-        toastcomp("Link & Password Send To The Client", "success");
-        shareCandidatePopupOpen(false);
+      .then(async res => {
+        toastcomp("Link & Password Send To The Client", "success")
+        shareCandidatePopupOpen(false)
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(err => {
+        console.log(err)
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Applicant F Fetch Error", "error");
+          toastcomp("Applicant F Fetch Error", "error")
         }
-      });
+      })
   }
 
   useEffect(() => {
     if (!session) {
-      router.push("/");
+      router.push("/")
     } else if (session && userObj) {
-      loadApplicant(userObj["orefid"]);
+      loadApplicant(userObj["orefid"])
     }
-  }, [session, userObj]);
+  }, [session, userObj])
 
   useEffect(() => {
-    loadApplicantF(userObj["orefid"]);
-  }, [fname, dept]);
+    loadApplicantF(userObj["orefid"])
+  }, [fname, dept])
 
   function getColor(status) {
     if (status == "Hired") {
-      return "#008767";
+      return "#008767"
     } else if (status == "Rejected") {
-      return "#DF0404";
+      return "#DF0404"
     } else if (status == "On Hold") {
-      return "#efb800";
+      return "#efb800"
     } else {
-      return "";
+      return ""
     }
   }
 
   function viewApplicant(id) {
-    id = id.toUpperCase();
-    updateParam1(id);
-    router.push(`/marketplace/organisation/applicant/${id}`);
+    id = id.toUpperCase()
+    updateParam1(id)
+    router.push(`/marketplace/organisation/applicant/${id}`)
   }
 
   return (
@@ -172,8 +160,8 @@ function OrganisationApplicants(props) {
                           placeholder="JA no, Job Title, Location, Name"
                           className="w-full rounded-full border-slate-300"
                           value={name}
-                          onChange={(e) => setName(e.target.value)}
-                          onBlur={(e) => setFName(e.target.value)}
+                          onChange={e => setName(e.target.value)}
+                          onBlur={e => setFName(e.target.value)}
                         />
                         <i className="fa-solid fa-search iconGroup__icon"></i>
                       </div>
@@ -218,10 +206,10 @@ function OrganisationApplicants(props) {
                         showArrow={true}
                         closeOnSelect={true}
                         onSelect={(selectedList, selectedItem) => {
-                          setdept(selectedList.join(","));
+                          setdept(selectedList.join(","))
                         }}
                         onRemove={(selectedList, selectedItem) => {
-                          setdept(selectedList.join(","));
+                          setdept(selectedList.join(","))
                         }}
                         placeholder="Find Department"
                       />
@@ -265,26 +253,26 @@ function OrganisationApplicants(props) {
                                 <input
                                   type="checkbox"
                                   className="w-[12px] h-[12px]"
-                                  onChange={(e) => {
-                                    let arr2 = applicant;
-                                    let arr = [];
+                                  onChange={e => {
+                                    let arr2 = applicant
+                                    let arr = []
                                     if (e.target.checked) {
                                       for (let i = 0; i < arr2.length; i++) {
                                         document.getElementById(
                                           `cb${arr2[i]["arefid"]}`
-                                        ).checked = true;
+                                        ).checked = true
                                         if (!arr.includes(arr2[i]["arefid"])) {
-                                          arr.push(arr2[i]["arefid"]);
+                                          arr.push(arr2[i]["arefid"])
                                         }
                                       }
-                                      setCheck(arr);
+                                      setCheck(arr)
                                     } else {
                                       for (let i = 0; i < arr2.length; i++) {
                                         document.getElementById(
                                           `cb${arr2[i]["arefid"]}`
-                                        ).checked = false;
+                                        ).checked = false
                                       }
-                                      setCheck([]);
+                                      setCheck([])
                                     }
                                   }}
                                 />
@@ -317,15 +305,15 @@ function OrganisationApplicants(props) {
                                     type="checkbox"
                                     className="w-[12px] h-[12px]"
                                     id={`cb${data.arefid}`}
-                                    onChange={(e) => {
-                                      let arr = check;
+                                    onChange={e => {
+                                      let arr = check
                                       if (
                                         !e.target.checked &&
                                         arr.includes(data.arefid)
                                       ) {
                                         for (let i = 0; i < arr.length; i++) {
                                           if (arr[i] === data.arefid) {
-                                            arr.splice(i, 1);
+                                            arr.splice(i, 1)
                                           }
                                         }
                                       } else if (
@@ -333,9 +321,9 @@ function OrganisationApplicants(props) {
                                         arr.includes(data.arefid)
                                       ) {
                                       } else {
-                                        arr.push(data.arefid);
+                                        arr.push(data.arefid)
                                       }
-                                      setCheck(arr);
+                                      setCheck(arr)
                                     }}
                                   />
                                 </td>
@@ -377,8 +365,8 @@ function OrganisationApplicants(props) {
                                         data.status
                                       )}`,
                                     }}
-                                    onClick={(e) => {
-                                      console.log(check);
+                                    onClick={e => {
+                                      console.log(check)
                                     }}
                                   >
                                     {data.status}
@@ -389,7 +377,7 @@ function OrganisationApplicants(props) {
                               </td>
                               <td className="p-3 text-center">
                                 <button
-                                  onClick={(e) => viewApplicant(data.arefid)}
+                                  onClick={e => viewApplicant(data.arefid)}
                                   className="text-[#6D27F9] hover:underline hover:text-black"
                                 >
                                   View
@@ -401,10 +389,10 @@ function OrganisationApplicants(props) {
                                     type="button"
                                     className="text-[#6D27F9]"
                                     onClick={() => {
-                                      let arr = [];
-                                      arr.push(data.arefid);
-                                      setCheck(arr);
-                                      shareCandidatePopupOpen(true);
+                                      let arr = []
+                                      arr.push(data.arefid)
+                                      setCheck(arr)
+                                      shareCandidatePopupOpen(true)
                                     }}
                                   >
                                     <i className="fa-solid fa-share-nodes"></i>
@@ -477,7 +465,7 @@ function OrganisationApplicants(props) {
                             type="text"
                             className="w-full rounded-full border-slate-300"
                             value={email}
-                            onChange={(e) => setemail(e.target.value)}
+                            onChange={e => setemail(e.target.value)}
                           />
                         </div>
                         <div className="mb-6">
@@ -515,7 +503,5 @@ function OrganisationApplicants(props) {
         </>
       )}
     </>
-  );
+  )
 }
-
-export default withAuth(3 * 60)(OrganisationApplicants);

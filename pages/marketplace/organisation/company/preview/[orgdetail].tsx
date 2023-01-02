@@ -1,82 +1,82 @@
-import Image from "next/image";
-import JobCard from "../../../../../components/job-card";
-import { useRouter } from "next/navigation";
-import { axiosInstance } from "../../../../api/axiosApi";
-import { useStore } from "../../../../../constants/code";
-import { useEffect, useState } from "react";
-import shallow from "zustand/shallow";
-import Link from "next/link";
-import React from "react";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import Image from "next/image"
+import JobCard from "../../../../../components/job-card"
+import { useRouter } from "next/navigation"
+import { axiosInstance } from "../../../../api/axiosApi"
+import { useStore } from "../../../../../constants/code"
+import { useEffect, useState } from "react"
+import shallow from "zustand/shallow"
+import Link from "next/link"
+import React from "react"
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
 
-function OrgDetail() {
-  const [orgDetail, setOrgDetail] = useState([]);
-  const [orgDetailJob, setOrgDetailJob] = useState([]);
-  const [orgDetailGallery, setOrgDetailGallery] = useState([]);
-  const [orgDetailLink, setOrgDetailLink] = useState([]);
+export default function OrgDetail() {
+  const [orgDetail, setOrgDetail] = useState([])
+  const [orgDetailJob, setOrgDetailJob] = useState([])
+  const [orgDetailGallery, setOrgDetailGallery] = useState([])
+  const [orgDetailLink, setOrgDetailLink] = useState([])
   const [param1, updateParam1] = useStore(
-    (state) => [state.param1, state.updateParam1],
+    state => [state.param1, state.updateParam1],
     shallow
-  );
+  )
   const [userType, updateUserType] = useStore(
-    (state) => [state.userType, state.updateUserType],
+    state => [state.userType, state.updateUserType],
     shallow
-  );
+  )
   const [userObj, updateUserObj] = useStore(
-    (state) => [state.userObj, state.updateUserObj],
+    state => [state.userObj, state.updateUserObj],
     shallow
-  );
-  const router = useRouter();
+  )
+  const router = useRouter()
 
   async function loadOrgDetail(id) {
     await axiosInstance
       .get("/job/company/jobdetail/" + id + "/")
-      .then(async (res) => {
-        setOrgDetailJob(res.data);
+      .then(async res => {
+        setOrgDetailJob(res.data)
       })
-      .catch((err) => {
-        router.push("/marketplace/organisation");
-      });
+      .catch(err => {
+        router.push("/marketplace/organisation")
+      })
 
     await axiosInstance
       .get("/job/company/detail/" + id + "/")
-      .then(async (res) => {
-        setOrgDetail(res.data);
+      .then(async res => {
+        setOrgDetail(res.data)
       })
-      .catch((err) => {
-        router.push("/marketplace/organisation");
-      });
+      .catch(err => {
+        router.push("/marketplace/organisation")
+      })
 
     await axiosInstance
       .get("/job/company/gallery/" + id + "/")
-      .then(async (res) => {
-        setOrgDetailGallery(res.data);
+      .then(async res => {
+        setOrgDetailGallery(res.data)
       })
-      .catch((err) => {
-        router.push("/marketplace/organisation");
-      });
+      .catch(err => {
+        router.push("/marketplace/organisation")
+      })
 
     await axiosInstance
       .get("/job/company/link/" + id + "/")
-      .then(async (res) => {
-        setOrgDetailLink(res.data);
+      .then(async res => {
+        setOrgDetailLink(res.data)
       })
-      .catch((err) => {
-        router.push("/marketplace/organisation");
-      });
+      .catch(err => {
+        router.push("/marketplace/organisation")
+      })
   }
 
   useEffect(() => {
     if (!param1) {
-      router.push("/marketplace/organisation");
+      router.push("/marketplace/organisation")
     } else {
-      loadOrgDetail(param1);
+      loadOrgDetail(param1)
     }
-  }, [param1]);
+  }, [param1])
 
   function goback() {
-    updateParam1("");
-    router.push("/marketplace/organisation");
+    updateParam1("")
+    router.push("/marketplace/organisation")
   }
 
   return (
@@ -89,7 +89,7 @@ function OrgDetail() {
                 <button
                   type="button"
                   className="rounded-full bg-black text-white p-4 mr-4 w-[25px] h-[25px] flex items-center justify-center"
-                  onClick={(e) => goback()}
+                  onClick={e => goback()}
                 >
                   <i className="fa-solid fa-arrow-left"></i>
                 </button>
@@ -254,7 +254,7 @@ function OrgDetail() {
                           <button
                             type="button"
                             onClick={() => {
-                              window.location.href = `mailto:${data.company_email}`;
+                              window.location.href = `mailto:${data.company_email}`
                             }}
                             className="border border-[#6D27F9] rounded-full py-2 px-8 text-sm text-[#6D27F9] hover:bg-gradient-to-r hover:from-[#A382E5] hover:to-[#60C3E2] hover:text-white"
                           >
@@ -320,7 +320,5 @@ function OrgDetail() {
         </>
       )}
     </>
-  );
+  )
 }
-
-export default OrgDetail;

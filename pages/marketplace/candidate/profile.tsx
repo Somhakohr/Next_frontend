@@ -1,162 +1,157 @@
 //@ts-nocheck
-import Image from "next/image";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
-import { Fragment, useEffect, useRef, useState } from "react";
-import { Combobox, Dialog, Transition } from "@headlessui/react";
-import token from "../../../public/images/token.png";
-import skillsGraphic from "../../../public/images/skills-graphic.png";
-import certificateGraphic from "../../../public/images/certificate-graphic.png";
-import educationGraphic from "../../../public/images/education-graphic.png";
-import expGraphic from "../../../public/images/exp-graphic.png";
-import achievementsGraphic from "../../../public/images/achievements-graphic.png";
-import { useStore } from "../../../constants/code";
-import shallow from "zustand/shallow";
-import { withAuth } from "../../../constants/HOCs";
-import axios from "axios";
-import toastcomp from "../../../components/toast";
-import "@rainbow-me/rainbowkit/styles.css";
-import {
-  ConnectButton,
-  getDefaultWallets,
-  RainbowKitProvider,
-} from "@rainbow-me/rainbowkit";
-import Multiselect from "multiselect-react-dropdown";
-import { Editor } from "@tinymce/tinymce-react";
+import Image from "next/image"
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs"
+import "react-tabs/style/react-tabs.css"
+import { Fragment, useEffect, useRef, useState } from "react"
+import { Dialog, Transition } from "@headlessui/react"
+import token from "../../../public/images/token.png"
+import skillsGraphic from "../../../public/images/skills-graphic.png"
+import certificateGraphic from "../../../public/images/certificate-graphic.png"
+import educationGraphic from "../../../public/images/education-graphic.png"
+import expGraphic from "../../../public/images/exp-graphic.png"
+import achievementsGraphic from "../../../public/images/achievements-graphic.png"
+import { useStore } from "../../../constants/code"
+import shallow from "zustand/shallow"
+import toastcomp from "../../../components/toast"
+import "@rainbow-me/rainbowkit/styles.css"
+import { ConnectButton } from "@rainbow-me/rainbowkit"
+import Multiselect from "multiselect-react-dropdown"
+import { Editor } from "@tinymce/tinymce-react"
 import Skeleton from "react-loading-skeleton"
 import "react-loading-skeleton/dist/skeleton.css"
+import { axiosInstance, axiosInstanceAuth } from "../../api/axiosApi"
 
-function CandidateProfile(props) {
+export default function CandidateProfile(props) {
   //global var
   const [userName, updateUserName] = useStore(
-    (state) => [state.userName, state.updateUserName],
+    state => [state.userName, state.updateUserName],
     shallow
-  );
+  )
 
   const [userImg, updateUserImg] = useStore(
-    (state) => [state.userImg, state.updateUserImg],
+    state => [state.userImg, state.updateUserImg],
     shallow
-  );
+  )
 
   const [userType, updateUserType] = useStore(
-    (state) => [state.userType, state.updateUserType],
+    state => [state.userType, state.updateUserType],
     shallow
-  );
+  )
 
   const [userObj, updateUserObj] = useStore(
-    (state) => [state.userObj, state.updateUserObj],
+    state => [state.userObj, state.updateUserObj],
     shallow
-  );
+  )
 
   const [userProfile, updateUserProfile] = useStore(
-    (state) => [state.userProfile, state.updateUserProfile],
+    state => [state.userProfile, state.updateUserProfile],
     shallow
-  );
+  )
 
   const [accessToken, updateAccessToken] = useStore(
-    (state) => [state.accessToken, state.updateAccessToken],
+    state => [state.accessToken, state.updateAccessToken],
     shallow
-  );
+  )
 
   const [country, updateCountry] = useStore(
-    (state) => [state.country, state.updateCountry],
+    state => [state.country, state.updateCountry],
     shallow
-  );
+  )
 
   const [cities, updateCities] = useStore(
-    (state) => [state.cities, state.updateCities],
+    state => [state.cities, state.updateCities],
     shallow
-  );
+  )
 
   //props
-  const { router, session } = props;
+  const { router, session } = props
 
   //session check useeffect
   useEffect(() => {
     if (!session) {
-      router.push("/");
+      router.push("/")
     }
-  }, [session]);
+  }, [session])
 
   //loader
-  const [loader, setloader] = useState(false);
+  const [loader, setloader] = useState(false)
 
   //local var
-  const [langPopup, langPopupOpen] = useState(false);
-  const cancelButtonRef = useRef(null);
-  const [socialPopup, socialPopupOpen] = useState(false);
-  const [skillsPopup, skillsPopupOpen] = useState(false);
-  const [certificationPopup, certificationPopupOpen] = useState(false);
-  const [educationPopup, educationPopupOpen] = useState(false);
-  const [expPopup, expPopupOpen] = useState(false);
-  const [achievementsPopup, achievementsPopupOpen] = useState(false);
+  const [langPopup, langPopupOpen] = useState(false)
+  const cancelButtonRef = useRef(null)
+  const [socialPopup, socialPopupOpen] = useState(false)
+  const [skillsPopup, skillsPopupOpen] = useState(false)
+  const [certificationPopup, certificationPopupOpen] = useState(false)
+  const [educationPopup, educationPopupOpen] = useState(false)
+  const [expPopup, expPopupOpen] = useState(false)
+  const [achievementsPopup, achievementsPopupOpen] = useState(false)
   //local bio state
-  const [title, setTitle] = useState("");
-  const [summary, setSummary] = useState("");
-  const [preJobtype, setPreJobType] = useState("");
-  const [preLocation, setPreLocation] = useState("");
-  const [salary, setSalary] = useState("");
-  const [yearsOfExp, setYearsOfExp] = useState("");
-  const [serveNP, setServeNP] = useState(false);
-  const [noticeP, setNoticeP] = useState("");
-  const [lang, setLang] = useState([]);
-  const [alang, setALang] = useState("");
-  const [aprof, setAProf] = useState("");
-  const [ftitle, setFTitle] = useState("");
-  const [fsummary, setFSummary] = useState("");
-  const [fpreJobtype, setFPreJobType] = useState("");
-  const [fsalary, setFSalary] = useState("");
+  const [title, setTitle] = useState("")
+  const [summary, setSummary] = useState("")
+  const [preJobtype, setPreJobType] = useState("")
+  const [preLocation, setPreLocation] = useState("")
+  const [salary, setSalary] = useState("")
+  const [yearsOfExp, setYearsOfExp] = useState("")
+  const [serveNP, setServeNP] = useState(false)
+  const [noticeP, setNoticeP] = useState("")
+  const [lang, setLang] = useState([])
+  const [alang, setALang] = useState("")
+  const [aprof, setAProf] = useState("")
+  const [ftitle, setFTitle] = useState("")
+  const [fsummary, setFSummary] = useState("")
+  const [fpreJobtype, setFPreJobType] = useState("")
+  const [fsalary, setFSalary] = useState("")
   //local social state
-  const [link, setLink] = useState([]);
-  const [atitle, setATitle] = useState("");
+  const [link, setLink] = useState([])
+  const [atitle, setATitle] = useState("")
   //local resume state
-  const [resume, setResume] = useState([]);
-  const [uresume, setUResume] = useState();
-  const [utitle, setUTitle] = useState("");
-  const [urtitle, setURTitle] = useState("");
-  const [furtitle, setFURTitle] = useState("");
-  const [rid, setRId] = useState(0);
+  const [resume, setResume] = useState([])
+  const [uresume, setUResume] = useState()
+  const [utitle, setUTitle] = useState("")
+  const [urtitle, setURTitle] = useState("")
+  const [furtitle, setFURTitle] = useState("")
+  const [rid, setRId] = useState(0)
   //local skill state
-  const [skill, setSkill] = useState([]);
-  const [stitle, setSTitle] = useState("");
-  const [sprf, setSProf] = useState("");
-  const [sset, setSSet] = useState("");
+  const [skill, setSkill] = useState([])
+  const [stitle, setSTitle] = useState("")
+  const [sprf, setSProf] = useState("")
+  const [sset, setSSet] = useState("")
   //local certification state
-  const [cert, setCert] = useState([]);
-  const [cname, setCName] = useState("");
-  const [corg, setCOrg] = useState("");
-  const [cexp, setCExp] = useState(false);
-  const [cidate, setCIDate] = useState("");
-  const [cedate, setCEDate] = useState("");
-  const [cid, setCId] = useState("");
-  const [curl, setCUrl] = useState("");
+  const [cert, setCert] = useState([])
+  const [cname, setCName] = useState("")
+  const [corg, setCOrg] = useState("")
+  const [cexp, setCExp] = useState(false)
+  const [cidate, setCIDate] = useState("")
+  const [cedate, setCEDate] = useState("")
+  const [cid, setCId] = useState("")
+  const [curl, setCUrl] = useState("")
   //local education state
-  const [edu, setEdu] = useState([]);
-  const [ename, setEName] = useState("");
-  const [eorg, setEOrg] = useState("");
-  const [esdate, setESDate] = useState("");
-  const [eedate, setEEDate] = useState("");
-  const [eabout, setEAbout] = useState("");
+  const [edu, setEdu] = useState([])
+  const [ename, setEName] = useState("")
+  const [eorg, setEOrg] = useState("")
+  const [esdate, setESDate] = useState("")
+  const [eedate, setEEDate] = useState("")
+  const [eabout, setEAbout] = useState("")
   //local exp state
-  const [exp, setExp] = useState([]);
-  const [exname, setEXName] = useState("");
-  const [exorg, setEXOrg] = useState("");
-  const [exexp, setEXExp] = useState(false);
-  const [exsdate, setEXSDate] = useState("");
-  const [exedate, setEXEDate] = useState("");
-  const [exabout, setEXAbout] = useState("");
-  const [extype, setEXType] = useState("");
+  const [exp, setExp] = useState([])
+  const [exname, setEXName] = useState("")
+  const [exorg, setEXOrg] = useState("")
+  const [exexp, setEXExp] = useState(false)
+  const [exsdate, setEXSDate] = useState("")
+  const [exedate, setEXEDate] = useState("")
+  const [exabout, setEXAbout] = useState("")
+  const [extype, setEXType] = useState("")
   //local achievment state
-  const [achieve, setAchieve] = useState([]);
-  const [amtitle, setAMTitle] = useState("");
-  const [amdesc, setAMDesc] = useState("");
+  const [achieve, setAchieve] = useState([])
+  const [amtitle, setAMTitle] = useState("")
+  const [amdesc, setAMDesc] = useState("")
 
   //local fun
   function verifyLangPopup() {
-    return alang && alang.length > 0 && aprof && aprof.length > 0 && !loader;
+    return alang && alang.length > 0 && aprof && aprof.length > 0 && !loader
   }
   function verifyLinkPopup() {
-    return atitle.length > 0 && !loader;
+    return atitle.length > 0 && !loader
   }
   function verifySkillPopup() {
     return (
@@ -167,7 +162,7 @@ function CandidateProfile(props) {
       sset &&
       sset.length > 0 &&
       !loader
-    );
+    )
   }
   function verifyCertPopup() {
     return (
@@ -178,7 +173,7 @@ function CandidateProfile(props) {
       curl.length > 0 &&
       (cexp || cedate.length > 0) &&
       !loader
-    );
+    )
   }
   function verifyEduPopup() {
     return (
@@ -188,7 +183,7 @@ function CandidateProfile(props) {
       eedate.length > 0 &&
       eabout.length > 0 &&
       !loader
-    );
+    )
   }
   function verifyExpPopup() {
     return (
@@ -200,39 +195,29 @@ function CandidateProfile(props) {
       extype.length > 0 &&
       (exexp || exedate.length > 0) &&
       !loader
-    );
+    )
   }
   function verifyAchievePopup() {
-    return amtitle.length > 0 && amdesc.length > 0 && !loader;
+    return amtitle.length > 0 && amdesc.length > 0 && !loader
   }
 
   //axios auth var
-  const axiosInstanceAuth2 = axios.create({
-    baseURL:
-      process.env.NODE_ENV === "production"
-        ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-        : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: 10000,
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const axiosInstanceAuth2 = axiosInstanceAuth(accessToken)
 
   async function loadLang() {
     await axiosInstanceAuth2
       .get("/candidate/listlang/" + userObj["erefid"] + "/")
-      .then(async (res) => {
-        setLang(res.data);
-        langPopupOpen(false);
+      .then(async res => {
+        setLang(res.data)
+        langPopupOpen(false)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Lang Not Loaded", "error");
+          toastcomp("Lang Not Loaded", "error")
         }
-        console.log(err);
-        langPopupOpen(false);
-      });
+        console.log(err)
+        langPopupOpen(false)
+      })
   }
 
   async function deleteLang(val) {
@@ -244,60 +229,60 @@ function CandidateProfile(props) {
           val +
           "/delete/"
       )
-      .then(async (res) => {
-        toastcomp("Spoken Lang Deleted", "success");
-        loadLang();
+      .then(async res => {
+        toastcomp("Spoken Lang Deleted", "success")
+        loadLang()
       })
-      .catch((err) => {
-        toastcomp("Spoken Lang Not Deleted", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Spoken Lang Not Deleted", "error")
+        console.log(err)
+      })
   }
 
   async function addLang(formdata) {
-    setloader(true);
+    setloader(true)
     await axiosInstanceAuth2
       .post("/candidate/candidatelanguage/" + userObj["erefid"] + "/", formdata)
-      .then(async (res) => {
-        toastcomp("Spoken Lang Added", "success");
-        loadLang();
-        setloader(false);
+      .then(async res => {
+        toastcomp("Spoken Lang Added", "success")
+        loadLang()
+        setloader(false)
       })
-      .catch((err) => {
-        toastcomp("Spoken Lang Not Added", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Spoken Lang Not Added", "error")
+        console.log(err)
+      })
   }
 
   async function loadLink() {
     await axiosInstanceAuth2
       .get("/candidate/listlink/" + userObj["erefid"] + "/")
-      .then(async (res) => {
-        setLink(res.data);
-        socialPopupOpen(false);
+      .then(async res => {
+        setLink(res.data)
+        socialPopupOpen(false)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Link Not Loaded", "error");
+          toastcomp("Link Not Loaded", "error")
         }
-        console.log(err);
-        socialPopupOpen(false);
-      });
+        console.log(err)
+        socialPopupOpen(false)
+      })
   }
 
   async function addLink(formdata) {
-    setloader(true);
+    setloader(true)
     await axiosInstanceAuth2
       .post("/candidate/candidatelink/" + userObj["erefid"] + "/", formdata)
-      .then(async (res) => {
-        toastcomp("Social Link Added", "success");
-        loadLink();
-        setloader(false);
+      .then(async res => {
+        toastcomp("Social Link Added", "success")
+        loadLink()
+        setloader(false)
       })
-      .catch((err) => {
-        toastcomp("Link Not Added", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Link Not Added", "error")
+        console.log(err)
+      })
   }
 
   async function deleteLink(val) {
@@ -305,41 +290,41 @@ function CandidateProfile(props) {
       .delete(
         "/candidate/candidatelink/" + userObj["erefid"] + "/" + val + "/delete/"
       )
-      .then(async (res) => {
-        toastcomp("Link Deleted", "success");
-        loadLink();
+      .then(async res => {
+        toastcomp("Link Deleted", "success")
+        loadLink()
       })
-      .catch((err) => {
-        toastcomp("Link Not Deleted", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Link Not Deleted", "error")
+        console.log(err)
+      })
   }
 
   async function loadReume() {
     await axiosInstanceAuth2
       .get("/candidate/listresume/" + userObj["erefid"] + "/")
-      .then(async (res) => {
-        setResume(res.data);
+      .then(async res => {
+        setResume(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Resume Not Loaded", "error");
+          toastcomp("Resume Not Loaded", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function addResume(formdata) {
     await axiosInstanceAuth2
       .post("/candidate/candidateresume/" + userObj["erefid"] + "/", formdata)
-      .then(async (res) => {
-        toastcomp("Resume Added", "success");
-        loadReume();
+      .then(async res => {
+        toastcomp("Resume Added", "success")
+        loadReume()
       })
-      .catch((err) => {
-        toastcomp("Resume Not Added", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Resume Not Added", "error")
+        console.log(err)
+      })
   }
 
   async function addResumeHeadline(formdata, val) {
@@ -352,14 +337,14 @@ function CandidateProfile(props) {
           "/update/",
         formdata
       )
-      .then(async (res) => {
-        toastcomp("Resume Headline Updated", "success");
-        loadReume();
+      .then(async res => {
+        toastcomp("Resume Headline Updated", "success")
+        loadReume()
       })
-      .catch((err) => {
-        toastcomp("Resume Headline Not Added", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Resume Headline Not Added", "error")
+        console.log(err)
+      })
   }
 
   async function deleteResume(val) {
@@ -371,45 +356,45 @@ function CandidateProfile(props) {
           val +
           "/delete/"
       )
-      .then(async (res) => {
-        toastcomp("Resume Deleted", "success");
-        loadReume();
+      .then(async res => {
+        toastcomp("Resume Deleted", "success")
+        loadReume()
       })
-      .catch((err) => {
-        toastcomp("Resume Not Deleted", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Resume Not Deleted", "error")
+        console.log(err)
+      })
   }
 
   async function loadSkill() {
     await axiosInstanceAuth2
       .get("/candidate/listskill/" + userObj["erefid"] + "/")
-      .then(async (res) => {
-        setSkill(res.data);
-        skillsPopupOpen(false);
+      .then(async res => {
+        setSkill(res.data)
+        skillsPopupOpen(false)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Skills Not Loaded", "error");
+          toastcomp("Skills Not Loaded", "error")
         }
-        console.log(err);
-        skillsPopupOpen(false);
-      });
+        console.log(err)
+        skillsPopupOpen(false)
+      })
   }
 
   async function addSkill(formdata) {
-    setloader(true);
+    setloader(true)
     await axiosInstanceAuth2
       .post("/candidate/candidateskill/" + userObj["erefid"] + "/", formdata)
-      .then(async (res) => {
-        toastcomp("Skill Added", "success");
-        loadSkill();
-        setloader(false);
+      .then(async res => {
+        toastcomp("Skill Added", "success")
+        loadSkill()
+        setloader(false)
       })
-      .catch((err) => {
-        toastcomp("Skill Not Added", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Skill Not Added", "error")
+        console.log(err)
+      })
   }
 
   async function deleteSkill(val) {
@@ -421,48 +406,48 @@ function CandidateProfile(props) {
           val +
           "/delete/"
       )
-      .then(async (res) => {
-        toastcomp("Skill Deleted", "success");
-        loadSkill();
+      .then(async res => {
+        toastcomp("Skill Deleted", "success")
+        loadSkill()
       })
-      .catch((err) => {
-        toastcomp("Skill Not Deleted", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Skill Not Deleted", "error")
+        console.log(err)
+      })
   }
 
   async function loadCertification() {
     await axiosInstanceAuth2
       .get("/candidate/listcertificate/" + userObj["erefid"] + "/")
-      .then(async (res) => {
-        setCert(res.data);
-        certificationPopupOpen(false);
+      .then(async res => {
+        setCert(res.data)
+        certificationPopupOpen(false)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Certification Not Loaded", "error");
+          toastcomp("Certification Not Loaded", "error")
         }
-        console.log(err);
-        certificationPopupOpen(false);
-      });
+        console.log(err)
+        certificationPopupOpen(false)
+      })
   }
 
   async function addCertification(formdata) {
-    setloader(true);
+    setloader(true)
     await axiosInstanceAuth2
       .post(
         "/candidate/candidatecertificate/" + userObj["erefid"] + "/",
         formdata
       )
-      .then(async (res) => {
-        toastcomp("Certificate Added", "success");
-        loadCertification();
-        setloader(false);
+      .then(async res => {
+        toastcomp("Certificate Added", "success")
+        loadCertification()
+        setloader(false)
       })
-      .catch((err) => {
-        toastcomp("Certificate Not Added", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Certificate Not Added", "error")
+        console.log(err)
+      })
   }
 
   async function deleteCertification(val) {
@@ -474,48 +459,48 @@ function CandidateProfile(props) {
           val +
           "/delete/"
       )
-      .then(async (res) => {
-        toastcomp("Certificate Deleted", "success");
-        loadCertification();
+      .then(async res => {
+        toastcomp("Certificate Deleted", "success")
+        loadCertification()
       })
-      .catch((err) => {
-        toastcomp("Certificate Not Deleted", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Certificate Not Deleted", "error")
+        console.log(err)
+      })
   }
 
   async function loadEducation() {
     await axiosInstanceAuth2
       .get("/candidate/listeducation/" + userObj["erefid"] + "/")
-      .then(async (res) => {
-        setEdu(res.data);
-        educationPopupOpen(false);
+      .then(async res => {
+        setEdu(res.data)
+        educationPopupOpen(false)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Education Not Loaded", "error");
+          toastcomp("Education Not Loaded", "error")
         }
-        console.log(err);
-        educationPopupOpen(false);
-      });
+        console.log(err)
+        educationPopupOpen(false)
+      })
   }
 
   async function addEducation(formdata) {
-    setloader(true);
+    setloader(true)
     await axiosInstanceAuth2
       .post(
         "/candidate/candidateeducation/" + userObj["erefid"] + "/",
         formdata
       )
-      .then(async (res) => {
-        toastcomp("Education Added", "success");
-        loadEducation();
-        setloader(false);
+      .then(async res => {
+        toastcomp("Education Added", "success")
+        loadEducation()
+        setloader(false)
       })
-      .catch((err) => {
-        toastcomp("Education Not Added", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Education Not Added", "error")
+        console.log(err)
+      })
   }
 
   async function deleteEducation(val) {
@@ -527,48 +512,48 @@ function CandidateProfile(props) {
           val +
           "/delete/"
       )
-      .then(async (res) => {
-        toastcomp("Education Deleted", "success");
-        loadEducation();
+      .then(async res => {
+        toastcomp("Education Deleted", "success")
+        loadEducation()
       })
-      .catch((err) => {
-        toastcomp("Education Not Deleted", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Education Not Deleted", "error")
+        console.log(err)
+      })
   }
 
   async function loadExperience() {
     await axiosInstanceAuth2
       .get("/candidate/listexperience/" + userObj["erefid"] + "/")
-      .then(async (res) => {
-        setExp(res.data);
-        expPopupOpen(false);
+      .then(async res => {
+        setExp(res.data)
+        expPopupOpen(false)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Exp Not Loaded", "error");
+          toastcomp("Exp Not Loaded", "error")
         }
-        console.log(err);
-        expPopupOpen(false);
-      });
+        console.log(err)
+        expPopupOpen(false)
+      })
   }
 
   async function addExperience(formdata) {
-    setloader(true);
+    setloader(true)
     await axiosInstanceAuth2
       .post(
         "/candidate/candidateexperience/" + userObj["erefid"] + "/",
         formdata
       )
-      .then(async (res) => {
-        toastcomp("Experience Added", "success");
-        loadExperience();
-        setloader(false);
+      .then(async res => {
+        toastcomp("Experience Added", "success")
+        loadExperience()
+        setloader(false)
       })
-      .catch((err) => {
-        toastcomp("Experience Not Added", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Experience Not Added", "error")
+        console.log(err)
+      })
   }
 
   async function deleteExperience(val) {
@@ -580,48 +565,48 @@ function CandidateProfile(props) {
           val +
           "/delete/"
       )
-      .then(async (res) => {
-        toastcomp("Experience Deleted", "success");
-        loadExperience();
+      .then(async res => {
+        toastcomp("Experience Deleted", "success")
+        loadExperience()
       })
-      .catch((err) => {
-        toastcomp("Experience Not Deleted", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Experience Not Deleted", "error")
+        console.log(err)
+      })
   }
 
   async function loadAchieve() {
     await axiosInstanceAuth2
       .get("/candidate/listachievement/" + userObj["erefid"] + "/")
-      .then(async (res) => {
-        setAchieve(res.data);
-        achievementsPopupOpen(false);
+      .then(async res => {
+        setAchieve(res.data)
+        achievementsPopupOpen(false)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Achieve Not Loaded", "error");
+          toastcomp("Achieve Not Loaded", "error")
         }
-        console.log(err);
-        achievementsPopupOpen(false);
-      });
+        console.log(err)
+        achievementsPopupOpen(false)
+      })
   }
 
   async function addAchieve(formdata) {
-    setloader(true);
+    setloader(true)
     await axiosInstanceAuth2
       .post(
         "/candidate/candidateachievement/" + userObj["erefid"] + "/",
         formdata
       )
-      .then(async (res) => {
-        toastcomp("Achievement Added", "success");
-        loadAchieve();
-        setloader(false);
+      .then(async res => {
+        toastcomp("Achievement Added", "success")
+        loadAchieve()
+        setloader(false)
       })
-      .catch((err) => {
-        toastcomp("Achievement Not Added", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Achievement Not Added", "error")
+        console.log(err)
+      })
   }
 
   async function deleteAchieve(val) {
@@ -633,61 +618,61 @@ function CandidateProfile(props) {
           val +
           "/delete/"
       )
-      .then(async (res) => {
-        toastcomp("Achievement Deleted", "success");
-        loadAchieve();
+      .then(async res => {
+        toastcomp("Achievement Deleted", "success")
+        loadAchieve()
       })
-      .catch((err) => {
-        toastcomp("Achievement Not Deleted", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Achievement Not Deleted", "error")
+        console.log(err)
+      })
   }
 
   //userprofile useeffect to load values
   useEffect(() => {
     if (userProfile) {
       if (userProfile["title"]) {
-        setTitle(userProfile["title"]);
-        setFTitle(userProfile["title"]);
+        setTitle(userProfile["title"])
+        setFTitle(userProfile["title"])
       }
       if (userProfile["summary"]) {
-        setFSummary(userProfile["summary"]);
-        setSummary(userProfile["summary"]);
+        setFSummary(userProfile["summary"])
+        setSummary(userProfile["summary"])
       }
       if (userProfile["prejobtype"]) {
-        setPreJobType(userProfile["prejobtype"]);
-        setFPreJobType(userProfile["prejobtype"]);
+        setPreJobType(userProfile["prejobtype"])
+        setFPreJobType(userProfile["prejobtype"])
       }
       if (userProfile["prelocation"]) {
-        setPreLocation(userProfile["prelocation"]);
+        setPreLocation(userProfile["prelocation"])
       }
       if (userProfile["salary"]) {
-        setSalary(userProfile["salary"]);
-        setFSalary(userProfile["salary"]);
+        setSalary(userProfile["salary"])
+        setFSalary(userProfile["salary"])
       }
       if (userProfile["yearofexp"]) {
-        setYearsOfExp(userProfile["yearofexp"]);
+        setYearsOfExp(userProfile["yearofexp"])
       }
       if (userProfile["snoticeperiod"]) {
-        setServeNP(userProfile["snoticeperiod"]);
+        setServeNP(userProfile["snoticeperiod"])
       }
       if (userProfile["noticeperiod"]) {
-        setNoticeP(userProfile["noticeperiod"]);
+        setNoticeP(userProfile["noticeperiod"])
       }
 
-      loadLang();
-      loadLink();
-      loadReume();
-      loadSkill();
-      loadCertification();
-      loadEducation();
-      loadExperience();
-      loadAchieve();
+      loadLang()
+      loadLink()
+      loadReume()
+      loadSkill()
+      loadCertification()
+      loadEducation()
+      loadExperience()
+      loadAchieve()
     }
-  }, [userProfile]);
+  }, [userProfile])
 
   function isEmpty(obj) {
-    return Object.keys(obj).length === 0;
+    return Object.keys(obj).length === 0
   }
 
   //handle update user profile on BIO
@@ -695,46 +680,46 @@ function CandidateProfile(props) {
     async function saveProfile(formData) {
       await axiosInstanceAuth2
         .put("/candidate/candidatebio/" + userObj["erefid"] + "/", formData)
-        .then(async (res) => {
-          updateUserProfile(res.data);
-          toastcomp("Profile Updated", "success");
+        .then(async res => {
+          updateUserProfile(res.data)
+          toastcomp("Profile Updated", "success")
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(err => {
+          console.log(err)
           if (err.message != "Request failed with status code 401") {
-            toastcomp("Profile Not Updated", "error");
+            toastcomp("Profile Not Updated", "error")
           }
-        });
+        })
     }
     if (userProfile) {
-      var formData = new FormData();
+      var formData = new FormData()
       if (title && userProfile["title"] != title) {
-        formData.append("title", title);
+        formData.append("title", title)
       }
       if (summary && userProfile["summary"] != summary) {
-        formData.append("summary", summary);
+        formData.append("summary", summary)
       }
       if (preLocation && userProfile["prelocation"] != preLocation) {
-        formData.append("prelocation", preLocation);
+        formData.append("prelocation", preLocation)
       }
       if (salary && userProfile["salary"] != salary) {
-        formData.append("salary", salary);
+        formData.append("salary", salary)
       }
       if (preJobtype && userProfile["prejobtype"] != preJobtype) {
-        formData.append("prejobtype", preJobtype);
+        formData.append("prejobtype", preJobtype)
       }
       if (yearsOfExp && userProfile["yearofexp"] != yearsOfExp) {
-        formData.append("yearofexp", yearsOfExp);
+        formData.append("yearofexp", yearsOfExp)
       }
       if (userProfile["snoticeperiod"] != serveNP) {
-        formData.append("snoticeperiod", JSON.stringify(serveNP));
+        formData.append("snoticeperiod", JSON.stringify(serveNP))
       }
       if (userProfile["noticeperiod"] != noticeP) {
-        formData.append("noticeperiod", noticeP);
+        formData.append("noticeperiod", noticeP)
       }
 
       if (Array.from(formData.keys()).length > 0) {
-        saveProfile(formData);
+        saveProfile(formData)
       }
     }
   }, [
@@ -746,204 +731,180 @@ function CandidateProfile(props) {
     yearsOfExp,
     serveNP,
     noticeP,
-  ]);
+  ])
 
   //save spoken lang
   function saveLang(e) {
-    const formData = new FormData();
-    formData.append("title", alang);
-    formData.append("experties", aprof);
-    addLang(formData);
-    setALang("");
-    setAProf("");
+    const formData = new FormData()
+    formData.append("title", alang)
+    formData.append("experties", aprof)
+    addLang(formData)
+    setALang("")
+    setAProf("")
   }
 
   //save social media link
   function saveLink(e) {
-    const formData = new FormData();
-    formData.append("title", atitle);
-    addLink(formData);
-    setATitle("");
+    const formData = new FormData()
+    formData.append("title", atitle)
+    addLink(formData)
+    setATitle("")
   }
 
   //save resume
   useEffect(() => {
     if (uresume) {
-      const formData = new FormData();
-      formData.append("file", uresume);
-      addResume(formData);
+      const formData = new FormData()
+      formData.append("file", uresume)
+      addResume(formData)
     }
-  }, [uresume]);
+  }, [uresume])
 
   //save resume headline
   useEffect(() => {
     if (urtitle != furtitle) {
-      const formData = new FormData();
-      formData.append("title", urtitle);
-      addResumeHeadline(formData, rid);
+      const formData = new FormData()
+      formData.append("title", urtitle)
+      addResumeHeadline(formData, rid)
     }
-  }, [urtitle]);
+  }, [urtitle])
 
   useEffect(() => {
     if (resume) {
       resume.map(
-        (resume) => (
+        resume => (
           setRId(resume.id),
           setUTitle(resume.title),
           setURTitle(resume.title),
           setFURTitle(resume.title)
         )
-      );
+      )
     }
-  }, [resume]);
+  }, [resume])
 
   //save skill
   function saveSkill(e) {
     if (document.getElementById(stitle + "Skill")) {
-      loadSkill();
-      toastcomp("Skill already exist", "error");
+      loadSkill()
+      toastcomp("Skill already exist", "error")
     } else {
-      const formData = new FormData();
-      formData.append("title", stitle);
-      formData.append("experties", sprf);
-      formData.append("skill_set", sset);
-      addSkill(formData);
+      const formData = new FormData()
+      formData.append("title", stitle)
+      formData.append("experties", sprf)
+      formData.append("skill_set", sset)
+      addSkill(formData)
       // setSTitle('')
     }
   }
 
   //save certificate
   function saveCert(e) {
-    const formData = new FormData();
-    formData.append("title", cname);
-    formData.append("company", corg);
-    formData.append("yearofissue", cidate);
+    const formData = new FormData()
+    formData.append("title", cname)
+    formData.append("company", corg)
+    formData.append("yearofissue", cidate)
     if (!cexp) {
-      formData.append("yearofexp", cedate);
+      formData.append("yearofexp", cedate)
     } else {
-      formData.append("yearofexp", "");
+      formData.append("yearofexp", "")
     }
-    formData.append("creid", cid);
-    formData.append("creurl", curl);
-    addCertification(formData);
-    setCName("");
-    setCOrg("");
-    setCIDate("");
-    setCEDate("");
-    setCId("");
-    setCUrl("");
-    setCExp(false);
+    formData.append("creid", cid)
+    formData.append("creurl", curl)
+    addCertification(formData)
+    setCName("")
+    setCOrg("")
+    setCIDate("")
+    setCEDate("")
+    setCId("")
+    setCUrl("")
+    setCExp(false)
   }
 
   //save education
   function saveEdu(e) {
-    const formData = new FormData();
-    formData.append("title", ename);
-    formData.append("college", eorg);
-    formData.append("yearofjoin", esdate);
-    formData.append("yearofend", eedate);
-    formData.append("edubody", eabout);
-    addEducation(formData);
-    setEName("");
-    setEOrg("");
-    setESDate("");
-    setEEDate("");
-    setEAbout("");
+    const formData = new FormData()
+    formData.append("title", ename)
+    formData.append("college", eorg)
+    formData.append("yearofjoin", esdate)
+    formData.append("yearofend", eedate)
+    formData.append("edubody", eabout)
+    addEducation(formData)
+    setEName("")
+    setEOrg("")
+    setESDate("")
+    setEEDate("")
+    setEAbout("")
   }
 
   //save exp
   function saveExp(e) {
-    const formData = new FormData();
-    formData.append("title", exname);
-    formData.append("company", exorg);
-    formData.append("year_of_join", exsdate);
+    const formData = new FormData()
+    formData.append("title", exname)
+    formData.append("company", exorg)
+    formData.append("year_of_join", exsdate)
     if (exexp) {
-      formData.append("year_of_end", "");
+      formData.append("year_of_end", "")
     } else {
-      formData.append("year_of_end", exedate);
+      formData.append("year_of_end", exedate)
     }
-    formData.append("expbody", exabout);
-    formData.append("type", extype);
-    addExperience(formData);
-    setEXName("");
-    setEXOrg("");
-    setEXExp(false);
-    setEXSDate("");
-    setEXEDate("");
-    setEXAbout("");
-    setEXType("");
+    formData.append("expbody", exabout)
+    formData.append("type", extype)
+    addExperience(formData)
+    setEXName("")
+    setEXOrg("")
+    setEXExp(false)
+    setEXSDate("")
+    setEXEDate("")
+    setEXAbout("")
+    setEXType("")
   }
 
   //save achieve
   function saveAchieve(e) {
-    const formData = new FormData();
-    formData.append("title", amtitle);
-    formData.append("desc", amdesc);
-    addAchieve(formData);
-    setAMTitle("");
-    setAMDesc("");
+    const formData = new FormData()
+    formData.append("title", amtitle)
+    formData.append("desc", amdesc)
+    addAchieve(formData)
+    setAMTitle("")
+    setAMDesc("")
   }
 
-  const [loc, setLoc] = useState([]);
-  const [ski, setski] = useState([]);
-  const [load, setload] = useState(false);
+  const [loc, setLoc] = useState([])
+  const [ski, setski] = useState([])
+  const [load, setload] = useState(false)
 
   async function searchLoc(value) {
-    const axiosInstance22 = axios.create({
-      baseURL:
-        process.env.NODE_ENV === "production"
-          ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-          : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-      // timeout: 10000,
-      headers: {
-        // 'Authorization': "JWT " + access_token,
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
-    });
-    await axiosInstance22
+    await axiosInstance
       .get(`/job/load/location/?search=${value}`)
-      .then(async (res) => {
-        let obj = res.data;
-        let arr = [];
+      .then(async res => {
+        let obj = res.data
+        let arr = []
         for (const [key, value] of Object.entries(obj)) {
-          arr.push(value);
+          arr.push(value)
         }
-        setLoc(arr);
-        setload(false);
+        setLoc(arr)
+        setload(false)
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   async function searchSkill(value) {
-    const axiosInstance22 = axios.create({
-      baseURL:
-        process.env.NODE_ENV === "production"
-          ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-          : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-      // timeout: 10000,
-      headers: {
-        // 'Authorization': "JWT " + access_token,
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
-    });
-    await axiosInstance22
+    await axiosInstance
       .get(`/job/load/skills/?search=${value}`)
-      .then(async (res) => {
-        let obj = res.data;
-        let arr = [];
+      .then(async res => {
+        let obj = res.data
+        let arr = []
         for (const [key, value] of Object.entries(obj)) {
-          arr.push(value);
+          arr.push(value)
         }
-        setski(arr);
-        setload(false);
+        setski(arr)
+        setload(false)
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   return (
@@ -955,7 +916,7 @@ function CandidateProfile(props) {
               <div className="bg-white shadow-normal rounded-[25px] h-full flex flex-wrap">
                 <div className="w-[310px] mx-auto p-8">
                   <div className="userBgImage min-h-[268px] flex items-center justify-center">
-                    {userImg ? 
+                    {userImg ? (
                       <>
                         <Image
                           src={userImg}
@@ -964,11 +925,16 @@ function CandidateProfile(props) {
                           alt="User"
                           className="w-[220px] h-[220px] rounded-full object-cover mx-auto "
                         />
-                      </> : 
-                      <>
-                        <Skeleton width={180} height={180} style={{borderRadius: '100%', margin: '0 0 10px'}} />
                       </>
-                      }
+                    ) : (
+                      <>
+                        <Skeleton
+                          width={180}
+                          height={180}
+                          style={{ borderRadius: "100%", margin: "0 0 10px" }}
+                        />
+                      </>
+                    )}
                   </div>
                 </div>
                 <div className="w-full md:max-w-[calc(100%-310px)] p-6 xl:p-8 relative bg-gradient-to-r from-[#A382E5] to-[#60C3E2] rounded-[25px] flex items-center">
@@ -977,48 +943,50 @@ function CandidateProfile(props) {
                       {userName || <Skeleton width={200} height={25} />}
                     </h2>
                     <p className="text-white font-light text-sm mb-6">
-                      {userProfile["title"] || <Skeleton width={120} height={15} />}
+                      {userProfile["title"] || (
+                        <Skeleton width={120} height={15} />
+                      )}
                     </p>
                     <ul className="flex flex-wrap">
-                      {userObj["email"] && (
+                      {(userObj["email"] && (
                         <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1 break-all">
                           <i className="fa-solid fa-envelope xl:text-xl mr-3"></i>
                           <span className="mr-2">:</span>
                           <p>{userObj["email"]}</p>
                         </li>
-                      ) || <Skeleton width={220} style={{margin: '10px'}} />}
+                      )) || <Skeleton width={220} style={{ margin: "10px" }} />}
 
-                      {userObj["mobile"] && (
+                      {(userObj["mobile"] && (
                         <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
                           <i className="fa-solid fa-phone xl:text-xl mr-3"></i>
                           <span className="mr-2">:</span>
                           <p>{userObj["mobile"]}</p>
                         </li>
-                      ) || <Skeleton width={220} style={{margin: '10px'}} />}
+                      )) || <Skeleton width={220} style={{ margin: "10px" }} />}
 
-                      {userProfile["salary"] && (
+                      {(userProfile["salary"] && (
                         <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
                           <i className="fa-solid fa-wallet xl:text-xl mr-3"></i>
                           <span className="mr-2">:</span>
                           <p>{userProfile["salary"]}</p>
                         </li>
-                      ) || <Skeleton width={220} style={{margin: '10px'}} />}
+                      )) || <Skeleton width={220} style={{ margin: "10px" }} />}
 
-                      {userProfile["prejobtype"] && (
+                      {(userProfile["prejobtype"] && (
                         <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
                           <i className="fa-solid fa-briefcase xl:text-xl mr-3"></i>
                           <span className="mr-2">:</span>
                           <p>{userProfile["prejobtype"]}</p>
                         </li>
-                      ) || <Skeleton width={220} style={{margin: '10px'}} />}
+                      )) || <Skeleton width={220} style={{ margin: "10px" }} />}
 
-                      {userProfile["prelocation"] && (
+                      {(userProfile["prelocation"] && (
                         <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
                           <i className="fa-solid fa-location-dot xl:text-xl mr-3"></i>
                           <span className="mr-2">:</span>
                           <p>{userProfile["prelocation"]}</p>
                         </li>
-                      ) || <Skeleton width={220} style={{margin: '10px'}} />}
+                      )) || <Skeleton width={220} style={{ margin: "10px" }} />}
                     </ul>
                   </aside>
                 </div>
@@ -1056,8 +1024,8 @@ function CandidateProfile(props) {
             <div className="absolute left-0 top-[7px]">
               <button
                 type="button"
-                onClick={(e) => {
-                  router.push("/marketplace/candidate");
+                onClick={e => {
+                  router.push("/marketplace/candidate")
                 }}
                 className="rounded-full bg-black text-white p-4 mr-4 w-[25px] h-[25px] flex items-center justify-center"
               >
@@ -1090,8 +1058,8 @@ function CandidateProfile(props) {
                         type="text"
                         id="title"
                         value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        onBlur={(e) => setFTitle(e.target.value)}
+                        onChange={e => setTitle(e.target.value)}
+                        onBlur={e => setFTitle(e.target.value)}
                         placeholder="Ex: Web Developer"
                         className="w-full rounded-full border-slate-300"
                       />
@@ -1163,10 +1131,10 @@ function CandidateProfile(props) {
                           selectionLimit={1}
                           selectedValues={preJobtype && preJobtype.split(",")}
                           onSelect={(selectedList, selectedItem) => {
-                            setPreJobType(selectedItem);
+                            setPreJobType(selectedItem)
                           }}
                           onRemove={(selectedList, selectedItem) => {
-                            setPreJobType(null);
+                            setPreJobType(null)
                           }}
                           placeholder="Find Preferred Job Type"
                         />
@@ -1189,7 +1157,7 @@ function CandidateProfile(props) {
                               id="noticeServe"
                               className="mr-2"
                               checked={serveNP}
-                              onChange={(e) => setServeNP(e.target.checked)}
+                              onChange={e => setServeNP(e.target.checked)}
                             />
                             Serving or Not?
                           </label>
@@ -1220,10 +1188,10 @@ function CandidateProfile(props) {
                           selectionLimit={1}
                           selectedValues={noticeP && noticeP.split(",")}
                           onSelect={(selectedList, selectedItem) => {
-                            setNoticeP(selectedItem);
+                            setNoticeP(selectedItem)
                           }}
                           onRemove={(selectedList, selectedItem) => {
-                            setNoticeP("");
+                            setNoticeP("")
                           }}
                           placeholder="Find Notice Period In Days"
                           disable={!serveNP}
@@ -1254,16 +1222,16 @@ function CandidateProfile(props) {
                           }
                           showArrow={true}
                           closeOnSelect={true}
-                          onSearch={(value) => {
-                            setload(true);
-                            searchLoc(value);
+                          onSearch={value => {
+                            setload(true)
+                            searchLoc(value)
                           }}
                           selectedValues={preLocation && preLocation.split("|")}
                           onSelect={(selectedList, selectedItem) => {
-                            setPreLocation(selectedList.join("|"));
+                            setPreLocation(selectedList.join("|"))
                           }}
                           onRemove={(selectedList, selectedItem) => {
-                            setPreLocation(selectedList.join("|"));
+                            setPreLocation(selectedList.join("|"))
                           }}
                           placeholder="Find Preferred Location"
                         />
@@ -1293,8 +1261,8 @@ function CandidateProfile(props) {
                           type="text"
                           placeholder="Ex: 2 Lpa"
                           value={salary}
-                          onChange={(e) => setSalary(e.target.value)}
-                          onBlur={(e) => setFSalary(e.target.value)}
+                          onChange={e => setSalary(e.target.value)}
+                          onBlur={e => setFSalary(e.target.value)}
                           className="w-full rounded-full border-slate-300"
                         />
                       </div>
@@ -1335,10 +1303,10 @@ function CandidateProfile(props) {
                           selectionLimit={1}
                           selectedValues={yearsOfExp && yearsOfExp.split(",")}
                           onSelect={(selectedList, selectedItem) => {
-                            setYearsOfExp(selectedItem);
+                            setYearsOfExp(selectedItem)
                           }}
                           onRemove={(selectedList, selectedItem) => {
-                            setYearsOfExp(null);
+                            setYearsOfExp(null)
                           }}
                           placeholder="Find Preferred Experience In Years"
                         />
@@ -1391,7 +1359,7 @@ function CandidateProfile(props) {
                               <button
                                 type="button"
                                 className="absolute right-[0] top-[-5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded"
-                                onClick={(e) => deleteLang(lang.id)}
+                                onClick={e => deleteLang(lang.id)}
                               >
                                 <i className="fa-solid fa-xmark"></i>
                               </button>
@@ -1428,7 +1396,7 @@ function CandidateProfile(props) {
                               <i className="fa-solid fa-link iconGroup__icon"></i>
                               <i
                                 className="fa-solid fa-trash iconGroup__icon-delete"
-                                onClick={(e) => deleteLink(link.id)}
+                                onClick={e => deleteLink(link.id)}
                               ></i>
                             </div>
                           </div>
@@ -1458,7 +1426,7 @@ function CandidateProfile(props) {
                               id="uploadCV"
                               accept="application/pdf,application/msword,.rtf"
                               className="hidden"
-                              onChange={(e) => setUResume(e.target.files[0])}
+                              onChange={e => setUResume(e.target.files[0])}
                             />
                           </label>
                           <span className="text-[#646464] text-[12px]">
@@ -1481,7 +1449,7 @@ function CandidateProfile(props) {
                                   <button
                                     type="button"
                                     className="absolute right-0 top-0 text-red-500"
-                                    onClick={(e) => deleteResume(resume.id)}
+                                    onClick={e => deleteResume(resume.id)}
                                   >
                                     <i className="fa-solid fa-trash"></i>
                                   </button>
@@ -1520,8 +1488,8 @@ function CandidateProfile(props) {
                           placeholder="Ex: Web Developer 5 years of experence"
                           className="w-full rounded-full border-slate-300"
                           value={utitle}
-                          onChange={(e) => setUTitle(e.target.value)}
-                          onBlur={(e) => setURTitle(e.target.value)}
+                          onChange={e => setUTitle(e.target.value)}
+                          onBlur={e => setURTitle(e.target.value)}
                         />
                       </div>
                     )}
@@ -1570,7 +1538,7 @@ function CandidateProfile(props) {
                                 <button
                                   type="button"
                                   className="absolute right-[0] top-[-5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded"
-                                  onClick={(e) => deleteSkill(skill.id)}
+                                  onClick={e => deleteSkill(skill.id)}
                                 >
                                   <i className="fa-solid fa-xmark"></i>
                                 </button>
@@ -1648,7 +1616,7 @@ function CandidateProfile(props) {
                               <button
                                 type="button"
                                 className="text-red-500 mx-2"
-                                onClick={(e) => deleteCertification(cert.id)}
+                                onClick={e => deleteCertification(cert.id)}
                               >
                                 <i className="fa-solid fa-trash"></i>
                               </button>
@@ -1712,7 +1680,7 @@ function CandidateProfile(props) {
                               <button
                                 type="button"
                                 className="text-red-500 mx-2"
-                                onClick={(e) => deleteEducation(edu.id)}
+                                onClick={e => deleteEducation(edu.id)}
                               >
                                 <i className="fa-solid fa-trash"></i>
                               </button>
@@ -1784,7 +1752,7 @@ function CandidateProfile(props) {
                               <button
                                 type="button"
                                 className="text-red-500 mx-2"
-                                onClick={(e) => deleteExperience(exp.id)}
+                                onClick={e => deleteExperience(exp.id)}
                               >
                                 <i className="fa-solid fa-trash"></i>
                               </button>
@@ -1841,7 +1809,7 @@ function CandidateProfile(props) {
                               <button
                                 type="button"
                                 className="text-red-500 mx-2"
-                                onClick={(e) => deleteAchieve(achieve.id)}
+                                onClick={e => deleteAchieve(achieve.id)}
                               >
                                 <i className="fa-solid fa-trash"></i>
                               </button>
@@ -2117,10 +2085,10 @@ function CandidateProfile(props) {
                           selectionLimit={1}
                           selectedValues={alang && alang.split(",")}
                           onSelect={(selectedList, selectedItem) => {
-                            setALang(selectedItem);
+                            setALang(selectedItem)
                           }}
                           onRemove={(selectedList, selectedItem) => {
-                            setALang(null);
+                            setALang(null)
                           }}
                           placeholder="Find Language"
                         />
@@ -2157,10 +2125,10 @@ function CandidateProfile(props) {
                           selectionLimit={1}
                           // selectedValues = {yearsOfExp && yearsOfExp.split(',')}
                           onSelect={(selectedList, selectedItem) => {
-                            setAProf(selectedItem);
+                            setAProf(selectedItem)
                           }}
                           onRemove={(selectedList, selectedItem) => {
-                            setAProf(null);
+                            setAProf(null)
                           }}
                           placeholder="Find Preferred Profeciency"
                         />
@@ -2170,7 +2138,7 @@ function CandidateProfile(props) {
                           type="button"
                           className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
                           disabled={!verifyLangPopup()}
-                          onClick={(e) => saveLang(e)}
+                          onClick={e => saveLang(e)}
                         >
                           {loader && (
                             <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
@@ -2243,14 +2211,14 @@ function CandidateProfile(props) {
                           placeholder="https//www.xyzurl.com"
                           className="w-full rounded-full border-slate-300"
                           value={atitle}
-                          onChange={(e) => setATitle(e.target.value)}
+                          onChange={e => setATitle(e.target.value)}
                         />
                       </div>
                       <div className="text-center">
                         <button
                           type="button"
                           className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                          onClick={(e) => saveLink(e)}
+                          onClick={e => saveLink(e)}
                           disabled={!verifyLinkPopup()}
                         >
                           {loader && (
@@ -2336,15 +2304,15 @@ function CandidateProfile(props) {
                           showArrow={true}
                           closeOnSelect={true}
                           selectionLimit={1}
-                          onSearch={(value) => {
-                            setload(true);
-                            searchSkill(value);
+                          onSearch={value => {
+                            setload(true)
+                            searchSkill(value)
                           }}
                           onSelect={(selectedList, selectedItem) => {
-                            setSTitle(selectedItem);
+                            setSTitle(selectedItem)
                           }}
                           onRemove={(selectedList, selectedItem) => {
-                            setSTitle(null);
+                            setSTitle(null)
                           }}
                           placeholder="Find Desired Skills"
                         />
@@ -2374,10 +2342,10 @@ function CandidateProfile(props) {
                           selectionLimit={1}
                           // selectedValues = {sprf && sprf.split(',')}
                           onSelect={(selectedList, selectedItem) => {
-                            setSProf(selectedItem);
+                            setSProf(selectedItem)
                           }}
                           onRemove={(selectedList, selectedItem) => {
-                            setSProf(null);
+                            setSProf(null)
                           }}
                           placeholder="Find Preferred Profeciency"
                         />
@@ -2406,10 +2374,10 @@ function CandidateProfile(props) {
                           selectionLimit={1}
                           // selectedValues = {sprf && sprf.split(',')}
                           onSelect={(selectedList, selectedItem) => {
-                            setSSet(selectedItem);
+                            setSSet(selectedItem)
                           }}
                           onRemove={(selectedList, selectedItem) => {
-                            setSSet(null);
+                            setSSet(null)
                           }}
                           placeholder="Find Preferred Set"
                         />
@@ -2418,7 +2386,7 @@ function CandidateProfile(props) {
                         <button
                           type="button"
                           className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                          onClick={(e) => saveSkill(e)}
+                          onClick={e => saveSkill(e)}
                           disabled={!verifySkillPopup()}
                         >
                           {loader && (
@@ -2493,7 +2461,7 @@ function CandidateProfile(props) {
                             type="text"
                             className="w-full rounded-full border-slate-300"
                             value={cname}
-                            onChange={(e) => setCName(e.target.value)}
+                            onChange={e => setCName(e.target.value)}
                           />
                         </div>
                         <div className="w-full lg:w-[47%] mb-6">
@@ -2508,7 +2476,7 @@ function CandidateProfile(props) {
                             type="text"
                             className="w-full rounded-full border-slate-300"
                             value={corg}
-                            onChange={(e) => setCOrg(e.target.value)}
+                            onChange={e => setCOrg(e.target.value)}
                           />
                         </div>
                       </div>
@@ -2519,7 +2487,7 @@ function CandidateProfile(props) {
                             id="credNotExp"
                             className="mr-2 mb-1"
                             checked={cexp}
-                            onChange={(e) => setCExp(e.target.checked)}
+                            onChange={e => setCExp(e.target.checked)}
                           />
                           This credential does not expire.
                         </label>
@@ -2537,7 +2505,7 @@ function CandidateProfile(props) {
                             type="date"
                             className="w-full rounded-full border-slate-300"
                             value={cidate}
-                            onChange={(e) => setCIDate(e.target.value)}
+                            onChange={e => setCIDate(e.target.value)}
                           />
                         </div>
                         <div className="w-full lg:w-[47%] mb-6">
@@ -2552,7 +2520,7 @@ function CandidateProfile(props) {
                             type="date"
                             className="w-full rounded-full border-slate-300"
                             value={cedate}
-                            onChange={(e) => setCEDate(e.target.value)}
+                            onChange={e => setCEDate(e.target.value)}
                             disabled={cexp}
                           />
                         </div>
@@ -2570,7 +2538,7 @@ function CandidateProfile(props) {
                             type="text"
                             className="w-full rounded-full border-slate-300"
                             value={cid}
-                            onChange={(e) => setCId(e.target.value)}
+                            onChange={e => setCId(e.target.value)}
                           />
                         </div>
                         <div className="w-full lg:w-[47%] mb-6">
@@ -2585,7 +2553,7 @@ function CandidateProfile(props) {
                             type="text"
                             className="w-full rounded-full border-slate-300"
                             value={curl}
-                            onChange={(e) => setCUrl(e.target.value)}
+                            onChange={e => setCUrl(e.target.value)}
                           />
                         </div>
                       </div>
@@ -2593,7 +2561,7 @@ function CandidateProfile(props) {
                         <button
                           type="button"
                           className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                          onClick={(e) => saveCert(e)}
+                          onClick={e => saveCert(e)}
                           disabled={!verifyCertPopup()}
                         >
                           {loader && (
@@ -2668,7 +2636,7 @@ function CandidateProfile(props) {
                             type="text"
                             className="w-full rounded-full border-slate-300"
                             value={ename}
-                            onChange={(e) => setEName(e.target.value)}
+                            onChange={e => setEName(e.target.value)}
                           />
                         </div>
                         <div className="w-full lg:w-[47%] mb-6">
@@ -2683,7 +2651,7 @@ function CandidateProfile(props) {
                             type="text"
                             className="w-full rounded-full border-slate-300"
                             value={eorg}
-                            onChange={(e) => setEOrg(e.target.value)}
+                            onChange={e => setEOrg(e.target.value)}
                           />
                         </div>
                       </div>
@@ -2700,7 +2668,7 @@ function CandidateProfile(props) {
                             type="date"
                             className="w-full rounded-full border-slate-300"
                             value={esdate}
-                            onChange={(e) => setESDate(e.target.value)}
+                            onChange={e => setESDate(e.target.value)}
                           />
                         </div>
                         <div className="w-full lg:w-[47%] mb-6">
@@ -2715,7 +2683,7 @@ function CandidateProfile(props) {
                             type="date"
                             className="w-full rounded-full border-slate-300"
                             value={eedate}
-                            onChange={(e) => setEEDate(e.target.value)}
+                            onChange={e => setEEDate(e.target.value)}
                           />
                         </div>
                       </div>
@@ -2730,14 +2698,14 @@ function CandidateProfile(props) {
                           id="eduAbout"
                           className="w-full rounded-[20px] border-slate-300 resize-none min-h-[120px]"
                           value={eabout}
-                          onChange={(e) => setEAbout(e.target.value)}
+                          onChange={e => setEAbout(e.target.value)}
                         ></textarea>
                       </div>
                       <div className="text-center">
                         <button
                           type="button"
                           className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                          onClick={(e) => saveEdu(e)}
+                          onClick={e => saveEdu(e)}
                           disabled={!verifyEduPopup()}
                         >
                           {loader && (
@@ -2812,7 +2780,7 @@ function CandidateProfile(props) {
                             type="text"
                             className="w-full rounded-full border-slate-300"
                             value={exname}
-                            onChange={(e) => setEXName(e.target.value)}
+                            onChange={e => setEXName(e.target.value)}
                           />
                         </div>
                         <div className="w-full lg:w-[47%] mb-6">
@@ -2827,7 +2795,7 @@ function CandidateProfile(props) {
                             type="text"
                             className="w-full rounded-full border-slate-300"
                             value={exorg}
-                            onChange={(e) => setEXOrg(e.target.value)}
+                            onChange={e => setEXOrg(e.target.value)}
                           />
                         </div>
                       </div>
@@ -2838,7 +2806,7 @@ function CandidateProfile(props) {
                             id="credNotExp"
                             className="mr-2 mb-1"
                             checked={exexp}
-                            onChange={(e) => setEXExp(e.target.checked)}
+                            onChange={e => setEXExp(e.target.checked)}
                           />
                           Currently Working ?
                         </label>
@@ -2871,10 +2839,10 @@ function CandidateProfile(props) {
                             selectionLimit={1}
                             // selectedValues = {preJobtype && preJobtype.split(',')}
                             onSelect={(selectedList, selectedItem) => {
-                              setEXType(selectedItem);
+                              setEXType(selectedItem)
                             }}
                             onRemove={(selectedList, selectedItem) => {
-                              setEXType(null);
+                              setEXType(null)
                             }}
                             placeholder="Find Preferred Job Type"
                           />
@@ -2893,7 +2861,7 @@ function CandidateProfile(props) {
                             type="date"
                             className="w-full rounded-full border-slate-300"
                             value={exsdate}
-                            onChange={(e) => setEXSDate(e.target.value)}
+                            onChange={e => setEXSDate(e.target.value)}
                           />
                         </div>
                         <div className="w-full lg:w-[47%] mb-6">
@@ -2908,7 +2876,7 @@ function CandidateProfile(props) {
                             type="date"
                             className="w-full rounded-full border-slate-300"
                             value={exedate}
-                            onChange={(e) => setEXEDate(e.target.value)}
+                            onChange={e => setEXEDate(e.target.value)}
                             disabled={exexp}
                           />
                         </div>
@@ -2924,14 +2892,14 @@ function CandidateProfile(props) {
                           id="expAbout"
                           className="w-full rounded-[20px] border-slate-300 resize-none min-h-[120px]"
                           value={exabout}
-                          onChange={(e) => setEXAbout(e.target.value)}
+                          onChange={e => setEXAbout(e.target.value)}
                         ></textarea>
                       </div>
                       <div className="text-center">
                         <button
                           type="button"
                           className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                          onClick={(e) => saveExp(e)}
+                          onClick={e => saveExp(e)}
                           disabled={!verifyExpPopup()}
                         >
                           {loader && (
@@ -3005,7 +2973,7 @@ function CandidateProfile(props) {
                           type="text"
                           className="w-full rounded-full border-slate-300"
                           value={amtitle}
-                          onChange={(e) => setAMTitle(e.target.value)}
+                          onChange={e => setAMTitle(e.target.value)}
                         />
                       </div>
                       <div className="mb-6">
@@ -3019,14 +2987,14 @@ function CandidateProfile(props) {
                           id="achieveAbout"
                           className="w-full rounded-[20px] border-slate-300 resize-none min-h-[120px]"
                           value={amdesc}
-                          onChange={(e) => setAMDesc(e.target.value)}
+                          onChange={e => setAMDesc(e.target.value)}
                         ></textarea>
                       </div>
                       <div className="text-center">
                         <button
                           type="button"
                           className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                          onClick={(e) => saveAchieve(e)}
+                          onClick={e => saveAchieve(e)}
                           disabled={!verifyAchievePopup()}
                         >
                           {loader && (
@@ -3044,7 +3012,5 @@ function CandidateProfile(props) {
         </Dialog>
       </Transition.Root>
     </>
-  );
+  )
 }
-
-export default withAuth(3 * 60)(CandidateProfile);
