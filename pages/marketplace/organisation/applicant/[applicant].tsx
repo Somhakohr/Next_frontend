@@ -6,6 +6,8 @@ import shallow from "zustand/shallow"
 import { useStore } from "../../../../constants/code"
 import toastcomp from "../../../../components/toast"
 import { axiosInstanceAuth } from "../../../api/axiosApi"
+import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css"
 
 export default function OrganisationCandidateProfileView(props) {
   const [addRoundPopup, addRoundPopupOpen] = useState(false)
@@ -325,6 +327,88 @@ export default function OrganisationCandidateProfileView(props) {
 
   return (
     <>
+      <main className="py-8">
+        <div className="container">
+          <div className="flex flex-wrap mb-6">
+            <div className="w-full lg:max-w-[75%] xl:max-w-[80%] lg:pr-6 mb-6 lg:mb-0">
+              <div className="bg-white shadow-normal border rounded-[25px] flex flex-wrap min-h-[250px] h-full">
+                <div className="flex items-center justify-center w-[310px] mx-auto p-8">
+                  <Skeleton width={170} height={170} style={{borderRadius: '100%'}} />
+                </div>
+                <div className="w-full md:max-w-[calc(100%-310px)] p-6 xl:p-8 relative bg-white border rounded-[25px]">
+                <Skeleton width={200} height={25} />
+                <Skeleton width={120} height={15} />
+                <ul className="flex flex-wrap pt-4">
+                  <li className="w-full sm:max-w-[50%] px-2 mb-2">
+                    <Skeleton width={240} height={15} />
+                  </li>
+                  <li className="w-full sm:max-w-[50%] px-2 mb-2">
+                    <Skeleton width={240} height={15} />
+                  </li>
+                  <li className="w-full sm:max-w-[50%] px-2 mb-2">
+                    <Skeleton width={240} height={15} />
+                  </li>
+                  <li className="w-full sm:max-w-[50%] px-2 mb-2">
+                    <Skeleton width={240} height={15} />
+                  </li>
+                  <li className="w-full sm:max-w-[50%] px-2 mb-2">
+                    <Skeleton width={240} height={15} />
+                  </li>
+                  <li className="w-full sm:max-w-[50%] px-2 mb-2">
+                    <Skeleton width={240} height={15} />
+                  </li>
+                </ul>
+                </div>
+              </div>
+            </div>
+            <div className="w-full lg:max-w-[25%] xl:max-w-[20%] bg-white shadow-normal rounded-[25px] p-6 flex flex-col items-center justify-between overflow-hidden">
+              <Skeleton width={120} height={25} />
+              <Skeleton width={180} height={30} />
+            </div>
+          </div>
+          <div className="flex flex-wrap">
+            <div className="w-full lg:w-[30%] mb-6">
+              <div className="bg-white shadow-normal border border-teal-400 rounded-[25px] p-6">
+                <Skeleton width={120} />
+                <ul className="flex flex-wrap pt-4 mb-4">
+                  <li className="my-2 px-2 w-full sm:max-w-[50%]">
+                    <Skeleton height={20} />
+                  </li>
+                  <li className="my-2 px-2 w-full sm:max-w-[50%]">
+                    <Skeleton height={20} />
+                  </li>
+                  <li className="my-2 px-2 w-full sm:max-w-[50%]">
+                    <Skeleton height={20} />
+                  </li>
+                  <li className="my-2 px-2 w-full sm:max-w-[50%]">
+                    <Skeleton height={20} />
+                  </li>
+                </ul>
+                <div className="text-center">
+                  <Skeleton width={120} height={20} style={{margin: '0 0 15px'}} />
+                  <Skeleton width={120} height={20} style={{margin: '0 0 15px'}} />
+                  <Skeleton width={120} height={20} style={{margin: '0 0 15px'}} />
+                  <Skeleton width={120} height={20} style={{margin: '0 0 15px'}} />
+                </div>
+              </div>
+            </div>
+            <div className="w-full lg:w-[70%] lg:pl-6">
+              <div className="bg-white shadow-normal border border-teal-400 rounded-[25px] p-6 mb-6">
+                <Skeleton width={120} height={20} style={{margin: '0 0 15px'}} />
+                <Skeleton count={3} style={{margin: '0 0 15px'}} />
+              </div>
+              <div className="bg-white shadow-normal border border-teal-400 rounded-[25px] p-6 mb-6">
+                <Skeleton width={120} height={20} style={{margin: '0 0 15px'}} />
+                <Skeleton count={3} style={{margin: '0 0 15px'}} />
+              </div>
+              <div className="bg-white shadow-normal border border-teal-400 rounded-[25px] p-6 mb-6">
+                <Skeleton width={120} height={20} style={{margin: '0 0 15px'}} />
+                <Skeleton count={3} style={{margin: '0 0 15px'}} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
       <main className="py-8">
         {applicantData.map((data, i) => (
           <div className="container" key={i}>

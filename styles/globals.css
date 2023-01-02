@@ -175,7 +175,7 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected {
   border-bottom-color: var(--primary);
   color: var(--primary);
   font-weight: 700;
-  backgroundcolor: transparent;
+  background-color: transparent;
 }
 ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
   display: none;

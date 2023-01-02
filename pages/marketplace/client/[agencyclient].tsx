@@ -246,7 +246,7 @@ export default function CandidateUsers() {
                           />
                         </div>
                       </div>
-                      <div className="w-full md:max-w-[calc(100%-310px)] p-6 xl:p-8 relative bg-white border rounded-[25px] flex items-center">
+                      <div className="t w-full md:max-w-[calc(100%-310px)] p-6 xl:p-8 relative bg-white border rounded-[25px] flex items-center">
                         <aside className="w-full text-[#646464]">
                           <h2 className="font-semibold text-xl md:text-3xl mb-2">
                             {data.user.first_name || data.user.last_name ? (

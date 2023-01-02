@@ -10,6 +10,7 @@ import { useStore } from "../../../constants/code"
 import { axiosInstance, axiosInstanceAuth } from "../../api/axiosApi"
 import Multiselect from "multiselect-react-dropdown"
 import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css"
 
 export default function CandidateAcc(props) {
   const [deletePopup, deletePopupOpen] = useState(false)
