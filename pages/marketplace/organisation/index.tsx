@@ -413,13 +413,75 @@ export default function Organisation(props) {
                 </div>
               </Tabs>
             </div>
-            {upcomiginterview.length > 0 ? (
               <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
                 <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
                   <h2 className="text-lg font-semibold">Upcoming Interviews</h2>
                 </div>
                 <div className="py-6 px-4 md:px-10">
+                {upcomiginterview.length > 0 ? (
                   <div className="responsive-table">
+                    <table className="table-auto min-w-[800px] w-full text-left border-collapse text-[#646464] text-[12px]">
+                      <thead className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white">
+                        <tr>
+                           <th className="py-2 px-3">
+                            <Skeleton />
+                           </th>
+                           <th className="py-2 px-3">
+                            <Skeleton />
+                           </th>
+                           <th className="py-2 px-3">
+                            <Skeleton />
+                           </th>
+                           <th className="py-2 px-3">
+                            <Skeleton />
+                           </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                     <table className="table-auto min-w-[800px] w-full text-left border-collapse text-[#646464] text-sm">
                       <thead className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white">
                         <tr>
@@ -445,17 +507,13 @@ export default function Organisation(props) {
                       </tbody>
                     </table>
                   </div>
+                  ) : (
+                    <p className="text-gray-500 text-sm">
+                      No Upcoming Interviews
+                    </p>
+                    )}
                 </div>
               </div>
-            ) : (
-              <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
-                <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
-                  <h2 className="text-lg font-semibold">
-                    No Upcoming Interviews
-                  </h2>
-                </div>
-              </div>
-            )}
 
             {recentJob.length > 0 ? (
               <div className="bg-white shadow-normal rounded-[30px] overflow-hidden">

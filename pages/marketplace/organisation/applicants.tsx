@@ -7,6 +7,8 @@ import { useStore } from "../../../constants/code"
 import toastcomp from "../../../components/toast"
 import Multiselect from "multiselect-react-dropdown"
 import { axiosInstanceAuth } from "../../api/axiosApi"
+import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css"
 
 export default function OrganisationApplicants(props) {
   const { session, router } = props
@@ -244,6 +246,104 @@ export default function OrganisationApplicants(props) {
                     )}
                   </div>
                   <div className="responsive-table">
+                    <table className="table-auto min-w-[800px] w-full text-left border-collapse text-[#646464] text-[12px]">
+                      <thead className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white">
+                        <tr>
+                           <th className="py-2 px-3">
+                            <Skeleton />
+                           </th>
+                           <th className="py-2 px-3">
+                            <Skeleton />
+                           </th>
+                           <th className="py-2 px-3">
+                            <Skeleton />
+                           </th>
+                           <th className="py-2 px-3">
+                            <Skeleton />
+                           </th>
+                           <th className="py-2 px-3">
+                            <Skeleton />
+                           </th>
+                           <th className="py-2 px-3">
+                            <Skeleton />
+                           </th>
+                           <th className="py-2 px-3">
+                            <Skeleton />
+                           </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                          <td className="py-2 px-3">
+                          <Skeleton />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                     {applicant.length > 0 && (
                       <table className="table-auto min-w-[800px] w-full text-left border-collapse text-[#646464] text-[12px]">
                         <thead className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white">
