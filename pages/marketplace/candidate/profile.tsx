@@ -75,6 +75,7 @@ export default function CandidateProfile(props) {
 
   //loader
   const [loader, setloader] = useState(false)
+  const [ske, setske] = useState(true)
 
   //local var
   const [langPopup, langPopupOpen] = useState(false)
@@ -671,6 +672,14 @@ export default function CandidateProfile(props) {
     }
   }, [userProfile])
 
+  useEffect(() => {
+    if (userProfile && userImg && userName) {
+      setske(false)
+    } else {
+      setske(true)
+    }
+  }, [userProfile, userName, userImg])
+
   function isEmpty(obj) {
     return Object.keys(obj).length === 0
   }
@@ -940,53 +949,75 @@ export default function CandidateProfile(props) {
                 <div className="w-full md:max-w-[calc(100%-310px)] p-6 xl:p-8 relative bg-gradient-to-r from-[#A382E5] to-[#60C3E2] rounded-[25px] flex items-center">
                   <aside className="w-full">
                     <h2 className="font-semibold text-xl md:text-3xl mb-2 text-white">
-                      {userName || <Skeleton width={200} height={25} />}
+                      {!ske ? userName : <Skeleton width={200} height={25} />}
                     </h2>
                     <p className="text-white font-light text-sm mb-6">
-                      {userProfile["title"] || (
+                      {!ske ? (
+                        userProfile["title"]
+                      ) : (
                         <Skeleton width={120} height={15} />
                       )}
                     </p>
                     <ul className="flex flex-wrap">
-                      {(userObj["email"] && (
-                        <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1 break-all">
-                          <i className="fa-solid fa-envelope xl:text-xl mr-3"></i>
-                          <span className="mr-2">:</span>
-                          <p>{userObj["email"]}</p>
-                        </li>
-                      )) || <Skeleton width={220} style={{ margin: "10px" }} />}
+                      {!ske ? (
+                        userObj["email"] && (
+                          <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1 break-all">
+                            <i className="fa-solid fa-envelope xl:text-xl mr-3"></i>
+                            <span className="mr-2">:</span>
+                            <p>{userObj["email"]}</p>
+                          </li>
+                        )
+                      ) : (
+                        <Skeleton width={220} style={{ margin: "10px" }} />
+                      )}
 
-                      {(userObj["mobile"] && (
-                        <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
-                          <i className="fa-solid fa-phone xl:text-xl mr-3"></i>
-                          <span className="mr-2">:</span>
-                          <p>{userObj["mobile"]}</p>
-                        </li>
-                      )) || <Skeleton width={220} style={{ margin: "10px" }} />}
+                      {!ske ? (
+                        userObj["mobile"] && (
+                          <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
+                            <i className="fa-solid fa-phone xl:text-xl mr-3"></i>
+                            <span className="mr-2">:</span>
+                            <p>{userObj["mobile"]}</p>
+                          </li>
+                        )
+                      ) : (
+                        <Skeleton width={220} style={{ margin: "10px" }} />
+                      )}
 
-                      {(userProfile["salary"] && (
-                        <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
-                          <i className="fa-solid fa-wallet xl:text-xl mr-3"></i>
-                          <span className="mr-2">:</span>
-                          <p>{userProfile["salary"]}</p>
-                        </li>
-                      )) || <Skeleton width={220} style={{ margin: "10px" }} />}
+                      {!ske ? (
+                        userProfile["salary"] && (
+                          <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
+                            <i className="fa-solid fa-wallet xl:text-xl mr-3"></i>
+                            <span className="mr-2">:</span>
+                            <p>{userProfile["salary"]}</p>
+                          </li>
+                        )
+                      ) : (
+                        <Skeleton width={220} style={{ margin: "10px" }} />
+                      )}
 
-                      {(userProfile["prejobtype"] && (
-                        <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
-                          <i className="fa-solid fa-briefcase xl:text-xl mr-3"></i>
-                          <span className="mr-2">:</span>
-                          <p>{userProfile["prejobtype"]}</p>
-                        </li>
-                      )) || <Skeleton width={220} style={{ margin: "10px" }} />}
+                      {!ske ? (
+                        userProfile["prejobtype"] && (
+                          <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
+                            <i className="fa-solid fa-briefcase xl:text-xl mr-3"></i>
+                            <span className="mr-2">:</span>
+                            <p>{userProfile["prejobtype"]}</p>
+                          </li>
+                        )
+                      ) : (
+                        <Skeleton width={220} style={{ margin: "10px" }} />
+                      )}
 
-                      {(userProfile["prelocation"] && (
-                        <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
-                          <i className="fa-solid fa-location-dot xl:text-xl mr-3"></i>
-                          <span className="mr-2">:</span>
-                          <p>{userProfile["prelocation"]}</p>
-                        </li>
-                      )) || <Skeleton width={220} style={{ margin: "10px" }} />}
+                      {!ske ? (
+                        userProfile["prelocation"] && (
+                          <li className="flex items-center w-full sm:max-w-[50%] text-white font-light xl:text-lg mb-3 pr-1">
+                            <i className="fa-solid fa-location-dot xl:text-xl mr-3"></i>
+                            <span className="mr-2">:</span>
+                            <p>{userProfile["prelocation"]}</p>
+                          </li>
+                        )
+                      ) : (
+                        <Skeleton width={220} style={{ margin: "10px" }} />
+                      )}
                     </ul>
                   </aside>
                 </div>

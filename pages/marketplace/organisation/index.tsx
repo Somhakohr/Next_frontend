@@ -61,11 +61,13 @@ export default function Organisation(props) {
   const [remainingjob, setRemainingjob] = useState(0)
   const [upcomiginterview, setUpcomingInterview] = useState([])
   const [recentJob, setRecentJob] = useState([])
+  const [ske, setske] = useState(true)
 
   //axios auth var
   const axiosInstanceAuth2 = axiosInstanceAuth(accessToken)
 
   async function loadDashboard() {
+    setske(true)
     await axiosInstanceAuth2
       .get("/job/dashboad/" + userObj["orefid"] + "/")
       .then(async res => {
@@ -93,6 +95,7 @@ export default function Organisation(props) {
   }
 
   async function loadJobs() {
+    setske(true)
     await axiosInstanceAuth2
       .get("/job/dashboard/jobs/" + userObj["orefid"] + "/")
       .then(async res => {
@@ -104,6 +107,7 @@ export default function Organisation(props) {
           toastcomp("Dashboard Fetch Error", "error")
         }
       })
+    setske(false)
   }
 
   function getColor(num) {
@@ -413,114 +417,130 @@ export default function Organisation(props) {
                 </div>
               </Tabs>
             </div>
-              <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
-                <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
-                  <h2 className="text-lg font-semibold">Upcoming Interviews</h2>
-                </div>
-                <div className="py-6 px-4 md:px-10">
-                {upcomiginterview.length > 0 ? (
+
+            <div className="bg-white shadow-normal rounded-[30px] overflow-hidden mb-6">
+              <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
+                <h2 className="text-lg font-semibold">Upcoming Interviews</h2>
+              </div>
+
+              <div className="py-6 px-4 md:px-10">
+                {ske ? (
                   <div className="responsive-table">
                     <table className="table-auto min-w-[800px] w-full text-left border-collapse text-[#646464] text-[12px]">
                       <thead className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white">
                         <tr>
-                           <th className="py-2 px-3">
+                          <th className="py-2 px-3">
                             <Skeleton />
-                           </th>
-                           <th className="py-2 px-3">
+                          </th>
+                          <th className="py-2 px-3">
                             <Skeleton />
-                           </th>
-                           <th className="py-2 px-3">
+                          </th>
+                          <th className="py-2 px-3">
                             <Skeleton />
-                           </th>
-                           <th className="py-2 px-3">
+                          </th>
+                          <th className="py-2 px-3">
                             <Skeleton />
-                           </th>
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <td className="py-2 px-3">
-                          <Skeleton />
+                            <Skeleton />
                           </td>
                           <td className="py-2 px-3">
-                          <Skeleton />
+                            <Skeleton />
                           </td>
                           <td className="py-2 px-3">
-                          <Skeleton />
+                            <Skeleton />
                           </td>
                           <td className="py-2 px-3">
-                          <Skeleton />
+                            <Skeleton />
                           </td>
                         </tr>
                         <tr>
                           <td className="py-2 px-3">
-                          <Skeleton />
+                            <Skeleton />
                           </td>
                           <td className="py-2 px-3">
-                          <Skeleton />
+                            <Skeleton />
                           </td>
                           <td className="py-2 px-3">
-                          <Skeleton />
+                            <Skeleton />
                           </td>
                           <td className="py-2 px-3">
-                          <Skeleton />
+                            <Skeleton />
                           </td>
                         </tr>
                         <tr>
                           <td className="py-2 px-3">
-                          <Skeleton />
+                            <Skeleton />
                           </td>
                           <td className="py-2 px-3">
-                          <Skeleton />
+                            <Skeleton />
                           </td>
                           <td className="py-2 px-3">
-                          <Skeleton />
+                            <Skeleton />
                           </td>
                           <td className="py-2 px-3">
-                          <Skeleton />
+                            <Skeleton />
                           </td>
                         </tr>
-                      </tbody>
-                    </table>
-                    <table className="table-auto min-w-[800px] w-full text-left border-collapse text-[#646464] text-sm">
-                      <thead className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white">
-                        <tr>
-                          <th className="py-2 px-3 ">Candidate ID</th>
-                          <th className="py-2 px-3">Job ID</th>
-                          <th className="py-2 px-3">Job Title</th>
-                          <th className="py-2 px-3 ">Interview Date & Time</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {upcomiginterview.map((interview, i) => (
-                          <tr key={i}>
-                            <td className="py-1 px-3">{interview.user_id}</td>
-                            <td className="py-1 px-3">{interview.job_id}</td>
-                            <td className="py-1 px-3">{interview.title}</td>
-                            <td className="py-1 px-3">
-                              {interview.interview_date}{" "}
-                              {interview.interview_stime}-
-                              {interview.interview_etime}
-                            </td>
-                          </tr>
-                        ))}
                       </tbody>
                     </table>
                   </div>
-                  ) : (
-                    <p className="text-gray-500 text-sm">
-                      No Upcoming Interviews
-                    </p>
+                ) : (
+                  <>
+                    {upcomiginterview.length > 0 ? (
+                      <div className="responsive-table">
+                        <table className="table-auto min-w-[800px] w-full text-left border-collapse text-[#646464] text-sm">
+                          <thead className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white">
+                            <tr>
+                              <th className="py-2 px-3 ">Candidate ID</th>
+                              <th className="py-2 px-3">Job ID</th>
+                              <th className="py-2 px-3">Job Title</th>
+                              <th className="py-2 px-3 ">
+                                Interview Date & Time
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {upcomiginterview.map((interview, i) => (
+                              <tr key={i}>
+                                <td className="py-1 px-3">
+                                  {interview.user_id}
+                                </td>
+                                <td className="py-1 px-3">
+                                  {interview.job_id}
+                                </td>
+                                <td className="py-1 px-3">{interview.title}</td>
+                                <td className="py-1 px-3">
+                                  {interview.interview_date}{" "}
+                                  {interview.interview_stime}-
+                                  {interview.interview_etime}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    ) : (
+                      <p className="text-gray-500 text-sm">
+                        No Upcoming Interviews
+                      </p>
                     )}
-                </div>
+                  </>
+                )}
+              </div>
+            </div>
+
+            <div className="bg-white shadow-normal rounded-[30px] overflow-hidden">
+              <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
+                <h2 className="text-lg font-semibold">Recent Jobs</h2>
               </div>
 
-            {recentJob.length > 0 ? (
-              <div className="bg-white shadow-normal rounded-[30px] overflow-hidden">
-                <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
-                  <h2 className="text-lg font-semibold">Recent Jobs</h2>
-                </div>
-                <div className="py-6 px-4 md:px-10">
+              <div className="py-6 px-4 md:px-10">
+                {ske ? (
                   <div className="flex flex-wrap mx-[-15px]">
                     <div className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4">
                       <div className="">
@@ -573,25 +593,22 @@ export default function Organisation(props) {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-wrap mx-[-10px]">
-                    {recentJob.map((job, i) => (
-                      <div
-                        className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4"
-                        key={i}
-                      >
-                        <JobCard data={job} org={true} />
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                ) : (
+                  <>
+                    <div className="flex flex-wrap mx-[-10px]">
+                      {recentJob.map((job, i) => (
+                        <div
+                          className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4"
+                          key={i}
+                        >
+                          <JobCard data={job} org={true} />
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
-            ) : (
-              <div className="bg-white shadow-normal rounded-[30px] overflow-hidden">
-                <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
-                  <h2 className="text-lg font-semibold">No Recent Jobs</h2>
-                </div>
-              </div>
-            )}
+            </div>
           </div>
         </div>
       </main>

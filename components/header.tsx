@@ -70,93 +70,65 @@ function Header(props) {
     updateAccessToken("")
   }
 
-  async function readfn(pk) {
-    const axiosInstanceAuth = axios.create({
-      baseURL:
-        process.env.NODE_ENV === "production"
-          ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-          : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-      timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-      headers: {
-        Authorization: "Bearer " + accessToken,
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
+  async function fetchData() {
+    const res = await axiosInstance.post("/auth/getusers/", {
+      email: session.user.email,
     })
-    await axiosInstanceAuth
-      .get("/auth/notifi/" + userObj["erefid"] + "/" + pk + "/read/")
-      .then(res => {
-        toastcomp("LOL", "Success")
-        // setreadn(res.data.read_data)
-        // setunreadn(res.data.unread_data)
+    updateUserType(res.data.type)
+    updateUserObj(res.data.userObj[0])
+
+    if (res.data.type == "Candidate") {
+      const axiosInstanceAuth = axios.create({
+        baseURL:
+          process.env.NODE_ENV === "production"
+            ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
+            : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
+        timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
+        headers: {
+          Authorization: "Bearer " + session.accessToken,
+          "Content-Type": "application/json",
+          accept: "application/json",
+        },
       })
-      .catch(err => {
-        console.log(err)
-        toastcomp("Error", "Error")
+      const res2 = await axiosInstanceAuth.get(
+        "/candidate/candidateprofile/" + res.data.userObj[0].erefid + "/"
+      )
+      updateUserProfile(res2.data)
+
+      await axiosInstanceAuth
+        .get("/auth/notifi/" + res.data.userObj[0].erefid + "/")
+        .then(res => {
+          setreadn(res.data.read_data)
+          setunreadn(res.data.unread_data)
+        })
+    } else if (res.data.type == "Organisation") {
+      const axiosInstanceAuth = axios.create({
+        baseURL:
+          process.env.NODE_ENV === "production"
+            ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
+            : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
+        timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
+        headers: {
+          Authorization: "Bearer " + session.accessToken,
+          "Content-Type": "application/json",
+          accept: "application/json",
+        },
       })
+      const res2 = await axiosInstanceAuth.get(
+        "/organisation/organisationprofile/" + res.data.userObj[0].orefid + "/"
+      )
+      updateUserProfile(res2.data)
+
+      await axiosInstanceAuth
+        .get("/auth/orgnotifi/" + res.data.userObj[0].orefid + "/")
+        .then(res => {
+          setreadn(res.data.read_data)
+          setunreadn(res.data.unread_data)
+        })
+    }
   }
 
   useEffect(() => {
-    async function fetchData() {
-      const res = await axiosInstance.post("/auth/getusers/", {
-        email: session.user.email,
-      })
-      updateUserType(res.data.type)
-      updateUserObj(res.data.userObj[0])
-
-      if (res.data.type == "Candidate") {
-        const axiosInstanceAuth = axios.create({
-          baseURL:
-            process.env.NODE_ENV === "production"
-              ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-              : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-          timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-          headers: {
-            Authorization: "Bearer " + session.accessToken,
-            "Content-Type": "application/json",
-            accept: "application/json",
-          },
-        })
-        const res2 = await axiosInstanceAuth.get(
-          "/candidate/candidateprofile/" + res.data.userObj[0].erefid + "/"
-        )
-        updateUserProfile(res2.data)
-
-        await axiosInstanceAuth
-          .get("/auth/notifi/" + res.data.userObj[0].erefid + "/")
-          .then(res => {
-            setreadn(res.data.read_data)
-            setunreadn(res.data.unread_data)
-          })
-      } else if (res.data.type == "Organisation") {
-        const axiosInstanceAuth = axios.create({
-          baseURL:
-            process.env.NODE_ENV === "production"
-              ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-              : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-          timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-          headers: {
-            Authorization: "Bearer " + session.accessToken,
-            "Content-Type": "application/json",
-            accept: "application/json",
-          },
-        })
-        const res2 = await axiosInstanceAuth.get(
-          "/organisation/organisationprofile/" +
-            res.data.userObj[0].orefid +
-            "/"
-        )
-        updateUserProfile(res2.data)
-
-        await axiosInstanceAuth
-          .get("/auth/orgnotifi/" + res.data.userObj[0].orefid + "/")
-          .then(res => {
-            setreadn(res.data.read_data)
-            setunreadn(res.data.unread_data)
-          })
-      }
-    }
-
     if (session && userType.length <= 0) {
       fetchData()
     }
@@ -340,9 +312,11 @@ function Header(props) {
                     <Menu.Button className="align-middle py-2 pl-3 pr-4 h-full">
                       <span className="relative">
                         <i className="fa-solid fa-bell text-lg"></i>
-                        <span className="absolute right-[-10px] top-[-8px] bg-[#6D27F9] text-white w-[20px] h-[20px] rounded-full flex items-center justify-center text-[10px]">
-                          {unreadn.length}
-                        </span>
+                        {unreadn.length > 0 && (
+                          <span className="absolute right-[-10px] top-[-8px] bg-[#6D27F9] text-white w-[20px] h-[20px] rounded-full flex items-center justify-center text-[10px]">
+                            {unreadn.length}
+                          </span>
+                        )}
                       </span>
                     </Menu.Button>
                     <Transition
@@ -358,7 +332,9 @@ function Header(props) {
                         <Notifications
                           read={readn}
                           unread={unreadn}
-                          readfn={readfn}
+                          id={userObj["erefid"]}
+                          accessToken={accessToken}
+                          fetchData={fetchData}
                         />
                       </Menu.Items>
                     </Transition>
@@ -448,7 +424,9 @@ function Header(props) {
                         <Notifications
                           read={readn}
                           unread={unreadn}
-                          readfn={readfn}
+                          id={userObj["orefid"]}
+                          accessToken={accessToken}
+                          fetchData={fetchData}
                         />
                       </Menu.Items>
                     </Transition>

@@ -1,7 +1,26 @@
-import moment from "moment";
+import moment from "moment"
+import { axiosInstanceAuth } from "../pages/api/axiosApi"
+import toastcomp from "./toast"
 
 export default function Notifications(props) {
-  const { read, unread, readfn } = props;
+  const { read, unread, accessToken, id, fetchData } = props
+
+  const axiosInstanceAuth2 = axiosInstanceAuth(accessToken)
+  async function readnotifi(pk) {
+    await axiosInstanceAuth2
+      .put("/auth/notifi/" + id + "/" + pk + "/read/")
+      .then(res => {
+        toastcomp("Notify Read", "Success")
+        // setreadn(res.data.read_data)
+        // setunreadn(res.data.unread_data)
+      })
+      .catch(err => {
+        console.log(err)
+        toastcomp("Error", "Error")
+      })
+    fetchData()
+  }
+
   return (
     <>
       <div className="bg-white max-h-[200px] overflow-y-auto">
@@ -10,6 +29,7 @@ export default function Notifications(props) {
             <div
               className="flex items-center justify-between py-3 px-2 border-b border-slate-300 last:border-b-0"
               key={i}
+              onClick={e => readnotifi(data.pk)}
             >
               <div className="w-[70%]">
                 <div className="flex items-center">
@@ -91,5 +111,5 @@ export default function Notifications(props) {
             </div> */}
       </div>
     </>
-  );
+  )
 }

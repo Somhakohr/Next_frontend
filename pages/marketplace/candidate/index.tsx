@@ -65,6 +65,7 @@ export default function Candidate(props) {
   const [bookmarked, setbookmarked] = useState([])
   const [rec, setrec] = useState([])
   const [ske, setske] = useState(true)
+  const [ske2, setske2] = useState(true)
 
   const learningSlides = [
     {
@@ -230,7 +231,13 @@ export default function Candidate(props) {
         updateAddress(formData)
       }
     }
-  }, [userObj, progress, address])
+
+    if (userProfile && userObj && userImg) {
+      setske2(false)
+    } else {
+      setske2(true)
+    }
+  }, [userObj, progress, address, userProfile])
 
   return (
     <>
@@ -245,7 +252,7 @@ export default function Candidate(props) {
             <div className="mb-8 py-4 px-8 bg-white shadow-normal rounded-[20px]">
               <div className="flex flex-wrap md:items-center items-start justify-between mb-6">
                 <div className="w-[calc(100%-70px)] flex flex-wrap md:items-center items-start flex-col md:flex-row">
-                  {userImg ? (
+                  {!ske2 ? (
                     <>
                       <Image
                         src={userImg}
@@ -266,11 +273,13 @@ export default function Candidate(props) {
                   )}
                   <div className="w-full md:w-[calc(100%-150px)] md:pl-8">
                     <h2 className="font-semibold text-xl md:text-3xl mb-1">
-                      {userName || <Skeleton width={200} />}
+                      {ske2 ? <Skeleton width={200} /> : userName}
                     </h2>
                     <p className="text-[#646464] font-light text-sm">
-                      {userProfile["title"] || (
+                      {ske2 ? (
                         <Skeleton width={120} height={15} />
+                      ) : (
+                        userProfile["title"]
                       )}
                     </p>
                   </div>

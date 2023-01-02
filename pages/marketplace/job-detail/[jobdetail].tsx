@@ -62,21 +62,27 @@ export default function JobDetail(props) {
 
   async function loadJobDetail(id) {
     setske(true)
-    if (accessToken.length > 0 && userType == "candidate") {
+    if (accessToken.length > 0) {
+      console.log(userType)
       await axiosInstanceAuth2
         .get("/job/job/detail/" + id + "/")
         .then(async res => {
           setJobDetail(res.data)
         })
-        .catch(err => {
-          router.push("/marketplace/jobs")
-
+        .catch(async err => {
+          await axiosInstance
+            .get("/job/job/detail/" + id + "/")
+            .then(async res => {
+              setJobDetail(res.data)
+            })
+            .catch(err => {})
           // console.log(err)
           // if(err.message != "Request failed with status code 401"){
           //     toastcomp("Job Detail Not Loaded","error");
           // }
         })
     } else {
+      console.log(0)
       await axiosInstance
         .get("/job/job/detail/" + id + "/")
         .then(async res => {

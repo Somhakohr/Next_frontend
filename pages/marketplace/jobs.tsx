@@ -22,7 +22,9 @@ export default function JobListing() {
   const [loader, setLoader] = useState(<div></div>)
   const [skeleton1, setskeleton1] = useState(true)
   const [skeleton2, setskeleton2] = useState(true)
-  const [data, setData] = useState([])
+  const [data, setData] = useState([
+    "Hii I am a Chatmini, If You Apply Filters With My Help Use This Ex : Chatmini Python Developer Job in location London Skills python",
+  ])
   const [tabIndex, setTabIndex] = useState(0)
 
   const [userType, updateUserType] = useStore(

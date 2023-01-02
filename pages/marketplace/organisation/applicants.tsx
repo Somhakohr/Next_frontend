@@ -13,6 +13,7 @@ import "react-loading-skeleton/dist/skeleton.css"
 export default function OrganisationApplicants(props) {
   const { session, router } = props
   const [shareCandidate, shareCandidatePopupOpen] = useState(false)
+  const [ske, setske] = useState(false)
   const cancelButtonRef = useRef(null)
 
   const [userName, updateUserName] = useStore(
@@ -66,6 +67,7 @@ export default function OrganisationApplicants(props) {
   const axiosInstanceAuth2 = axiosInstanceAuth(accessToken)
 
   async function loadApplicant(orefid) {
+    setske(true)
     await axiosInstanceAuth2
       .get("/job/applicants/alls/" + orefid + "/")
       .then(async res => {
@@ -77,9 +79,11 @@ export default function OrganisationApplicants(props) {
           toastcomp("Applicant Fetch Error", "error")
         }
       })
+    setske(false)
   }
 
   async function loadApplicantF(orefid) {
+    setske(true)
     await axiosInstanceAuth2
       .get(
         `/job/applicants/alls/${orefid}/?user__first_name=${name}&job__dept=${dept}`
@@ -93,6 +97,7 @@ export default function OrganisationApplicants(props) {
           toastcomp("Applicant F Fetch Error", "error")
         }
       })
+    setske(false)
   }
 
   async function sharetoClient() {
@@ -246,263 +251,294 @@ export default function OrganisationApplicants(props) {
                     )}
                   </div>
                   <div className="responsive-table">
-                    <table className="table-auto min-w-[800px] w-full text-left border-collapse text-[#646464] text-[12px]">
-                      <thead className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white">
-                        <tr>
-                           <th className="py-2 px-3">
-                            <Skeleton />
-                           </th>
-                           <th className="py-2 px-3">
-                            <Skeleton />
-                           </th>
-                           <th className="py-2 px-3">
-                            <Skeleton />
-                           </th>
-                           <th className="py-2 px-3">
-                            <Skeleton />
-                           </th>
-                           <th className="py-2 px-3">
-                            <Skeleton />
-                           </th>
-                           <th className="py-2 px-3">
-                            <Skeleton />
-                           </th>
-                           <th className="py-2 px-3">
-                            <Skeleton />
-                           </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                          <td className="py-2 px-3">
-                          <Skeleton />
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    {applicant.length > 0 && (
+                    {ske ? (
                       <table className="table-auto min-w-[800px] w-full text-left border-collapse text-[#646464] text-[12px]">
                         <thead className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white">
                           <tr>
-                            {userObj["company_type"] == "Agency" && (
-                              <th className="py-2 px-3 w-[15px]">
-                                <input
-                                  type="checkbox"
-                                  className="w-[12px] h-[12px]"
-                                  onChange={e => {
-                                    let arr2 = applicant
-                                    let arr = []
-                                    if (e.target.checked) {
-                                      for (let i = 0; i < arr2.length; i++) {
-                                        document.getElementById(
-                                          `cb${arr2[i]["arefid"]}`
-                                        ).checked = true
-                                        if (!arr.includes(arr2[i]["arefid"])) {
-                                          arr.push(arr2[i]["arefid"])
-                                        }
-                                      }
-                                      setCheck(arr)
-                                    } else {
-                                      for (let i = 0; i < arr2.length; i++) {
-                                        document.getElementById(
-                                          `cb${arr2[i]["arefid"]}`
-                                        ).checked = false
-                                      }
-                                      setCheck([])
-                                    }
-                                  }}
-                                />
-                              </th>
-                            )}
-                            <th className="py-2 px-3 w-[15%]">
-                              Applicant Name
+                            <th className="py-2 px-3">
+                              <Skeleton />
                             </th>
-                            <th className="py-2 px-3 w-[12%]">Applicant ID</th>
-                            <th className="py-2 px-3 text-center">
-                              Experience
+                            <th className="py-2 px-3">
+                              <Skeleton />
                             </th>
-                            <th className="py-2 px-3 w-[15%]">Email</th>
-                            <th className="py-2 px-3 text-center w-[15%]">
-                              Notice Period
+                            <th className="py-2 px-3">
+                              <Skeleton />
                             </th>
-                            <th className="py-2 px-3 text-center">Status</th>
-                            <th className="py-2 px-3 text-center">Profile</th>
-                            {userObj["company_type"] == "Agency" && (
-                              <th className="py-2 px-3 text-center">Share</th>
-                            )}
+                            <th className="py-2 px-3">
+                              <Skeleton />
+                            </th>
+                            <th className="py-2 px-3">
+                              <Skeleton />
+                            </th>
+                            <th className="py-2 px-3">
+                              <Skeleton />
+                            </th>
+                            <th className="py-2 px-3">
+                              <Skeleton />
+                            </th>
                           </tr>
                         </thead>
                         <tbody>
-                          {applicant.map((data, i) => (
-                            <tr key={i}>
-                              {userObj["company_type"] == "Agency" && (
-                                <td className="p-3 w-[15px]">
-                                  <input
-                                    type="checkbox"
-                                    className="w-[12px] h-[12px]"
-                                    id={`cb${data.arefid}`}
-                                    onChange={e => {
-                                      let arr = check
-                                      if (
-                                        !e.target.checked &&
-                                        arr.includes(data.arefid)
-                                      ) {
-                                        for (let i = 0; i < arr.length; i++) {
-                                          if (arr[i] === data.arefid) {
-                                            arr.splice(i, 1)
-                                          }
-                                        }
-                                      } else if (
-                                        e.target.checked &&
-                                        arr.includes(data.arefid)
-                                      ) {
-                                      } else {
-                                        arr.push(data.arefid)
-                                      }
-                                      setCheck(arr)
-                                    }}
-                                  />
-                                </td>
-                              )}
-                              <td className="p-3 w-[15%]">
-                                {data.user.first_name || data.user.last_name ? (
-                                  <>
-                                    {data.user.first_name} {data.user.last_name}
-                                  </>
-                                ) : (
-                                  <>N/A</>
-                                )}
-                              </td>
-                              <td className="p-3 w-[12%]">{data.arefid}</td>
-                              <td className="p-3 text-center">
-                                {data.cand.yearofexp ? (
-                                  data.cand.yearofexp
-                                ) : (
-                                  <>N/A</>
-                                )}
-                              </td>
-                              <td className="p-3 w-[15%]">{data.user.email}</td>
-                              <td className="p-3 text-center w-[15%]">
-                                {data.cand.noticeperiod ? (
-                                  data.cand.noticeperiod
-                                ) : (
-                                  <>N/A</>
-                                )}
-                              </td>
-                              <td className="p-3 text-center">
-                                {data.status ? (
-                                  <span
-                                    className="border rounded-full py-1 px-4 text-center text-[12px] min-w-[110px] inline-block"
-                                    style={{
-                                      ["border-color" as any]: `${getColor(
-                                        data.status
-                                      )}`,
-                                      ["color" as any]: `${getColor(
-                                        data.status
-                                      )}`,
-                                    }}
-                                    onClick={e => {
-                                      console.log(check)
-                                    }}
-                                  >
-                                    {data.status}
-                                  </span>
-                                ) : (
-                                  <>N/A</>
-                                )}
-                              </td>
-                              <td className="p-3 text-center">
-                                <button
-                                  onClick={e => viewApplicant(data.arefid)}
-                                  className="text-[#6D27F9] hover:underline hover:text-black"
-                                >
-                                  View
-                                </button>
-                              </td>
-                              {userObj["company_type"] == "Agency" && (
-                                <td className="p-3 text-center">
-                                  <button
-                                    type="button"
-                                    className="text-[#6D27F9]"
-                                    onClick={() => {
-                                      let arr = []
-                                      arr.push(data.arefid)
-                                      setCheck(arr)
-                                      shareCandidatePopupOpen(true)
-                                    }}
-                                  >
-                                    <i className="fa-solid fa-share-nodes"></i>
-                                  </button>
-                                </td>
-                              )}
-                            </tr>
-                          ))}
+                          <tr>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                            <td className="py-2 px-3">
+                              <Skeleton />
+                            </td>
+                          </tr>
                         </tbody>
                       </table>
+                    ) : (
+                      <>
+                        {applicant.length > 0 && (
+                          <table className="table-auto min-w-[800px] w-full text-left border-collapse text-[#646464] text-[12px]">
+                            <thead className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] text-white">
+                              <tr>
+                                {userObj["company_type"] == "Agency" && (
+                                  <th className="py-2 px-3 w-[15px]">
+                                    <input
+                                      type="checkbox"
+                                      className="w-[12px] h-[12px]"
+                                      onChange={e => {
+                                        let arr2 = applicant
+                                        let arr = []
+                                        if (e.target.checked) {
+                                          for (
+                                            let i = 0;
+                                            i < arr2.length;
+                                            i++
+                                          ) {
+                                            document.getElementById(
+                                              `cb${arr2[i]["arefid"]}`
+                                            ).checked = true
+                                            if (
+                                              !arr.includes(arr2[i]["arefid"])
+                                            ) {
+                                              arr.push(arr2[i]["arefid"])
+                                            }
+                                          }
+                                          setCheck(arr)
+                                        } else {
+                                          for (
+                                            let i = 0;
+                                            i < arr2.length;
+                                            i++
+                                          ) {
+                                            document.getElementById(
+                                              `cb${arr2[i]["arefid"]}`
+                                            ).checked = false
+                                          }
+                                          setCheck([])
+                                        }
+                                      }}
+                                    />
+                                  </th>
+                                )}
+                                <th className="py-2 px-3 w-[15%]">
+                                  Applicant Name
+                                </th>
+                                <th className="py-2 px-3 w-[12%]">
+                                  Applicant ID
+                                </th>
+                                <th className="py-2 px-3 text-center">
+                                  Experience
+                                </th>
+                                <th className="py-2 px-3 w-[15%]">Email</th>
+                                <th className="py-2 px-3 text-center w-[15%]">
+                                  Notice Period
+                                </th>
+                                <th className="py-2 px-3 text-center">
+                                  Status
+                                </th>
+                                <th className="py-2 px-3 text-center">
+                                  Profile
+                                </th>
+                                {userObj["company_type"] == "Agency" && (
+                                  <th className="py-2 px-3 text-center">
+                                    Share
+                                  </th>
+                                )}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {applicant.map((data, i) => (
+                                <tr key={i}>
+                                  {userObj["company_type"] == "Agency" && (
+                                    <td className="p-3 w-[15px]">
+                                      <input
+                                        type="checkbox"
+                                        className="w-[12px] h-[12px]"
+                                        id={`cb${data.arefid}`}
+                                        onChange={e => {
+                                          let arr = check
+                                          if (
+                                            !e.target.checked &&
+                                            arr.includes(data.arefid)
+                                          ) {
+                                            for (
+                                              let i = 0;
+                                              i < arr.length;
+                                              i++
+                                            ) {
+                                              if (arr[i] === data.arefid) {
+                                                arr.splice(i, 1)
+                                              }
+                                            }
+                                          } else if (
+                                            e.target.checked &&
+                                            arr.includes(data.arefid)
+                                          ) {
+                                          } else {
+                                            arr.push(data.arefid)
+                                          }
+                                          setCheck(arr)
+                                        }}
+                                      />
+                                    </td>
+                                  )}
+                                  <td className="p-3 w-[15%]">
+                                    {data.user.first_name ||
+                                    data.user.last_name ? (
+                                      <>
+                                        {data.user.first_name}{" "}
+                                        {data.user.last_name}
+                                      </>
+                                    ) : (
+                                      <>N/A</>
+                                    )}
+                                  </td>
+                                  <td className="p-3 w-[12%]">{data.arefid}</td>
+                                  <td className="p-3 text-center">
+                                    {data.cand.yearofexp ? (
+                                      data.cand.yearofexp
+                                    ) : (
+                                      <>N/A</>
+                                    )}
+                                  </td>
+                                  <td className="p-3 w-[15%]">
+                                    {data.user.email}
+                                  </td>
+                                  <td className="p-3 text-center w-[15%]">
+                                    {data.cand.noticeperiod ? (
+                                      data.cand.noticeperiod
+                                    ) : (
+                                      <>N/A</>
+                                    )}
+                                  </td>
+                                  <td className="p-3 text-center">
+                                    {data.status ? (
+                                      <span
+                                        className="border rounded-full py-1 px-4 text-center text-[12px] min-w-[110px] inline-block"
+                                        style={{
+                                          ["border-color" as any]: `${getColor(
+                                            data.status
+                                          )}`,
+                                          ["color" as any]: `${getColor(
+                                            data.status
+                                          )}`,
+                                        }}
+                                        onClick={e => {
+                                          console.log(check)
+                                        }}
+                                      >
+                                        {data.status}
+                                      </span>
+                                    ) : (
+                                      <>N/A</>
+                                    )}
+                                  </td>
+                                  <td className="p-3 text-center">
+                                    <button
+                                      onClick={e => viewApplicant(data.arefid)}
+                                      className="text-[#6D27F9] hover:underline hover:text-black"
+                                    >
+                                      View
+                                    </button>
+                                  </td>
+                                  {userObj["company_type"] == "Agency" && (
+                                    <td className="p-3 text-center">
+                                      <button
+                                        type="button"
+                                        className="text-[#6D27F9]"
+                                        onClick={() => {
+                                          let arr = []
+                                          arr.push(data.arefid)
+                                          setCheck(arr)
+                                          shareCandidatePopupOpen(true)
+                                        }}
+                                      >
+                                        <i className="fa-solid fa-share-nodes"></i>
+                                      </button>
+                                    </td>
+                                  )}
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        )}
+                      </>
                     )}
                   </div>
                 </div>

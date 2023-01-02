@@ -37,8 +37,8 @@ export default function ChatBot(props) {
       .post("/job/chatmini/", formData)
       .then(async res => {
         console.log(res.data)
-        if (res.data.Jobs) {
-          filter(res.data.Jobs)
+        if (res.data.jobs) {
+          filter(res.data.jobs)
         } else if (input1.includes("Chatmini") || input1.includes("chatmini")) {
           filter("")
         }
@@ -114,12 +114,6 @@ export default function ChatBot(props) {
                 !skeleton2 &&
                 data.map((item, key) =>
                   key % 2 ? (
-                    <li className="left my-2" key={key}>
-                      <span className="inline-block max-w-[85%] border border-teal-400 bg-white shadow rounded-[20px] py-2 px-3">
-                        {item}
-                      </span>
-                    </li>
-                  ) : (
                     <li key={key}>
                       <div className="flex items-center justify-end">
                         <span className="inline-block max-w-[75%] bg-[#6D27F9] text-white shadow rounded-[20px] py-2 px-3 relative after:content-[''] after:border-[5px] after:border-[#6D27F9] after:absolute after:top-[50%] after:right-[-4px] after:translate-y-[-50%] after:rotate-45">
@@ -133,6 +127,12 @@ export default function ChatBot(props) {
                           className="w-[35px] h-[35px] rounded-full object-cover w-[35px] h-[35px]"
                         />
                       </div>
+                    </li>
+                  ) : (
+                    <li className="left my-2" key={key}>
+                      <span className="inline-block max-w-[85%] border border-teal-400 bg-white shadow rounded-[20px] py-2 px-3">
+                        {item}
+                      </span>
                     </li>
                   )
                 )}
