@@ -517,7 +517,7 @@ export default function OrganisationJobsCard(props) {
 
   return (
     <>
-      <div className="bg-[#f4f4f4] border border-2 border-slate-300 rounded-[25px] overflow-hidden">
+      <div className="bg-[#f4f4f4] border border-2 border-slate-300 rounded-[25px] overflow-hidden flex flex-col justify-between h-full">
         <div className="p-5">
           <div className="flex mb-8">
             <div className="bg-white rounded-full p-2.5 flex items-center justify-center w-[50px] h-[50px]">
@@ -530,7 +530,7 @@ export default function OrganisationJobsCard(props) {
               />
             </div>
             <div className="pl-3 w-[calc(100%-60px)]">
-              <h3 className="font-bold text-[15px] mb-1">{data.title}</h3>
+              <h3 className="font-bold text-[15px] mb-1 line_clamp_1">{data.title}</h3>
               <div className="flex items-center">
                 <h5 className="font-medium text-sm my-1 mr-6">
                   {data.user.company_name}

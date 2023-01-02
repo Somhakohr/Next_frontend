@@ -714,7 +714,9 @@ function Candidate(props) {
                   </h6>
                 </div>
                 <Link
-                  href="#"
+                  href="https://discord.gg/934TJUe6BF"
+                  target="_blank"
+                  rel="noreferrer"
                   className="w-[50%] bg-black px-6 py-6 rounded-xl absolute right-0 top-0 hover:w-full transition-all text-center"
                 >
                   <p className="text-white flex items-center justify-center">

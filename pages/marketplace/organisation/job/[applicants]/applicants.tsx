@@ -369,7 +369,7 @@ function OrganisationJOBApplicants(props) {
                               <td className="p-3 text-center">
                                 {data.status ? (
                                   <span
-                                    className="border rounded-full py-1 px-4 text-center text-[12px] min-w-[90px] inline-block"
+                                    className="border rounded-full py-1 px-4 text-center text-[12px] min-w-[110px] inline-block"
                                     style={{
                                       ["border-color" as any]: `${getColor(
                                         data.status
