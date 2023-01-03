@@ -310,15 +310,15 @@ export default function OrganisationCandidateProfileView(props) {
       .then(async res => {
         loadInterview(refid, crefid)
         toastcomp("Interview Status Updated", "success")
-        if (status == "passed") {
-          updateStatus("hire", arefid, refid)
-        }
-        if (status == "reject") {
-          updateStatus("reject", arefid, refid)
-        }
-        if (status == "hold") {
-          updateStatus("hold", arefid, refid)
-        }
+        // if (status == "passed") {
+        //   updateStatus("hire", arefid, refid)
+        // }
+        // if (status == "reject") {
+        //   updateStatus("reject", arefid, refid)
+        // }
+        // if (status == "hold") {
+        //   updateStatus("hold", arefid, refid)
+        // }
         setloader(false)
       })
       .catch(err => {
@@ -580,260 +580,223 @@ export default function OrganisationCandidateProfileView(props) {
                     <h3 className="text-lg font-semibold mb-2">
                       Update Status
                     </h3>
-                    <ul className="flex flex-wrap mx-[-10px] text-[#646464] text-sm">
-                      {interview.length <= 0 ? (
-                        <>
-                          {data.status == "Shortlisted" ? (
-                            <li className="w-[50%] px-[10px] flex items-center">
-                              <button
-                                type="button"
-                                className=" disabled:cursor-normal w-full rounded-full py-1.5 px-4 mt-3 text-left bg-[#6D27F9] text-white"
-                                disabled
-                              >
-                                <i className="fa-solid fa-thumbs-up mr-2"></i>
-                                Shortlisted
-                              </button>
-                            </li>
-                          ) : (
-                            <li className="w-[50%] px-[10px] flex items-center">
-                              <button
-                                type="button"
-                                className="w-full rounded-full py-1.5 px-4 mt-3 text-left hover:bg-[#6D27F9] hover:text-white"
-                                onClick={e =>
-                                  updateStatus(
-                                    "shortlist",
-                                    data.arefid,
-                                    data.job.refid
-                                  )
-                                }
-                              >
-                                <i className="fa-solid fa-thumbs-up mr-2"></i>
-                                Shortlist
-                                {loader && (
-                                  <i className="fa-solid fa-circle-notch fa-spin ml-2"></i>
-                                )}
-                              </button>
-                            </li>
-                          )}
-                          {data.status == "Hold" ? (
-                            <li className="w-[50%] px-[10px] flex items-center">
-                              <button
-                                type="button"
-                                className=" disabled:cursor-normal w-full rounded-full py-1.5 px-4 mt-3 text-left bg-[#FEF401] text-black"
-                                disabled
-                              >
-                                <i className="fa-solid fa-circle-pause mr-2"></i>
-                                On Hold
-                              </button>
-                            </li>
-                          ) : (
-                            <li className="w-[50%] px-[10px] flex items-center">
-                              <button
-                                type="button"
-                                className="w-full rounded-full py-1.5 px-4 mt-3 text-left hover:bg-[#FEF401] hover:text-black"
-                                onClick={e =>
-                                  updateStatus(
-                                    "hold",
-                                    data.arefid,
-                                    data.job.refid
-                                  )
-                                }
-                              >
-                                <i className="fa-solid fa-circle-pause mr-2"></i>
-                                On Hold
-                                {loader && (
-                                  <i className="fa-solid fa-circle-notch fa-spin ml-2"></i>
-                                )}
-                              </button>
-                            </li>
-                          )}
-                          {data.status == "Hired" ? (
-                            <li className="w-[50%] px-[10px] flex items-center">
-                              <button
-                                type="button"
-                                className=" disabled:cursor-normal w-full rounded-full py-1.5 px-4 mt-3 text-left bg-[#58E780] text-white"
-                                disabled
-                              >
-                                <i className="fa-solid fa-user mr-2"></i>
-                                Hired
-                              </button>
-                            </li>
-                          ) : (
-                            <li className="w-[50%] px-[10px] flex items-center">
-                              <button
-                                type="button"
-                                className="w-full rounded-full py-1.5 px-4 mt-3 text-left hover:bg-[#58E780] hover:text-white"
-                                onClick={e =>
-                                  updateStatus(
-                                    "hire",
-                                    data.arefid,
-                                    data.job.refid
-                                  )
-                                }
-                              >
-                                <i className="fa-solid fa-user mr-2"></i>
-                                Hire
-                                {loader && (
-                                  <i className="fa-solid fa-circle-notch fa-spin ml-2"></i>
-                                )}
-                              </button>
-                            </li>
-                          )}
-                          {data.status == "Rejected" ? (
-                            <li className="w-[50%] px-[10px] flex items-center">
-                              <button
-                                type="button"
-                                className=" disabled:cursor-normal w-full rounded-full py-1.5 px-4 mt-3 text-left bg-[#FF5E5E] text-white"
-                                disabled
-                              >
-                                <i className="fa-solid fa-thumbs-down mr-2"></i>
-                                Rejected
-                              </button>
-                            </li>
-                          ) : (
-                            <li className="w-[50%] px-[10px] flex items-center">
-                              <button
-                                type="button"
-                                className="w-full rounded-full py-1.5 px-4 mt-3 text-left hover:bg-[#FF5E5E] hover:text-white"
-                                onClick={e =>
-                                  updateStatus(
-                                    "reject",
-                                    data.arefid,
-                                    data.job.refid
-                                  )
-                                }
-                              >
-                                <i className="fa-solid fa-thumbs-down mr-2"></i>
-                                Reject
-                                {loader && (
-                                  <i className="fa-solid fa-circle-notch fa-spin ml-2"></i>
-                                )}
-                              </button>
-                            </li>
-                          )}
-                        </>
+
+                    <ul className="flex flex-wrap mx-[-10px] text-[#646464]">
+                      {data.status == "Shortlisted" || !interview.length > 0 ? (
+                        <li className="w-[50%] px-[10px]">
+                          <button
+                            type="button"
+                            className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#6D27F9] text-white"
+                            disabled
+                          >
+                            <i className="fa-solid fa-thumbs-up mr-2"></i>
+                            Shortlisted
+                          </button>
+                        </li>
                       ) : (
-                        <>
-                          <li className="w-[50%] px-[10px] flex items-center">
-                            <button
-                              type="button"
-                              className=" disabled:cursor-normal w-full rounded-full py-1.5 px-4 mt-3 text-left bg-[#6D27F9] text-white"
-                              disabled
-                            >
-                              <i className="fa-solid fa-thumbs-up mr-2"></i>
-                              Shortlisted
-                              {loader && (
-                                <i className="fa-solid fa-circle-notch fa-spin ml-2"></i>
-                              )}
-                            </button>
-                          </li>
-                          {interview.map(
-                            (data2, i) =>
-                              i + 1 === interview.length && (
-                                <>
-                                  {data2.status == "Hold" ? (
-                                    <li className="w-[50%] px-[10px] flex items-center">
-                                      <button
-                                        type="button"
-                                        className=" disabled:cursor-normal w-full rounded-full py-1.5 px-4 mt-3 text-left bg-[#FEF401] text-black"
-                                        disabled
-                                      >
-                                        <i className="fa-solid fa-circle-pause mr-2"></i>
-                                        On Hold
-                                      </button>
-                                    </li>
-                                  ) : (
-                                    <li className="w-[50%] px-[10px] flex items-center">
-                                      <button
-                                        type="button"
-                                        className="w-full rounded-full py-1.5 px-4 mt-3 text-left hover:bg-[#FEF401] hover:text-black"
-                                        onClick={e =>
-                                          updateIStatus(
-                                            "hold",
-                                            data2.id,
-                                            data.job.refid,
-                                            data.arefid
-                                          )
-                                        }
-                                      >
-                                        <i className="fa-solid fa-circle-pause mr-2"></i>
-                                        On Hold
-                                        {loader && (
-                                          <i className="fa-solid fa-circle-notch fa-spin ml-2"></i>
-                                        )}
-                                      </button>
-                                    </li>
-                                  )}
-                                  {data2.status == "Passed" ? (
-                                    <li className="w-[50%] px-[10px] flex items-center">
-                                      <button
-                                        type="button"
-                                        className=" disabled:cursor-normal w-full rounded-full py-1.5 px-4 mt-3 text-left bg-[#58E780] text-white"
-                                        disabled
-                                      >
-                                        <i className="fa-solid fa-user mr-2"></i>
-                                        Hired
-                                      </button>
-                                    </li>
-                                  ) : (
-                                    <li className="w-[50%] px-[10px] flex items-center">
-                                      <button
-                                        type="button"
-                                        className="w-full rounded-full py-1.5 px-4 mt-3 text-left hover:bg-[#58E780] hover:text-white"
-                                        onClick={e =>
-                                          updateIStatus(
-                                            "passed",
-                                            data2.id,
-                                            data.job.refid,
-                                            data.arefid
-                                          )
-                                        }
-                                      >
-                                        <i className="fa-solid fa-user mr-2"></i>
-                                        Hire
-                                        {loader && (
-                                          <i className="fa-solid fa-circle-notch fa-spin ml-2"></i>
-                                        )}
-                                      </button>
-                                    </li>
-                                  )}
-                                  {data2.status == "Reject" ? (
-                                    <li className="w-[50%] px-[10px] flex items-center">
-                                      <button
-                                        type="button"
-                                        className=" disabled:cursor-normal w-full rounded-full py-1.5 px-4 mt-3 text-left bg-[#FF5E5E] text-white"
-                                        disabled
-                                      >
-                                        <i className="fa-solid fa-thumbs-down mr-2"></i>
-                                        Rejected
-                                      </button>
-                                    </li>
-                                  ) : (
-                                    <li className="w-[50%] px-[10px] flex items-center">
-                                      <button
-                                        type="button"
-                                        className="w-full rounded-full py-1.5 px-4 mt-3 text-left hover:bg-[#FF5E5E] hover:text-white"
-                                        onClick={e =>
-                                          updateIStatus(
-                                            "reject",
-                                            data2.id,
-                                            data.job.refid,
-                                            data.arefid
-                                          )
-                                        }
-                                      >
-                                        <i className="fa-solid fa-thumbs-down mr-2"></i>
-                                        Reject
-                                        {loader && (
-                                          <i className="fa-solid fa-circle-notch fa-spin ml-2"></i>
-                                        )}
-                                      </button>
-                                    </li>
-                                  )}
-                                </>
+                        <li className="w-[50%] px-[10px]">
+                          <button
+                            type="button"
+                            className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#6D27F9] hover:text-white"
+                            onClick={e =>
+                              updateStatus(
+                                "shortlist",
+                                data.arefid,
+                                data.job.refid
                               )
-                          )}
-                        </>
+                            }
+                          >
+                            {loader && (
+                              <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                            )}
+                            <i className="fa-solid fa-thumbs-up mr-2"></i>
+                            Shortlist
+                          </button>
+                        </li>
+                      )}
+
+                      {data.status == "Hold" ? (
+                        <li className="w-[50%] px-[10px]">
+                          <button
+                            type="button"
+                            className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FEF401] text-black"
+                            disabled
+                          >
+                            <i className="fa-solid fa-circle-pause mr-2"></i>
+                            On Hold
+                          </button>
+                        </li>
+                      ) : interview.length > 0 ? (
+                        interview.map(
+                          (data2, i) =>
+                            i + 1 === interview.length && (
+                              <li className="w-[50%] px-[10px]" key={i}>
+                                <button
+                                  type="button"
+                                  className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#FEF401] hover:text-black"
+                                  onClick={e => {
+                                    updateIStatus(
+                                      "hold",
+                                      data2.id,
+                                      data.job.refid,
+                                      data.arefid
+                                    )
+                                    updateStatus(
+                                      "hold",
+                                      data.arefid,
+                                      data.job.refid
+                                    )
+                                  }}
+                                >
+                                  {loader && (
+                                    <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                                  )}
+                                  <i className="fa-solid fa-circle-pause mr-2"></i>
+                                  On Hold
+                                </button>
+                              </li>
+                            )
+                        )
+                      ) : (
+                        <li className="w-[50%] px-[10px]">
+                          <button
+                            type="button"
+                            className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#FEF401] hover:text-black"
+                            onClick={e =>
+                              updateStatus("hold", data.arefid, data.job.refid)
+                            }
+                          >
+                            {loader && (
+                              <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                            )}
+                            <i className="fa-solid fa-circle-pause mr-2"></i>
+                            On Hold
+                          </button>
+                        </li>
+                      )}
+
+                      {data.status == "Hired" ? (
+                        <li className="w-[50%] px-[10px]">
+                          <button
+                            type="button"
+                            className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#58E780] text-white"
+                            disabled
+                          >
+                            <i className="fa-solid fa-user mr-2"></i>
+                            Hired
+                          </button>
+                        </li>
+                      ) : interview.length > 0 ? (
+                        interview.map(
+                          (data2, i) =>
+                            i + 1 === interview.length && (
+                              <li className="w-[50%] px-[10px]" key={i}>
+                                <button
+                                  type="button"
+                                  className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#58E780] hover:text-black"
+                                  onClick={e => {
+                                    updateIStatus(
+                                      "passed",
+                                      data2.id,
+                                      data.job.refid,
+                                      data.arefid
+                                    )
+                                    updateStatus(
+                                      "hire",
+                                      data.arefid,
+                                      data.job.refid
+                                    )
+                                  }}
+                                >
+                                  {loader && (
+                                    <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                                  )}
+                                  <i className="fa-solid fa-circle-pause mr-2"></i>
+                                  Hired
+                                </button>
+                              </li>
+                            )
+                        )
+                      ) : (
+                        <li className="w-[50%] px-[10px]">
+                          <button
+                            type="button"
+                            className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#58E780] hover:text-black"
+                            onClick={e =>
+                              updateStatus("hire", data.arefid, data.job.refid)
+                            }
+                          >
+                            {loader && (
+                              <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                            )}
+                            <i className="fa-solid fa-circle-pause mr-2"></i>
+                            Hire
+                          </button>
+                        </li>
+                      )}
+
+                      {data.status == "Rejected" ? (
+                        <li className="w-[50%] px-[10px]">
+                          <button
+                            type="button"
+                            className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FF5E5E] text-white"
+                            disabled
+                          >
+                            <i className="fa-solid fa-thumbs-down mr-2"></i>
+                            Rejected
+                          </button>
+                        </li>
+                      ) : interview.length > 0 ? (
+                        interview.map(
+                          (data2, i) =>
+                            i + 1 === interview.length && (
+                              <li className="w-[50%] px-[10px]" key={i}>
+                                <button
+                                  type="button"
+                                  className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#FF5E5E] hover:text-black"
+                                  onClick={e => {
+                                    updateIStatus(
+                                      "reject",
+                                      data2.id,
+                                      data.job.refid,
+                                      data.arefid
+                                    )
+                                    updateStatus(
+                                      "reject",
+                                      data.arefid,
+                                      data.job.refid
+                                    )
+                                  }}
+                                >
+                                  {loader && (
+                                    <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                                  )}
+                                  <i className="fa-solid fa-circle-pause mr-2"></i>
+                                  Rejected
+                                </button>
+                              </li>
+                            )
+                        )
+                      ) : (
+                        <li className="w-[50%] px-[10px]">
+                          <button
+                            type="button"
+                            className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#FF5E5E] hover:text-black"
+                            onClick={e =>
+                              updateStatus(
+                                "reject",
+                                data.arefid,
+                                data.job.refid
+                              )
+                            }
+                          >
+                            {loader && (
+                              <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                            )}
+                            <i className="fa-solid fa-circle-pause mr-2"></i>
+                            Reject
+                          </button>
+                        </li>
                       )}
                     </ul>
                     {data.status == "Hired" ||
@@ -909,16 +872,6 @@ export default function OrganisationCandidateProfileView(props) {
                           {interview.length <= 0 ? (
                             <div className="text-center mb-4 relative after:content-[''] after:w-[150px] after:h-[2px] after:bg-slate-300 after:absolute after:right-0 after:top-[18px] after:z-[1]">
                               <div className="relative z-[2]">
-                                <div className="flex items-center absolute top-[5px] left-0">
-                                    <button type="button" className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3">
-                                        <i className="fa-solid fa-check text-[12px]"></i>
-                                        <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Pass</span>
-                                    </button>
-                                    <button type="button" className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3">
-                                        <i className="fa-solid fa-xmark text-[12px]"></i>
-                                        <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Fail</span>
-                                    </button>
-                                </div>
                                 {data.status == "Hired" && (
                                   <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border border-[#58E780]  text-center rounded-full min-w-[115px]">
                                     {loader && (
@@ -965,37 +918,372 @@ export default function OrganisationCandidateProfileView(props) {
                                 {/* <p className="text-[#646464] text-[12px]">Nov 29, 2022 - 12:00pm</p> */}
                               </div>
 
-                              {interview.map((data2, i) => (
+                              {interview.map((data2, i) =>
                                 // eslint-disable-next-line react/jsx-key
-                                <div className="text-center mb-4 relative after:content-[''] after:w-[150px] after:h-[2px] after:bg-slate-300 after:absolute after:right-0 after:top-[18px] after:z-[1] before:content-[''] before:w-[2px] before:h-[72px] before:bg-slate-300 before:absolute before:right-0 before:bottom-[38px] before:z-[1]">
-                                  <div className="relative z-[2]">
-                                    {data2.status == "Passed" && (
-                                      <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border border-[#58E780] text-center rounded-full min-w-[115px]">
-                                        {data2.title}
-                                      </span>
-                                    )}
-                                    {data2.status == "Reject" && (
-                                      <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border border-[#FF5E5E] text-center rounded-full min-w-[115px]">
-                                        {data2.title}
-                                      </span>
-                                    )}
-                                    {data2.status == "Hold" && (
-                                      <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border border-[#Hold] text-center rounded-full min-w-[115px]">
-                                        {data2.title}
-                                      </span>
-                                    )}
-                                    {data2.status == null && (
-                                      <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border text-center rounded-full min-w-[115px]">
-                                        {data2.title}
-                                      </span>
-                                    )}
+                                i + 1 === interview.length ? (
+                                  <div className="text-center mb-4 relative after:content-[''] after:w-[150px] after:h-[2px] after:bg-slate-300 after:absolute after:right-0 after:top-[18px] after:z-[1] before:content-[''] before:w-[2px] before:h-[72px] before:bg-slate-300 before:absolute before:right-0 before:bottom-[38px] before:z-[1]">
+                                    <div className="relative z-[2]">
+                                      {data2.status == "Passed" && (
+                                        <>
+                                          <div className="flex items-center absolute top-[5px] left-0">
+                                            <button
+                                              type="button"
+                                              className="border-2 rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] border-[#6D27F9] text-[#6D27F9] relative parent mr-3"
+                                              // onClick={e =>
+                                              //   updateIStatus(
+                                              //     "passed",
+                                              //     data2.id,
+                                              //     data.job.refid,
+                                              //     data.arefid
+                                              //   )
+                                              // }
+                                            >
+                                              <i className="fa-solid fa-check text-[12px]"></i>
+                                              <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] child">
+                                                Pass
+                                              </span>
+                                            </button>
+                                            <button
+                                              type="button"
+                                              className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3"
+                                              onClick={e =>
+                                                updateIStatus(
+                                                  "reject",
+                                                  data2.id,
+                                                  data.job.refid,
+                                                  data.arefid
+                                                )
+                                              }
+                                            >
+                                              <i className="fa-solid fa-xmark text-[12px]"></i>
+                                              <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
+                                                Fail
+                                              </span>
+                                            </button>
+                                          </div>
+                                          <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border border-[#58E780] text-center rounded-full min-w-[115px]">
+                                            {data2.title}
+                                          </span>
+                                        </>
+                                      )}
+                                      {data2.status == "Reject" && (
+                                        <>
+                                          <div className="flex items-center absolute top-[5px] left-0">
+                                            <button
+                                              type="button"
+                                              className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3"
+                                              onClick={e =>
+                                                updateIStatus(
+                                                  "passed",
+                                                  data2.id,
+                                                  data.job.refid,
+                                                  data.arefid
+                                                )
+                                              }
+                                            >
+                                              <i className="fa-solid fa-check text-[12px]"></i>
+                                              <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
+                                                Pass
+                                              </span>
+                                            </button>
+                                            <button
+                                              type="button"
+                                              className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] border-[red] text-[red] relative parent mr-3"
+                                              // onClick={e =>
+                                              //   updateIStatus(
+                                              //     "reject",
+                                              //     data2.id,
+                                              //     data.job.refid,
+                                              //     data.arefid
+                                              //   )
+                                              // }
+                                            >
+                                              <i className="fa-solid fa-xmark text-[12px]"></i>
+                                              <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] child">
+                                                Fail
+                                              </span>
+                                            </button>
+                                          </div>
+                                          <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border border-[#FF5E5E] text-center rounded-full min-w-[115px]">
+                                            {data2.title}
+                                          </span>
+                                        </>
+                                      )}
+                                      {data2.status == "Hold" && (
+                                        <>
+                                          <div className="flex items-center absolute top-[5px] left-0">
+                                            <button
+                                              type="button"
+                                              className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3"
+                                              onClick={e =>
+                                                updateIStatus(
+                                                  "passed",
+                                                  data2.id,
+                                                  data.job.refid,
+                                                  data.arefid
+                                                )
+                                              }
+                                            >
+                                              <i className="fa-solid fa-check text-[12px]"></i>
+                                              <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
+                                                Pass
+                                              </span>
+                                            </button>
+                                            <button
+                                              type="button"
+                                              className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3"
+                                              onClick={e =>
+                                                updateIStatus(
+                                                  "reject",
+                                                  data2.id,
+                                                  data.job.refid,
+                                                  data.arefid
+                                                )
+                                              }
+                                            >
+                                              <i className="fa-solid fa-xmark text-[12px]"></i>
+                                              <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
+                                                Fail
+                                              </span>
+                                            </button>
+                                          </div>
+                                          <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border border-[#FEF401] text-center rounded-full min-w-[115px]">
+                                            {data2.title}
+                                          </span>
+                                        </>
+                                      )}
+                                      {data2.status == null && (
+                                        <>
+                                          <div className="flex items-center absolute top-[5px] left-0">
+                                            <button
+                                              type="button"
+                                              className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3"
+                                              onClick={e =>
+                                                updateIStatus(
+                                                  "passed",
+                                                  data2.id,
+                                                  data.job.refid,
+                                                  data.arefid
+                                                )
+                                              }
+                                            >
+                                              <i className="fa-solid fa-check text-[12px]"></i>
+                                              <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
+                                                Pass
+                                              </span>
+                                            </button>
+                                            <button
+                                              type="button"
+                                              className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3"
+                                              onClick={e =>
+                                                updateIStatus(
+                                                  "reject",
+                                                  data2.id,
+                                                  data.job.refid,
+                                                  data.arefid
+                                                )
+                                              }
+                                            >
+                                              <i className="fa-solid fa-xmark text-[12px]"></i>
+                                              <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
+                                                Fail
+                                              </span>
+                                            </button>
+                                          </div>
+                                          <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border text-center rounded-full min-w-[115px]">
+                                            {data2.title}
+                                          </span>
+                                        </>
+                                      )}
+                                    </div>
+                                    <p className="text-[#646464] text-[12px]">
+                                      {data2.interview_date}{" "}
+                                      {data2.interview_start_time}
+                                    </p>
                                   </div>
-                                  <p className="text-[#646464] text-[12px]">
-                                    {data2.interview_date}{" "}
-                                    {data2.interview_start_time}
-                                  </p>
-                                </div>
-                              ))}
+                                ) : (
+                                  <div className="text-center mb-4 relative after:content-[''] after:w-[150px] after:h-[2px] after:bg-slate-300 after:absolute after:right-0 after:top-[18px] after:z-[1] before:content-[''] before:w-[2px] before:h-[72px] before:bg-slate-300 before:absolute before:right-0 before:bottom-[38px] before:z-[1]">
+                                    <div className="relative z-[2]">
+                                      {data2.status == "Passed" && (
+                                        <>
+                                          <div className="flex items-center absolute top-[5px] left-0">
+                                            <button
+                                              type="button"
+                                              className="border-2 rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] border-[#6D27F9] text-[#6D27F9] relative parent mr-3"
+                                              // onClick={e =>
+                                              //   updateIStatus(
+                                              //     "passed",
+                                              //     data2.id,
+                                              //     data.job.refid,
+                                              //     data.arefid
+                                              //   )
+                                              // }
+                                            >
+                                              <i className="fa-solid fa-check text-[12px]"></i>
+                                              <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] child">
+                                                Pass
+                                              </span>
+                                            </button>
+                                            <button
+                                              type="button"
+                                              className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3"
+                                              // onClick={e =>
+                                              //   updateIStatus(
+                                              //     "reject",
+                                              //     data2.id,
+                                              //     data.job.refid,
+                                              //     data.arefid
+                                              //   )
+                                              // }
+                                            >
+                                              <i className="fa-solid fa-xmark text-[12px]"></i>
+                                              <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
+                                                Fail
+                                              </span>
+                                            </button>
+                                          </div>
+                                          <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border border-[#58E780] text-center rounded-full min-w-[115px]">
+                                            {data2.title}
+                                          </span>
+                                        </>
+                                      )}
+                                      {data2.status == "Reject" && (
+                                        <>
+                                          <div className="flex items-center absolute top-[5px] left-0">
+                                            <button
+                                              type="button"
+                                              className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3"
+                                              // onClick={e =>
+                                              //   updateIStatus(
+                                              //     "passed",
+                                              //     data2.id,
+                                              //     data.job.refid,
+                                              //     data.arefid
+                                              //   )
+                                              // }
+                                            >
+                                              <i className="fa-solid fa-check text-[12px]"></i>
+                                              <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
+                                                Pass
+                                              </span>
+                                            </button>
+                                            <button
+                                              type="button"
+                                              className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] border-[red] text-[red] relative parent mr-3"
+                                              // onClick={e =>
+                                              //   updateIStatus(
+                                              //     "reject",
+                                              //     data2.id,
+                                              //     data.job.refid,
+                                              //     data.arefid
+                                              //   )
+                                              // }
+                                            >
+                                              <i className="fa-solid fa-xmark text-[12px]"></i>
+                                              <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] child">
+                                                Fail
+                                              </span>
+                                            </button>
+                                          </div>
+                                          <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border border-[#FF5E5E] text-center rounded-full min-w-[115px]">
+                                            {data2.title}
+                                          </span>
+                                        </>
+                                      )}
+                                      {data2.status == "Hold" && (
+                                        <>
+                                          <div className="flex items-center absolute top-[5px] left-0">
+                                            <button
+                                              type="button"
+                                              className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3"
+                                              // onClick={e =>
+                                              //   updateIStatus(
+                                              //     "passed",
+                                              //     data2.id,
+                                              //     data.job.refid,
+                                              //     data.arefid
+                                              //   )
+                                              // }
+                                            >
+                                              <i className="fa-solid fa-check text-[12px]"></i>
+                                              <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
+                                                Pass
+                                              </span>
+                                            </button>
+                                            <button
+                                              type="button"
+                                              className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3"
+                                              // onClick={e =>
+                                              //   updateIStatus(
+                                              //     "reject",
+                                              //     data2.id,
+                                              //     data.job.refid,
+                                              //     data.arefid
+                                              //   )
+                                              // }
+                                            >
+                                              <i className="fa-solid fa-xmark text-[12px]"></i>
+                                              <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
+                                                Fail
+                                              </span>
+                                            </button>
+                                          </div>
+                                          <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border border-[#Hold] text-center rounded-full min-w-[115px]">
+                                            {data2.title}
+                                          </span>
+                                        </>
+                                      )}
+                                      {data2.status == null && (
+                                        <>
+                                          <div className="flex items-center absolute top-[5px] left-0">
+                                            <button
+                                              type="button"
+                                              className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3"
+                                              // onClick={e =>
+                                              //   updateIStatus(
+                                              //     "passed",
+                                              //     data2.id,
+                                              //     data.job.refid,
+                                              //     data.arefid
+                                              //   )
+                                              // }
+                                            >
+                                              <i className="fa-solid fa-check text-[12px]"></i>
+                                              <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
+                                                Pass
+                                              </span>
+                                            </button>
+                                            <button
+                                              type="button"
+                                              className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3"
+                                              // onClick={e =>
+                                              //   updateIStatus(
+                                              //     "reject",
+                                              //     data2.id,
+                                              //     data.job.refid,
+                                              //     data.arefid
+                                              //   )
+                                              // }
+                                            >
+                                              <i className="fa-solid fa-xmark text-[12px]"></i>
+                                              <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
+                                                Fail
+                                              </span>
+                                            </button>
+                                          </div>
+                                          <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border text-center rounded-full min-w-[115px]">
+                                            {data2.title}
+                                          </span>
+                                        </>
+                                      )}
+                                    </div>
+                                    <p className="text-[#646464] text-[12px]">
+                                      {data2.interview_date}{" "}
+                                      {data2.interview_start_time}
+                                    </p>
+                                  </div>
+                                )
+                              )}
                             </>
                           )}
                         </div>
