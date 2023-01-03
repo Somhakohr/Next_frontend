@@ -1,79 +1,64 @@
-import Image from "next/image";
-import { Fragment, useRef, useState, useEffect } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import Slider from "react-slick";
-import googleImg from "../../../../public/images/google-icon.png";
-import { axiosInstance } from "../../../../api/axiosApi";
-import { useStore } from "../../../../../constants/code";
-import shallow from "zustand/shallow";
-import moment from "moment";
-import { withAuth } from "../../../../../constants/HOCs";
-import toastcomp from "../../../../../components/toast";
-import axios from "axios";
+import Image from "next/image"
+import { Fragment, useRef, useState, useEffect } from "react"
+import { Dialog, Transition } from "@headlessui/react"
+import Slider from "react-slick"
+import { axiosInstance } from "../../../../api/axiosApi"
+import { useStore } from "../../../../../constants/code"
+import shallow from "zustand/shallow"
+import moment from "moment"
 
-function PreviewDetail(props) {
-  const [mainShareJob, mainShareJobOpen] = useState(false);
-  const cancelButtonRef = useRef(null);
-  const [jobDetail, setJobDetail] = useState([]);
-  const [pskill, setPSkill] = useState([]);
-  const [rskill, setRSkill] = useState([]);
-  const [finfo, setFInfo] = useState([]);
-  const [refid, setRefid] = useState("");
+export default function PreviewDetail(props) {
+  const [mainShareJob, mainShareJobOpen] = useState(false)
+  const cancelButtonRef = useRef(null)
+  const [jobDetail, setJobDetail] = useState([])
+  const [pskill, setPSkill] = useState([])
+  const [rskill, setRSkill] = useState([])
+  const [finfo, setFInfo] = useState([])
+  const [refid, setRefid] = useState("")
   const [param1, updateParam1] = useStore(
-    (state) => [state.param1, state.updateParam1],
+    state => [state.param1, state.updateParam1],
     shallow
-  );
+  )
   const [userType, updateUserType] = useStore(
-    (state) => [state.userType, state.updateUserType],
+    state => [state.userType, state.updateUserType],
     shallow
-  );
+  )
   const [userObj, updateUserObj] = useStore(
-    (state) => [state.userObj, state.updateUserObj],
+    state => [state.userObj, state.updateUserObj],
     shallow
-  );
+  )
   const [accessToken, updateAccessToken] = useStore(
-    (state) => [state.accessToken, state.updateAccessToken],
+    state => [state.accessToken, state.updateAccessToken],
     shallow
-  );
-  const { session, router } = props;
+  )
+  const { session, router } = props
   //axios auth var
-  const axiosInstanceAuth2 = axios.create({
-    baseURL:
-      process.env.NODE_ENV === "production"
-        ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-        : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "multipart/form-data",
-    },
-  });
   async function loadJobDetail(id) {
     await axiosInstance
       .get("/job/job/detail/" + id + "/")
-      .then(async (res) => {
-        setJobDetail(res.data);
+      .then(async res => {
+        setJobDetail(res.data)
       })
-      .catch((err) => {
-        router.push("/marketplace/organisation");
+      .catch(err => {
+        router.push("/marketplace/organisation")
         // console.log(err)
         // if(err.message != "Request failed with status code 401"){
         //     toastcomp("Job Detail Not Loaded","error");
         // }
-      });
+      })
   }
 
   useEffect(() => {
     if (!param1) {
-      router.push("/marketplace/organisation");
+      router.push("/marketplace/organisation")
     } else {
-      loadJobDetail(param1);
+      loadJobDetail(param1)
     }
-  }, [param1]);
+  }, [param1])
 
   function companyDetail(orefid) {
-    updateParam1(orefid);
-    router.push("/marketplace/organisation/company/preview/" + orefid);
+    updateParam1(orefid)
+    router.push("/marketplace/organisation/company/preview/" + orefid)
   }
 
   useEffect(() => {
@@ -167,33 +152,33 @@ function PreviewDetail(props) {
               ? jobDetail[i]["relocation"]
               : "N/A",
           },
-        ]);
+        ])
 
         let arr = [],
-          rarr = [];
+          rarr = []
         if (jobDetail[i]["preskill"]) {
-          let preskill = jobDetail[i]["preskill"].split(",");
+          let preskill = jobDetail[i]["preskill"].split(",")
           for (let j = 0; j < preskill.length; j++) {
             arr.push({
               title: preskill[j],
-            });
+            })
           }
-          setPSkill(arr);
+          setPSkill(arr)
         }
         if (jobDetail[i]["recsskill"]) {
-          let recskill = jobDetail[i]["recskill"].split(",");
+          let recskill = jobDetail[i]["recskill"].split(",")
           for (let j = 0; j < recskill.length; j++) {
             rarr.push({
               title: recskill[j],
-            });
+            })
           }
-          setRSkill(rarr);
+          setRSkill(rarr)
         }
 
-        setRefid(jobDetail[i]["refid"]);
+        setRefid(jobDetail[i]["refid"])
       }
     }
-  }, [jobDetail]);
+  }, [jobDetail])
 
   const settings = {
     dots: false,
@@ -220,7 +205,7 @@ function PreviewDetail(props) {
         },
       },
     ],
-  };
+  }
   // const featuredInfo = [
   //     {
   //         icon: <i className="fa-solid fa-briefcase"></i>,
@@ -335,7 +320,7 @@ function PreviewDetail(props) {
                         </h2>
                       </aside>
                       <button
-                        onClick={(e) => companyDetail(data.user.orefid)}
+                        onClick={e => companyDetail(data.user.orefid)}
                         type="button"
                         className="w-full font-semibold bg-white shadow-normal rounded-lg py-2 px-4 hover:bg-[#6D27F9] hover:text-white"
                       >
@@ -599,6 +584,5 @@ function PreviewDetail(props) {
         </>
       )}
     </>
-  );
+  )
 }
-export default withAuth(3 * 60)(PreviewDetail);

@@ -1,20 +1,13 @@
-import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
-import AuthSlider from "../../../components/auth-slider";
-import Google_Icon from "../../public/images/google-icon.png";
-import Github_Icon from "../../public/images/github-icon.png";
-import React from "react";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { getCsrfToken, signIn } from "next-auth/react";
-// import useStore from "../../hooks/useStore";
-import toastcomp from "../../../components/toast";
+import Head from "next/head"
+import AuthSlider from "../../../components/auth-slider"
+import React from "react"
+import { useState, useEffect } from "react"
+import axios from "axios"
+import { useRouter } from "next/navigation"
 
 export default function SignIn() {
-  const router = useRouter();
-  const [errorMsg, setErrorMsg] = useState("Account already Exist, Try Again");
+  const router = useRouter()
+  const [errorMsg, setErrorMsg] = useState("Account already Exist, Try Again")
   const errdict = {
     OAuthSignin: "Error in constructing an authorization URL",
     OAuthCallback:
@@ -31,19 +24,19 @@ export default function SignIn() {
     SessionRequired:
       "The content of this page requires you to be signed in at all times. See useSession for configuration.",
     Default: "Catch all, will apply, if none of the above matched",
-  };
+  }
 
   useEffect(() => {
-    const search = window.location.search;
-    const params = new URLSearchParams(search);
+    const search = window.location.search
+    const params = new URLSearchParams(search)
     if (params.get("error")) {
-      setErrorMsg(errdict[params.get("error")]);
+      setErrorMsg(errdict[params.get("error")])
     }
-  }, []);
+  }, [])
 
   async function handleClick(event) {
-    event.preventDefault();
-    router.back();
+    event.preventDefault()
+    router.back()
   }
 
   return (
@@ -68,7 +61,7 @@ export default function SignIn() {
                 <button
                   type="button"
                   className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188] mt-6"
-                  onClick={(e) => handleClick(e)}
+                  onClick={e => handleClick(e)}
                 >
                   Go Back
                   <i className="fa-solid fa-arrow-right-to-bracket ml-2"></i>
@@ -79,5 +72,5 @@ export default function SignIn() {
         </section>
       </main>
     </>
-  );
+  )
 }

@@ -1,18 +1,14 @@
-import axios from "axios";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import shallow from "zustand/shallow";
-import { useStore } from "../constants/code";
-import { axiosInstance } from "../pages/api/axiosApi";
-import chatMini from "../public/images/chat-mini.png";
-import userIcon from "../public/images/user-image.png";
-import toastcomp from "./toast";
+import axios from "axios"
+import Image from "next/image"
+import { useState } from "react"
+import shallow from "zustand/shallow"
+import { useStore } from "../constants/code"
+import toastcomp from "./toast"
+import { axiosInstance2 } from "../pages/api/axiosApi"
+import ChatLogo from '../public/images/chat-mini.png'
 
 export default function ChatBot(props) {
-  const [input1, setInput1] = useState("");
-  const [input2, setInput2] = useState("");
-  const [inpv, setInpv] = useState("");
-  const [resv, setResv] = useState("");
+  const [input1, setInput1] = useState("")
 
   const {
     setJobList,
@@ -24,72 +20,61 @@ export default function ChatBot(props) {
     data,
     setData,
     setTabIndex,
-  } = props;
+  } = props
   const [userImg, updateUserImg] = useStore(
-    (state) => [state.userImg, state.updateUserImg],
+    state => [state.userImg, state.updateUserImg],
     shallow
-  );
-
-  const axiosInstanceAuth2 = axios.create({
-    baseURL:
-      process.env.NODE_ENV === "production"
-        ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-        : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  )
 
   async function chatmini() {
-    let arr = data;
-    arr.push(input1);
+    let arr = data
+    arr.push(input1)
     // setData(arr)
     // setInpv(input1)
 
-    var formData = new FormData();
-    formData.append("promt", input1);
-    await axiosInstanceAuth2
+    var formData = new FormData()
+    formData.append("promt", input1)
+    await axiosInstance2
       .post("/job/chatmini/", formData)
-      .then(async (res) => {
-        console.log(res.data);
-        if (res.data.Jobs) {
-          filter(res.data.Jobs);
+      .then(async res => {
+        console.log(res.data)
+        if (res.data.jobs) {
+          filter(res.data.jobs)
         } else if (input1.includes("Chatmini") || input1.includes("chatmini")) {
-          filter("");
+          filter("")
         }
-        arr.push(res.data.res);
-        setData(arr);
-        setInput1("");
+        arr.push(res.data.res)
+        setData(arr)
+        setInput1("")
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(err => {
+        console.log(err)
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Job Filter Error Dev", "error");
+          toastcomp("Job Filter Error Dev", "error")
         }
-        setInput1("");
-      });
+        setInput1("")
+      })
   }
 
   async function filter(param1) {
-    setskeleton1(true);
+    setskeleton1(true)
     // setskeleton2(true)
-    await axiosInstanceAuth2
+    await axiosInstance2
       .get(`/job/chatmini/job/?refid=${param1}`)
-      .then(async (res) => {
-        setJobList(res.data);
-        setJobList2(res.data.slice(0, 6));
-        setskeleton1(false);
+      .then(async res => {
+        setJobList(res.data)
+        setJobList2(res.data.slice(0, 6))
+        setskeleton1(false)
         // setskeleton2(false)
-        setTabIndex(1);
+        setTabIndex(1)
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(err => {
+        console.log(err)
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Job Filter Error Dev2", "error");
+          toastcomp("Job Filter Error Dev2", "error")
         }
-        setInput1("");
-      });
+        setInput1("")
+      })
   }
 
   return (
@@ -130,15 +115,9 @@ export default function ChatBot(props) {
                 !skeleton2 &&
                 data.map((item, key) =>
                   key % 2 ? (
-                    <li className="left my-2" key={key}>
-                      <span className="inline-block max-w-[85%] border border-teal-400 bg-white shadow rounded-[20px] py-2 px-3">
-                        {item}
-                      </span>
-                    </li>
-                  ) : (
                     <li key={key}>
                       <div className="flex items-center justify-end">
-                        <span className="inline-block max-w-[75%] bg-[#6D27F9] text-white shadow rounded-[20px] py-2 px-3 relative after:content-[''] after:border-[5px] after:border-[#6D27F9] after:absolute after:top-[50%] after:right-[-4px] after:translate-y-[-50%] after:rotate-45">
+                        <span className="inline-block max-w-[75%] bg-[#6D27F9] text-white shadow rounded-[20px] py-2 px-3 relative after:content-[''] after:border-[4px] after:border-[#6D27F9] after:absolute after:top-[50%] after:right-[-4px] after:translate-y-[-50%] after:rotate-45">
                           {item}
                         </span>
                         <Image
@@ -148,6 +127,21 @@ export default function ChatBot(props) {
                           height={300}
                           className="w-[35px] h-[35px] rounded-full object-cover w-[35px] h-[35px]"
                         />
+                      </div>
+                    </li>
+                  ) : (
+                    <li className="left my-2" key={key}>
+                      <div className="flex items-center">
+                        <Image
+                          src={ChatLogo}
+                          alt="User"
+                          width={300}
+                          height={300}
+                          className="w-[35px] h-[35px] rounded-full object-cover w-[35px] h-[35px]"
+                        />
+                        <span className="inline-block max-w-[75%] border border-teal-400 bg-white z-[10] shadow rounded-[20px] py-2 px-3 relative after:content-[''] after:border-[4px] after:border-b-teal-400 after:border-l-teal-400 after:border-[transparent] after:absolute after:top-[50%] after:left-[-4px] after:translate-y-[-50%] after:rotate-45">
+                          {item}
+                        </span>
                       </div>
                     </li>
                   )
@@ -175,14 +169,14 @@ export default function ChatBot(props) {
               placeholder="Type here..."
               className="w-full rounded-full border-slate-300"
               value={input1}
-              onChange={(e) => {
-                setInput1(e.target.value);
+              onChange={e => {
+                setInput1(e.target.value)
               }}
-              onKeyDown={(e) => {
+              onKeyDown={e => {
                 if (e.key === "Enter" && input1.length > 0) {
                   // setInpv('')
                   // setResv('')
-                  chatmini();
+                  chatmini()
                 }
               }}
             />
@@ -194,5 +188,5 @@ export default function ChatBot(props) {
         </div>
       </div>
     </>
-  );
+  )
 }

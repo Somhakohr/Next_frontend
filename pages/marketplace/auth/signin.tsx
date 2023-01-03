@@ -1,99 +1,80 @@
-import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
-import AuthSlider from "../../../components/auth-slider";
-import Google_Icon from "../../../public/images/google-icon.png";
-import Github_Icon from "../../../public/images/github-icon.png";
-import React from "react";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import {
-  getCsrfToken,
-  getSession,
-  SessionProvider,
-  signIn,
-  useSession,
-} from "next-auth/react";
-import toastcomp from "../../../components/toast";
+import Head from "next/head"
+import Image from "next/image"
+import Link from "next/link"
+import AuthSlider from "../../../components/auth-slider"
+import Google_Icon from "../../../public/images/google-icon.png"
+import Github_Icon from "../../../public/images/github-icon.png"
+import React from "react"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { getCsrfToken, signIn } from "next-auth/react"
+import toastcomp from "../../../components/toast"
+import { axiosInstance } from "../../api/axiosApi"
 
 async function setCSRF(setCsrf) {
-  const csrfToken = await getCsrfToken();
-  setCsrf(csrfToken);
+  const csrfToken = await getCsrfToken()
+  setCsrf(csrfToken)
 }
 
-export default function SignIn(props) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [csrf, setCsrf] = useState("");
-  const [loader, setloader] = useState(false);
-  const router = useRouter();
+export default function SignIn() {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [csrf, setCsrf] = useState("")
+  const [loader, setloader] = useState(false)
+  const router = useRouter()
 
-  const [switchInputType, switchInputTypeToggle] = useState(false);
+  const [switchInputType, switchInputTypeToggle] = useState(false)
   function inputTypeToggled() {
-    switchInputTypeToggle(!switchInputType);
+    switchInputTypeToggle(!switchInputType)
   }
 
   useEffect(() => {
-    setCSRF(setCsrf);
-  }, []);
-
-  const axiosInstance = axios.create({
-    baseURL:
-      process.env.NODE_ENV === "production"
-        ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-        : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: 10000,
-    headers: {
-      // 'Authorization': "JWT " + access_token,
-      "Content-Type": "application/json",
-      accept: "application/json",
-    },
-  });
+    setCSRF(setCsrf)
+  }, [])
 
   function validateForm() {
-    return email.length > 0 && password.length >= 8 && !loader;
+    return email.length > 0 && password.length >= 8 && !loader
   }
 
   async function handleClick(event) {
-    event.preventDefault();
-    setloader(true);
+    event.preventDefault()
+    setloader(true)
 
     await axiosInstance
       .post("/auth/login/", {
         email: email,
         password: password,
       })
-      .then(async (response) => {
+      .then(async response => {
         // console.log(response);
         var callback = `${
           process.env.NODE_ENV === "production"
             ? process.env.NEXT_PUBLIC_PROD_FRONTEND
             : process.env.NEXT_PUBLIC_DEV_FRONTEND
-        }${response.data.type.toLowerCase()}/`;
+        }${response.data.type.toLowerCase()}/`
         await signIn("credentials", {
           password: password,
           email: email,
           callbackUrl: callback,
-        }).catch((err) => {
-          console.log(err);
-        });
+        }).catch(err => {
+          console.log(err)
+        })
         // return true;
       })
-      .catch((err) => {
-        setloader(false);
-        console.log(err);
+      .catch(err => {
+        setloader(false)
+        console.log(err)
         if (err.response.data.non_field_errors) {
-          err.response.data.non_field_errors.map((text) =>
+          err.response.data.non_field_errors.map(text =>
             toastcomp(text, "error")
-          );
-          return false;
+          )
+          return false
         }
         if (err.response.data.detail) {
-          toastcomp(err.response.data.detail, "error");
-          return false;
+          toastcomp(err.response.data.detail, "error")
+          return false
         }
-      });
+      })
   }
 
   return (
@@ -131,7 +112,7 @@ export default function SignIn(props) {
                       id="input-email-for-credentials-provider"
                       className="w-full rounded-full border-slate-300"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={e => setEmail(e.target.value)}
                     />
                   </div>
                   <div className="mb-6">
@@ -148,7 +129,7 @@ export default function SignIn(props) {
                         id="input-password-for-credentials-provider"
                         className="w-full rounded-full border-slate-300"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={e => setPassword(e.target.value)}
                       />
                       <button
                         type="button"
@@ -168,7 +149,7 @@ export default function SignIn(props) {
                       type="button"
                       className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
                       disabled={!validateForm()}
-                      onClick={(e) => handleClick(e)}
+                      onClick={e => handleClick(e)}
                     >
                       {loader && (
                         <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
@@ -257,5 +238,5 @@ export default function SignIn(props) {
         </section>
       </main>
     </>
-  );
+  )
 }

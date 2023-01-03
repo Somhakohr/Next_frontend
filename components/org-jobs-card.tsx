@@ -1,110 +1,107 @@
-import Image from "next/image";
-import Link from "next/link";
-import { Fragment, useEffect, useRef, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import googleIcon from "../public/images/google-icon.png";
-// import organisation from "../pages/organisation";
-import moment from "moment";
-import { useStore } from "../constants/code";
-import shallow from "zustand/shallow";
-import { useRouter } from "next/navigation";
-import toastcomp from "./toast";
-import axios from "axios";
-import Multiselect from "multiselect-react-dropdown";
+import Image from "next/image"
+import { Fragment, useEffect, useRef, useState } from "react"
+import { Dialog, Transition } from "@headlessui/react"
+import moment from "moment"
+import { useStore } from "../constants/code"
+import shallow from "zustand/shallow"
+import { useRouter } from "next/navigation"
+import toastcomp from "./toast"
+import axios from "axios"
+import Multiselect from "multiselect-react-dropdown"
 import {
   LinkedinShareButton,
   TwitterShareButton,
   FacebookShareButton,
   TelegramShareButton,
-} from "react-share";
-import { Editor } from "@tinymce/tinymce-react";
+} from "react-share"
+import { Editor } from "@tinymce/tinymce-react"
 
 export default function OrganisationJobsCard(props) {
-  const [shareJob, shareJobPopupOpen] = useState(false);
-  const [draftedPopup, draftedPopupOpen] = useState(false);
-  const [langPopup, langPopupOpen] = useState(false);
-  const [appnum, setAppNum] = useState([]);
-  const cancelButtonRef = useRef(null);
-  const { data } = props;
-  const router = useRouter();
-  const [loader, setloader] = useState(true);
+  const [shareJob, shareJobPopupOpen] = useState(false)
+  const [draftedPopup, draftedPopupOpen] = useState(false)
+  const [langPopup, langPopupOpen] = useState(false)
+  const [appnum, setAppNum] = useState([])
+  const cancelButtonRef = useRef(null)
+  const { data } = props
+  const router = useRouter()
+  const [loader, setloader] = useState(true)
 
   const [param1, updateParam1] = useStore(
-    (state) => [state.param1, state.updateParam1],
+    state => [state.param1, state.updateParam1],
     shallow
-  );
+  )
 
-  const { axiosInstanceAuth2, setJobReload, setEditJob } = props;
+  const { axiosInstanceAuth2, setJobReload, setEditJob } = props
 
-  const [title, setTitle] = useState("");
-  const [dept, setDept] = useState("");
-  const [exp, setExp] = useState("");
-  const [type, setType] = useState("");
-  const [level, setLevel] = useState("");
-  const [deadline, setDeadline] = useState("");
-  const [ind, setInd] = useState("");
-  const [desc, setDesc] = useState("");
-  const [res, setRes] = useState("");
-  const [salary, setSalary] = useState("");
-  const [stype, setStype] = useState("");
-  const [scurr, setScurr] = useState("");
-  const [reloc, setReloc] = useState("");
-  const [bonus, setBonus] = useState("");
-  const [stock, setStock] = useState("");
-  const [visa, setVisa] = useState("");
-  const [vacancy, setVacancy] = useState("");
-  const [wtype, setWtype] = useState("");
-  const [loc, setLoc] = useState("");
-  const [rskill, setrSkill] = useState("");
-  const [pskill, setpSkill] = useState("");
-  const [qf, setQf] = useState("");
-  const [lang, setLang] = useState([]);
-  const [alang, setALang] = useState("");
-  const [aprof, setAProf] = useState("");
+  const [title, setTitle] = useState("")
+  const [dept, setDept] = useState("")
+  const [exp, setExp] = useState("")
+  const [type, setType] = useState("")
+  const [level, setLevel] = useState("")
+  const [deadline, setDeadline] = useState("")
+  const [ind, setInd] = useState("")
+  const [desc, setDesc] = useState("")
+  const [res, setRes] = useState("")
+  const [salary, setSalary] = useState("")
+  const [stype, setStype] = useState("")
+  const [scurr, setScurr] = useState("")
+  const [reloc, setReloc] = useState("")
+  const [bonus, setBonus] = useState("")
+  const [stock, setStock] = useState("")
+  const [visa, setVisa] = useState("")
+  const [vacancy, setVacancy] = useState("")
+  const [wtype, setWtype] = useState("")
+  const [loc, setLoc] = useState("")
+  const [rskill, setrSkill] = useState("")
+  const [pskill, setpSkill] = useState("")
+  const [qf, setQf] = useState("")
+  const [lang, setLang] = useState([])
+  const [alang, setALang] = useState("")
+  const [aprof, setAProf] = useState("")
 
   function viewJob(refid) {
-    refid = refid.toUpperCase();
-    updateParam1(refid);
-    router.push(`/marketplace/organisation/job/preview/${refid}`);
+    refid = refid.toUpperCase()
+    updateParam1(refid)
+    router.push(`/marketplace/organisation/job/preview/${refid}`)
   }
 
   function viewApplicant(refid) {
-    refid = refid.toUpperCase();
-    updateParam1(refid);
-    router.push(`/marketplace/organisation/job/${refid}/applicants`);
+    refid = refid.toUpperCase()
+    updateParam1(refid)
+    router.push(`/marketplace/organisation/job/${refid}/applicants`)
   }
 
   async function getApplicant() {
     await axiosInstanceAuth2
       .get("/job/job/applicant/" + data.user.orefid + "/" + data.refid + "/")
-      .then(async (res) => {
-        setAppNum(res.data);
+      .then(async res => {
+        setAppNum(res.data)
       })
-      .catch((err) => {});
+      .catch(err => {})
   }
 
   async function deleteJob() {
     await axiosInstanceAuth2
       .post("/job/closejob/" + data.user.orefid + "/" + data.refid + "/")
-      .then(async (res) => {
-        toastcomp("Job CLosed Successfully", "Success");
-        setJobReload(true);
+      .then(async res => {
+        toastcomp("Job CLosed Successfully", "Success")
+        setJobReload(true)
       })
-      .catch((err) => {
-        toastcomp("Job Not CLosed", "error");
-      });
+      .catch(err => {
+        toastcomp("Job Not CLosed", "error")
+      })
   }
 
   async function archievedJob() {
     await axiosInstanceAuth2
       .post("/job/archived/" + data.user.orefid + "/" + data.refid + "/")
-      .then(async (res) => {
-        toastcomp("Job Archived Successfully", "Success");
-        setJobReload(true);
+      .then(async res => {
+        toastcomp("Job Archived Successfully", "Success")
+        setJobReload(true)
       })
-      .catch((err) => {
-        toastcomp("Job Not CLosed", "error");
-      });
+      .catch(err => {
+        toastcomp("Job Not CLosed", "error")
+      })
   }
 
   async function activateJob() {
@@ -112,181 +109,181 @@ export default function OrganisationJobsCard(props) {
       .post(
         "/job/archivedtoactive/" + data.user.orefid + "/" + data.refid + "/"
       )
-      .then(async (res) => {
-        toastcomp("Job In Review Mode", "Success");
-        setJobReload(true);
+      .then(async res => {
+        toastcomp("Job In Review Mode", "Success")
+        setJobReload(true)
       })
-      .catch((err) => {
-        toastcomp("Job Not In Review Mode", "error");
-      });
+      .catch(err => {
+        toastcomp("Job Not In Review Mode", "error")
+      })
   }
 
   function resetJOBFORM() {
-    setTitle("");
-    setDept("");
-    setExp("");
-    setType("");
-    setLevel("");
-    setDeadline("");
-    setInd("");
-    setDesc("");
-    setRes("");
-    setSalary("");
-    setStype("");
-    setScurr("");
-    setReloc("");
-    setBonus("");
-    setStock("");
-    setVisa("");
-    setVacancy("");
-    setWtype("");
-    setLoc("");
-    setrSkill("");
-    setpSkill("");
-    setQf("");
-    setLang([]);
+    setTitle("")
+    setDept("")
+    setExp("")
+    setType("")
+    setLevel("")
+    setDeadline("")
+    setInd("")
+    setDesc("")
+    setRes("")
+    setSalary("")
+    setStype("")
+    setScurr("")
+    setReloc("")
+    setBonus("")
+    setStock("")
+    setVisa("")
+    setVacancy("")
+    setWtype("")
+    setLoc("")
+    setrSkill("")
+    setpSkill("")
+    setQf("")
+    setLang([])
   }
 
   useEffect(() => {
     if (data.jobStatus == "Active") {
-      getApplicant();
+      getApplicant()
     }
 
     if (draftedPopup) {
-      resetJOBFORM();
+      resetJOBFORM()
       if (data["title"]) {
-        setTitle(data["title"]);
+        setTitle(data["title"])
       }
       if (data["dept"]) {
-        setDept(data["dept"]);
+        setDept(data["dept"])
       }
       if (data["exp"]) {
-        setExp(data["exp"]);
+        setExp(data["exp"])
       }
       if (data["type"]) {
-        setType(data["type"]);
+        setType(data["type"])
       }
       if (data["level"]) {
-        setLevel(data["level"]);
+        setLevel(data["level"])
       }
       if (data["deadline"]) {
-        setDeadline(moment(data["deadline"]).format("YYYY-MM-DD"));
+        setDeadline(moment(data["deadline"]).format("YYYY-MM-DD"))
       }
       if (data["industry"]) {
-        setInd(data["industry"]);
+        setInd(data["industry"])
       }
       if (data["desc"]) {
-        setDesc(data["desc"]);
+        setDesc(data["desc"])
       }
       if (data["resp"]) {
-        setRes(data["resp"]);
+        setRes(data["resp"])
       }
       if (data["salary"]) {
-        setSalary(data["salary"]);
+        setSalary(data["salary"])
       }
       if (data["scurr"]) {
-        setScurr(data["curr"]);
+        setScurr(data["curr"])
       }
       if (data["relocation"]) {
-        setReloc(data["relocation"]);
+        setReloc(data["relocation"])
       }
       if (data["bonus"]) {
-        setBonus(data["bonus"]);
+        setBonus(data["bonus"])
       }
       if (data["stock"]) {
-        setStock(data["stock"]);
+        setStock(data["stock"])
       }
       if (data["visa"]) {
-        setVisa(data["visa"]);
+        setVisa(data["visa"])
       }
       if (data["vacancy"]) {
-        setVacancy(data["vacancy"]);
+        setVacancy(data["vacancy"])
       }
       if (data["worktype"]) {
-        setWtype(data["worktype"]);
+        setWtype(data["worktype"])
       }
       if (data["location"]) {
-        setLoc(data["location"]);
+        setLoc(data["location"])
       }
       if (data["recskill"]) {
-        setrSkill(data["recskill"]);
+        setrSkill(data["recskill"])
       }
       if (data["preskill"]) {
-        setpSkill(data["preskill"]);
+        setpSkill(data["preskill"])
       }
       if (data["qualification"]) {
-        setQf(data["qualification"]);
+        setQf(data["qualification"])
       }
       if (data["lng1"]) {
-        let dic = {};
-        dic["title"] = data["lng1"];
-        dic["exp"] = data["exp1"];
-        let abc = lang;
-        abc.push(dic);
-        setLang(abc);
+        let dic = {}
+        dic["title"] = data["lng1"]
+        dic["exp"] = data["exp1"]
+        let abc = lang
+        abc.push(dic)
+        setLang(abc)
       }
       if (data["lng2"]) {
-        let dic = {};
-        dic["title"] = data["lng2"];
-        dic["exp"] = data["exp2"];
-        let abc = lang;
-        abc.push(dic);
-        setLang(abc);
+        let dic = {}
+        dic["title"] = data["lng2"]
+        dic["exp"] = data["exp2"]
+        let abc = lang
+        abc.push(dic)
+        setLang(abc)
       }
       if (data["lng3"]) {
-        let dic = {};
-        dic["title"] = data["lng3"];
-        dic["exp"] = data["exp3"];
-        let abc = lang;
-        abc.push(dic);
-        setLang(abc);
+        let dic = {}
+        dic["title"] = data["lng3"]
+        dic["exp"] = data["exp3"]
+        let abc = lang
+        abc.push(dic)
+        setLang(abc)
       }
       if (data["lng4"]) {
-        let dic = {};
-        dic["title"] = data["lng4"];
-        dic["exp"] = data["exp4"];
-        let abc = lang;
-        abc.push(dic);
-        setLang(abc);
+        let dic = {}
+        dic["title"] = data["lng4"]
+        dic["exp"] = data["exp4"]
+        let abc = lang
+        abc.push(dic)
+        setLang(abc)
       }
     } else {
-      resetJOBFORM();
+      resetJOBFORM()
     }
-  }, [draftedPopup]);
+  }, [draftedPopup])
 
   async function updateJob(formdata) {
     await axiosInstanceAuth2
       .put("/job/update/" + data["refid"] + "/", formdata)
-      .then(async (res) => {
-        toastcomp("Job Updated", "success");
-        resetJOBFORM();
-        draftedPopupOpen(false);
-        setEditJob(true);
+      .then(async res => {
+        toastcomp("Job Updated", "success")
+        resetJOBFORM()
+        draftedPopupOpen(false)
+        setEditJob(true)
       })
-      .catch((err) => {
-        toastcomp("Job Not Updated", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Job Not Updated", "error")
+        console.log(err)
+      })
   }
 
   async function cloneJob(formdata) {
     await axiosInstanceAuth2
       .put("/job/update/" + data["refid"] + "/", formdata)
-      .then(async (res) => {
-        toastcomp("Job Clone Successfully", "success");
-        resetJOBFORM();
-        draftedPopupOpen(false);
-        setEditJob(true);
+      .then(async res => {
+        toastcomp("Job Clone Successfully", "success")
+        resetJOBFORM()
+        draftedPopupOpen(false)
+        setEditJob(true)
       })
-      .catch((err) => {
-        toastcomp("Job Not Clone Successfully", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Job Not Clone Successfully", "error")
+        console.log(err)
+      })
   }
 
   async function update(num) {
-    setloader(true);
-    var check = true;
+    setloader(true)
+    var check = true
     if (
       title.length <= 0 ||
       dept.length <= 0 ||
@@ -295,138 +292,138 @@ export default function OrganisationJobsCard(props) {
       deadline.length <= 0 ||
       ind.length <= 0
     ) {
-      check = false;
-      toastcomp("Fill Up Basic Details Section", "error");
+      check = false
+      toastcomp("Fill Up Basic Details Section", "error")
     }
     if (desc.length <= 0) {
-      check = false;
-      toastcomp("Fill Up Description Section", "error");
+      check = false
+      toastcomp("Fill Up Description Section", "error")
     }
     if (rskill.length <= 0 || pskill.length <= 0 || qf.length <= 0) {
-      check = false;
-      toastcomp("Fill Up Skills & Qualification Section", "error");
+      check = false
+      toastcomp("Fill Up Skills & Qualification Section", "error")
     }
 
     if (check) {
-      var formData = new FormData();
+      var formData = new FormData()
       if (title) {
-        formData.append("title", title);
+        formData.append("title", title)
       }
       if (dept) {
-        formData.append("dept", dept);
+        formData.append("dept", dept)
       }
       if (exp) {
-        formData.append("exp", exp);
+        formData.append("exp", exp)
       }
       if (type) {
-        formData.append("type", type);
+        formData.append("type", type)
       }
       if (level) {
-        formData.append("level", level);
+        formData.append("level", level)
       }
       if (deadline) {
-        formData.append("deadline", deadline);
+        formData.append("deadline", deadline)
       }
       if (ind) {
-        formData.append("industry", ind);
+        formData.append("industry", ind)
       }
       if (desc) {
-        formData.append("desc", desc);
+        formData.append("desc", desc)
       }
       if (res) {
-        formData.append("resp", res);
+        formData.append("resp", res)
       }
       if (salary) {
-        formData.append("salary", salary);
+        formData.append("salary", salary)
       }
       if (scurr) {
-        formData.append("curr", scurr);
+        formData.append("curr", scurr)
       }
       if (reloc) {
-        formData.append("relocation", reloc);
+        formData.append("relocation", reloc)
       }
       if (bonus) {
-        formData.append("bonus", bonus);
+        formData.append("bonus", bonus)
       }
       if (stock) {
-        formData.append("stock", stock);
+        formData.append("stock", stock)
       }
       if (visa) {
-        formData.append("visa", visa);
+        formData.append("visa", visa)
       }
       if (vacancy) {
-        formData.append("vacancy", vacancy);
+        formData.append("vacancy", vacancy)
       }
       if (wtype) {
-        formData.append("worktype", wtype);
+        formData.append("worktype", wtype)
       }
       if (loc) {
-        formData.append("location", loc);
+        formData.append("location", loc)
       }
       if (rskill) {
-        formData.append("recskill", rskill);
+        formData.append("recskill", rskill)
       }
       if (pskill) {
-        formData.append("preskill", pskill);
+        formData.append("preskill", pskill)
       }
       if (qf) {
-        formData.append("qualification", qf);
+        formData.append("qualification", qf)
       }
       if (lang.length > 0) {
         for (let i = 0; i < lang.length; i++) {
-          formData.append("lng" + (i + 1), lang[i]["title"]);
-          formData.append("exp" + (i + 1), lang[i]["exp"]);
+          formData.append("lng" + (i + 1), lang[i]["title"])
+          formData.append("exp" + (i + 1), lang[i]["exp"])
         }
       }
 
       if (num == 0) {
         if (Array.from(formData.keys()).length > 0) {
-          updateJob(formData);
+          updateJob(formData)
         }
       }
 
       if (num == 1) {
         if (Array.from(formData.keys()).length > 0) {
-          cloneJob(formData);
+          cloneJob(formData)
         }
       }
     }
-    setloader(false);
+    setloader(false)
   }
 
   function verifyLangPopup() {
-    return alang && alang.length > 0 && aprof && aprof.length > 0 && !loader;
+    return alang && alang.length > 0 && aprof && aprof.length > 0 && !loader
   }
 
   //save spoken lang
   function saveLang(e) {
-    setloader(true);
+    setloader(true)
     if (lang.length > 3) {
-      toastcomp("4 Spoken Lang Only ALlowed", "error");
+      toastcomp("4 Spoken Lang Only ALlowed", "error")
     } else {
-      var dic = {};
-      dic["title"] = alang;
-      dic["exp"] = aprof;
-      let abc = lang;
-      abc.push(dic);
-      setLang(abc);
+      var dic = {}
+      dic["title"] = alang
+      dic["exp"] = aprof
+      let abc = lang
+      abc.push(dic)
+      setLang(abc)
     }
-    setALang("");
-    setAProf("");
-    langPopupOpen(false);
-    setloader(false);
+    setALang("")
+    setAProf("")
+    langPopupOpen(false)
+    setloader(false)
   }
 
   //delete Lang
   function delLang(num) {
-    lang.splice(num, 1);
-    document.getElementById("lang" + num).remove();
+    lang.splice(num, 1)
+    document.getElementById("lang" + num).remove()
   }
 
-  const [locf, setLocf] = useState([]);
-  const [ski, setski] = useState([]);
-  const [pski, setpski] = useState([]);
-  const [load, setload] = useState(false);
+  const [locf, setLocf] = useState([])
+  const [ski, setski] = useState([])
+  const [pski, setpski] = useState([])
+  const [load, setload] = useState(false)
 
   async function searchLoc(value) {
     const axiosInstance22 = axios.create({
@@ -440,21 +437,21 @@ export default function OrganisationJobsCard(props) {
         "Content-Type": "application/json",
         accept: "application/json",
       },
-    });
+    })
     await axiosInstance22
       .get(`/job/load/location/?search=${value}`)
-      .then(async (res) => {
-        let obj = res.data;
-        let arr = [];
+      .then(async res => {
+        let obj = res.data
+        let arr = []
         for (const [key, value] of Object.entries(obj)) {
-          arr.push(value);
+          arr.push(value)
         }
-        setLocf(arr);
-        setload(false);
+        setLocf(arr)
+        setload(false)
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   async function searchSkill(value) {
@@ -469,21 +466,21 @@ export default function OrganisationJobsCard(props) {
         "Content-Type": "application/json",
         accept: "application/json",
       },
-    });
+    })
     await axiosInstance22
       .get(`/job/load/skills/?search=${value}`)
-      .then(async (res) => {
-        let obj = res.data;
-        let arr = [];
+      .then(async res => {
+        let obj = res.data
+        let arr = []
         for (const [key, value] of Object.entries(obj)) {
-          arr.push(value);
+          arr.push(value)
         }
-        setski(arr);
-        setload(false);
+        setski(arr)
+        setload(false)
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   async function searchpSkill(value) {
@@ -498,26 +495,26 @@ export default function OrganisationJobsCard(props) {
         "Content-Type": "application/json",
         accept: "application/json",
       },
-    });
+    })
     await axiosInstance22
       .get(`/job/load/skills/?search=${value}`)
-      .then(async (res) => {
-        let obj = res.data;
-        let arr = [];
+      .then(async res => {
+        let obj = res.data
+        let arr = []
         for (const [key, value] of Object.entries(obj)) {
-          arr.push(value);
+          arr.push(value)
         }
-        setpski(arr);
-        setload(false);
+        setpski(arr)
+        setload(false)
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   return (
     <>
-      <div className="bg-[#f4f4f4] border border-2 border-slate-300 rounded-[25px] overflow-hidden">
+      <div className="bg-[#f4f4f4] border border-2 border-slate-300 rounded-[25px] overflow-hidden flex flex-col justify-between h-full">
         <div className="p-5">
           <div className="flex mb-8">
             <div className="bg-white rounded-full p-2.5 flex items-center justify-center w-[50px] h-[50px]">
@@ -530,7 +527,9 @@ export default function OrganisationJobsCard(props) {
               />
             </div>
             <div className="pl-3 w-[calc(100%-60px)]">
-              <h3 className="font-bold text-[15px] mb-1">{data.title}</h3>
+              <h3 className="font-bold text-[15px] mb-1 line_clamp_1">
+                {data.title}
+              </h3>
               <div className="flex items-center">
                 <h5 className="font-medium text-sm my-1 mr-6">
                   {data.user.company_name}
@@ -568,7 +567,7 @@ export default function OrganisationJobsCard(props) {
             {data.jobStatus == "Active" && (
               <button
                 type="button"
-                onClick={(e) => viewJob(data.refid)}
+                onClick={e => viewJob(data.refid)}
                 className="text-[#6D27F9] hover:underline hover:text-black"
               >
                 View Job
@@ -583,7 +582,7 @@ export default function OrganisationJobsCard(props) {
                 <button
                   type="button"
                   className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3"
-                  onClick={(e) => archievedJob()}
+                  onClick={e => archievedJob()}
                 >
                   <i className="fa-regular fa-folder-open"></i>
                   <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
@@ -593,7 +592,7 @@ export default function OrganisationJobsCard(props) {
                 <button
                   type="button"
                   className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3"
-                  onClick={(e) => deleteJob()}
+                  onClick={e => deleteJob()}
                 >
                   <i className="fa-solid fa-trash"></i>
                   <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
@@ -607,7 +606,7 @@ export default function OrganisationJobsCard(props) {
                 <button
                   type="button"
                   className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3"
-                  onClick={(e) => activateJob()}
+                  onClick={e => activateJob()}
                 >
                   <i className="fa-regular fa-folder-open"></i>
                   <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
@@ -629,7 +628,7 @@ export default function OrganisationJobsCard(props) {
                 <button
                   type="button"
                   className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3"
-                  onClick={(e) => deleteJob()}
+                  onClick={e => deleteJob()}
                 >
                   <i className="fa-solid fa-trash"></i>
                   <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
@@ -644,7 +643,7 @@ export default function OrganisationJobsCard(props) {
                 <button
                   type="button"
                   className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3"
-                  onClick={(e) => activateJob()}
+                  onClick={e => activateJob()}
                 >
                   <i className="fa-regular fa-folder-open"></i>
                   <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
@@ -664,7 +663,7 @@ export default function OrganisationJobsCard(props) {
                 <button
                   type="button"
                   className="border-2 border-[#646464] rounded-full w-[35px] h-[35px] p-1 flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3"
-                  onClick={(e) => deleteJob()}
+                  onClick={e => deleteJob()}
                 >
                   <i className="fa-solid fa-trash"></i>
                   <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">
@@ -692,7 +691,7 @@ export default function OrganisationJobsCard(props) {
               <button
                 type="button"
                 className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-medium rounded-full text-[12px] py-2 px-4 transition-all hover:from-[#391188] hover:to-[#391188]"
-                onClick={(e) => viewApplicant(data.refid)}
+                onClick={e => viewApplicant(data.refid)}
               >
                 {appnum.length} Applicants
               </button>
@@ -702,7 +701,7 @@ export default function OrganisationJobsCard(props) {
               <button
                 type="button"
                 className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-medium rounded-full text-[12px] py-2 px-4 transition-all hover:from-[#391188] hover:to-[#391188]"
-                onClick={(e) => viewJob(data.refid)}
+                onClick={e => viewJob(data.refid)}
               >
                 View Job
               </button>
@@ -797,17 +796,17 @@ export default function OrganisationJobsCard(props) {
                           <button
                             type="button"
                             className="hover:text-black"
-                            onClick={(e) => {
+                            onClick={e => {
                               navigator.clipboard
                                 .writeText(
                                   `https://somhako.com/marketplace/job-detail/${data.refid}`
                                 )
-                                .then((e) => {
-                                  toastcomp("Copid Successfully", "Success");
+                                .then(e => {
+                                  toastcomp("Copid Successfully", "Success")
                                 })
-                                .catch((e) => {
-                                  toastcomp("Copid Unsuccessfully", "error");
-                                });
+                                .catch(e => {
+                                  toastcomp("Copid Unsuccessfully", "error")
+                                })
                             }}
                           >
                             <i className="fa-regular fa-copy"></i>
@@ -1073,10 +1072,10 @@ export default function OrganisationJobsCard(props) {
                           selectionLimit={1}
                           selectedValues={alang && alang.split(",")}
                           onSelect={(selectedList, selectedItem) => {
-                            setALang(selectedItem);
+                            setALang(selectedItem)
                           }}
                           onRemove={(selectedList, selectedItem) => {
-                            setALang(null);
+                            setALang(null)
                           }}
                           placeholder="Find Language"
                         />
@@ -1113,10 +1112,10 @@ export default function OrganisationJobsCard(props) {
                           selectionLimit={1}
                           // selectedValues = {yearsOfExp && yearsOfExp.split(',')}
                           onSelect={(selectedList, selectedItem) => {
-                            setAProf(selectedItem);
+                            setAProf(selectedItem)
                           }}
                           onRemove={(selectedList, selectedItem) => {
-                            setAProf(null);
+                            setAProf(null)
                           }}
                           placeholder="Find Preferred Profeciency"
                         />
@@ -1126,7 +1125,7 @@ export default function OrganisationJobsCard(props) {
                           type="button"
                           className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
                           disabled={!verifyLangPopup()}
-                          onClick={(e) => saveLang(e)}
+                          onClick={e => saveLang(e)}
                         >
                           {loader && (
                             <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
@@ -1207,7 +1206,7 @@ export default function OrganisationJobsCard(props) {
                                 type="text"
                                 className="w-full rounded-full border-slate-300"
                                 value={title}
-                                onChange={(e) => setTitle(e.target.value)}
+                                onChange={e => setTitle(e.target.value)}
                               />
                             </div>
                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
@@ -1258,10 +1257,10 @@ export default function OrganisationJobsCard(props) {
                                 selectionLimit={1}
                                 selectedValues={dept && dept.split(",")}
                                 onSelect={(selectedList, selectedItem) => {
-                                  setDept(selectedItem);
+                                  setDept(selectedItem)
                                 }}
                                 onRemove={(selectedList, selectedItem) => {
-                                  setDept("");
+                                  setDept("")
                                 }}
                                 placeholder="Find Department"
                               />
@@ -1298,10 +1297,10 @@ export default function OrganisationJobsCard(props) {
                                 selectionLimit={1}
                                 selectedValues={exp && exp.split(",")}
                                 onSelect={(selectedList, selectedItem) => {
-                                  setExp(selectedItem);
+                                  setExp(selectedItem)
                                 }}
                                 onRemove={(selectedList, selectedItem) => {
-                                  setExp("");
+                                  setExp("")
                                 }}
                                 placeholder="Find Preferred Experience In Years"
                               />
@@ -1337,10 +1336,10 @@ export default function OrganisationJobsCard(props) {
                                 selectionLimit={1}
                                 selectedValues={type && type.split(",")}
                                 onSelect={(selectedList, selectedItem) => {
-                                  setType(selectedItem);
+                                  setType(selectedItem)
                                 }}
                                 onRemove={(selectedList, selectedItem) => {
-                                  setType("");
+                                  setType("")
                                 }}
                                 placeholder="Find Preferred Job Type"
                               />
@@ -1372,7 +1371,7 @@ export default function OrganisationJobsCard(props) {
                                 id="addJobDeadLine"
                                 className="w-full rounded-full border-slate-300"
                                 value={deadline}
-                                onChange={(e) => setDeadline(e.target.value)}
+                                onChange={e => setDeadline(e.target.value)}
                               />
                             </div>
                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
@@ -1430,10 +1429,10 @@ export default function OrganisationJobsCard(props) {
                                 selectionLimit={1}
                                 selectedValues={ind && ind.split(",")}
                                 onSelect={(selectedList, selectedItem) => {
-                                  setInd(selectedItem);
+                                  setInd(selectedItem)
                                 }}
                                 onRemove={(selectedList, selectedItem) => {
-                                  setInd("");
+                                  setInd("")
                                 }}
                                 placeholder="Find Preferred Industry"
                               />
@@ -1521,7 +1520,7 @@ export default function OrganisationJobsCard(props) {
                                 type="number"
                                 className="w-full rounded-full border-slate-300"
                                 value={salary}
-                                onChange={(e) => setSalary(e.target.value)}
+                                onChange={e => setSalary(e.target.value)}
                               />
                             </div>
                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
@@ -1669,10 +1668,10 @@ export default function OrganisationJobsCard(props) {
                                 selectionLimit={1}
                                 selectedValues={scurr && scurr.split(",")}
                                 onSelect={(selectedList, selectedItem) => {
-                                  setScurr(selectedItem);
+                                  setScurr(selectedItem)
                                 }}
                                 onRemove={(selectedList, selectedItem) => {
-                                  setScurr("");
+                                  setScurr("")
                                 }}
                                 placeholder="Find Preferred Currency"
                               />
@@ -1702,10 +1701,10 @@ export default function OrganisationJobsCard(props) {
                                 selectionLimit={1}
                                 selectedValues={reloc && reloc.split(",")}
                                 onSelect={(selectedList, selectedItem) => {
-                                  setReloc(selectedItem);
+                                  setReloc(selectedItem)
                                 }}
                                 onRemove={(selectedList, selectedItem) => {
-                                  setReloc("");
+                                  setReloc("")
                                 }}
                                 placeholder="Find Preferred Relocation"
                               />
@@ -1722,7 +1721,7 @@ export default function OrganisationJobsCard(props) {
                                 type="text"
                                 className="w-full rounded-full border-slate-300"
                                 value={bonus}
-                                onChange={(e) => setBonus(e.target.value)}
+                                onChange={e => setBonus(e.target.value)}
                               />
                             </div>
                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
@@ -1737,7 +1736,7 @@ export default function OrganisationJobsCard(props) {
                                 type="text"
                                 className="w-full rounded-full border-slate-300"
                                 value={stock}
-                                onChange={(e) => setStock(e.target.value)}
+                                onChange={e => setStock(e.target.value)}
                               />
                             </div>
                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
@@ -1765,10 +1764,10 @@ export default function OrganisationJobsCard(props) {
                                 selectionLimit={1}
                                 selectedValues={visa && visa.split(",")}
                                 onSelect={(selectedList, selectedItem) => {
-                                  setVisa(selectedItem);
+                                  setVisa(selectedItem)
                                 }}
                                 onRemove={(selectedList, selectedItem) => {
-                                  setVisa("");
+                                  setVisa("")
                                 }}
                                 placeholder="Find Preferred VISA"
                               />
@@ -1796,7 +1795,7 @@ export default function OrganisationJobsCard(props) {
                                 type="text"
                                 className="w-full rounded-full border-slate-300"
                                 value={vacancy}
-                                onChange={(e) => setVacancy(e.target.value)}
+                                onChange={e => setVacancy(e.target.value)}
                               />
                             </div>
                             <div className="w-full lg:w-[33.33%] mb-6 lg:px-[15px]">
@@ -1823,10 +1822,10 @@ export default function OrganisationJobsCard(props) {
                                 selectionLimit={1}
                                 selectedValues={wtype && wtype.split(",")}
                                 onSelect={(selectedList, selectedItem) => {
-                                  setWtype(selectedItem);
+                                  setWtype(selectedItem)
                                 }}
                                 onRemove={(selectedList, selectedItem) => {
-                                  setWtype("");
+                                  setWtype("")
                                 }}
                                 placeholder="Find Preferred WORK TYPE"
                               />
@@ -1853,16 +1852,16 @@ export default function OrganisationJobsCard(props) {
                                 }
                                 showArrow={true}
                                 closeOnSelect={true}
-                                onSearch={(value) => {
-                                  setload(true);
-                                  searchLoc(value);
+                                onSearch={value => {
+                                  setload(true)
+                                  searchLoc(value)
                                 }}
                                 selectedValues={loc && loc.split("|")}
                                 onSelect={(selectedList, selectedItem) => {
-                                  setLoc(selectedList.join("|"));
+                                  setLoc(selectedList.join("|"))
                                 }}
                                 onRemove={(selectedList, selectedItem) => {
-                                  setLoc(selectedList.join("|"));
+                                  setLoc(selectedList.join("|"))
                                 }}
                                 placeholder="Find Preferred Location"
                               />
@@ -1916,7 +1915,7 @@ export default function OrganisationJobsCard(props) {
                                     <button
                                       type="button"
                                       className="absolute right-[0] top-[-5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded"
-                                      onClick={(e) => delLang(i)}
+                                      onClick={e => delLang(i)}
                                     >
                                       <i className="fa-solid fa-xmark"></i>
                                     </button>
@@ -1970,15 +1969,15 @@ export default function OrganisationJobsCard(props) {
                                 showArrow={true}
                                 closeOnSelect={true}
                                 selectedValues={rskill && rskill.split(",")}
-                                onSearch={(value) => {
-                                  setload(true);
-                                  searchSkill(value);
+                                onSearch={value => {
+                                  setload(true)
+                                  searchSkill(value)
                                 }}
                                 onSelect={(selectedList, selectedItem) => {
-                                  setrSkill(selectedList.join(","));
+                                  setrSkill(selectedList.join(","))
                                 }}
                                 onRemove={(selectedList, selectedItem) => {
-                                  setrSkill(selectedList.join(","));
+                                  setrSkill(selectedList.join(","))
                                 }}
                                 placeholder="Find Recommended Skills"
                               />
@@ -2006,15 +2005,15 @@ export default function OrganisationJobsCard(props) {
                                 showArrow={true}
                                 closeOnSelect={true}
                                 selectedValues={pskill && pskill.split(",")}
-                                onSearch={(value) => {
-                                  setload(true);
-                                  searchpSkill(value);
+                                onSearch={value => {
+                                  setload(true)
+                                  searchpSkill(value)
                                 }}
                                 onSelect={(selectedList, selectedItem) => {
-                                  setpSkill(selectedList.join(","));
+                                  setpSkill(selectedList.join(","))
                                 }}
                                 onRemove={(selectedList, selectedItem) => {
-                                  setpSkill(selectedList.join(","));
+                                  setpSkill(selectedList.join(","))
                                 }}
                                 placeholder="Find Preffered Skills"
                               />
@@ -2031,7 +2030,7 @@ export default function OrganisationJobsCard(props) {
                                 type="text"
                                 className="w-full rounded-full border-slate-300"
                                 value={qf}
-                                onChange={(e) => setQf(e.target.value)}
+                                onChange={e => setQf(e.target.value)}
                               />
                             </div>
                           </div>
@@ -2042,7 +2041,7 @@ export default function OrganisationJobsCard(props) {
                           <button
                             type="submit"
                             className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mr-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                            onClick={(e) => update(1)}
+                            onClick={e => update(1)}
                           >
                             {loader && (
                               <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
@@ -2055,7 +2054,7 @@ export default function OrganisationJobsCard(props) {
                           <button
                             type="submit"
                             className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mr-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                            onClick={(e) => update(0)}
+                            onClick={e => update(0)}
                           >
                             {loader && (
                               <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
@@ -2073,5 +2072,5 @@ export default function OrganisationJobsCard(props) {
         </Dialog>
       </Transition.Root>
     </>
-  );
+  )
 }

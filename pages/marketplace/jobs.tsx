@@ -1,176 +1,177 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
-import JobCard from "../../components/job-card";
-import toastcomp from "../../components/toast";
-import { axiosInstance } from "../api/axiosApi";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
-import Image from "next/image";
-import ChatBot from "../../components/chatbot";
-import Multiselect from "multiselect-react-dropdown";
-import chatMini from "../../public/images/chat-mini.png";
-import { useStore } from "../../constants/code";
-import shallow from "zustand/shallow";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+import { useEffect, useState } from "react"
+import InfiniteScroll from "react-infinite-scroll-component"
+import JobCard from "../../components/job-card"
+import toastcomp from "../../components/toast"
+import { axiosInstance } from "../api/axiosApi"
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs"
+import "react-tabs/style/react-tabs.css"
+import Image from "next/image"
+import ChatBot from "../../components/chatbot"
+import Multiselect from "multiselect-react-dropdown"
+import chatMini from "../../public/images/chat-mini.png"
+import { useStore } from "../../constants/code"
+import shallow from "zustand/shallow"
+import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css"
 
 export default function JobListing() {
-  const [sidebarToggle, setsidebarToggle] = useState(false);
-  const [joblist, setJobList] = useState([]);
-  const [joblist2, setJobList2] = useState([]);
-  const [hasMore, setHasMore] = useState(false);
-  const [loader, setLoader] = useState(<div></div>);
-  const [skeleton1, setskeleton1] = useState(true);
-  const [skeleton2, setskeleton2] = useState(true);
-  const [data, setData] = useState([]);
-  const [tabIndex, setTabIndex] = useState(0);
+  const [sidebarToggle, setsidebarToggle] = useState(false)
+  const [joblist, setJobList] = useState([])
+  const [joblist2, setJobList2] = useState([])
+  const [hasMore, setHasMore] = useState(false)
+  const [loader, setLoader] = useState(<div></div>)
+  const [skeleton1, setskeleton1] = useState(true)
+  const [skeleton2, setskeleton2] = useState(true)
+  const [data, setData] = useState([
+    "Hii I am a Chatmini, If You Apply Filters With My Help Use This Ex : Chatmini Python Developer Job in location London Skills python",
+  ])
+  const [tabIndex, setTabIndex] = useState(0)
 
   const [userType, updateUserType] = useStore(
-    (state) => [state.userType, state.updateUserType],
+    state => [state.userType, state.updateUserType],
     shallow
-  );
+  )
 
   async function loadJobs() {
     await axiosInstance
       .get("/job/job/list/")
-      .then(async (res) => {
-        setJobList(res.data);
-        setJobList2(res.data.slice(0, 6));
-        setskeleton1(false);
-        setskeleton2(false);
+      .then(async res => {
+        setJobList(res.data)
+        setJobList2(res.data.slice(0, 6))
+        setskeleton1(false)
+        setskeleton2(false)
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(err => {
+        console.log(err)
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Job Not Loaded", "error");
+          toastcomp("Job Not Loaded", "error")
         }
-      });
+      })
   }
 
   function fetchMoreData() {
     if (joblist2.length == joblist.length) {
-      setHasMore(false);
+      setHasMore(false)
       setLoader(
         <div className="text-center text-[#6D27F9] text-3xl">
           <i className="fa-solid fa-circle-notch fa-spin"></i>
         </div>
-      );
+      )
     } else {
-      setJobList2(joblist.slice(0, joblist2.length + 6));
+      setJobList2(joblist.slice(0, joblist2.length + 6))
     }
   }
 
   useEffect(() => {
-    loadJobs();
-  }, []);
+    loadJobs()
+  }, [])
 
   useEffect(() => {
     if (joblist && joblist2 && joblist.length === joblist2.length) {
-      setHasMore(false);
-      setLoader(<div></div>);
+      setHasMore(false)
+      setLoader(<div></div>)
     } else {
-      setHasMore(true);
+      setHasMore(true)
       setLoader(
         <div className="text-center text-[#6D27F9] text-3xl">
           <i className="fa-solid fa-circle-notch fa-spin"></i>
         </div>
-      );
+      )
     }
-  }, [joblist, joblist2]);
+  }, [joblist, joblist2])
 
   //var filter
-  const [search, setSearch] = useState("");
-  const [fsearch, setFSearch] = useState("");
-  const [level, setLevel] = useState("");
-  const [type, setType] = useState("");
-  const [loc, setLoc] = useState("");
-  const [skill, setSkill] = useState("");
-  const [ind, setInd] = useState("");
-  const [dept, setDept] = useState("");
-  const [wtype, setWType] = useState("");
-  const [exp, setExp] = useState("");
+  const [search, setSearch] = useState("")
+  const [fsearch, setFSearch] = useState("")
+  const [level, setLevel] = useState("")
+  const [type, setType] = useState("")
+  const [loc, setLoc] = useState("")
+  const [skill, setSkill] = useState("")
+  const [ind, setInd] = useState("")
+  const [dept, setDept] = useState("")
+  const [wtype, setWType] = useState("")
+  const [exp, setExp] = useState("")
 
   async function filters(query) {
     // await axiosInstance.get(`/job/job/list/?sJob=${search}&levelFilter=${level}&jtFilter=${type}&locFilter=${loc}&skillFilter=${skill}&indFilter=${ind}&catFilter=${dept}&wpFilter=${wtype}&expFilter=${exp}`).then(async (res)=>{
     await axiosInstance
       .get(`/job/job/list/?${query}`)
-      .then(async (res) => {
-        setJobList(res.data);
-        setJobList2(res.data.slice(0, 6));
+      .then(async res => {
+        setJobList(res.data)
+        setJobList2(res.data.slice(0, 6))
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(err => {
+        console.log(err)
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Job Not Loaded", "error");
+          toastcomp("Job Not Loaded", "error")
         }
-      });
+      })
   }
 
   useEffect(() => {
     // var formData = new FormData();
-    let query = "";
+    let query = ""
     if (search) {
       if (query == "") {
-        query = query + "sJob=" + search;
+        query = query + "sJob=" + search
       } else {
-        query = query + "&sJob=" + search;
+        query = query + "&sJob=" + search
       }
     }
     if (level) {
       if (query == "") {
-        query = query + "levelFilter=" + level;
+        query = query + "levelFilter=" + level
       } else {
-        query = query + "&levelFilter=" + level;
+        query = query + "&levelFilter=" + level
       }
     }
     if (type) {
       if (query == "") {
-        query = query + "jtFilter=" + type;
+        query = query + "jtFilter=" + type
       } else {
-        query = query + "&jtFilter=" + type;
+        query = query + "&jtFilter=" + type
       }
     }
     if (loc) {
       if (query == "") {
-        query = query + "locFilter=" + loc;
+        query = query + "locFilter=" + loc
       } else {
-        query = query + "&locFilter=" + loc;
+        query = query + "&locFilter=" + loc
       }
     }
     if (skill) {
       if (query == "") {
-        query = query + "skillFilter=" + skill;
+        query = query + "skillFilter=" + skill
       } else {
-        query = query + "&skillFilter=" + skill;
+        query = query + "&skillFilter=" + skill
       }
     }
     if (ind) {
       if (query == "") {
-        query = query + "indFilter=" + ind;
+        query = query + "indFilter=" + ind
       } else {
-        query = query + "&indFilter=" + ind;
+        query = query + "&indFilter=" + ind
       }
     }
     if (dept) {
       if (query == "") {
-        query = query + "catFilter=" + dept;
+        query = query + "catFilter=" + dept
       } else {
-        query = query + "&catFilter=" + dept;
+        query = query + "&catFilter=" + dept
       }
     }
     if (wtype) {
       if (query == "") {
-        query = query + "wpFilter=" + wtype;
+        query = query + "wpFilter=" + wtype
       } else {
-        query = query + "&wpFilter=" + wtype;
+        query = query + "&wpFilter=" + wtype
       }
     }
     if (exp) {
       if (query == "") {
-        query = query + "expFilter=" + exp;
+        query = query + "expFilter=" + exp
       } else {
-        query = query + "&expFilter=" + exp;
+        query = query + "&expFilter=" + exp
       }
     }
 
@@ -178,69 +179,45 @@ export default function JobListing() {
     //     console.log("abc")
     //     filters(formData)
     // }
-    filters(query);
-  }, [fsearch, level, type, loc, skill, ind, dept, wtype, exp]);
+    filters(query)
+  }, [fsearch, level, type, loc, skill, ind, dept, wtype, exp])
 
-  const [locf, setLocf] = useState([]);
-  const [ski, setski] = useState([]);
-  const [load, setload] = useState(false);
+  const [locf, setLocf] = useState([])
+  const [ski, setski] = useState([])
+  const [load, setload] = useState(false)
 
   async function searchLoc(value) {
-    const axiosInstance22 = axios.create({
-      baseURL:
-        process.env.NODE_ENV === "production"
-          ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-          : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-      // timeout: 10000,
-      headers: {
-        // 'Authorization': "JWT " + access_token,
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
-    });
-    await axiosInstance22
+    await axiosInstance
       .get(`/job/load/location/?search=${value}`)
-      .then(async (res) => {
-        let obj = res.data;
-        let arr = [];
+      .then(async res => {
+        let obj = res.data
+        let arr = []
         for (const [key, value] of Object.entries(obj)) {
-          arr.push(value);
+          arr.push(value)
         }
-        setLocf(arr);
-        setload(false);
+        setLocf(arr)
+        setload(false)
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   async function searchSkill(value) {
-    const axiosInstance22 = axios.create({
-      baseURL:
-        process.env.NODE_ENV === "production"
-          ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-          : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-      // timeout: 10000,
-      headers: {
-        // 'Authorization': "JWT " + access_token,
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
-    });
-    await axiosInstance22
+    await axiosInstance
       .get(`/job/load/skills/?search=${value}`)
-      .then(async (res) => {
-        let obj = res.data;
-        let arr = [];
+      .then(async res => {
+        let obj = res.data
+        let arr = []
         for (const [key, value] of Object.entries(obj)) {
-          arr.push(value);
+          arr.push(value)
         }
-        setski(arr);
-        setload(false);
+        setski(arr)
+        setload(false)
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   return (
@@ -337,9 +314,9 @@ export default function JobListing() {
                 <Tabs selectedIndex={tabIndex}>
                   <div className="p-3 shadow-lg text-left filters">
                     <TabList>
-                      <Tab onClick={(e) => setTabIndex(0)}>Filters</Tab>
+                      <Tab onClick={e => setTabIndex(0)}>Filters</Tab>
                       {userType == "Candidate" && (
-                        <Tab onClick={(e) => setTabIndex(1)}>
+                        <Tab onClick={e => setTabIndex(1)}>
                           <div className="flex items-center">Chat Mini</div>
                         </Tab>
                       )}
@@ -362,8 +339,8 @@ export default function JobListing() {
                             placeholder="Job title or keyword"
                             className="w-full rounded-full border-[#6D27F9]"
                             value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            onBlur={(e) => setFSearch(e.target.value)}
+                            onChange={e => setSearch(e.target.value)}
+                            onBlur={e => setFSearch(e.target.value)}
                           />
                           <i className="fa-solid fa-search iconGroup__icon"></i>
                         </div>
@@ -426,10 +403,10 @@ export default function JobListing() {
                             closeOnSelect={true}
                             selectedValues={type && type.split(",")}
                             onSelect={(selectedList, selectedItem) => {
-                              setType(selectedList.join(","));
+                              setType(selectedList.join(","))
                             }}
                             onRemove={(selectedList, selectedItem) => {
-                              setType(selectedList.join(","));
+                              setType(selectedList.join(","))
                             }}
                             placeholder="Find Preferred Job Type"
                           />
@@ -451,16 +428,16 @@ export default function JobListing() {
                             }
                             showArrow={true}
                             closeOnSelect={true}
-                            onSearch={(value) => {
-                              setload(true);
-                              searchLoc(value);
+                            onSearch={value => {
+                              setload(true)
+                              searchLoc(value)
                             }}
                             selectedValues={loc && loc.split("|")}
                             onSelect={(selectedList, selectedItem) => {
-                              setLoc(selectedList.join("|"));
+                              setLoc(selectedList.join("|"))
                             }}
                             onRemove={(selectedList, selectedItem) => {
-                              setLoc(selectedList.join("|"));
+                              setLoc(selectedList.join("|"))
                             }}
                             placeholder="Find Preferred Location"
                           />
@@ -483,15 +460,15 @@ export default function JobListing() {
                             showArrow={true}
                             closeOnSelect={true}
                             selectedValues={skill && skill.split(",")}
-                            onSearch={(value) => {
-                              setload(true);
-                              searchSkill(value);
+                            onSearch={value => {
+                              setload(true)
+                              searchSkill(value)
                             }}
                             onSelect={(selectedList, selectedItem) => {
-                              setSkill(selectedList.join(","));
+                              setSkill(selectedList.join(","))
                             }}
                             onRemove={(selectedList, selectedItem) => {
-                              setSkill(selectedList.join(","));
+                              setSkill(selectedList.join(","))
                             }}
                             placeholder="Find Recommended Skills"
                           />
@@ -545,10 +522,10 @@ export default function JobListing() {
                             closeOnSelect={true}
                             selectedValues={ind && ind.split(",")}
                             onSelect={(selectedList, selectedItem) => {
-                              setInd(selectedList.join(","));
+                              setInd(selectedList.join(","))
                             }}
                             onRemove={(selectedList, selectedItem) => {
-                              setInd(selectedList.join(","));
+                              setInd(selectedList.join(","))
                             }}
                             placeholder="Find Preferred Industry"
                           />
@@ -595,10 +572,10 @@ export default function JobListing() {
                             closeOnSelect={true}
                             selectedValues={dept && dept.split(",")}
                             onSelect={(selectedList, selectedItem) => {
-                              setDept(selectedList.join(","));
+                              setDept(selectedList.join(","))
                             }}
                             onRemove={(selectedList, selectedItem) => {
-                              setDept(selectedList.join(","));
+                              setDept(selectedList.join(","))
                             }}
                             placeholder="Find Department"
                           />
@@ -621,10 +598,10 @@ export default function JobListing() {
                             closeOnSelect={true}
                             selectedValues={wtype && wtype.split(",")}
                             onSelect={(selectedList, selectedItem) => {
-                              setWType(selectedList.join(","));
+                              setWType(selectedList.join(","))
                             }}
                             onRemove={(selectedList, selectedItem) => {
-                              setWType(selectedList.join(","));
+                              setWType(selectedList.join(","))
                             }}
                             placeholder="Find Preferred WORK TYPE"
                           />
@@ -655,10 +632,10 @@ export default function JobListing() {
                             closeOnSelect={true}
                             selectedValues={exp && exp.split(",")}
                             onSelect={(selectedList, selectedItem) => {
-                              setExp(selectedList.join(","));
+                              setExp(selectedList.join(","))
                             }}
                             onRemove={(selectedList, selectedItem) => {
-                              setExp(selectedList.join(","));
+                              setExp(selectedList.join(","))
                             }}
                             placeholder="Find Preferred Experience In Years"
                           />
@@ -785,5 +762,5 @@ export default function JobListing() {
         </section>
       </main>
     </>
-  );
+  )
 }

@@ -1,24 +1,25 @@
-import "../styles/globals.css";
-import Head from "next/head";
-import Header from "../components/header";
-import Footer from "../components/footer";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import "nprogress/nprogress.css";
-import Router from "next/router";
-import NProgress from "nprogress";
-import { Toaster } from "react-hot-toast";
+import "../styles/globals.css"
+import Head from "next/head"
+import Header from "../components/header"
+import Footer from "../components/footer"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
+import React, { useEffect } from "react"
+import { useRouter } from "next/navigation"
+import "nprogress/nprogress.css"
+import Router from "next/router"
+import NProgress from "nprogress"
+import { Toaster } from "react-hot-toast"
 import {
   getDefaultWallets,
   RainbowKitProvider,
   lightTheme,
-} from "@rainbow-me/rainbowkit";
-import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
+} from "@rainbow-me/rainbowkit"
+import { chain, configureChains, createClient, WagmiConfig } from "wagmi"
 
-import { alchemyProvider } from "wagmi/providers/alchemy";
-import { publicProvider } from "wagmi/providers/public";
+import { alchemyProvider } from "wagmi/providers/alchemy"
+import { publicProvider } from "wagmi/providers/public"
+import { withAuth } from "../constants/HOCs"
 
 const { chains, provider } = configureChains(
   [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
@@ -26,36 +27,36 @@ const { chains, provider } = configureChains(
     alchemyProvider({ apiKey: "MR6VlWz69YIUo22eKofEVfW6UEv5dKvA" }),
     publicProvider(),
   ]
-);
+)
 
 const { connectors } = getDefaultWallets({
   appName: "My RainbowKit App",
   chains,
-});
+})
 
 const wagmiClient = createClient({
   autoConnect: true,
   connectors,
   provider,
-});
+})
 
-function MyApp({ Component, pageProps }) {
-  const router = useRouter();
+function MyApp({ Component, pageProps, session }) {
+  const router = useRouter()
   useEffect(() => {
-    const handleRouteStart = () => NProgress.start();
-    const handleRouteDone = () => NProgress.done();
+    const handleRouteStart = () => NProgress.start()
+    const handleRouteDone = () => NProgress.done()
 
-    Router.events.on("routeChangeStart", handleRouteStart);
-    Router.events.on("routeChangeComplete", handleRouteDone);
-    Router.events.on("routeChangeError", handleRouteDone);
+    Router.events.on("routeChangeStart", handleRouteStart)
+    Router.events.on("routeChangeComplete", handleRouteDone)
+    Router.events.on("routeChangeError", handleRouteDone)
 
     return () => {
       // Make sure to remove the event handler on unmount!
-      Router.events.off("routeChangeStart", handleRouteStart);
-      Router.events.off("routeChangeComplete", handleRouteDone);
-      Router.events.off("routeChangeError", handleRouteDone);
-    };
-  }, []);
+      Router.events.off("routeChangeStart", handleRouteStart)
+      Router.events.off("routeChangeComplete", handleRouteDone)
+      Router.events.off("routeChangeError", handleRouteDone)
+    }
+  }, [])
 
   return (
     <>
@@ -76,13 +77,13 @@ function MyApp({ Component, pageProps }) {
             <link rel="icon" href="/favicon.ico" />
           </Head>
           <Toaster />
-          <Header {...pageProps} router={router} />
-          <Component {...pageProps} router={router} />
+          <Header {...pageProps} router={router} session={session} />
+          <Component {...pageProps} router={router} session={session} />
           <Footer />
         </RainbowKitProvider>
       </WagmiConfig>
     </>
-  );
+  )
 }
 
-export default MyApp;
+export default withAuth(3 * 60)(MyApp)

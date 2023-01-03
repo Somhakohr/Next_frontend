@@ -1,5 +1,4 @@
 //@ts-nocheck
-import axios from "axios"
 import React from "react"
 import { Fragment, useEffect, useRef, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
@@ -8,13 +7,12 @@ import Image from "next/image"
 import shallow from "zustand/shallow"
 import toastcomp from "../../../components/toast"
 import { useStore } from "../../../constants/code"
-import { withAuth } from "../../../constants/HOCs"
-import userImg from "../../public/images/user-image.png"
-import { axiosInstance } from "../../api/axiosApi"
+import { axiosInstance, axiosInstanceAuth } from "../../api/axiosApi"
 import Multiselect from "multiselect-react-dropdown"
 import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css"
 
-function CandidateAcc(props) {
+export default function CandidateAcc(props) {
   const [deletePopup, deletePopupOpen] = useState(false)
   const [changePassword, changePasswordOpen] = useState(false)
   const cancelButtonRef = useRef(null)
@@ -84,6 +82,8 @@ function CandidateAcc(props) {
   const [pass, setpass] = useState("")
   const [pass2, setpass2] = useState("")
 
+  const axiosInstanceAuth2 = axiosInstanceAuth(accessToken)
+
   function valudateCP() {
     return pass.length >= 8 && pass2.length >= 8 && pass == pass2 && !loader1
   }
@@ -119,17 +119,7 @@ function CandidateAcc(props) {
       toastcomp("Enter Name", "Error")
       return
     }
-    const axiosInstanceAuth2 = axios.create({
-      baseURL:
-        process.env.NODE_ENV === "production"
-          ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-          : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-      timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-      headers: {
-        Authorization: "Bearer " + accessToken,
-        "Content-Type": "multipart/form-data",
-      },
-    })
+
     var formData2 = new FormData()
     mobile ? formData2.append("mobile", mobile) : formData2.append("mobile", "")
     formData2.append("first_name", fname)
@@ -182,19 +172,8 @@ function CandidateAcc(props) {
 
   async function delacc() {
     setloader1(true)
-    const axiosInstanceAuth = axios.create({
-      baseURL:
-        process.env.NODE_ENV === "production"
-          ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-          : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-      timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-      headers: {
-        Authorization: "Bearer " + accessToken,
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
-    })
-    await axiosInstanceAuth
+
+    await axiosInstanceAuth2
       .get("/auth/deleteCandidateAccount/" + userObj["erefid"] + "/")
       .then(res => {
         toastcomp("Account Deleted :)", "success")
@@ -213,17 +192,6 @@ function CandidateAcc(props) {
   }
   async function changePass() {
     setloader1(true)
-    const axiosInstanceAuth2 = axios.create({
-      baseURL:
-        process.env.NODE_ENV === "production"
-          ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-          : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-      timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-      headers: {
-        Authorization: "Bearer " + accessToken,
-        "Content-Type": "multipart/form-data",
-      },
-    })
     await axiosInstanceAuth2
       .post("/auth/changepassword/", {
         password: pass,
@@ -637,5 +605,3 @@ function CandidateAcc(props) {
     </>
   )
 }
-
-export default withAuth(3 * 60)(CandidateAcc)

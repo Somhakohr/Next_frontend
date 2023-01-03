@@ -4,25 +4,20 @@ import { Fragment, useRef } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import JobCard from "../../../components/job-card"
 import Slider from "react-slick"
-import googleImg from "../../public/images/google-icon.png"
 import { useRouter } from "next/router"
-import { axiosInstance } from "../../api/axiosApi"
+import { axiosInstance, axiosInstanceAuth } from "../../api/axiosApi"
 import { useStore } from "../../../constants/code"
 import { useEffect, useState } from "react"
 import shallow from "zustand/shallow"
 import moment from "moment"
-import { withAuth } from "../../../constants/HOCs"
 import toastcomp from "../../../components/toast"
-import axios from "axios"
 import { FacebookShareButton, LinkedinShareButton } from "react-share"
-import LineIcon from "react-share/lib/LineIcon"
-import LinkedinIcon from "react-share/lib/LinkedinIcon"
 import TwitterShareButton from "react-share/lib/TwitterShareButton"
 import TelegramShareButton from "react-share/lib/TelegramShareButton"
 import Skeleton from "react-loading-skeleton"
 import "react-loading-skeleton/dist/skeleton.css"
 
-function JobDetail(props) {
+export default function JobDetail(props) {
   const [mainShareJob, mainShareJobOpen] = useState(false)
   const [jobDetail, setJobDetail] = useState([])
   const [pskill, setPSkill] = useState([])
@@ -55,17 +50,7 @@ function JobDetail(props) {
   )
   const { session, router } = props
   //axios auth var
-  const axiosInstanceAuth2 = axios.create({
-    baseURL:
-      process.env.NODE_ENV === "production"
-        ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-        : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "multipart/form-data",
-    },
-  })
+  const axiosInstanceAuth2 = axiosInstanceAuth(accessToken)
 
   function dbook() {
     return bookmarked || loader2
@@ -77,21 +62,27 @@ function JobDetail(props) {
 
   async function loadJobDetail(id) {
     setske(true)
-    if (accessToken.length > 0 && userType == "candidate") {
+    if (accessToken.length > 0) {
+      console.log(userType)
       await axiosInstanceAuth2
         .get("/job/job/detail/" + id + "/")
         .then(async res => {
           setJobDetail(res.data)
         })
-        .catch(err => {
-          router.push("/marketplace/jobs")
-
+        .catch(async err => {
+          await axiosInstance
+            .get("/job/job/detail/" + id + "/")
+            .then(async res => {
+              setJobDetail(res.data)
+            })
+            .catch(err => {})
           // console.log(err)
           // if(err.message != "Request failed with status code 401"){
           //     toastcomp("Job Detail Not Loaded","error");
           // }
         })
     } else {
+      console.log(0)
       await axiosInstance
         .get("/job/job/detail/" + id + "/")
         .then(async res => {
@@ -750,5 +741,3 @@ function JobDetail(props) {
     </>
   )
 }
-
-export default withAuth(3 * 60)(JobDetail)

@@ -1,192 +1,175 @@
 //@ts-nocheck
-import Link from "next/link";
-import Image from "next/image";
-import React, { useEffect } from "react";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import { Fragment, useRef, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import userImg from "../../public/images/user-image.png";
-import uploadImages from "../../../public/images/upload_images.png";
-import gallery_1 from "../../public/images/gallery-1.png";
-import gallery_2 from "../../public/images/gallery-2.png";
-import gallery_3 from "../../public/images/gallery-3.png";
-import gallery_4 from "../../public/images/gallery-4.png";
-import gallery_5 from "../../public/images/gallery-5.png";
-import { withAuth } from "../../../constants/HOCs";
-import shallow from "zustand/shallow";
-import { useStore } from "../../../constants/code";
-import axios from "axios";
-import toastcomp from "../../../components/toast";
-import Multiselect from "multiselect-react-dropdown";
-import { signOut } from "next-auth/react";
-import { Editor } from "@tinymce/tinymce-react";
+import Link from "next/link"
+import Image from "next/image"
+import React, { useEffect } from "react"
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
+import { Fragment, useRef, useState } from "react"
+import { Dialog, Transition } from "@headlessui/react"
+import uploadImages from "../../../public/images/upload_images.png"
+import shallow from "zustand/shallow"
+import { useStore } from "../../../constants/code"
+import toastcomp from "../../../components/toast"
+import Multiselect from "multiselect-react-dropdown"
+import { signOut } from "next-auth/react"
+import { Editor } from "@tinymce/tinymce-react"
 import Skeleton from "react-loading-skeleton"
 import "react-loading-skeleton/dist/skeleton.css"
+import { axiosInstanceAuth } from "../../api/axiosApi"
 
-function OrganisationAccount(props) {
-  const cancelButtonRef = useRef(null);
-  const [deletePopup, deletePopupOpen] = useState(false);
-  const [socialPopup, socialPopupOpen] = useState(false);
-  const [galleryImages, galleryImagesAdd] = useState(false);
-  const [changePassword, changePasswordOpen] = useState(false);
-  const [loader, setloader] = useState(false);
+export default function OrganisationAccount(props) {
+  const cancelButtonRef = useRef(null)
+  const [deletePopup, deletePopupOpen] = useState(false)
+  const [socialPopup, socialPopupOpen] = useState(false)
+  const [galleryImages, galleryImagesAdd] = useState(false)
+  const [changePassword, changePasswordOpen] = useState(false)
+  const [loader, setloader] = useState(false)
 
-  const { router, session } = props;
+  const { router, session } = props
 
   const [userName, updateUserName] = useStore(
-    (state) => [state.userName, state.updateUserName],
+    state => [state.userName, state.updateUserName],
     shallow
-  );
+  )
 
   const [userImg, updateUserImg] = useStore(
-    (state) => [state.userImg, state.updateUserImg],
+    state => [state.userImg, state.updateUserImg],
     shallow
-  );
+  )
 
   const [userCImg, updateUserCImg] = useStore(
-    (state) => [state.userCImg, state.updateUserCImg],
+    state => [state.userCImg, state.updateUserCImg],
     shallow
-  );
+  )
 
   const [userType, updateUserType] = useStore(
-    (state) => [state.userType, state.updateUserType],
+    state => [state.userType, state.updateUserType],
     shallow
-  );
+  )
 
   const [userObj, updateUserObj] = useStore(
-    (state) => [state.userObj, state.updateUserObj],
+    state => [state.userObj, state.updateUserObj],
     shallow
-  );
+  )
 
   const [userProfile, updateUserProfile] = useStore(
-    (state) => [state.userProfile, state.updateUserProfile],
+    state => [state.userProfile, state.updateUserProfile],
     shallow
-  );
+  )
 
   const [accessToken, updateAccessToken] = useStore(
-    (state) => [state.accessToken, state.updateAccessToken],
+    state => [state.accessToken, state.updateAccessToken],
     shallow
-  );
+  )
 
-  const [profileimg, setProfileImg] = useState();
-  const [coverimg, setCoverImg] = useState();
-  const [cname, setCName] = useState("");
-  const [ind, setInd] = useState("");
-  const [curl, setCUrl] = useState("");
-  const [fdate, setFDate] = useState("");
-  const [founder, setFounder] = useState("");
-  const [cemail, setCEmail] = useState("");
-  const [lname, setLName] = useState("");
-  const [rname, setRName] = useState("");
-  const [rdes, setRDes] = useState("");
-  const [cstrength, setCStrength] = useState("");
-  const [orgstatus, setOrgStatus] = useState("");
-  const [opestatus, setOpeStatus] = useState("");
-  const [fundround, setFundRound] = useState("");
-  const [fund, setFund] = useState("");
-  const [desc, setDesc] = useState("");
-  const [add, setAdd] = useState("");
-  const [otype, setOType] = useState("");
+  const [profileimg, setProfileImg] = useState()
+  const [coverimg, setCoverImg] = useState()
+  const [cname, setCName] = useState("")
+  const [ind, setInd] = useState("")
+  const [curl, setCUrl] = useState("")
+  const [fdate, setFDate] = useState("")
+  const [founder, setFounder] = useState("")
+  const [cemail, setCEmail] = useState("")
+  const [lname, setLName] = useState("")
+  const [rname, setRName] = useState("")
+  const [rdes, setRDes] = useState("")
+  const [cstrength, setCStrength] = useState("")
+  const [orgstatus, setOrgStatus] = useState("")
+  const [opestatus, setOpeStatus] = useState("")
+  const [fundround, setFundRound] = useState("")
+  const [fund, setFund] = useState("")
+  const [desc, setDesc] = useState("")
+  const [add, setAdd] = useState("")
+  const [otype, setOType] = useState("")
 
-  const [fcname, setFCName] = useState("");
-  const [fcurl, setFCUrl] = useState("");
-  const [ffounder, setFFounder] = useState("");
-  const [fcemail, setFCEmail] = useState("");
-  const [flname, setFLName] = useState("");
-  const [frname, setFRName] = useState("");
-  const [frdes, setFRDes] = useState("");
-  const [ffundround, setFFundRound] = useState("");
-  const [ffund, setFFund] = useState("");
-  const [fdesc, setFDesc] = useState("");
-  const [fadd, setFAdd] = useState("");
-
-  //local social state
-  const [link, setLink] = useState([]);
-  const [atitle, setATitle] = useState("");
+  const [fcname, setFCName] = useState("")
+  const [fcurl, setFCUrl] = useState("")
+  const [ffounder, setFFounder] = useState("")
+  const [fcemail, setFCEmail] = useState("")
+  const [flname, setFLName] = useState("")
+  const [frname, setFRName] = useState("")
+  const [frdes, setFRDes] = useState("")
+  const [ffundround, setFFundRound] = useState("")
+  const [ffund, setFFund] = useState("")
+  const [fdesc, setFDesc] = useState("")
+  const [fadd, setFAdd] = useState("")
 
   //local social state
-  const [gallery, setGallery] = useState([]);
-  const [file, setFile] = useState([] as any);
+  const [link, setLink] = useState([])
+  const [atitle, setATitle] = useState("")
+
+  //local social state
+  const [gallery, setGallery] = useState([])
+  const [file, setFile] = useState([] as any)
 
   //chnage pass
-  const [pass, setpass] = useState("");
-  const [pass2, setpass2] = useState("");
+  const [pass, setpass] = useState("")
+  const [pass2, setpass2] = useState("")
 
   function valudateCP() {
-    return pass.length >= 8 && pass2.length >= 8 && pass == pass2 && !loader;
+    return pass.length >= 8 && pass2.length >= 8 && pass == pass2 && !loader
   }
 
   //axios auth var
-  const axiosInstanceAuth2 = axios.create({
-    baseURL:
-      process.env.NODE_ENV === "production"
-        ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-        : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const axiosInstanceAuth2 = axiosInstanceAuth(accessToken)
 
   function verifyLinkPopup() {
-    return atitle.length > 0 && !loader;
+    return atitle.length > 0 && !loader
   }
 
   function verifyGalPopup() {
-    return file.length > 0 && !loader;
+    return file.length > 0 && !loader
   }
 
   async function changePass() {
-    setloader(true);
+    setloader(true)
     await axiosInstanceAuth2
       .post("/auth/changepassword/", {
         password: pass,
         password2: pass2,
       })
-      .then(async (res) => {
-        changePasswordOpen(false);
-        setloader(false);
-        toastcomp("Password Successfully Changed", "successs");
+      .then(async res => {
+        changePasswordOpen(false)
+        setloader(false)
+        toastcomp("Password Successfully Changed", "successs")
       })
-      .catch((err) => {
-        changePasswordOpen(false);
-        toastcomp("Password Not Successfully Changed", "error");
-      });
+      .catch(err => {
+        changePasswordOpen(false)
+        toastcomp("Password Not Successfully Changed", "error")
+      })
   }
 
   async function loadLink() {
     await axiosInstanceAuth2
       .get("/organisation/organisationlinklist/" + userObj["orefid"] + "/")
-      .then(async (res) => {
-        setLink(res.data);
-        socialPopupOpen(false);
+      .then(async res => {
+        setLink(res.data)
+        socialPopupOpen(false)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Link Not Loaded", "error");
+          toastcomp("Link Not Loaded", "error")
         }
-        console.log(err);
-        socialPopupOpen(false);
-      });
+        console.log(err)
+        socialPopupOpen(false)
+      })
   }
 
   async function addLink(formdata) {
-    setloader(true);
+    setloader(true)
     await axiosInstanceAuth2
       .post(
         "/organisation/organisationlink/" + userObj["orefid"] + "/",
         formdata
       )
-      .then(async (res) => {
-        toastcomp("Social Link Added", "success");
-        loadLink();
-        setloader(false);
+      .then(async res => {
+        toastcomp("Social Link Added", "success")
+        loadLink()
+        setloader(false)
       })
-      .catch((err) => {
-        toastcomp("Link Not Added", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Link Not Added", "error")
+        console.log(err)
+      })
   }
 
   async function deleteLink(val) {
@@ -198,29 +181,29 @@ function OrganisationAccount(props) {
           val +
           "/delete/"
       )
-      .then(async (res) => {
-        toastcomp("Link Deleted", "success");
-        loadLink();
+      .then(async res => {
+        toastcomp("Link Deleted", "success")
+        loadLink()
       })
-      .catch((err) => {
-        toastcomp("Link Not Deleted", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Link Not Deleted", "error")
+        console.log(err)
+      })
   }
 
   async function loadGalllery() {
     await axiosInstanceAuth2
       .get("/organisation/organisationgallerylist/" + userObj["orefid"] + "/")
-      .then(async (res) => {
-        setGallery(res.data);
+      .then(async res => {
+        setGallery(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Gallery Not Loaded", "error");
+          toastcomp("Gallery Not Loaded", "error")
         }
-        console.log(err);
-        galleryImagesAdd(false);
-      });
+        console.log(err)
+        galleryImagesAdd(false)
+      })
   }
 
   async function deleteGallery(val) {
@@ -232,140 +215,140 @@ function OrganisationAccount(props) {
           val +
           "/delete/"
       )
-      .then(async (res) => {
-        toastcomp("Gallery Deleted", "success");
-        loadGalllery();
+      .then(async res => {
+        toastcomp("Gallery Deleted", "success")
+        loadGalllery()
       })
-      .catch((err) => {
-        toastcomp("Gallery Not Deleted", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Gallery Not Deleted", "error")
+        console.log(err)
+      })
   }
 
   async function addGallery(formdata) {
-    setloader(true);
+    setloader(true)
     await axiosInstanceAuth2
       .post(
         "/organisation/organisationgallery/" + userObj["orefid"] + "/",
         formdata
       )
-      .then(async (res) => {
-        toastcomp("Gallery Added", "success");
-        loadGalllery();
-        setFile([]);
-        galleryImagesAdd(false);
-        setloader(false);
+      .then(async res => {
+        toastcomp("Gallery Added", "success")
+        loadGalllery()
+        setFile([])
+        galleryImagesAdd(false)
+        setloader(false)
       })
-      .catch((err) => {
-        toastcomp("Gallery Not Added", "error");
-        console.log(err);
-      });
+      .catch(err => {
+        toastcomp("Gallery Not Added", "error")
+        console.log(err)
+      })
   }
 
   //save social media link
   function saveLink(e) {
-    const formData = new FormData();
-    formData.append("title", atitle);
-    addLink(formData);
-    setATitle("");
+    const formData = new FormData()
+    formData.append("title", atitle)
+    addLink(formData)
+    setATitle("")
   }
 
   //save social media link
   function saveGallery() {
     if (file.length > 0) {
       for (let i = 0; i < file.length; i++) {
-        const formData = new FormData();
-        formData.append("image", file[i]);
-        addGallery(formData);
+        const formData = new FormData()
+        formData.append("image", file[i])
+        addGallery(formData)
       }
     }
   }
 
   function onImageChange(e: any) {
-    setFile([...file, ...e.target.files]);
+    setFile([...file, ...e.target.files])
   }
 
   function deleteUImage(num) {
     if (file.length == 1) {
-      setFile([]);
+      setFile([])
     } else {
-      file.splice(num, 1);
+      file.splice(num, 1)
     }
-    var myElement = document.getElementById(`gallerypopup${num}`);
-    myElement.remove();
+    var myElement = document.getElementById(`gallerypopup${num}`)
+    myElement.remove()
   }
 
   useEffect(() => {
     if (!session) {
-      router.push("/");
+      router.push("/")
     }
-  }, [session]);
+  }, [session])
 
   useEffect(() => {
     if (userObj && userProfile) {
       if (userProfile["company_email"]) {
-        setCEmail(userObj["email"]), setFCEmail(userObj["email"]);
+        setCEmail(userObj["email"]), setFCEmail(userObj["email"])
       } else {
-        setCEmail(userObj["email"]), setFCEmail(userObj["email"]);
+        setCEmail(userObj["email"]), setFCEmail(userObj["email"])
       }
-      setCName(userObj["company_name"]);
-      setFCName(userObj["company_name"]);
-      setOType(userObj["company_type"]);
+      setCName(userObj["company_name"])
+      setFCName(userObj["company_name"])
+      setOType(userObj["company_type"])
 
       if (userProfile["industry"]) {
-        setInd(userProfile["industry"]);
+        setInd(userProfile["industry"])
       }
       if (userProfile["url"]) {
-        setCUrl(userProfile["url"]), setFCUrl(userProfile["url"]);
+        setCUrl(userProfile["url"]), setFCUrl(userProfile["url"])
       }
       if (userProfile["founded_date"]) {
-        setFDate(userProfile["founded_date"]);
+        setFDate(userProfile["founded_date"])
       }
       if (userProfile["founders"]) {
         setFounder(userProfile["founders"]),
-          setFFounder(userProfile["founders"]);
+          setFFounder(userProfile["founders"])
       }
       if (userProfile["legal_name"]) {
         setLName(userProfile["legal_name"]),
-          setFLName(userProfile["legal_name"]);
+          setFLName(userProfile["legal_name"])
       }
       if (userProfile["recuriter_name"]) {
         setRName(userProfile["recuriter_name"]),
-          setFRName(userProfile["recuriter_name"]);
+          setFRName(userProfile["recuriter_name"])
       }
       if (userProfile["recuriter_designation"]) {
         setRDes(userProfile["recuriter_designation"]),
-          setFRDes(userProfile["recuriter_designation"]);
+          setFRDes(userProfile["recuriter_designation"])
       }
       if (userProfile["company_strength"]) {
-        setCStrength(userProfile["company_strength"]);
+        setCStrength(userProfile["company_strength"])
       }
       if (userProfile["organisation_status"]) {
-        setOrgStatus(userProfile["organisation_status"]);
+        setOrgStatus(userProfile["organisation_status"])
       }
       if (userProfile["operation_status"]) {
-        setOpeStatus(userProfile["operation_status"]);
+        setOpeStatus(userProfile["operation_status"])
       }
       if (userProfile["roundoffund"]) {
         setFundRound(userProfile["roundoffund"]),
-          setFFundRound(userProfile["roundoffund"]);
+          setFFundRound(userProfile["roundoffund"])
       }
       if (userProfile["fund_amount"]) {
         setFund(userProfile["fund_amount"]),
-          setFFund(userProfile["fund_amount"]);
+          setFFund(userProfile["fund_amount"])
       }
       if (userProfile["address"]) {
-        setAdd(userProfile["address"]), setFAdd(userProfile["address"]);
+        setAdd(userProfile["address"]), setFAdd(userProfile["address"])
       }
       if (userProfile["description"]) {
         setDesc(userProfile["description"]),
-          setFDesc(userProfile["description"]);
+          setFDesc(userProfile["description"])
       }
 
-      loadLink();
-      loadGalllery();
+      loadLink()
+      loadGalllery()
     }
-  }, [userObj, userProfile]);
+  }, [userObj, userProfile])
 
   async function saveProfile(formData) {
     await axiosInstanceAuth2
@@ -373,61 +356,49 @@ function OrganisationAccount(props) {
         "/organisation/organisationprofile/" + userObj["orefid"] + "/",
         formData
       )
-      .then(async (res) => {
-        updateUserProfile(res.data);
-        toastcomp("Profile Updated", "success");
+      .then(async res => {
+        updateUserProfile(res.data)
+        toastcomp("Profile Updated", "success")
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(err => {
+        console.log(err)
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Profile Not Updated", "error");
+          toastcomp("Profile Not Updated", "error")
         }
-      });
+      })
   }
 
   async function delacc() {
-    const axiosInstanceAuth = axios.create({
-      baseURL:
-        process.env.NODE_ENV === "production"
-          ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-          : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-      timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-      headers: {
-        Authorization: "Bearer " + accessToken,
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
-    });
-    await axiosInstanceAuth
+    await axiosInstanceAuth2
       .get("/auth/deleteOrgAccount/" + userObj["orefid"] + "/")
-      .then((res) => {
-        toastcomp("Account Deleted :)", "success");
-        updateUserType("");
-        updateUserName("");
-        updateUserImg("");
-        updateUserObj({});
-        updateUserProfile({});
-        updateAccessToken("");
-        signOut();
+      .then(res => {
+        toastcomp("Account Deleted :)", "success")
+        updateUserType("")
+        updateUserName("")
+        updateUserImg("")
+        updateUserObj({})
+        updateUserProfile({})
+        updateAccessToken("")
+        signOut()
       })
-      .catch((err) => {
-        toastcomp("Account Not Deleted :)", "error");
-      });
+      .catch(err => {
+        toastcomp("Account Not Deleted :)", "error")
+      })
   }
   async function saveAccount(formData) {
     await axiosInstanceAuth2
       .put("/auth/organizationaccont/" + userObj["orefid"] + "/", formData)
-      .then(async (res) => {
-        userObj["company_name"] = res.data.company_name;
-        userObj["company_type"] = res.data.company_type;
-        toastcomp("Profile Updated", "success");
+      .then(async res => {
+        userObj["company_name"] = res.data.company_name
+        userObj["company_type"] = res.data.company_type
+        toastcomp("Profile Updated", "success")
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(err => {
+        console.log(err)
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Profile Not Updated", "error");
+          toastcomp("Profile Not Updated", "error")
         }
-      });
+      })
   }
 
   useEffect(() => {
@@ -451,71 +422,71 @@ function OrganisationAccount(props) {
       // console.log("add", add);
       // console.log("otype", otype);
 
-      var formData = new FormData();
-      var formData2 = new FormData();
+      var formData = new FormData()
+      var formData2 = new FormData()
       if (ind && userProfile["industry"] != ind) {
-        formData.append("industry", ind);
+        formData.append("industry", ind)
       }
       if (curl && userProfile["url"] != curl) {
-        formData.append("url", curl);
+        formData.append("url", curl)
       }
       if (fdate && userProfile["founded_date"] != fdate) {
-        formData.append("founded_date", fdate);
+        formData.append("founded_date", fdate)
       }
       if (founder && userProfile["founders"] != founder) {
-        formData.append("founders", founder);
+        formData.append("founders", founder)
       }
       if (lname && userProfile["legal_name"] != lname) {
-        formData.append("legal_name", lname);
+        formData.append("legal_name", lname)
       }
       if (rname && userProfile["recuriter_name"] != rname) {
-        formData.append("recuriter_name", rname);
+        formData.append("recuriter_name", rname)
       }
       if (rdes && userProfile["recuriter_designation"] != rdes) {
-        formData.append("recuriter_designation", rdes);
+        formData.append("recuriter_designation", rdes)
       }
       if (cstrength && userProfile["company_strength"] != cstrength) {
-        formData.append("company_strength", cstrength);
+        formData.append("company_strength", cstrength)
       }
       if (orgstatus && userProfile["organisation_status"] != orgstatus) {
-        formData.append("organisation_status", orgstatus);
+        formData.append("organisation_status", orgstatus)
       }
       if (opestatus && userProfile["operation_status"] != opestatus) {
-        formData.append("operation_status", opestatus);
+        formData.append("operation_status", opestatus)
       }
       if (fundround && userProfile["roundoffund"] != fundround) {
-        formData.append("roundoffund", fundround);
+        formData.append("roundoffund", fundround)
       }
       if (fund && userProfile["fund_amount"] != fund) {
-        formData.append("fund_amount", fund);
+        formData.append("fund_amount", fund)
       }
       if (add && userProfile["address"] != add) {
-        formData.append("address", add);
+        formData.append("address", add)
       }
       if (desc && userProfile["description"] != desc) {
-        formData.append("description", desc);
+        formData.append("description", desc)
       }
       if (cemail && userProfile["company_email"] != cemail) {
-        formData.append("company_email", cemail);
+        formData.append("company_email", cemail)
       }
       if (coverimg) {
-        formData.append("cover", coverimg);
+        formData.append("cover", coverimg)
       }
       if (profileimg) {
-        formData.append("profile", profileimg);
+        formData.append("profile", profileimg)
       }
       if (cname && userObj["company_name"] != cname) {
-        formData2.append("company_name", cname);
+        formData2.append("company_name", cname)
       }
       if (otype && userObj["company_type"] != otype) {
-        formData2.append("company_type", otype);
+        formData2.append("company_type", otype)
       }
 
       if (Array.from(formData.keys()).length > 0) {
-        saveProfile(formData);
+        saveProfile(formData)
       }
       if (Array.from(formData2.keys()).length > 0) {
-        saveAccount(formData2);
+        saveAccount(formData2)
       }
     }
   }, [
@@ -538,7 +509,7 @@ function OrganisationAccount(props) {
     fadd,
     coverimg,
     profileimg,
-  ]);
+  ])
 
   return (
     <>
@@ -600,9 +571,7 @@ function OrganisationAccount(props) {
                     <span className="text-[#646464] text-[12px] block mb-2">
                       Supported Formats: png, jpg upto 2 MB
                     </span>
-                    {
-                      userCImg && userImg
-                      ?
+                    {userCImg && userImg ? (
                       <>
                         <div className="relative border border-slate-300 rounded-[16px]">
                           <Image
@@ -623,8 +592,8 @@ function OrganisationAccount(props) {
                               className="absolute left-0 top-0 z-20"
                               hidden
                               accept="image/png, image/jpeg"
-                              onChange={(e) => {
-                                setCoverImg(e.target.files[0]);
+                              onChange={e => {
+                                setCoverImg(e.target.files[0])
                               }}
                             />
                           </label>
@@ -647,19 +616,19 @@ function OrganisationAccount(props) {
                                 className="absolute left-0 top-0 z-20"
                                 hidden
                                 accept="image/png, image/jpeg"
-                                onChange={(e) => {
-                                  setProfileImg(e.target.files[0]);
+                                onChange={e => {
+                                  setProfileImg(e.target.files[0])
                                 }}
                               />
                             </label>
                           </div>
                         </div>
                       </>
-                      :
+                    ) : (
                       <>
                         <Skeleton height={250} />
                       </>
-                    }
+                    )}
                   </aside>
                   <div className="flex flex-wrap justify-between">
                     <div className="w-full lg:w-[47%] mb-6">
@@ -674,8 +643,8 @@ function OrganisationAccount(props) {
                         id="orgCompName"
                         className="w-full rounded-full border-slate-300"
                         value={cname}
-                        onChange={(e) => setCName(e.target.value)}
-                        onBlur={(e) => setFCName(e.target.value)}
+                        onChange={e => setCName(e.target.value)}
+                        onBlur={e => setFCName(e.target.value)}
                       />
                     </div>
                     <div className="w-full lg:w-[47%] mb-6">
@@ -739,10 +708,10 @@ function OrganisationAccount(props) {
                         selectionLimit={1}
                         selectedValues={ind && ind.split(",")}
                         onSelect={(selectedList, selectedItem) => {
-                          setInd(selectedItem);
+                          setInd(selectedItem)
                         }}
                         onRemove={(selectedList, selectedItem) => {
-                          setInd("");
+                          setInd("")
                         }}
                         placeholder="Find Preferred Industry"
                       />
@@ -761,8 +730,8 @@ function OrganisationAccount(props) {
                         id="orgCompURL"
                         className="w-full rounded-full border-slate-300"
                         value={curl}
-                        onChange={(e) => setCUrl(e.target.value)}
-                        onBlur={(e) => setFCUrl(e.target.value)}
+                        onChange={e => setCUrl(e.target.value)}
+                        onBlur={e => setFCUrl(e.target.value)}
                       />
                     </div>
                     <div className="w-full lg:w-[47%] mb-6">
@@ -777,7 +746,7 @@ function OrganisationAccount(props) {
                         id="orgCompFoundedDate"
                         className="w-full rounded-full border-slate-300"
                         value={fdate}
-                        onChange={(e) => setFDate(e.target.value)}
+                        onChange={e => setFDate(e.target.value)}
                       />
                     </div>
                   </div>
@@ -794,8 +763,8 @@ function OrganisationAccount(props) {
                         id="orgCompFounders"
                         className="w-full rounded-full border-slate-300"
                         value={founder}
-                        onChange={(e) => setFounder(e.target.value)}
-                        onBlur={(e) => setFFounder(e.target.value)}
+                        onChange={e => setFounder(e.target.value)}
+                        onBlur={e => setFFounder(e.target.value)}
                       />
                     </div>
                     <div className="w-full lg:w-[47%] mb-6">
@@ -810,8 +779,8 @@ function OrganisationAccount(props) {
                         id="orgCompEmail"
                         className="w-full rounded-full border-slate-300"
                         value={cemail}
-                        onChange={(e) => setCEmail(e.target.value)}
-                        onBlur={(e) => setFCEmail(e.target.value)}
+                        onChange={e => setCEmail(e.target.value)}
+                        onBlur={e => setFCEmail(e.target.value)}
                       />
                     </div>
                   </div>
@@ -828,8 +797,8 @@ function OrganisationAccount(props) {
                         id="orgCompLegalName"
                         className="w-full rounded-full border-slate-300"
                         value={lname}
-                        onChange={(e) => setLName(e.target.value)}
-                        onBlur={(e) => setFLName(e.target.value)}
+                        onChange={e => setLName(e.target.value)}
+                        onBlur={e => setFLName(e.target.value)}
                       />
                     </div>
                     <div className="w-full lg:w-[47%] mb-6">
@@ -844,8 +813,8 @@ function OrganisationAccount(props) {
                         id="orgCompRecruiterName"
                         className="w-full rounded-full border-slate-300"
                         value={rname}
-                        onChange={(e) => setRName(e.target.value)}
-                        onBlur={(e) => setFRName(e.target.value)}
+                        onChange={e => setRName(e.target.value)}
+                        onBlur={e => setFRName(e.target.value)}
                       />
                     </div>
                   </div>
@@ -862,8 +831,8 @@ function OrganisationAccount(props) {
                         id="orgCompRecruiterDesg"
                         className="w-full rounded-full border-slate-300"
                         value={rdes}
-                        onChange={(e) => setRDes(e.target.value)}
-                        onBlur={(e) => setFRDes(e.target.value)}
+                        onChange={e => setRDes(e.target.value)}
+                        onBlur={e => setFRDes(e.target.value)}
                       />
                     </div>
                     <div className="w-full lg:w-[47%] mb-6">
@@ -908,10 +877,10 @@ function OrganisationAccount(props) {
                         selectionLimit={1}
                         selectedValues={cstrength && cstrength.split(",")}
                         onSelect={(selectedList, selectedItem) => {
-                          setCStrength(selectedItem);
+                          setCStrength(selectedItem)
                         }}
                         onRemove={(selectedList, selectedItem) => {
-                          setCStrength("");
+                          setCStrength("")
                         }}
                         placeholder="Find Strength of Company"
                       />
@@ -948,10 +917,10 @@ function OrganisationAccount(props) {
                         selectionLimit={1}
                         selectedValues={orgstatus && orgstatus.split(",")}
                         onSelect={(selectedList, selectedItem) => {
-                          setOrgStatus(selectedItem);
+                          setOrgStatus(selectedItem)
                         }}
                         onRemove={(selectedList, selectedItem) => {
-                          setOrgStatus("");
+                          setOrgStatus("")
                         }}
                         placeholder="Find Status of Organisation"
                       />
@@ -986,10 +955,10 @@ function OrganisationAccount(props) {
                         selectionLimit={1}
                         selectedValues={opestatus && opestatus.split(",")}
                         onSelect={(selectedList, selectedItem) => {
-                          setOpeStatus(selectedItem);
+                          setOpeStatus(selectedItem)
                         }}
                         onRemove={(selectedList, selectedItem) => {
-                          setOpeStatus("");
+                          setOpeStatus("")
                         }}
                         placeholder="Find Status of Operation"
                       />
@@ -1008,8 +977,8 @@ function OrganisationAccount(props) {
                         id="orgCompFundingRound"
                         className="w-full rounded-full border-slate-300"
                         value={fundround}
-                        onChange={(e) => setFundRound(e.target.value)}
-                        onBlur={(e) => setFFundRound(e.target.value)}
+                        onChange={e => setFundRound(e.target.value)}
+                        onBlur={e => setFFundRound(e.target.value)}
                       />
                     </div>
                     <div className="w-full lg:w-[47%] mb-6">
@@ -1024,8 +993,8 @@ function OrganisationAccount(props) {
                         id="orgCompFundingAmount"
                         className="w-full rounded-full border-slate-300"
                         value={fund}
-                        onChange={(e) => setFund(e.target.value)}
-                        onBlur={(e) => setFFund(e.target.value)}
+                        onChange={e => setFund(e.target.value)}
+                        onBlur={e => setFFund(e.target.value)}
                       />
                     </div>
                   </div>
@@ -1067,8 +1036,8 @@ function OrganisationAccount(props) {
                     <label
                       htmlFor="orgCompDesc"
                       className="font-medium mb-2 leading-none inline-block"
-                      onClick={(e) => {
-                        console.log(desc);
+                      onClick={e => {
+                        console.log(desc)
                       }}
                     >
                       Company Description
@@ -1129,10 +1098,10 @@ function OrganisationAccount(props) {
                       selectionLimit={1}
                       selectedValues={otype && otype.split(",")}
                       onSelect={(selectedList, selectedItem) => {
-                        setOType(selectedItem);
+                        setOType(selectedItem)
                       }}
                       onRemove={(selectedList, selectedItem) => {
-                        setOType("");
+                        setOType("")
                       }}
                       placeholder="Find Preferred Company Type"
                     />
@@ -1184,7 +1153,7 @@ function OrganisationAccount(props) {
                             <i className="fa-solid fa-link iconGroup__icon"></i>
                             <i
                               className="fa-solid fa-trash iconGroup__icon-delete"
-                              onClick={(e) => deleteLink(link.id)}
+                              onClick={e => deleteLink(link.id)}
                             ></i>
                           </div>
                         </div>
@@ -1221,7 +1190,7 @@ function OrganisationAccount(props) {
                             <button
                               type="button"
                               className="absolute right-[5px] top-[5px] leading-none shadow-normal bg-white text-red-500 text-[10px] w-[15px] h-[15px] rounded"
-                              onClick={(e) => deleteGallery(gallery.id)}
+                              onClick={e => deleteGallery(gallery.id)}
                             >
                               <i className="fa-solid fa-xmark"></i>
                             </button>
@@ -1302,14 +1271,14 @@ function OrganisationAccount(props) {
                               placeholder="https//www.xyzurl.com"
                               className="w-full rounded-full border-slate-300"
                               value={atitle}
-                              onChange={(e) => setATitle(e.target.value)}
+                              onChange={e => setATitle(e.target.value)}
                             />
                           </div>
                           <div className="text-center">
                             <button
                               type="button"
                               className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                              onClick={(e) => saveLink(e)}
+                              onClick={e => saveLink(e)}
                               disabled={!verifyLinkPopup()}
                             >
                               {loader && (
@@ -1463,7 +1432,7 @@ function OrganisationAccount(props) {
                             id="disgallery"
                             className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
                             disabled={!verifyGalPopup()}
-                            onClick={(e) => saveGallery()}
+                            onClick={e => saveGallery()}
                           >
                             {loader && (
                               <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
@@ -1547,7 +1516,7 @@ function OrganisationAccount(props) {
                             id="orgNewPass"
                             className="w-full rounded-full border-slate-300"
                             value={pass}
-                            onChange={(e) => setpass(e.target.value)}
+                            onChange={e => setpass(e.target.value)}
                           />
                         </div>
                         <div className="mb-6">
@@ -1562,7 +1531,7 @@ function OrganisationAccount(props) {
                             id="orgConfirmPass"
                             className="w-full rounded-full border-slate-300"
                             value={pass2}
-                            onChange={(e) => setpass2(e.target.value)}
+                            onChange={e => setpass2(e.target.value)}
                           />
                         </div>
                         <div className="text-center">
@@ -1570,7 +1539,7 @@ function OrganisationAccount(props) {
                             type="button"
                             className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[150px] transition-all hover:from-[#391188] hover:to-[#391188]"
                             disabled={!valudateCP()}
-                            onClick={(e) => changePass()}
+                            onClick={e => changePass()}
                           >
                             {loader && (
                               <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
@@ -1644,7 +1613,7 @@ function OrganisationAccount(props) {
                             <button
                               type="submit"
                               className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 my-2 mx-3 md:min-w-[90px] transition-all hover:from-[#391188] hover:to-[#391188]"
-                              onClick={(e) => delacc()}
+                              onClick={e => delacc()}
                             >
                               {loader && (
                                 <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
@@ -1663,7 +1632,5 @@ function OrganisationAccount(props) {
         </>
       )}
     </>
-  );
+  )
 }
-
-export default withAuth(3 * 60)(OrganisationAccount);

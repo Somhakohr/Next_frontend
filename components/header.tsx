@@ -1,211 +1,183 @@
-import Link from "next/link";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { Fragment, useEffect, useState } from "react";
-import { Dialog, Transition, Menu } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import { signOut } from "next-auth/react";
-import shallow from "zustand/shallow";
-import { useStore } from "../constants/code";
-import { withAuth } from "../constants/HOCs";
-import axios from "axios";
-import { axiosInstance } from "../pages/api/axiosApi";
-import Logo from "../components/logo";
-import Notifications from "./notifications";
-import toastcomp from "./toast";
+import Link from "next/link"
+import Image from "next/image"
+import { useRouter } from "next/router"
+import { Fragment, useEffect, useState } from "react"
+import { Dialog, Transition, Menu } from "@headlessui/react"
+import { XMarkIcon } from "@heroicons/react/24/outline"
+import { signOut } from "next-auth/react"
+import shallow from "zustand/shallow"
+import { useStore } from "../constants/code"
+import { withAuth } from "../constants/HOCs"
+import axios from "axios"
+import { axiosInstance } from "../pages/api/axiosApi"
+import Logo from "../components/logo"
+import Notifications from "./notifications"
+import toastcomp from "./toast"
 
 function Header(props) {
-  const routerr = useRouter();
+  const routerr = useRouter()
 
-  const [smallMenu, toggleSmallMenu] = useState(false);
+  const [smallMenu, toggleSmallMenu] = useState(false)
 
-  const { session, router } = props;
+  const { session, router } = props
 
   const [userName, updateUserName] = useStore(
-    (state) => [state.userName, state.updateUserName],
+    state => [state.userName, state.updateUserName],
     shallow
-  );
+  )
 
   const [userImg, updateUserImg] = useStore(
-    (state) => [state.userImg, state.updateUserImg],
+    state => [state.userImg, state.updateUserImg],
     shallow
-  );
+  )
 
   const [userCImg, updateUserCImg] = useStore(
-    (state) => [state.userCImg, state.updateUserCImg],
+    state => [state.userCImg, state.updateUserCImg],
     shallow
-  );
+  )
 
   const [userType, updateUserType] = useStore(
-    (state) => [state.userType, state.updateUserType],
+    state => [state.userType, state.updateUserType],
     shallow
-  );
+  )
 
   const [userObj, updateUserObj] = useStore(
-    (state) => [state.userObj, state.updateUserObj],
+    state => [state.userObj, state.updateUserObj],
     shallow
-  );
+  )
 
   const [userProfile, updateUserProfile] = useStore(
-    (state) => [state.userProfile, state.updateUserProfile],
+    state => [state.userProfile, state.updateUserProfile],
     shallow
-  );
+  )
 
   const [accessToken, updateAccessToken] = useStore(
-    (state) => [state.accessToken, state.updateAccessToken],
+    state => [state.accessToken, state.updateAccessToken],
     shallow
-  );
+  )
 
-  const [open, setOpen] = useState(false);
-  const [readn, setreadn] = useState([]);
-  const [unreadn, setunreadn] = useState([]);
+  const [open, setOpen] = useState(false)
+  const [readn, setreadn] = useState([])
+  const [unreadn, setunreadn] = useState([])
 
   function signout() {
-    signOut();
-    updateUserType("");
-    updateUserName("");
-    updateUserImg("");
-    updateUserObj({});
-    updateUserProfile({});
-    updateAccessToken("");
+    signOut()
+    updateUserType("")
+    updateUserName("")
+    updateUserImg("")
+    updateUserObj({})
+    updateUserProfile({})
+    updateAccessToken("")
   }
 
-  async function readfn(pk) {
-    const axiosInstanceAuth = axios.create({
-      baseURL:
-        process.env.NODE_ENV === "production"
-          ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-          : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-      timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-      headers: {
-        Authorization: "Bearer " + accessToken,
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
-    });
-    await axiosInstanceAuth
-      .get("/auth/notifi/" + userObj["erefid"] + "/" + pk + "/read/")
-      .then((res) => {
-        toastcomp("LOL", "Success");
-        // setreadn(res.data.read_data)
-        // setunreadn(res.data.unread_data)
+  async function fetchData() {
+    const res = await axiosInstance.post("/auth/getusers/", {
+      email: session.user.email,
+    })
+    updateUserType(res.data.type)
+    updateUserObj(res.data.userObj[0])
+
+    if (res.data.type == "Candidate") {
+      const axiosInstanceAuth = axios.create({
+        baseURL:
+          process.env.NODE_ENV === "production"
+            ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
+            : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
+        timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
+        headers: {
+          Authorization: "Bearer " + session.accessToken,
+          "Content-Type": "application/json",
+          accept: "application/json",
+        },
       })
-      .catch((err) => {
-        console.log(err);
-        toastcomp("Error", "Error");
-      });
+      const res2 = await axiosInstanceAuth.get(
+        "/candidate/candidateprofile/" + res.data.userObj[0].erefid + "/"
+      )
+      updateUserProfile(res2.data)
+
+      await axiosInstanceAuth
+        .get("/auth/notifi/" + res.data.userObj[0].erefid + "/")
+        .then(res => {
+          setreadn(res.data.read_data)
+          setunreadn(res.data.unread_data)
+        })
+    } else if (res.data.type == "Organisation") {
+      const axiosInstanceAuth = axios.create({
+        baseURL:
+          process.env.NODE_ENV === "production"
+            ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
+            : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
+        timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
+        headers: {
+          Authorization: "Bearer " + session.accessToken,
+          "Content-Type": "application/json",
+          accept: "application/json",
+        },
+      })
+      const res2 = await axiosInstanceAuth.get(
+        "/organisation/organisationprofile/" + res.data.userObj[0].orefid + "/"
+      )
+      updateUserProfile(res2.data)
+
+      await axiosInstanceAuth
+        .get("/auth/orgnotifi/" + res.data.userObj[0].orefid + "/")
+        .then(res => {
+          setreadn(res.data.read_data)
+          setunreadn(res.data.unread_data)
+        })
+    }
   }
 
   useEffect(() => {
-    async function fetchData() {
-      const res = await axiosInstance.post("/auth/getusers/", {
-        email: session.user.email,
-      });
-      updateUserType(res.data.type);
-      updateUserObj(res.data.userObj[0]);
-
-      if (res.data.type == "Candidate") {
-        const axiosInstanceAuth = axios.create({
-          baseURL:
-            process.env.NODE_ENV === "production"
-              ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-              : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-          timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-          headers: {
-            Authorization: "Bearer " + session.accessToken,
-            "Content-Type": "application/json",
-            accept: "application/json",
-          },
-        });
-        const res2 = await axiosInstanceAuth.get(
-          "/candidate/candidateprofile/" + res.data.userObj[0].erefid + "/"
-        );
-        updateUserProfile(res2.data);
-
-        await axiosInstanceAuth
-          .get("/auth/notifi/" + res.data.userObj[0].erefid + "/")
-          .then((res) => {
-            setreadn(res.data.read_data);
-            setunreadn(res.data.unread_data);
-          });
-      } else if (res.data.type == "Organisation") {
-        const axiosInstanceAuth = axios.create({
-          baseURL:
-            process.env.NODE_ENV === "production"
-              ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-              : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-          timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-          headers: {
-            Authorization: "Bearer " + session.accessToken,
-            "Content-Type": "application/json",
-            accept: "application/json",
-          },
-        });
-        const res2 = await axiosInstanceAuth.get(
-          "/organisation/organisationprofile/" +
-            res.data.userObj[0].orefid +
-            "/"
-        );
-        updateUserProfile(res2.data);
-
-        await axiosInstanceAuth
-          .get("/auth/orgnotifi/" + res.data.userObj[0].orefid + "/")
-          .then((res) => {
-            setreadn(res.data.read_data);
-            setunreadn(res.data.unread_data);
-          });
-      }
-    }
-
     if (session && userType.length <= 0) {
-      fetchData();
+      fetchData()
     }
     if (session) {
-      updateAccessToken(session.accessToken);
+      updateAccessToken(session.accessToken)
     }
-  }, [session]);
+  }, [session])
 
   useEffect(() => {
     if (userType.length > 0) {
       if (userType == "Candidate") {
         if (userObj["first_name"]) {
-          updateUserName(userObj["first_name"] + " " + userObj["last_name"]);
+          updateUserName(userObj["first_name"] + " " + userObj["last_name"])
         } else {
-          updateUserName(session.user.name);
+          updateUserName(session.user.name)
         }
         if (userProfile["profile"]) {
           if (
             userProfile["profile"] == "/media/default_image.jpeg" &&
             session.user.image
           ) {
-            updateUserImg(session.user.image);
+            updateUserImg(session.user.image)
           } else {
             updateUserImg(
               (process.env.NODE_ENV === "production"
                 ? process.env.NEXT_PUBLIC_PROD_BACKEND
                 : process.env.NEXT_PUBLIC_DEV_BACKEND) + userProfile["profile"]
-            );
+            )
           }
         }
       } else if (userType == "Organisation") {
         if (userObj["name"]) {
-          updateUserName(userObj["name"]);
+          updateUserName(userObj["name"])
         }
         if (userProfile["profile"]) {
           updateUserImg(
             (process.env.NODE_ENV === "production"
               ? process.env.NEXT_PUBLIC_PROD_BACKEND
               : process.env.NEXT_PUBLIC_DEV_BACKEND) + userProfile["profile"]
-          );
+          )
           updateUserCImg(
             (process.env.NODE_ENV === "production"
               ? process.env.NEXT_PUBLIC_PROD_BACKEND
               : process.env.NEXT_PUBLIC_DEV_BACKEND) + userProfile["cover"]
-          );
+          )
         }
       }
     }
-  }, [userProfile, userType, userObj]);
+  }, [userProfile, userType, userObj])
 
   const authAction = [
     {
@@ -216,7 +188,7 @@ function Header(props) {
       url: "/marketplace/auth/signup",
       text: "Sign Up",
     },
-  ];
+  ]
   const menuNav = [
     {
       url: "/marketplace/jobs",
@@ -246,7 +218,7 @@ function Header(props) {
       url: "/contact",
       text: "Contact Us",
     },
-  ];
+  ]
 
   return (
     <>
@@ -307,7 +279,7 @@ function Header(props) {
                           <button
                             type="button"
                             className="mb-4 bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-semibold rounded-full py-1.5 px-6 text-sm transition-all hover:from-[#391188] hover:to-[#391188]"
-                            onClick={(e) => {
+                            onClick={e => {
                               navigator.clipboard
                                 .writeText(
                                   `${
@@ -318,12 +290,12 @@ function Header(props) {
                                     userProfile["referal_code"]
                                   }`
                                 )
-                                .then((e) => {
-                                  toastcomp("Copid Successfully", "Success");
+                                .then(e => {
+                                  toastcomp("Copid Successfully", "Success")
                                 })
-                                .catch((e) => {
-                                  toastcomp("Copid Unsuccessfully", "error");
-                                });
+                                .catch(e => {
+                                  toastcomp("Copid Unsuccessfully", "error")
+                                })
                             }}
                           >
                             Copy
@@ -340,9 +312,11 @@ function Header(props) {
                     <Menu.Button className="align-middle py-2 pl-3 pr-4 h-full">
                       <span className="relative">
                         <i className="fa-solid fa-bell text-lg"></i>
-                        <span className="absolute right-[-10px] top-[-8px] bg-[#6D27F9] text-white w-[20px] h-[20px] rounded-full flex items-center justify-center text-[10px]">
-                          {unreadn.length}
-                        </span>
+                        {unreadn.length > 0 && (
+                          <span className="absolute right-[-10px] top-[-8px] bg-[#6D27F9] text-white w-[20px] h-[20px] rounded-full flex items-center justify-center text-[10px]">
+                            {unreadn.length}
+                          </span>
+                        )}
                       </span>
                     </Menu.Button>
                     <Transition
@@ -358,7 +332,9 @@ function Header(props) {
                         <Notifications
                           read={readn}
                           unread={unreadn}
-                          readfn={readfn}
+                          id={userObj["erefid"]}
+                          accessToken={accessToken}
+                          fetchData={fetchData}
                         />
                       </Menu.Items>
                     </Transition>
@@ -448,7 +424,9 @@ function Header(props) {
                         <Notifications
                           read={readn}
                           unread={unreadn}
-                          readfn={readfn}
+                          id={userObj["orefid"]}
+                          accessToken={accessToken}
+                          fetchData={fetchData}
                         />
                       </Menu.Items>
                     </Transition>
@@ -567,8 +545,8 @@ function Header(props) {
                 <button
                   type="button"
                   onClick={() => {
-                    setOpen(true);
-                    toggleSmallMenu(false);
+                    setOpen(true)
+                    toggleSmallMenu(false)
                   }}
                   className="xl:hidden text-2xl flex"
                 >
@@ -653,7 +631,7 @@ function Header(props) {
         </Dialog>
       </Transition.Root>
     </>
-  );
+  )
 }
 
-export default withAuth(3 * 60)(Header);
+export default Header

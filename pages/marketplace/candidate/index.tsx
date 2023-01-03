@@ -7,8 +7,6 @@ import Slider from "react-slick"
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs"
 import "react-tabs/style/react-tabs.css"
 import JobCard from "../../../components/job-card"
-import userDummyImg from "../../../public/images/user-image.png"
-import medal from "../../../public/images/medal.png"
 import token from "../../../public/images/token.png"
 import walletCard from "../../../public/images/wallet-card.png"
 import LaunchingSoon from "../../../public/images/Launching-Soon.png"
@@ -18,21 +16,15 @@ import blogDashBg from "../../../public/images/blog-dash-bg.jpg"
 import learningSlide from "../../../public/images/learning-slide.png"
 import { useStore } from "../../../constants/code"
 import shallow from "zustand/shallow"
-import { withAuth } from "../../../constants/HOCs"
-import axios from "axios"
 import "@rainbow-me/rainbowkit/styles.css"
-import {
-  ConnectButton,
-  getDefaultWallets,
-  RainbowKitProvider,
-} from "@rainbow-me/rainbowkit"
+import { ConnectButton } from "@rainbow-me/rainbowkit"
 import { useAccount } from "wagmi"
 import toastcomp from "../../../components/toast"
-import { axiosInstance } from "../../api/axiosApi"
+import { axiosInstance, axiosInstanceAuth } from "../../api/axiosApi"
 import Skeleton from "react-loading-skeleton"
 import "react-loading-skeleton/dist/skeleton.css"
 
-function Candidate(props) {
+export default function Candidate(props) {
   const [userName, updateUserName] = useStore(
     state => [state.userName, state.updateUserName],
     shallow
@@ -73,6 +65,7 @@ function Candidate(props) {
   const [bookmarked, setbookmarked] = useState([])
   const [rec, setrec] = useState([])
   const [ske, setske] = useState(true)
+  const [ske2, setske2] = useState(true)
 
   const learningSlides = [
     {
@@ -107,18 +100,7 @@ function Candidate(props) {
     autoplay: true,
     autoplaySpeed: 5000,
   }
-  //axios auth var
-  const axiosInstanceAuth2 = axios.create({
-    baseURL:
-      process.env.NODE_ENV === "production"
-        ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-        : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "multipart/form-data",
-    },
-  })
+  const axiosInstanceAuth2 = axiosInstanceAuth(accessToken)
 
   useEffect(() => {
     if (!session) {
@@ -249,7 +231,13 @@ function Candidate(props) {
         updateAddress(formData)
       }
     }
-  }, [userObj, progress, address])
+
+    if (userProfile && userObj && userImg) {
+      setske2(false)
+    } else {
+      setske2(true)
+    }
+  }, [userObj, progress, address, userProfile])
 
   return (
     <>
@@ -264,7 +252,7 @@ function Candidate(props) {
             <div className="mb-8 py-4 px-8 bg-white shadow-normal rounded-[20px]">
               <div className="flex flex-wrap md:items-center items-start justify-between mb-6">
                 <div className="w-[calc(100%-70px)] flex flex-wrap md:items-center items-start flex-col md:flex-row">
-                  {userImg ? (
+                  {!ske2 ? (
                     <>
                       <Image
                         src={userImg}
@@ -285,11 +273,13 @@ function Candidate(props) {
                   )}
                   <div className="w-full md:w-[calc(100%-150px)] md:pl-8">
                     <h2 className="font-semibold text-xl md:text-3xl mb-1">
-                      {userName || <Skeleton width={200} />}
+                      {ske2 ? <Skeleton width={200} /> : userName}
                     </h2>
                     <p className="text-[#646464] font-light text-sm">
-                      {userProfile["title"] || (
+                      {ske2 ? (
                         <Skeleton width={120} height={15} />
+                      ) : (
+                        userProfile["title"]
                       )}
                     </p>
                   </div>
@@ -714,7 +704,9 @@ function Candidate(props) {
                   </h6>
                 </div>
                 <Link
-                  href="#"
+                  href="https://discord.gg/934TJUe6BF"
+                  target="_blank"
+                  rel="noreferrer"
                   className="w-[50%] bg-black px-6 py-6 rounded-xl absolute right-0 top-0 hover:w-full transition-all text-center"
                 >
                   <p className="text-white flex items-center justify-center">
@@ -825,5 +817,3 @@ function Candidate(props) {
     </>
   )
 }
-
-export default withAuth(3 * 60)(Candidate)

@@ -1,84 +1,69 @@
-//@ts-nocheck
-import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
-import Auth_Slider from "../../../components/auth-slider";
-import graphic_1 from "../../../public/images/graphic-1.png";
-import graphic_2 from "../../../public/images/graphic-2.png";
-import Google_Icon from "../../../public/images/google-icon.png";
-import Github_Icon from "../../../public/images/github-icon.png";
-import React from "react";
-import { useState, useEffect } from "react";
-import toastcomp from "../../../components/toast";
-import { useRouter } from "next/router";
-import axios from "axios";
-import { getCsrfToken } from "next-auth/react";
-import Multiselect from "multiselect-react-dropdown";
+import Head from "next/head"
+import Image from "next/image"
+import Link from "next/link"
+import Auth_Slider from "../../../components/auth-slider"
+import graphic_1 from "../../../public/images/graphic-1.png"
+import graphic_2 from "../../../public/images/graphic-2.png"
+import Google_Icon from "../../../public/images/google-icon.png"
+import Github_Icon from "../../../public/images/github-icon.png"
+import React from "react"
+import { useState, useEffect } from "react"
+import toastcomp from "../../../components/toast"
+import { useRouter } from "next/router"
+import { getCsrfToken } from "next-auth/react"
+import Multiselect from "multiselect-react-dropdown"
+import { axiosInstance, axiosInstance2 } from "../../api/axiosApi"
 
 async function setCSRF(setCsrf) {
-  const csrfToken = await getCsrfToken();
-  setCsrf(csrfToken);
+  const csrfToken = await getCsrfToken()
+  setCsrf(csrfToken)
 }
 
 export default function SignUp() {
-  const [section, setSection] = useState(0);
-  const [choice, setChoice] = useState(0);
-  const [csrf, setCsrf] = useState("");
-  const [ref, setref] = useState("");
-  const router = useRouter();
-  const { asPath } = useRouter();
+  const [section, setSection] = useState(0)
+  const [choice, setChoice] = useState(0)
+  const [csrf, setCsrf] = useState("")
+  const [ref, setref] = useState("")
+  const router = useRouter()
+  const { asPath } = useRouter()
 
-  const [orgInputPass, orgInputPassToggle] = useState(false);
-  const [orgInputConfPass, orgInputConfPassToggle] = useState(false);
-  const [canInputPass, canInputPassToggle] = useState(false);
-  const [canInputConfPass, canInputConfPassToggle] = useState(false);
+  const [orgInputPass, orgInputPassToggle] = useState(false)
+  const [orgInputConfPass, orgInputConfPassToggle] = useState(false)
+  const [canInputPass, canInputPassToggle] = useState(false)
+  const [canInputConfPass, canInputConfPassToggle] = useState(false)
 
   function orgInputPassToggled() {
-    orgInputPassToggle(!orgInputPass);
+    orgInputPassToggle(!orgInputPass)
   }
   function orgInputConfPassToggled() {
-    orgInputConfPassToggle(!orgInputConfPass);
+    orgInputConfPassToggle(!orgInputConfPass)
   }
   function canInputPassToggled() {
-    canInputPassToggle(!canInputPass);
+    canInputPassToggle(!canInputPass)
   }
   function canInputConfPassToggled() {
-    canInputConfPassToggle(!canInputConfPass);
+    canInputConfPassToggle(!canInputConfPass)
   }
 
   useEffect(() => {
-    setCSRF(setCsrf);
-  }, []);
-
-  const axiosInstance = axios.create({
-    baseURL:
-      process.env.NODE_ENV === "production"
-        ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-        : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-    headers: {
-      // 'Authorization': "JWT " + access_token,
-      "Content-Type": "application/json",
-      accept: "application/json",
-    },
-  });
-  // const {axiosInstance,router} = useStore();
+    setCSRF(setCsrf)
+  }, [])
 
   //candidate state
-  const [firstname, setFirstName] = useState("");
-  const [lastname, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
+  const [firstname, setFirstName] = useState("")
+  const [lastname, setLastName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [password, setPassword] = useState("")
+  const [password2, setPassword2] = useState("")
 
   //org state
-  const [cname, setCName] = useState("");
-  const [name, setName] = useState("");
-  const [cemail, setCEmail] = useState("");
-  const [ctype, setCType] = useState("Agency");
-  const [cpassword, setCPassword] = useState("");
-  const [cpassword2, setCPassword2] = useState("");
+  const [cname, setCName] = useState("")
+  const [name, setName] = useState("")
+  const [cemail, setCEmail] = useState("")
+  const [ctype, setCType] = useState("Agency")
+  const [cpassword, setCPassword] = useState("")
+  const [cpassword2, setCPassword2] = useState("")
 
   function validateCForm() {
     return (
@@ -88,7 +73,7 @@ export default function SignUp() {
       firstname.length > 0 &&
       lastname.length > 0 &&
       phone.length == 10
-    );
+    )
   }
 
   function validateOForm() {
@@ -100,73 +85,43 @@ export default function SignUp() {
       cname.length > 0 &&
       ctype &&
       ctype.length > 0
-    );
+    )
   }
 
   async function handleCandClick(event) {
-    event.preventDefault();
+    event.preventDefault()
 
-    const axiosInstance2 = axios.create({
-      baseURL:
-        process.env.NODE_ENV === "production"
-          ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-          : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-      timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-      headers: {
-        // 'Authorization': 'Bearer '+accessToken,
-        "Content-Type": "multipart/form-data",
-      },
-    });
-
-    var formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
-    formData.append("password2", password2);
-    formData.append("mobile", mobile);
-    formData.append("first_name", first_name);
-    formData.append("last_name", last_name);
+    var formData = new FormData()
+    formData.append("email", email)
+    formData.append("password", password)
+    formData.append("password2", password2)
+    formData.append("mobile", phone)
+    formData.append("first_name", firstname)
+    formData.append("last_name", lastname)
     if (ref.length > 0) {
-      formData.append("refferal", ref);
+      formData.append("refferal", ref)
     }
 
     await axiosInstance2
       .post("/auth/candidateregister/", formData)
-      .then((response) => {
-        router.push("/");
-        toastcomp("Successfully Registerd", "success");
+      .then(response => {
+        router.push("/")
+        toastcomp("Successfully Registerd", "success")
         setTimeout(() => {
-          toastcomp("We Send Verification Email", "info");
-        }, 100);
+          toastcomp("We Send Verification Email", "info")
+        }, 100)
       })
-      .catch((err) => {
+      .catch(err => {
         // console.log(err);
         if (err.response.data.errors.email) {
-          err.response.data.errors.email.map((text) =>
-            toastcomp(text, "error")
-          );
-          return false;
+          err.response.data.errors.email.map(text => toastcomp(text, "error"))
+          return false
         }
-      });
-
-    // if(ref.length > 0){
-    //   await axiosInstance.get("/auth/main_view/" + ref + "/")
-    //   .then(async (res) => {
-    //     console.log(res);
-    //     toastcomp("Refer Code Valid", "success");
-
-    //   })
-    //   .catch((err) => {
-    //     if (err.message != "Request failed with status code 401") {
-    //       toastcomp("Refer Code Not Valid", "error");
-    //     }
-    //     console.log(err);
-    //     return false;
-    //   });
-    // }
+      })
   }
 
   async function handleOrgClick(event) {
-    event.preventDefault();
+    event.preventDefault()
     await axiosInstance
       .post("/auth/orgregister/", {
         email: cemail,
@@ -176,61 +131,59 @@ export default function SignUp() {
         company_name: cname,
         company_type: ctype,
       })
-      .then((response) => {
-        router.push("/");
-        toastcomp("Successfully Registerd", "success");
+      .then(response => {
+        router.push("/")
+        toastcomp("Successfully Registerd", "success")
         setTimeout(() => {
-          toastcomp("We Send Verification Email", "info");
-        }, 100);
+          toastcomp("We Send Verification Email", "info")
+        }, 100)
       })
-      .catch((err) => {
+      .catch(err => {
         // console.log(err);
         if (err.response.data.errors.non_field_errors) {
-          err.response.data.errors.non_field_errors.map((text) =>
+          err.response.data.errors.non_field_errors.map(text =>
             toastcomp(text, "error")
-          );
-          return false;
+          )
+          return false
         }
         if (err.response.data.errors.email) {
-          err.response.data.errors.email.map((text) =>
-            toastcomp(text, "error")
-          );
-          return false;
+          err.response.data.errors.email.map(text => toastcomp(text, "error"))
+          return false
         }
-      });
+      })
   }
 
   function validateChoice() {
-    return choice != 0;
+    return choice != 0
   }
 
   function creatAccBtn() {
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPhone("");
-    setPassword("");
-    setPassword2("");
-    setCName("");
-    setName("");
-    setCEmail("");
-    setCType("");
-    setCPassword("");
-    setCPassword2("");
-    setSection(choice);
+    setFirstName("")
+    setLastName("")
+    setEmail("")
+    setPhone("")
+    setPassword("")
+    setPassword2("")
+    setCName("")
+    setName("")
+    setCEmail("")
+    setCType("")
+    setCPassword("")
+    setCPassword2("")
+    setSection(choice)
   }
 
   function resetFun() {
-    setSection(0);
+    setSection(0)
   }
 
   useEffect(() => {
-    var refer = asPath.substring(1).split("/")[2].split("?")[1];
+    var refer = asPath.substring(1).split("/")[2].split("?")[1]
     if (refer && refer.includes("referral") && refer.split("=")[1].length > 0) {
-      setSection(2);
-      setref(refer.split("=")[1]);
+      setSection(2)
+      setref(refer.split("=")[1])
     }
-  }, []);
+  }, [])
 
   return (
     <>
@@ -276,7 +229,7 @@ export default function SignUp() {
                                   type="text"
                                   className="w-full rounded-full border-slate-300"
                                   value={cname}
-                                  onChange={(e) => setCName(e.target.value)}
+                                  onChange={e => setCName(e.target.value)}
                                 />
                               </div>
                               <div className="w-full lg:w-[47%] mb-6">
@@ -291,7 +244,7 @@ export default function SignUp() {
                                   type="text"
                                   className="w-full rounded-full border-slate-300"
                                   value={name}
-                                  onChange={(e) => setName(e.target.value)}
+                                  onChange={e => setName(e.target.value)}
                                 />
                               </div>
                             </div>
@@ -308,7 +261,7 @@ export default function SignUp() {
                                   type="email"
                                   className="w-full rounded-full border-slate-300"
                                   value={cemail}
-                                  onChange={(e) => setCEmail(e.target.value)}
+                                  onChange={e => setCEmail(e.target.value)}
                                 />
                               </div>
                               <div className="w-full lg:w-[47%] mb-6">
@@ -335,10 +288,10 @@ export default function SignUp() {
                                   selectionLimit={1}
                                   selectedValues={ctype && ctype.split(",")}
                                   onSelect={(selectedList, selectedItem) => {
-                                    setCType(selectedItem);
+                                    setCType(selectedItem)
                                   }}
                                   onRemove={(selectedList, selectedItem) => {
-                                    setCType("");
+                                    setCType("")
                                   }}
                                   placeholder="Find Account Type"
                                 />
@@ -361,9 +314,7 @@ export default function SignUp() {
                                     id="input-password-for-credentials-provider"
                                     className="w-full rounded-full border-slate-300"
                                     value={cpassword}
-                                    onChange={(e) =>
-                                      setCPassword(e.target.value)
-                                    }
+                                    onChange={e => setCPassword(e.target.value)}
                                   />
                                   <button
                                     type="button"
@@ -394,7 +345,7 @@ export default function SignUp() {
                                     id="input-password-for-credentials-provider"
                                     className="w-full rounded-full border-slate-300"
                                     value={cpassword2}
-                                    onChange={(e) =>
+                                    onChange={e =>
                                       setCPassword2(e.target.value)
                                     }
                                   />
@@ -419,7 +370,7 @@ export default function SignUp() {
                                 type="submit"
                                 className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
                                 disabled={!validateOForm()}
-                                onClick={(e) => handleOrgClick(e)}
+                                onClick={e => handleOrgClick(e)}
                               >
                                 Submit
                               </button>
@@ -466,7 +417,7 @@ export default function SignUp() {
                                   type="text"
                                   className="w-full rounded-full border-slate-300"
                                   value={firstname}
-                                  onChange={(e) => setFirstName(e.target.value)}
+                                  onChange={e => setFirstName(e.target.value)}
                                 />
                               </div>
                               <div className="w-full lg:w-[47%] mb-6">
@@ -481,7 +432,7 @@ export default function SignUp() {
                                   type="text"
                                   className="w-full rounded-full border-slate-300"
                                   value={lastname}
-                                  onChange={(e) => setLastName(e.target.value)}
+                                  onChange={e => setLastName(e.target.value)}
                                 />
                               </div>
                             </div>
@@ -498,7 +449,7 @@ export default function SignUp() {
                                   type="email"
                                   className="w-full rounded-full border-slate-300"
                                   value={email}
-                                  onChange={(e) => setEmail(e.target.value)}
+                                  onChange={e => setEmail(e.target.value)}
                                 />
                               </div>
                               <div className="w-full lg:w-[47%] mb-6">
@@ -513,7 +464,7 @@ export default function SignUp() {
                                   type="number"
                                   className="w-full rounded-full border-slate-300"
                                   value={phone}
-                                  onChange={(e) => setPhone(e.target.value)}
+                                  onChange={e => setPhone(e.target.value)}
                                 />
                               </div>
                             </div>
@@ -534,9 +485,7 @@ export default function SignUp() {
                                     id="input-password-for-credentials-provider"
                                     className="w-full rounded-full border-slate-300"
                                     value={password}
-                                    onChange={(e) =>
-                                      setPassword(e.target.value)
-                                    }
+                                    onChange={e => setPassword(e.target.value)}
                                   />
                                   <button
                                     type="button"
@@ -567,9 +516,7 @@ export default function SignUp() {
                                     id="input-password-for-credentials-provider"
                                     className="w-full rounded-full border-slate-300"
                                     value={password2}
-                                    onChange={(e) =>
-                                      setPassword2(e.target.value)
-                                    }
+                                    onChange={e => setPassword2(e.target.value)}
                                   />
                                   <button
                                     type="button"
@@ -611,7 +558,7 @@ export default function SignUp() {
                                 type="submit"
                                 className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
                                 disabled={!validateCForm()}
-                                onClick={(e) => handleCandClick(e)}
+                                onClick={e => handleCandClick(e)}
                               >
                                 Submit
                               </button>
@@ -731,7 +678,7 @@ export default function SignUp() {
                               type="radio"
                               name="singupAs"
                               value={1}
-                              onChange={(e) => setChoice(1)}
+                              onChange={e => setChoice(1)}
                             />
                           </label>
                           <label
@@ -752,7 +699,7 @@ export default function SignUp() {
                               type="radio"
                               name="singupAs"
                               value={2}
-                              onChange={(e) => setChoice(2)}
+                              onChange={e => setChoice(2)}
                             />
                           </label>
                         </div>
@@ -790,5 +737,5 @@ export default function SignUp() {
         </section>
       </main>
     </>
-  );
+  )
 }

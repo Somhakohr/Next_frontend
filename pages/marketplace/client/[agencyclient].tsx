@@ -1,235 +1,222 @@
-import Image from "next/image";
-import userImg from "../../public/images/user-image.png";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { axiosInstance } from "../../api/axiosApi";
-import axios from "axios";
-import toastcomp from "../../../components/toast";
-import Link from "next/link";
+import Image from "next/image"
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
+import toastcomp from "../../../components/toast"
+import Link from "next/link"
+import { axiosInstance2 } from "../../api/axiosApi"
 
 export default function CandidateUsers() {
-  const { asPath } = useRouter();
-  const router = useRouter();
-  const [code, setcode] = useState("");
-  const [crefid, setcrefid] = useState("");
-  const [auth, setauth] = useState(false);
-  const [view, setview] = useState(false);
-  const [clientApp, setClientApp] = useState([]);
-  const [applicantData, setApplicantData] = useState([]);
-  const [lang, setLang] = useState([]);
-  const [link, setLink] = useState([]);
-  const [resume, setResume] = useState([]);
-  const [skill, setSkill] = useState([]);
-  const [cert, setCert] = useState([]);
-  const [edu, setEdu] = useState([]);
-  const [exp, setExp] = useState([]);
-  const [achieve, setAchieve] = useState([]);
-  const [interview, setInterview] = useState([]);
-  const [app, setApp] = useState([]);
+  const { asPath } = useRouter()
+  const router = useRouter()
+  const [code, setcode] = useState("")
+  const [crefid, setcrefid] = useState("")
+  const [auth, setauth] = useState(false)
+  const [view, setview] = useState(false)
+  const [clientApp, setClientApp] = useState([])
+  const [applicantData, setApplicantData] = useState([])
+  const [lang, setLang] = useState([])
+  const [link, setLink] = useState([])
+  const [resume, setResume] = useState([])
+  const [skill, setSkill] = useState([])
+  const [cert, setCert] = useState([])
+  const [edu, setEdu] = useState([])
+  const [exp, setExp] = useState([])
+  const [achieve, setAchieve] = useState([])
+  const [interview, setInterview] = useState([])
+  const [app, setApp] = useState([])
 
   useEffect(() => {
-    setcode(asPath.substring(1).split("/")[1]);
-  });
-
-  const axiosInstance2 = axios.create({
-    baseURL:
-      process.env.NODE_ENV === "production"
-        ? process.env.NEXT_PUBLIC_PROD_BACKEND_BASE
-        : process.env.NEXT_PUBLIC_DEV_BACKEND_BASE,
-    timeout: process.env.NODE_ENV === "production" ? 5000 : 10000,
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+    setcode(asPath.substring(1).split("/")[1])
+  })
 
   async function verifyAgency(formData, code) {
     await axiosInstance2
       .post("/job/agency/client/verify/", formData)
-      .then(async (res) => {
-        console.log(res);
+      .then(async res => {
+        console.log(res)
         if (res.data.Message) {
-          setauth(true);
-          loadApplicant(code);
+          setauth(true)
+          loadApplicant(code)
         } else {
-          setauth(false);
-          alert("Password & Code Does Not Match");
-          router.push("/");
+          setauth(false)
+          alert("Password & Code Does Not Match")
+          router.push("/")
         }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   async function loadApplicant(code) {
     await axiosInstance2
       .get("/job/agency/jobs/" + code + "/")
-      .then(async (res) => {
-        console.log(res);
-        setClientApp(res.data);
+      .then(async res => {
+        console.log(res)
+        setClientApp(res.data)
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(err => {
+        console.log(err)
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Applicant Not Loaded", "error");
+          toastcomp("Applicant Not Loaded", "error")
         }
-      });
+      })
   }
 
   async function loadLang() {
     await axiosInstance2
       .get("/candidate/listlang/" + crefid + "/")
-      .then(async (res) => {
-        setLang(res.data);
+      .then(async res => {
+        setLang(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Lang Not Loaded", "error");
+          toastcomp("Lang Not Loaded", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function loadLink() {
     await axiosInstance2
       .get("/candidate/listlink/" + crefid + "/")
-      .then(async (res) => {
-        setLink(res.data);
+      .then(async res => {
+        setLink(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Link Not Loaded", "error");
+          toastcomp("Link Not Loaded", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function loadReume() {
     await axiosInstance2
       .get("/candidate/listresume/" + crefid + "/")
-      .then(async (res) => {
-        setResume(res.data);
+      .then(async res => {
+        setResume(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Resume Not Loaded", "error");
+          toastcomp("Resume Not Loaded", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function loadSkill() {
     await axiosInstance2
       .get("/candidate/listskill/" + crefid + "/")
-      .then(async (res) => {
-        setSkill(res.data);
+      .then(async res => {
+        setSkill(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Skills Not Loaded", "error");
+          toastcomp("Skills Not Loaded", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function loadCertification() {
     await axiosInstance2
       .get("/candidate/listcertificate/" + crefid + "/")
-      .then(async (res) => {
-        setCert(res.data);
+      .then(async res => {
+        setCert(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Certification Not Loaded", "error");
+          toastcomp("Certification Not Loaded", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function loadEducation() {
     await axiosInstance2
       .get("/candidate/listeducation/" + crefid + "/")
-      .then(async (res) => {
-        setEdu(res.data);
+      .then(async res => {
+        setEdu(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Education Not Loaded", "error");
+          toastcomp("Education Not Loaded", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function loadExperience() {
     await axiosInstance2
       .get("/candidate/listexperience/" + crefid + "/")
-      .then(async (res) => {
-        setExp(res.data);
+      .then(async res => {
+        setExp(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Exp Not Loaded", "error");
+          toastcomp("Exp Not Loaded", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   async function loadAchieve() {
     await axiosInstance2
       .get("/candidate/listachievement/" + crefid + "/")
-      .then(async (res) => {
-        setAchieve(res.data);
+      .then(async res => {
+        setAchieve(res.data)
       })
-      .catch((err) => {
+      .catch(err => {
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Achieve Not Loaded", "error");
+          toastcomp("Achieve Not Loaded", "error")
         }
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
   useEffect(() => {
     if (code.length == 6) {
-      const pw = prompt("Please Enter Password");
+      const pw = prompt("Please Enter Password")
       if (pw != null && pw.length >= 6) {
-        var f = new FormData();
-        f.append("code", code);
-        f.append("password", pw);
-        verifyAgency(f, code);
+        var f = new FormData()
+        f.append("code", code)
+        f.append("password", pw)
+        verifyAgency(f, code)
       } else {
-        router.push("/");
+        router.push("/")
       }
     }
-  }, [code]);
+  }, [code])
 
   async function viewApp(crefid, arefid) {
     await axiosInstance2
       .get("/job/agency/single/job/" + arefid + "/")
-      .then(async (res) => {
-        setApplicantData(res.data);
-        setview(true);
-        setcrefid(crefid);
+      .then(async res => {
+        setApplicantData(res.data)
+        setview(true)
+        setcrefid(crefid)
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(err => {
+        console.log(err)
         if (err.message != "Request failed with status code 401") {
-          toastcomp("Applicant View Not Loaded", "error");
+          toastcomp("Applicant View Not Loaded", "error")
         }
-      });
+      })
   }
 
   useEffect(() => {
     if (crefid) {
-      loadAchieve();
-      loadCertification();
-      loadEducation();
-      loadExperience();
-      loadLang();
-      loadLink();
-      loadReume();
-      loadSkill();
+      loadAchieve()
+      loadCertification()
+      loadEducation()
+      loadExperience()
+      loadLang()
+      loadLink()
+      loadReume()
+      loadSkill()
     }
-  }, [crefid]);
+  }, [crefid])
 
   return (
     <>
@@ -240,7 +227,7 @@ export default function CandidateUsers() {
               <div className="container" key={i}>
                 <button
                   type="button"
-                  onClick={(e) => setview(false)}
+                  onClick={e => setview(false)}
                   className="mb-2 rounded-full bg-black text-white p-4 mr-4 w-[25px] h-[25px] flex items-center justify-center"
                 >
                   <i className="fa-solid fa-arrow-left"></i>
@@ -259,7 +246,7 @@ export default function CandidateUsers() {
                           />
                         </div>
                       </div>
-                      <div className="w-full md:max-w-[calc(100%-310px)] p-6 xl:p-8 relative bg-white border rounded-[25px] flex items-center">
+                      <div className="t w-full md:max-w-[calc(100%-310px)] p-6 xl:p-8 relative bg-white border rounded-[25px] flex items-center">
                         <aside className="w-full text-[#646464]">
                           <h2 className="font-semibold text-xl md:text-3xl mb-2">
                             {data.user.first_name || data.user.last_name ? (
@@ -566,7 +553,7 @@ export default function CandidateUsers() {
                           <button
                             type="button"
                             className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2 px-8 transition-all hover:from-[#391188] hover:to-[#391188]"
-                            onClick={(e) =>
+                            onClick={e =>
                               viewApp(users.user.erefid, users.arefid)
                             }
                           >
@@ -583,5 +570,5 @@ export default function CandidateUsers() {
         </main>
       )}
     </>
-  );
+  )
 }
