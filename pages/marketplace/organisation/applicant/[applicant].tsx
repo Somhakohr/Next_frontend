@@ -909,6 +909,16 @@ export default function OrganisationCandidateProfileView(props) {
                           {interview.length <= 0 ? (
                             <div className="text-center mb-4 relative after:content-[''] after:w-[150px] after:h-[2px] after:bg-slate-300 after:absolute after:right-0 after:top-[18px] after:z-[1]">
                               <div className="relative z-[2]">
+                                <div className="flex items-center absolute top-[5px] left-0">
+                                    <button type="button" className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] hover:border-[#6D27F9] hover:text-[#6D27F9] relative parent mr-3">
+                                        <i className="fa-solid fa-check text-[12px]"></i>
+                                        <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Pass</span>
+                                    </button>
+                                    <button type="button" className="border-2 border-[#646464] rounded-full w-[25px] h-[25px] p-1 text-sm flex items-center justify-center text-[#646464] hover:border-[red] hover:text-[red] relative parent mr-3">
+                                        <i className="fa-solid fa-xmark text-[12px]"></i>
+                                        <span className="absolute bottom-[-17px] left-[50%] translate-x-[-50%] text-[10px] hidden child">Fail</span>
+                                    </button>
+                                </div>
                                 {data.status == "Hired" && (
                                   <span className="bg-white mb-1 inline-block py-1.5 px-4 text-sm border border-[#58E780]  text-center rounded-full min-w-[115px]">
                                     {loader && (
