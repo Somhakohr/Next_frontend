@@ -697,7 +697,7 @@ export default function Candidate(props) {
                 </Link>
               </h5>
               <div className="rounded-xl relative bg-gradient-to-r from-[#F295EF] to-[#4D94E8] flex items-center">
-                <div className="w-[50%] p-4">
+                <div className="w-[50%] p-3">
                   <h6 className="text-white">
                     Be Part of <br />
                     your Community
@@ -707,11 +707,11 @@ export default function Candidate(props) {
                   href="https://discord.gg/934TJUe6BF"
                   target="_blank"
                   rel="noreferrer"
-                  className="w-[50%] bg-black px-6 py-6 rounded-xl absolute right-0 top-0 hover:w-full transition-all text-center"
+                  className="w-[50%] bg-black p-3 h-full rounded-xl absolute right-0 top-0 hover:w-full transition-all text-center"
                 >
-                  <p className="text-white flex items-center justify-center">
+                  <p className="text-white flex items-center justify-center h-full">
                     Join Now{" "}
-                    <i className="fa-brands fa-discord text-2xl ml-2"></i>
+                    <i className="fa-brands fa-discord sm:text-2xl ml-2"></i>
                   </p>
                 </Link>
               </div>
@@ -723,7 +723,7 @@ export default function Candidate(props) {
                 </h2>
                 <Link
                   href="#"
-                  className="text-[#6D27F9] font-medium hover:text-black"
+                  className="text-[#6D27F9] font-medium hover:text-black min-w-[60px]"
                 >
                   More <i className="fa-sharp fa-solid fa-chevron-right"></i>
                 </Link>
@@ -758,7 +758,7 @@ export default function Candidate(props) {
                 <h2 className="font-semibold text-xl text-3xl">Media Center</h2>
                 <Link
                   href="#"
-                  className="text-[#6D27F9] font-medium hover:text-black"
+                  className="text-[#6D27F9] font-medium hover:text-black min-w-[60px]"
                 >
                   More <i className="fa-sharp fa-solid fa-chevron-right"></i>
                 </Link>

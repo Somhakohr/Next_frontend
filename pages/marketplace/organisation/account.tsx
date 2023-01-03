@@ -566,7 +566,7 @@ export default function OrganisationAccount(props) {
                 </div>
               </div>
               <div className="w-full lg:max-w-[calc(100%-250px)] lg:pl-6">
-                <div className="bg-white shadow-normal rounded-[30px] overflow-hidden p-8 mb-6">
+                <div className="bg-white shadow-normal rounded-[30px] p-8 mb-6">
                   <aside className="w-full mb-20" id="about">
                     <span className="text-[#646464] text-[12px] block mb-2">
                       Supported Formats: png, jpg upto 2 MB
@@ -1103,7 +1103,7 @@ export default function OrganisationAccount(props) {
                       onRemove={(selectedList, selectedItem) => {
                         setOType("")
                       }}
-                      placeholder="Find Preferred Company Type"
+                      placeholder="Select"
                     />
                   </div>
                 </div>
@@ -1124,7 +1124,7 @@ export default function OrganisationAccount(props) {
                             </div>
                         </div> */}
                 <div
-                  className="bg-white shadow-normal rounded-[30px] overflow-hidden p-8 mb-6"
+                  className="bg-white shadow-normal rounded-[30px] p-8 mb-6"
                   id="social"
                 >
                   <div className="md:border border-slate-300 rounded-[30px] md:py-6 md:px-8">
@@ -1162,7 +1162,7 @@ export default function OrganisationAccount(props) {
                   </div>
                 </div>
                 <div
-                  className="bg-white shadow-normal rounded-[30px] overflow-hidden p-8"
+                  className="bg-white shadow-normal rounded-[30px] p-8"
                   id="gallery"
                 >
                   <div className="flex flex-wrap items-center justify-between mb-3">

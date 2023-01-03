@@ -401,14 +401,14 @@ export default function CandidateAcc(props) {
                   <button
                     type="button"
                     onClick={() => deletePopupOpen(true)}
-                    className="bg-red-700 text-white font-bold rounded-full py-2.5 px-6 min-w-[200px] transition-all hover:bg-red-900 ml-3 mr-3"
+                    className="bg-red-700 text-white font-bold rounded-full py-2.5 px-6 min-w-[200px] transition-all hover:bg-red-900 m-2"
                   >
                     Delete Account
                   </button>
                   <button
                     type="button"
                     onClick={() => changePasswordOpen(true)}
-                    className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188] ml-3 mr-3"
+                    className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188] m-2"
                   >
                     Change Password
                   </button>
