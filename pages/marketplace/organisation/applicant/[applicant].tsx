@@ -580,14 +580,14 @@ export default function OrganisationCandidateProfileView(props) {
                     <h3 className="text-lg font-semibold mb-2">
                       Update Status
                     </h3>
-                    <ul className="flex flex-wrap mx-[-10px] text-[#646464]">
+                    <ul className="flex flex-wrap mx-[-10px] text-[#646464] text-sm">
                       {interview.length <= 0 ? (
                         <>
                           {data.status == "Shortlisted" ? (
-                            <li className="w-[50%] px-[10px]">
+                            <li className="w-[50%] px-[10px] flex items-center">
                               <button
                                 type="button"
-                                className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#6D27F9] text-white"
+                                className=" disabled:cursor-normal w-full rounded-full py-1.5 px-4 mt-3 text-left bg-[#6D27F9] text-white"
                                 disabled
                               >
                                 <i className="fa-solid fa-thumbs-up mr-2"></i>
@@ -595,10 +595,10 @@ export default function OrganisationCandidateProfileView(props) {
                               </button>
                             </li>
                           ) : (
-                            <li className="w-[50%] px-[10px]">
+                            <li className="w-[50%] px-[10px] flex items-center">
                               <button
                                 type="button"
-                                className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#6D27F9] hover:text-white"
+                                className="w-full rounded-full py-1.5 px-4 mt-3 text-left hover:bg-[#6D27F9] hover:text-white"
                                 onClick={e =>
                                   updateStatus(
                                     "shortlist",
@@ -607,19 +607,19 @@ export default function OrganisationCandidateProfileView(props) {
                                   )
                                 }
                               >
-                                {loader && (
-                                  <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
-                                )}
                                 <i className="fa-solid fa-thumbs-up mr-2"></i>
                                 Shortlist
+                                {loader && (
+                                  <i className="fa-solid fa-circle-notch fa-spin ml-2"></i>
+                                )}
                               </button>
                             </li>
                           )}
                           {data.status == "Hold" ? (
-                            <li className="w-[50%] px-[10px]">
+                            <li className="w-[50%] px-[10px] flex items-center">
                               <button
                                 type="button"
-                                className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FEF401] text-black"
+                                className=" disabled:cursor-normal w-full rounded-full py-1.5 px-4 mt-3 text-left bg-[#FEF401] text-black"
                                 disabled
                               >
                                 <i className="fa-solid fa-circle-pause mr-2"></i>
@@ -627,10 +627,10 @@ export default function OrganisationCandidateProfileView(props) {
                               </button>
                             </li>
                           ) : (
-                            <li className="w-[50%] px-[10px]">
+                            <li className="w-[50%] px-[10px] flex items-center">
                               <button
                                 type="button"
-                                className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#FEF401] hover:text-black"
+                                className="w-full rounded-full py-1.5 px-4 mt-3 text-left hover:bg-[#FEF401] hover:text-black"
                                 onClick={e =>
                                   updateStatus(
                                     "hold",
@@ -639,19 +639,19 @@ export default function OrganisationCandidateProfileView(props) {
                                   )
                                 }
                               >
-                                {loader && (
-                                  <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
-                                )}
                                 <i className="fa-solid fa-circle-pause mr-2"></i>
                                 On Hold
+                                {loader && (
+                                  <i className="fa-solid fa-circle-notch fa-spin ml-2"></i>
+                                )}
                               </button>
                             </li>
                           )}
                           {data.status == "Hired" ? (
-                            <li className="w-[50%] px-[10px]">
+                            <li className="w-[50%] px-[10px] flex items-center">
                               <button
                                 type="button"
-                                className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#58E780] text-white"
+                                className=" disabled:cursor-normal w-full rounded-full py-1.5 px-4 mt-3 text-left bg-[#58E780] text-white"
                                 disabled
                               >
                                 <i className="fa-solid fa-user mr-2"></i>
@@ -659,10 +659,10 @@ export default function OrganisationCandidateProfileView(props) {
                               </button>
                             </li>
                           ) : (
-                            <li className="w-[50%] px-[10px]">
+                            <li className="w-[50%] px-[10px] flex items-center">
                               <button
                                 type="button"
-                                className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#58E780] hover:text-white"
+                                className="w-full rounded-full py-1.5 px-4 mt-3 text-left hover:bg-[#58E780] hover:text-white"
                                 onClick={e =>
                                   updateStatus(
                                     "hire",
@@ -671,19 +671,19 @@ export default function OrganisationCandidateProfileView(props) {
                                   )
                                 }
                               >
-                                {loader && (
-                                  <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
-                                )}
                                 <i className="fa-solid fa-user mr-2"></i>
                                 Hire
+                                {loader && (
+                                  <i className="fa-solid fa-circle-notch fa-spin ml-2"></i>
+                                )}
                               </button>
                             </li>
                           )}
                           {data.status == "Rejected" ? (
-                            <li className="w-[50%] px-[10px]">
+                            <li className="w-[50%] px-[10px] flex items-center">
                               <button
                                 type="button"
-                                className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FF5E5E] text-white"
+                                className=" disabled:cursor-normal w-full rounded-full py-1.5 px-4 mt-3 text-left bg-[#FF5E5E] text-white"
                                 disabled
                               >
                                 <i className="fa-solid fa-thumbs-down mr-2"></i>
@@ -691,10 +691,10 @@ export default function OrganisationCandidateProfileView(props) {
                               </button>
                             </li>
                           ) : (
-                            <li className="w-[50%] px-[10px]">
+                            <li className="w-[50%] px-[10px] flex items-center">
                               <button
                                 type="button"
-                                className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#FF5E5E] hover:text-white"
+                                className="w-full rounded-full py-1.5 px-4 mt-3 text-left hover:bg-[#FF5E5E] hover:text-white"
                                 onClick={e =>
                                   updateStatus(
                                     "reject",
@@ -703,28 +703,28 @@ export default function OrganisationCandidateProfileView(props) {
                                   )
                                 }
                               >
-                                {loader && (
-                                  <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
-                                )}
                                 <i className="fa-solid fa-thumbs-down mr-2"></i>
                                 Reject
+                                {loader && (
+                                  <i className="fa-solid fa-circle-notch fa-spin ml-2"></i>
+                                )}
                               </button>
                             </li>
                           )}
                         </>
                       ) : (
                         <>
-                          <li className="w-[50%] px-[10px]">
+                          <li className="w-[50%] px-[10px] flex items-center">
                             <button
                               type="button"
-                              className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#6D27F9] text-white"
+                              className=" disabled:cursor-normal w-full rounded-full py-1.5 px-4 mt-3 text-left bg-[#6D27F9] text-white"
                               disabled
                             >
-                              {loader && (
-                                <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
-                              )}
                               <i className="fa-solid fa-thumbs-up mr-2"></i>
                               Shortlisted
+                              {loader && (
+                                <i className="fa-solid fa-circle-notch fa-spin ml-2"></i>
+                              )}
                             </button>
                           </li>
                           {interview.map(
@@ -732,10 +732,10 @@ export default function OrganisationCandidateProfileView(props) {
                               i + 1 === interview.length && (
                                 <>
                                   {data2.status == "Hold" ? (
-                                    <li className="w-[50%] px-[10px]">
+                                    <li className="w-[50%] px-[10px] flex items-center">
                                       <button
                                         type="button"
-                                        className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FEF401] text-black"
+                                        className=" disabled:cursor-normal w-full rounded-full py-1.5 px-4 mt-3 text-left bg-[#FEF401] text-black"
                                         disabled
                                       >
                                         <i className="fa-solid fa-circle-pause mr-2"></i>
@@ -743,10 +743,10 @@ export default function OrganisationCandidateProfileView(props) {
                                       </button>
                                     </li>
                                   ) : (
-                                    <li className="w-[50%] px-[10px]">
+                                    <li className="w-[50%] px-[10px] flex items-center">
                                       <button
                                         type="button"
-                                        className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#FEF401] hover:text-black"
+                                        className="w-full rounded-full py-1.5 px-4 mt-3 text-left hover:bg-[#FEF401] hover:text-black"
                                         onClick={e =>
                                           updateIStatus(
                                             "hold",
@@ -756,19 +756,19 @@ export default function OrganisationCandidateProfileView(props) {
                                           )
                                         }
                                       >
-                                        {loader && (
-                                          <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
-                                        )}
                                         <i className="fa-solid fa-circle-pause mr-2"></i>
                                         On Hold
+                                        {loader && (
+                                          <i className="fa-solid fa-circle-notch fa-spin ml-2"></i>
+                                        )}
                                       </button>
                                     </li>
                                   )}
                                   {data2.status == "Passed" ? (
-                                    <li className="w-[50%] px-[10px]">
+                                    <li className="w-[50%] px-[10px] flex items-center">
                                       <button
                                         type="button"
-                                        className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#58E780] text-white"
+                                        className=" disabled:cursor-normal w-full rounded-full py-1.5 px-4 mt-3 text-left bg-[#58E780] text-white"
                                         disabled
                                       >
                                         <i className="fa-solid fa-user mr-2"></i>
@@ -776,10 +776,10 @@ export default function OrganisationCandidateProfileView(props) {
                                       </button>
                                     </li>
                                   ) : (
-                                    <li className="w-[50%] px-[10px]">
+                                    <li className="w-[50%] px-[10px] flex items-center">
                                       <button
                                         type="button"
-                                        className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#58E780] hover:text-white"
+                                        className="w-full rounded-full py-1.5 px-4 mt-3 text-left hover:bg-[#58E780] hover:text-white"
                                         onClick={e =>
                                           updateIStatus(
                                             "passed",
@@ -789,19 +789,19 @@ export default function OrganisationCandidateProfileView(props) {
                                           )
                                         }
                                       >
-                                        {loader && (
-                                          <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
-                                        )}
                                         <i className="fa-solid fa-user mr-2"></i>
                                         Hire
+                                        {loader && (
+                                          <i className="fa-solid fa-circle-notch fa-spin ml-2"></i>
+                                        )}
                                       </button>
                                     </li>
                                   )}
                                   {data2.status == "Reject" ? (
-                                    <li className="w-[50%] px-[10px]">
+                                    <li className="w-[50%] px-[10px] flex items-center">
                                       <button
                                         type="button"
-                                        className=" disabled:cursor-normal w-full rounded-full py-1.5 px-6 mt-3 text-left bg-[#FF5E5E] text-white"
+                                        className=" disabled:cursor-normal w-full rounded-full py-1.5 px-4 mt-3 text-left bg-[#FF5E5E] text-white"
                                         disabled
                                       >
                                         <i className="fa-solid fa-thumbs-down mr-2"></i>
@@ -809,10 +809,10 @@ export default function OrganisationCandidateProfileView(props) {
                                       </button>
                                     </li>
                                   ) : (
-                                    <li className="w-[50%] px-[10px]">
+                                    <li className="w-[50%] px-[10px] flex items-center">
                                       <button
                                         type="button"
-                                        className="w-full rounded-full py-1.5 px-6 mt-3 text-left hover:bg-[#FF5E5E] hover:text-white"
+                                        className="w-full rounded-full py-1.5 px-4 mt-3 text-left hover:bg-[#FF5E5E] hover:text-white"
                                         onClick={e =>
                                           updateIStatus(
                                             "reject",
@@ -822,11 +822,11 @@ export default function OrganisationCandidateProfileView(props) {
                                           )
                                         }
                                       >
-                                        {loader && (
-                                          <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
-                                        )}
                                         <i className="fa-solid fa-thumbs-down mr-2"></i>
                                         Reject
+                                        {loader && (
+                                          <i className="fa-solid fa-circle-notch fa-spin ml-2"></i>
+                                        )}
                                       </button>
                                     </li>
                                   )}

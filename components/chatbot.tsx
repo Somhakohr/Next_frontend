@@ -5,6 +5,7 @@ import shallow from "zustand/shallow"
 import { useStore } from "../constants/code"
 import toastcomp from "./toast"
 import { axiosInstance2 } from "../pages/api/axiosApi"
+import ChatLogo from '../public/images/chat-mini.png'
 
 export default function ChatBot(props) {
   const [input1, setInput1] = useState("")
@@ -116,7 +117,7 @@ export default function ChatBot(props) {
                   key % 2 ? (
                     <li key={key}>
                       <div className="flex items-center justify-end">
-                        <span className="inline-block max-w-[75%] bg-[#6D27F9] text-white shadow rounded-[20px] py-2 px-3 relative after:content-[''] after:border-[5px] after:border-[#6D27F9] after:absolute after:top-[50%] after:right-[-4px] after:translate-y-[-50%] after:rotate-45">
+                        <span className="inline-block max-w-[75%] bg-[#6D27F9] text-white shadow rounded-[20px] py-2 px-3 relative after:content-[''] after:border-[4px] after:border-[#6D27F9] after:absolute after:top-[50%] after:right-[-4px] after:translate-y-[-50%] after:rotate-45">
                           {item}
                         </span>
                         <Image
@@ -130,9 +131,18 @@ export default function ChatBot(props) {
                     </li>
                   ) : (
                     <li className="left my-2" key={key}>
-                      <span className="inline-block max-w-[85%] border border-teal-400 bg-white shadow rounded-[20px] py-2 px-3">
-                        {item}
-                      </span>
+                      <div className="flex items-center">
+                        <Image
+                          src={ChatLogo}
+                          alt="User"
+                          width={300}
+                          height={300}
+                          className="w-[35px] h-[35px] rounded-full object-cover w-[35px] h-[35px]"
+                        />
+                        <span className="inline-block max-w-[75%] border border-teal-400 bg-white z-[10] shadow rounded-[20px] py-2 px-3 relative after:content-[''] after:border-[4px] after:border-b-teal-400 after:border-l-teal-400 after:border-[transparent] after:absolute after:top-[50%] after:left-[-4px] after:translate-y-[-50%] after:rotate-45">
+                          {item}
+                        </span>
+                      </div>
                     </li>
                   )
                 )}
