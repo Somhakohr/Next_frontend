@@ -546,7 +546,7 @@ export default function OrganisationCandidateProfileView(props) {
                       {link.map((link, i) => (
                         <li className="w-[calc(100%/3)] p-4" key={i}>
                           <Link
-                            href="link.title"
+                            href={link.title}
                             target="_blank"
                             rel="noreferrer"
                             className="text-2xl hover:text-[#6D27F9]"
@@ -921,7 +921,10 @@ export default function OrganisationCandidateProfileView(props) {
                               {interview.map((data2, i) =>
                                 // eslint-disable-next-line react/jsx-key
                                 i + 1 === interview.length ? (
-                                  <div className="text-center mb-4 relative after:content-[''] after:w-[150px] after:h-[2px] after:bg-slate-300 after:absolute after:right-0 after:top-[18px] after:z-[1] before:content-[''] before:w-[2px] before:h-[72px] before:bg-slate-300 before:absolute before:right-0 before:bottom-[38px] before:z-[1]">
+                                  <div
+                                    className="text-center mb-4 relative after:content-[''] after:w-[150px] after:h-[2px] after:bg-slate-300 after:absolute after:right-0 after:top-[18px] after:z-[1] before:content-[''] before:w-[2px] before:h-[72px] before:bg-slate-300 before:absolute before:right-0 before:bottom-[38px] before:z-[1]"
+                                    key={i}
+                                  >
                                     <div className="relative z-[2]">
                                       {data2.status == "Passed" && (
                                         <>
@@ -1102,7 +1105,10 @@ export default function OrganisationCandidateProfileView(props) {
                                     </p>
                                   </div>
                                 ) : (
-                                  <div className="text-center mb-4 relative after:content-[''] after:w-[150px] after:h-[2px] after:bg-slate-300 after:absolute after:right-0 after:top-[18px] after:z-[1] before:content-[''] before:w-[2px] before:h-[72px] before:bg-slate-300 before:absolute before:right-0 before:bottom-[38px] before:z-[1]">
+                                  <div
+                                    className="text-center mb-4 relative after:content-[''] after:w-[150px] after:h-[2px] after:bg-slate-300 after:absolute after:right-0 after:top-[18px] after:z-[1] before:content-[''] before:w-[2px] before:h-[72px] before:bg-slate-300 before:absolute before:right-0 before:bottom-[38px] before:z-[1]"
+                                    key={i}
+                                  >
                                     <div className="relative z-[2]">
                                       {data2.status == "Passed" && (
                                         <>
