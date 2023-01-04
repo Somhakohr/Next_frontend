@@ -20,8 +20,17 @@ export default function ForgotPassword() {
         setemail("")
       })
       .catch(err => {
-        // console.log(err);
-        toastcomp("Forget Password Error", "error")
+        console.log(err)
+        if (err.response.data.non_field_errors) {
+          err.response.data.non_field_errors.map(text =>
+            toastcomp(text, "error")
+          )
+          return false
+        }
+        if (err.response.data.detail) {
+          toastcomp(err.response.data.detail, "error")
+          return false
+        }
       })
   }
 

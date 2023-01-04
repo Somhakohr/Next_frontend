@@ -1,5 +1,7 @@
 import React from "react";
 import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import Link from "next/link";
 import Image from "next/image";
 import slide_1 from "public/images/homebanner-card-1.svg";
@@ -25,18 +27,6 @@ import protocolListDesktop from "public/images/protocol-list-desktop.png";
 import protocolListMobile from "public/images/protocol-list-mobile.png";
 
 export default function Home() {
-  const settings = {
-    dots: false,
-    arrows: false,
-    infinite: true,
-    speed: 1500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    adaptiveHeight: false,
-    autoplay: true,
-    autoplaySpeed: 4000,
-    vertical: true,
-  };
 
   const jobFunctions = [
     {
@@ -93,6 +83,19 @@ export default function Home() {
       desc: "Integrate Somhako Protocol and import all our existing networks to your platform. Let us handle the growth hacking while you focus on the user experience.",
     },
   ];
+
+  const settings = {
+    dots: false,
+    arrows: false,
+    infinite: true,
+    speed: 1500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    adaptiveHeight: false,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    vertical: true,
+  };
 
   return (
     <>

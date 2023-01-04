@@ -116,6 +116,8 @@ export default function OrganisationApplicants(props) {
           toastcomp("Applicant F Fetch Error", "error")
         }
       })
+    setCheck([])
+    setemail("")
   }
 
   useEffect(() => {

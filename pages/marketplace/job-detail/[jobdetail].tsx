@@ -293,16 +293,36 @@ export default function JobDetail(props) {
       setloader1(false)
     } else {
       await axiosInstanceAuth2
-        .post("/job/applicant/apply/" + userObj["erefid"] + "/" + refid + "/")
+        .get("/candidate/progress/" + userObj["erefid"] + "/")
         .then(async res => {
-          toastcomp(res.data.Message, "success")
-        })
-        .catch(err => {
-          console.log(err)
-          if (err.message != "Request failed with status code 401") {
-            toastcomp("Job Applied Error", "error")
+          if (parseInt(res.data.count) >= 60) {
+            await axiosInstanceAuth2
+              .post(
+                "/job/applicant/apply/" + userObj["erefid"] + "/" + refid + "/"
+              )
+              .then(async res => {
+                toastcomp(res.data.Message, "success")
+              })
+              .catch(err => {
+                console.log(err)
+                if (err.message != "Request failed with status code 401") {
+                  toastcomp("Job Applied Error", "error")
+                }
+              })
+          } else {
+            toastcomp(
+              "Profile Completation Progress Must Be 60% For Applying The Job",
+              "error"
+            )
           }
         })
+        .catch(err => {
+          if (err.message != "Request failed with status code 401") {
+            // toastcomp("Lang Not Loaded",'error')
+            console.log(err)
+          }
+        })
+
       bookmarkedCheck()
       appliedCheck()
     }
@@ -486,23 +506,37 @@ export default function JobDetail(props) {
                         <h2 className="text-white">Job Overview</h2>
                       </div>
                       <div className="py-4 px-6 md:px-10">
+                        {{__html: data.desc} ? 
+                        <>
                         <article className="text-[#7e7e7e] font-light">
                           <p
                             dangerouslySetInnerHTML={{ __html: data.desc }}
                           ></p>
                         </article>
+                        </> : 
+                        <>
+                        <p className="text-sm text-gray-500">No data found</p>
+                        </>
+                        }
                       </div>
                     </div>
                     <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] overflow-hidden mb-8">
                       <div className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] py-4 px-6 md:px-10">
-                        <h2 className="text-white">What’s the Job</h2>
+                        <h2 className="text-white">What is the Job</h2>
                       </div>
                       <div className="py-4 px-6 md:px-10">
+                        {{__html: data.resp} ? 
+                        <>
                         <article className="text-[#7e7e7e] font-light">
                           <p
                             dangerouslySetInnerHTML={{ __html: data.resp }}
                           ></p>
                         </article>
+                        </> : 
+                        <>
+                        <p className="text-sm text-gray-500">No data found</p>
+                        </>
+                        }
                       </div>
                     </div>
                     <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] overflow-hidden mb-8">
@@ -510,6 +544,8 @@ export default function JobDetail(props) {
                         <h2 className="text-white">Preferred Skills</h2>
                       </div>
                       <div className="py-4 px-6 md:px-10">
+                        {pskill.length > 1 ? 
+                        <>
                         <div className="flex flex-wrap items-start">
                           {pskill.map((skill, i) => (
                             <p
@@ -520,6 +556,11 @@ export default function JobDetail(props) {
                             </p>
                           ))}
                         </div>
+                        </> : 
+                        <>
+                        <p className="text-sm text-gray-500">No Preferred Skills</p>
+                        </>
+                        }
                       </div>
                     </div>
                     <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] overflow-hidden mb-8">
@@ -527,6 +568,8 @@ export default function JobDetail(props) {
                         <h2 className="text-white">Recommended Skills</h2>
                       </div>
                       <div className="py-4 px-6 md:px-10">
+                        {rskill.length > 1 ? 
+                        <>
                         <div className="flex flex-wrap items-start">
                           {rskill.map((skill, i) => (
                             <p
@@ -537,6 +580,11 @@ export default function JobDetail(props) {
                             </p>
                           ))}
                         </div>
+                        </> : 
+                        <>
+                        <p className="text-sm text-gray-500">No Recommended Skills</p>
+                        </>
+                        }
                       </div>
                     </div>
                     {Similar.length > 0 && (

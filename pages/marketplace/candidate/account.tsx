@@ -58,6 +58,20 @@ export default function CandidateAcc(props) {
 
   const { router, session } = props
 
+  const [canInputPass, canInputPassToggle] = useState(false)
+  const [canInputConfPass, canInputConfPassToggle] = useState(false)
+
+  function canInputPassToggled() {
+    canInputPassToggle(!canInputPass)
+  }
+  function canInputConfPassToggled() {
+    canInputConfPassToggle(!canInputConfPass)
+  }
+
+  useEffect(() => {
+    console.log("ses", session)
+  }, [session])
+
   useEffect(() => {
     if (!session) {
       router.push("/")
@@ -147,9 +161,7 @@ export default function CandidateAcc(props) {
             )
             .then(async res2 => {
               updateUserImg(
-                (process.env.NODE_ENV === "production"
-                  ? process.env.NEXT_PUBLIC_PROD_BACKEND
-                  : process.env.NEXT_PUBLIC_DEV_BACKEND) + res2.data.profile
+                res2.data.profile
               )
               userProfile["country"] = res2.data.country
               userProfile["profile"] = res2.data.profile
@@ -234,6 +246,7 @@ export default function CandidateAcc(props) {
                   <button
                     type="button"
                     className="rounded-full bg-black text-white p-4 mr-4 w-[25px] h-[25px] flex items-center justify-center"
+                    onClick={e => router.push("/marketplace/candidate/")}
                   >
                     <i className="fa-solid fa-arrow-left"></i>
                   </button>
@@ -401,17 +414,19 @@ export default function CandidateAcc(props) {
                   <button
                     type="button"
                     onClick={() => deletePopupOpen(true)}
-                    className="bg-red-700 text-white font-bold rounded-full py-2.5 px-6 min-w-[200px] transition-all hover:bg-red-900 ml-3 mr-3"
+                    className="bg-red-700 text-white font-bold rounded-full py-2.5 px-6 min-w-[200px] transition-all hover:bg-red-900 m-2"
                   >
                     Delete Account
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => changePasswordOpen(true)}
-                    className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188] ml-3 mr-3"
-                  >
-                    Change Password
-                  </button>
+                  {!session["user"]["name"] && (
+                    <button
+                      type="button"
+                      onClick={() => changePasswordOpen(true)}
+                      className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188] m-2"
+                    >
+                      Change Password
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -555,13 +570,28 @@ export default function CandidateAcc(props) {
                           >
                             New Password
                           </label>
-                          <input
-                            type="password"
-                            id="orgNewPass"
-                            className="w-full rounded-full border-slate-300"
-                            value={pass}
-                            onChange={e => setpass(e.target.value)}
-                          />
+                          <div className="iconGroup right">
+                            <input
+                              type={`${
+                                canInputPass ? "text" : "password"
+                              }`}
+                              id="orgNewPass"
+                              className="w-full rounded-full border-slate-300"
+                              value={pass}
+                              onChange={e => setpass(e.target.value)}
+                            />
+                            <button
+                              type="button"
+                              className="iconGroup__icon-right"
+                              onClick={canInputPassToggled}
+                            >
+                              <i
+                                className={`fa-solid text-black ${
+                                  canInputPass ? "fa-eye-slash" : "fa-eye"
+                                }`}
+                              ></i>
+                            </button>
+                          </div>
                         </div>
                         <div className="mb-6">
                           <label
@@ -570,13 +600,30 @@ export default function CandidateAcc(props) {
                           >
                             Confirm Password
                           </label>
-                          <input
-                            type="password"
-                            id="orgConfirmPass"
-                            className="w-full rounded-full border-slate-300"
-                            value={pass2}
-                            onChange={e => setpass2(e.target.value)}
-                          />
+                          <div className="iconGroup right">
+                            <input
+                              type={`${
+                                canInputConfPass ? "text" : "password"
+                              }`}
+                              id="orgConfirmPass"
+                              className="w-full rounded-full border-slate-300"
+                              value={pass2}
+                              onChange={e => setpass2(e.target.value)}
+                            />
+                            <button
+                              type="button"
+                              className="iconGroup__icon-right"
+                              onClick={canInputConfPassToggled}
+                            >
+                              <i
+                                className={`fa-solid text-black ${
+                                  canInputConfPass
+                                    ? "fa-eye-slash"
+                                    : "fa-eye"
+                                }`}
+                              ></i>
+                            </button>
+                          </div>
                         </div>
                         <div className="text-center">
                           <button

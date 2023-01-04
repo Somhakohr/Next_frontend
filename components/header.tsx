@@ -153,9 +153,7 @@ function Header(props) {
             updateUserImg(session.user.image)
           } else {
             updateUserImg(
-              (process.env.NODE_ENV === "production"
-                ? process.env.NEXT_PUBLIC_PROD_BACKEND
-                : process.env.NEXT_PUBLIC_DEV_BACKEND) + userProfile["profile"]
+              userProfile["profile"]
             )
           }
         }
@@ -165,9 +163,7 @@ function Header(props) {
         }
         if (userProfile["profile"]) {
           updateUserImg(
-            (process.env.NODE_ENV === "production"
-              ? process.env.NEXT_PUBLIC_PROD_BACKEND
-              : process.env.NEXT_PUBLIC_DEV_BACKEND) + userProfile["profile"]
+            userProfile["profile"]
           )
           updateUserCImg(
             (process.env.NODE_ENV === "production"
@@ -256,7 +252,7 @@ function Header(props) {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute min-w-[250px] sm:min-w-[300px] right-[-112px] sm:right-0 z-10 mt-2 w-56 origin-top-right rounded-lg overflow-hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <Menu.Items className="absolute min-w-[250px] sm:min-w-[300px] right-[-100px] sm:right-0 z-10 mt-2 w-56 origin-top-right rounded-lg overflow-hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div className="p-3 text-center">
                           <p className="text-sm font-semibold mb-4">
                             Copy below referral code and share it with in your
