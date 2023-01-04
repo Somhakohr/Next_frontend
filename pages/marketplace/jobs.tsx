@@ -734,27 +734,33 @@ export default function JobListing() {
                       <option value="Last 1 Hour">Last 1 Hour</option>
                     </select>
                   </div> */}
-                  <div className="w-full" id="scrollableDiv">
-                    <InfiniteScroll
-                      dataLength={joblist2.length}
-                      next={fetchMoreData}
-                      hasMore={hasMore}
-                      height={485}
-                      loader={loader}
-                      scrollableTarget="scrollableDiv"
-                    >
-                      <div className="flex flex-wrap">
-                        {joblist2.map((job, i) => (
-                          <div
-                            className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4"
-                            key={i}
-                          >
-                            <JobCard data={job} />
-                          </div>
-                        ))}
-                      </div>
-                    </InfiniteScroll>
-                  </div>
+                  {joblist.length > 0 ? (
+                    <div className="w-full" id="scrollableDiv">
+                      <InfiniteScroll
+                        dataLength={joblist2.length}
+                        next={fetchMoreData}
+                        hasMore={hasMore}
+                        height={485}
+                        loader={loader}
+                        scrollableTarget="scrollableDiv"
+                      >
+                        <div className="flex flex-wrap">
+                          {joblist2.map((job, i) => (
+                            <div
+                              className="px-[10px] w-full md:max-w-[50%] xl:max-w-[33.3333%] mb-4"
+                              key={i}
+                            >
+                              <JobCard data={job} />
+                            </div>
+                          ))}
+                        </div>
+                      </InfiniteScroll>
+                    </div>
+                  ) : (
+                    <div className="w-full">
+                      <p>No Data Found</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

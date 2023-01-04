@@ -293,16 +293,36 @@ export default function JobDetail(props) {
       setloader1(false)
     } else {
       await axiosInstanceAuth2
-        .post("/job/applicant/apply/" + userObj["erefid"] + "/" + refid + "/")
+        .get("/candidate/progress/" + userObj["erefid"] + "/")
         .then(async res => {
-          toastcomp(res.data.Message, "success")
-        })
-        .catch(err => {
-          console.log(err)
-          if (err.message != "Request failed with status code 401") {
-            toastcomp("Job Applied Error", "error")
+          if (parseInt(res.data.count) >= 60) {
+            await axiosInstanceAuth2
+              .post(
+                "/job/applicant/apply/" + userObj["erefid"] + "/" + refid + "/"
+              )
+              .then(async res => {
+                toastcomp(res.data.Message, "success")
+              })
+              .catch(err => {
+                console.log(err)
+                if (err.message != "Request failed with status code 401") {
+                  toastcomp("Job Applied Error", "error")
+                }
+              })
+          } else {
+            toastcomp(
+              "Profile Completation Progress Must Be 60% For Applying The Job",
+              "error"
+            )
           }
         })
+        .catch(err => {
+          if (err.message != "Request failed with status code 401") {
+            // toastcomp("Lang Not Loaded",'error')
+            console.log(err)
+          }
+        })
+
       bookmarkedCheck()
       appliedCheck()
     }

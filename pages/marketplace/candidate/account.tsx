@@ -59,6 +59,10 @@ export default function CandidateAcc(props) {
   const { router, session } = props
 
   useEffect(() => {
+    console.log("ses", session)
+  }, [session])
+
+  useEffect(() => {
     if (!session) {
       router.push("/")
     } else {
@@ -234,6 +238,7 @@ export default function CandidateAcc(props) {
                   <button
                     type="button"
                     className="rounded-full bg-black text-white p-4 mr-4 w-[25px] h-[25px] flex items-center justify-center"
+                    onClick={e => router.push("/marketplace/candidate/")}
                   >
                     <i className="fa-solid fa-arrow-left"></i>
                   </button>
@@ -405,13 +410,15 @@ export default function CandidateAcc(props) {
                   >
                     Delete Account
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => changePasswordOpen(true)}
-                    className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188] m-2"
-                  >
-                    Change Password
-                  </button>
+                  {!session["user"]["name"] && (
+                    <button
+                      type="button"
+                      onClick={() => changePasswordOpen(true)}
+                      className="bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188] m-2"
+                    >
+                      Change Password
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

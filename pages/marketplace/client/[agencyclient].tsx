@@ -26,7 +26,7 @@ export default function CandidateUsers() {
   const [app, setApp] = useState([])
 
   useEffect(() => {
-    setcode(asPath.substring(1).split("/")[1])
+    setcode(asPath.substring(1).split("/")[2])
   })
 
   async function verifyAgency(formData, code) {
@@ -350,10 +350,20 @@ export default function CandidateUsers() {
                   </div>
                 </div>
                 <div className="flex flex-wrap">
-                  <div className="w-full lg:w-[70%] lg:pl-6">
+                  <div className="w-full lg:w-[100%] lg:pl-0">
+                    <div className="bg-white shadow-normal border border-teal-400 rounded-[25px] p-6 mb-6">
+                      <h3 className="text-lg font-semibold mb-4">
+                        Resume HeadLine
+                      </h3>
+                      {resume.map((resume, i) => (
+                        <article key={i}>{resume.title}</article>
+                      ))}
+                    </div>
                     <div className="bg-white shadow-normal border border-teal-400 rounded-[25px] p-6 mb-6">
                       <h3 className="text-lg font-semibold mb-4">Summary</h3>
-                      <article>{data.cand.summary}</article>
+                      <article
+                        dangerouslySetInnerHTML={{ __html: data.cand.summary }}
+                      ></article>
                     </div>
                     <div className="bg-white shadow-normal border border-teal-400 rounded-[25px] p-6 mb-6">
                       <h3 className="text-lg font-semibold mb-4">Skills</h3>
