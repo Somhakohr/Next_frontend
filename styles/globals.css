@@ -374,6 +374,9 @@ ul.react-tabs__tab-list li.react-tabs__tab--selected:focus::after {
 .react-loading-skeleton {
   vertical-align: middle;
 }
+.connectWalletBtn > div > button, .connectionBtnSidebar > div > button {
+  border-radius: 40px !important;
+}
 
 @media (max-width: 1199px) {
   .radiusCurve {

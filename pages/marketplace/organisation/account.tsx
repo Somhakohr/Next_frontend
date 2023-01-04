@@ -105,6 +105,16 @@ export default function OrganisationAccount(props) {
   const [pass, setpass] = useState("")
   const [pass2, setpass2] = useState("")
 
+  const [orgInputPass, orgInputPassToggle] = useState(false)
+  const [orgInputConfPass, orgInputConfPassToggle] = useState(false)
+
+  function orgInputPassToggled() {
+    orgInputPassToggle(!orgInputPass)
+  }
+  function orgInputConfPassToggled() {
+    orgInputConfPassToggle(!orgInputConfPass)
+  }
+
   function valudateCP() {
     return pass.length >= 8 && pass2.length >= 8 && pass == pass2 && !loader
   }
@@ -1511,13 +1521,28 @@ export default function OrganisationAccount(props) {
                           >
                             New Password
                           </label>
-                          <input
-                            type="password"
-                            id="orgNewPass"
-                            className="w-full rounded-full border-slate-300"
-                            value={pass}
-                            onChange={e => setpass(e.target.value)}
-                          />
+                          <div className="iconGroup right">
+                            <input
+                              type={`${
+                                orgInputPass ? "text" : "password"
+                              }`}
+                              id="orgNewPass"
+                              className="w-full rounded-full border-slate-300"
+                              value={pass}
+                              onChange={e => setpass(e.target.value)}
+                            />
+                            <button
+                              type="button"
+                              className="iconGroup__icon-right"
+                              onClick={orgInputPassToggled}
+                            >
+                              <i
+                                className={`fa-solid text-black ${
+                                  orgInputPass ? "fa-eye-slash" : "fa-eye"
+                                }`}
+                              ></i>
+                            </button>
+                          </div>
                         </div>
                         <div className="mb-6">
                           <label
@@ -1526,13 +1551,30 @@ export default function OrganisationAccount(props) {
                           >
                             Confirm Password
                           </label>
-                          <input
-                            type="password"
-                            id="orgConfirmPass"
-                            className="w-full rounded-full border-slate-300"
-                            value={pass2}
-                            onChange={e => setpass2(e.target.value)}
-                          />
+                          <div className="iconGroup right">
+                            <input
+                              type={`${
+                                orgInputConfPass ? "text" : "password"
+                              }`}
+                              id="orgConfirmPass"
+                              className="w-full rounded-full border-slate-300"
+                              value={pass2}
+                              onChange={e => setpass2(e.target.value)}
+                            />
+                            <button
+                              type="button"
+                              className="iconGroup__icon-right"
+                              onClick={orgInputConfPassToggled}
+                            >
+                              <i
+                                className={`fa-solid text-black ${
+                                  orgInputConfPass
+                                    ? "fa-eye-slash"
+                                    : "fa-eye"
+                                }`}
+                              ></i>
+                            </button>
+                          </div>
                         </div>
                         <div className="text-center">
                           <button

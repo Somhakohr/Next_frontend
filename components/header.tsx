@@ -153,9 +153,7 @@ function Header(props) {
             updateUserImg(session.user.image)
           } else {
             updateUserImg(
-              (process.env.NODE_ENV === "production"
-                ? process.env.NEXT_PUBLIC_PROD_BACKEND
-                : process.env.NEXT_PUBLIC_DEV_BACKEND) + userProfile["profile"]
+              userProfile["profile"]
             )
           }
         }
@@ -165,9 +163,7 @@ function Header(props) {
         }
         if (userProfile["profile"]) {
           updateUserImg(
-            (process.env.NODE_ENV === "production"
-              ? process.env.NEXT_PUBLIC_PROD_BACKEND
-              : process.env.NEXT_PUBLIC_DEV_BACKEND) + userProfile["profile"]
+            userProfile["profile"]
           )
           updateUserCImg(
             (process.env.NODE_ENV === "production"

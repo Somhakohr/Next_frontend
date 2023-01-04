@@ -7,6 +7,7 @@ const nextConfig = {
       "marketplace.somhako.com",
       "lh3.googleusercontent.com",
       "avatars.githubusercontent.com",
+      "somhako-marketplace.s3.amazonaws.com",
     ],
   },
   ignoreBuildErrors: true,

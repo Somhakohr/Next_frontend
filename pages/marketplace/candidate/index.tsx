@@ -350,7 +350,7 @@ export default function Candidate(props) {
                 <h2 className="font-semibold text-xl text-3xl mb-4 md:mb-0">
                   Wallet
                 </h2>
-                <aside>
+                <aside className="connectWalletBtn">
                   <ConnectButton accountStatus={userProfile["paddress"]} />
                 </aside>
               </div>
@@ -513,6 +513,7 @@ export default function Candidate(props) {
                       </div>
                     </div>
                   ) : (
+                    applied.length > 0 ? 
                     <div className="flex flex-wrap mx-[-15px]">
                       {applied.map((job, i) => (
                         <div
@@ -523,6 +524,10 @@ export default function Candidate(props) {
                         </div>
                       ))}
                     </div>
+                    :
+                  <>
+                  <p className="text-sm text-gray-500">No Applied Jobs</p>
+                  </> 
                   )}
                 </TabPanel>
 
@@ -581,6 +586,7 @@ export default function Candidate(props) {
                       </div>
                     </div>
                   ) : (
+                    bookmarked.length > 0 ? 
                     <div className="flex flex-wrap mx-[-15px]">
                       {bookmarked.map((job, i) => (
                         <div
@@ -591,6 +597,10 @@ export default function Candidate(props) {
                         </div>
                       ))}
                     </div>
+                    :
+                  <>
+                  <p className="text-sm text-gray-500">No Bookmarked Jobs</p>
+                  </> 
                   )}
                 </TabPanel>
 
@@ -649,6 +659,7 @@ export default function Candidate(props) {
                       </div>
                     </div>
                   ) : (
+                    rec.length > 0 ? 
                     <div className="flex flex-wrap mx-[-15px]">
                       {rec.map((job, i) => (
                         <div
@@ -659,6 +670,10 @@ export default function Candidate(props) {
                         </div>
                       ))}
                     </div>
+                    :
+                  <>
+                  <p className="text-sm text-gray-500">No Recommended Jobs</p>
+                  </>
                   )}
                 </TabPanel>
               </Tabs>
