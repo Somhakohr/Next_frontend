@@ -1519,8 +1519,9 @@ export default function CandidateProfile(props) {
                           placeholder="Ex: Web Developer 5 years of experence"
                           className="w-full rounded-full border-slate-300"
                           value={utitle}
-                          onChange={e => setUTitle(e.target.value)}
-                          onBlur={e => setURTitle(e.target.value)}
+                          // onChange={e => setUTitle(e.target.value)}
+                          // onBlur={e => setURTitle(e.target.value)}
+                          readOnly
                         />
                       </div>
                     )}

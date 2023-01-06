@@ -10,15 +10,16 @@ export default function Notifications(props) {
     await axiosInstanceAuth2
       .put("/auth/notifi/" + id + "/" + pk + "/read/")
       .then(res => {
-        toastcomp("Notify Read", "Success")
+        // toastcomp("Notify Read", "Success")
         // setreadn(res.data.read_data)
         // setunreadn(res.data.unread_data)
+        fetchData()
       })
       .catch(err => {
         console.log(err)
         toastcomp("Error", "Error")
+        fetchData()
       })
-    fetchData()
   }
 
   return (

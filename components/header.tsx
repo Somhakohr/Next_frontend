@@ -152,9 +152,7 @@ function Header(props) {
           ) {
             updateUserImg(session.user.image)
           } else {
-            updateUserImg(
-              userProfile["profile"]
-            )
+            updateUserImg(userProfile["profile"])
           }
         }
       } else if (userType == "Organisation") {
@@ -162,14 +160,8 @@ function Header(props) {
           updateUserName(userObj["name"])
         }
         if (userProfile["profile"]) {
-          updateUserImg(
-            userProfile["profile"]
-          )
-          updateUserCImg(
-            (process.env.NODE_ENV === "production"
-              ? process.env.NEXT_PUBLIC_PROD_BACKEND
-              : process.env.NEXT_PUBLIC_DEV_BACKEND) + userProfile["cover"]
-          )
+          updateUserImg(userProfile["profile"])
+          updateUserCImg(userProfile["cover"])
         }
       }
     }
@@ -210,21 +202,21 @@ function Header(props) {
 
   const products = [
     {
-      name: 'Marketplace',
-      description: 'Measure actions your users take',
-      href: '##',
+      name: "Marketplace",
+      description: "Measure actions your users take",
+      href: "##",
       icon: <i className="fa-solid fa-shop"></i>,
     },
     {
-      name: 'Protocol',
-      description: 'Create your own targeted content',
-      href: '/#protocol',
+      name: "Protocol",
+      description: "Create your own targeted content",
+      href: "/#protocol",
       icon: <i className="fa-solid fa-sliders"></i>,
     },
     {
-      name: 'ATS',
-      description: 'Keep track of your growth',
-      href: '##',
+      name: "ATS",
+      description: "Keep track of your growth",
+      href: "##",
       icon: <i className="fa-solid fa-file-shield"></i>,
     },
   ]
@@ -512,7 +504,11 @@ function Header(props) {
                         <>
                           <Popover.Button
                             className={`
-                              ${open ? 'bg-[#6D27F9] text-white hover:bg-[#6D27F9] hover:text-[#fff]' : ''}
+                              ${
+                                open
+                                  ? "bg-[#6D27F9] text-white hover:bg-[#6D27F9] hover:text-[#fff]"
+                                  : ""
+                              }
                               text-sm xl:text-[16px] px-2 xl:px-5 py-[10px] mx-1 rounded leading-none inline-block transition-all hover:text-[#6D27F9]`}
                           >
                             <span>Products</span>
@@ -530,7 +526,7 @@ function Header(props) {
                             <Popover.Panel className="absolute left-0 z-10 mt-3 transform w-screen max-w-[300px]">
                               <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                                 <div className="relative bg-white p-4">
-                                  {products.map((item) => (
+                                  {products.map(item => (
                                     <a
                                       key={item.name}
                                       href={item.href}
@@ -672,7 +668,11 @@ function Header(props) {
                               <>
                                 <Popover.Button
                                   className={`
-                                    ${open ? 'bg-[#6D27F9] text-white hover:bg-[#6D27F9] hover:text-[#fff]' : ''}
+                                    ${
+                                      open
+                                        ? "bg-[#6D27F9] text-white hover:bg-[#6D27F9] hover:text-[#fff]"
+                                        : ""
+                                    }
                                     px-5 py-[10px] rounded leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white`}
                                 >
                                   <span>Products</span>
@@ -690,7 +690,7 @@ function Header(props) {
                                   <Popover.Panel className="absolute left-0 z-10 mt-3 transform w-screen max-w-[300px]">
                                     <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                                       <div className="relative bg-white p-4">
-                                        {products.map((item) => (
+                                        {products.map(item => (
                                           <a
                                             key={item.name}
                                             href={item.href}
