@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { Fragment, useRef, useState } from "react"
-import { Dialog, Transition } from "@headlessui/react"
+import { Dialog, Transition, Listbox } from "@headlessui/react"
 import Image from "next/image"
 import Sidebar from "../../../components/org-sidebar"
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs"
@@ -48,6 +48,7 @@ export default function OrganisationAllJobs(props) {
   )
 
   const [langPopup, langPopupOpen] = useState(false)
+  const [shareJob, shareJobPopupOpen] = useState(false)
   const cancelButtonRef = useRef(null)
   //local jobpost state
 
@@ -87,6 +88,16 @@ export default function OrganisationAllJobs(props) {
   const [editJob, setEditJob] = useState(false)
 
   const [loader, setloader] = useState(false)
+
+  const templates = [
+    { name: 'Wade Cooper' },
+    { name: 'Arlene Mccoy' },
+    { name: 'Devon Webb' },
+    { name: 'Tom Cook' },
+    { name: 'Tanya Fox' },
+    { name: 'Hellen Schmidt' },
+  ]
+  const [templatesField, setTemplatesField] = useState(templates[0])
 
   //axios auth var
   const axiosInstanceAuth2 = axiosInstanceAuth(accessToken)
@@ -516,6 +527,62 @@ export default function OrganisationAllJobs(props) {
                     </TabList>
                   </div>
                   <TabPanel>
+                    <div className="bg-white shadow-normal rounded-[30px] mb-6 py-4 px-10 flex flex-wrap items-center justify-between">
+                      <h2 className="text-lg font-semibold">
+                        Saved Templates
+                      </h2>
+                      <aside className="flex items-center w-full sm:w-[300px]">
+                        <div className="w-full mr-2">
+                          <Listbox value={templatesField} onChange={setTemplatesField}>
+                            <div className="relative mt-1 z-[10] w-full">
+                              <Listbox.Button className="relative w-full cursor-default rounded-[30px] border border-slate-300 bg-white py-2 pl-3 pr-10 text-left text-sm">
+                                <span className="block truncate">{templatesField.name}</span>
+                                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                  <i className="fa-solid fa-chevron-down"></i>
+                                </span>
+                              </Listbox.Button>
+                              <Transition
+                                as={Fragment}
+                                leave="transition ease-in duration-100"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                              >
+                                <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-sm">
+                                  {templates.map((temp, tempIdx) => (
+                                    <Listbox.Option
+                                      key={tempIdx}
+                                      className={({ active }) =>
+                                        `relative cursor-default select-none border-b last:border-b-0 py-2 pl-3 pr-4 ${
+                                          active ? 'bg-gray-300' : 'text-gray-900'
+                                        }`
+                                      }
+                                      value={temp}
+                                    >
+                                      {({ active, selected }) => (
+                                        <>
+                                          <span
+                                            className={`block truncate text-sm`}
+                                          >
+                                            {temp.name}
+                                          </span>
+                                          <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-sm">
+                                            <i className="fa-solid fa-pen text-gray-600 cursor-pointer mx-1"></i>
+                                            <i className="fa-solid fa-trash text-red-500 cursor-pointer mx-1"></i>
+                                          </span>
+                                        </>
+                                      )}
+                                    </Listbox.Option>
+                                  ))}
+                                </Listbox.Options>
+                              </Transition>
+                            </div>
+                          </Listbox>
+                        </div>
+                        <div>
+                        <button type="button" className="text-[#6d27f9] hover:underline">Reset</button>
+                        </div>
+                      </aside>
+                    </div>
                     <div className="bg-white shadow-normal rounded-[30px] mb-6">
                       <div className="bg-white border border-teal-400 rounded-tl-[30px] rounded-tr-[30px] shadow-lg py-4 px-10">
                         <h2 className="text-lg font-semibold">
@@ -1384,7 +1451,7 @@ export default function OrganisationAllJobs(props) {
                         )}
                         Save as Draft
                       </button>
-                      {/* <button type="button" className="text-[#6D27F9] my-2 font-bold">Preview</button> */}
+                      <button type="button" className="text-[#6D27F9] my-2 font-bold" onClick={() => shareJobPopupOpen(true)}>Save Template</button>
                     </div>
                   </TabPanel>
                   <TabPanel>
@@ -1948,6 +2015,83 @@ export default function OrganisationAllJobs(props) {
                               className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
                               disabled={!verifyLangPopup()}
                               onClick={e => saveLang(e)}
+                            >
+                              {loader && (
+                                <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                              )}
+                              Save
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </Dialog.Panel>
+                  </Transition.Child>
+                </div>
+              </div>
+            </Dialog>
+          </Transition.Root>
+          <Transition.Root show={shareJob} as={Fragment}>
+            <Dialog
+              as="div"
+              className="relative z-10"
+              initialFocus={cancelButtonRef}
+              onClose={shareJobPopupOpen}
+            >
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+              </Transition.Child>
+
+              <div className="fixed inset-0 z-10 overflow-y-auto">
+                <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    enterTo="opacity-100 translate-y-0 sm:scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                    leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                  >
+                    <Dialog.Panel className="relative transform overflow-hidden rounded-[30px] bg-[#FBF9FF] text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-md">
+                      <div className="p-8">
+                        <div className="flex items-center justify-between mb-8">
+                          <h4 className="leading-none font-semibold text-xl">
+                            Create new template
+                          </h4>
+                          <button
+                            type="button"
+                            className="leading-none"
+                            onClick={() => shareJobPopupOpen(false)}
+                          >
+                            <i className="fa-solid fa-xmark"></i>
+                          </button>
+                        </div>
+                        <div>
+                          <div className="mb-6">
+                            <label
+                              htmlFor="addField"
+                              className="font-medium mb-2 leading-none inline-block"
+                            >
+                              Enter name
+                            </label>
+                            <input
+                              type="text"
+                              id="addField"
+                              className="w-full rounded-full border-slate-300"
+                            />
+                          </div>
+                          <div className="text-center">
+                            <button
+                              type="button"
+                              className="disabled:opacity-30 disabled:cursor-normal bg-gradient-to-r from-[#6D27F9] to-[#9F09FB] text-white font-bold rounded-full py-2.5 px-6 md:min-w-[200px] transition-all hover:from-[#391188] hover:to-[#391188]"
                             >
                               {loader && (
                                 <i className="fa-solid fa-circle-notch fa-spin mr-2"></i>
