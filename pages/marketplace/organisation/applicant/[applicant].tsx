@@ -6,6 +6,7 @@ import shallow from "zustand/shallow"
 import { useStore } from "../../../../constants/code"
 import toastcomp from "../../../../components/toast"
 import { axiosInstanceAuth } from "../../../api/axiosApi"
+import ReactReadMoreReadLess from "react-read-more-read-less"
 import Skeleton from "react-loading-skeleton"
 import "react-loading-skeleton/dist/skeleton.css"
 
@@ -1124,7 +1125,14 @@ export default function OrganisationCandidateProfileView(props) {
                       Resume HeadLine
                     </h3>
                     {resume.map((resume, i) => (
-                      <article key={i}>{resume.title}</article>
+                      <ReactReadMoreReadLess
+                        charLimit={200}
+                        readMoreText={"Read more ▼"}
+                        readLessText={"Read less ▲"}
+                        key={i}
+                      >
+                        {resume.title}
+                      </ReactReadMoreReadLess>
                     ))}
                   </div>
                   <div className="bg-white shadow-normal border border-teal-400 rounded-[25px] p-6 mb-6">

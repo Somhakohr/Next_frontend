@@ -116,12 +116,12 @@ export default function OrgDetail() {
                     </div>
                     <div className="relative z-[1]">
                       <div className="flex items-center flex-wrap justify-between">
-                        <div className="w-full sm:max-w-[48%] mt-3">
+                        {/* <div className="w-full sm:max-w-[48%] mt-3">
                           <h4 className="bg-white shadow-normal shadow-white rounded-[12px] py-2 px-4 text-sm flex items-center justify-center">
                             <i className="fa-solid fa-location-dot mr-2"></i>
                             {data.address ? data.address : <>N/A</>}
                           </h4>
-                        </div>
+                        </div> */}
                         <div className="w-full sm:max-w-[48%] mt-3">
                           <h4 className="bg-white shadow-normal shadow-white rounded-[12px] py-2 px-4 text-sm flex items-center justify-center">
                             <i className="fa-solid fa-building mr-2"></i>
@@ -268,12 +268,24 @@ export default function OrgDetail() {
                 </div>
                 <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] overflow-hidden mb-8">
                   <div className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] py-4 px-10">
+                    <h2 className="text-white">Company Head Location</h2>
+                  </div>
+                  <div className="py-6 px-4">
+                    <article
+                      className="md:py-4 md:px-10"
+                      dangerouslySetInnerHTML={{ __html: data.address }}
+                    ></article>
+                  </div>
+                </div>
+                <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] overflow-hidden mb-8">
+                  <div className="bg-gradient-to-r from-[#A382E5] to-[#60C3E2] py-4 px-10">
                     <h2 className="text-white">Company Description</h2>
                   </div>
                   <div className="py-6 px-4">
-                    <article className="md:py-4 md:px-10">
-                      {data.description}
-                    </article>
+                    <article
+                      className="md:py-4 md:px-10"
+                      dangerouslySetInnerHTML={{ __html: data.description }}
+                    ></article>
                   </div>
                 </div>
                 <div className="bg-white shadow-normal border border-teal-400 rounded-[30px] overflow-hidden mb-8">
@@ -286,7 +298,7 @@ export default function OrgDetail() {
                     >
                       <Masonry className="masonary_grid">
                         {orgDetailGallery.map((data, i) => (
-                          <Image
+                          <img
                             src={data.image}
                             alt="Gallery"
                             className="w-full"

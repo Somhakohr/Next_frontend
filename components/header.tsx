@@ -2,7 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import { Fragment, useEffect, useState } from "react"
-import { Dialog, Transition, Menu } from "@headlessui/react"
+import { Dialog, Transition, Menu, Popover } from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { signOut } from "next-auth/react"
 import shallow from "zustand/shallow"
@@ -152,9 +152,7 @@ function Header(props) {
           ) {
             updateUserImg(session.user.image)
           } else {
-            updateUserImg(
-              userProfile["profile"]
-            )
+            updateUserImg(userProfile["profile"])
           }
         }
       } else if (userType == "Organisation") {
@@ -162,14 +160,8 @@ function Header(props) {
           updateUserName(userObj["name"])
         }
         if (userProfile["profile"]) {
-          updateUserImg(
-            userProfile["profile"]
-          )
-          updateUserCImg(
-            (process.env.NODE_ENV === "production"
-              ? process.env.NEXT_PUBLIC_PROD_BACKEND
-              : process.env.NEXT_PUBLIC_DEV_BACKEND) + userProfile["cover"]
-          )
+          updateUserImg(userProfile["profile"])
+          updateUserCImg(userProfile["cover"])
         }
       }
     }
@@ -195,17 +187,9 @@ function Header(props) {
       text: "Features",
     },
     {
-      url: "/#protocol",
-      text: "Protocol",
-    },
-    {
       url: "/blog",
       text: "Blog",
     },
-    // {
-    //     url: '#',
-    //     text: 'Career'
-    // },
     {
       url: "/whitepaper",
       text: "Whitepaper",
@@ -213,6 +197,27 @@ function Header(props) {
     {
       url: "/contact",
       text: "Contact Us",
+    },
+  ]
+
+  const products = [
+    {
+      name: "Marketplace",
+      description: "Measure actions your users take",
+      href: "/marketplace/jobs/",
+      icon: <i className="fa-solid fa-shop"></i>,
+    },
+    {
+      name: "Protocol",
+      description: "Create your own targeted content",
+      href: "/#protocol",
+      icon: <i className="fa-solid fa-sliders"></i>,
+    },
+    {
+      name: "ATS",
+      description: "Keep track of your growth",
+      href: "##",
+      icon: <i className="fa-solid fa-file-shield"></i>,
     },
   ]
 
@@ -228,7 +233,7 @@ function Header(props) {
         </>
       )}
       <div className="min-h-[80px] flex items-center bg-[#FAF8FF] shadow-md py-3 absolute w-full top-0 left-0">
-        <div className="w-full max-w-[1600px] mx-auto px-4 lg:px-10 flex flex-wrap items-center justify-between">
+        <div className="w-full max-w-[1600px] mx-auto px-4 xl:px-10 flex flex-wrap items-center justify-between">
           <Logo userType={userType} />
           {session && userType.length > 0 ? (
             <>
@@ -492,13 +497,66 @@ function Header(props) {
           ) : (
             <>
               <div className="grow flex items-center justify-end">
-                <div className="grow hidden xl:block">
+                <div className="grow hidden lg:block">
                   <ul className="w-full flex items-center justify-center">
+                    <Popover className="relative inline-block">
+                      {({ open }) => (
+                        <>
+                          <Popover.Button
+                            className={`
+                              ${
+                                open
+                                  ? "bg-[#6D27F9] text-white hover:bg-[#6D27F9] hover:text-[#fff]"
+                                  : ""
+                              }
+                              text-sm xl:text-[16px] px-2 xl:px-5 py-[10px] mx-1 rounded leading-none inline-block transition-all hover:text-[#6D27F9]`}
+                          >
+                            <span>Products</span>
+                            <i className="fa-solid fa-caret-down ml-2"></i>
+                          </Popover.Button>
+                          <Transition
+                            as={Fragment}
+                            enter="transition ease-out duration-200"
+                            enterFrom="opacity-0 translate-y-1"
+                            enterTo="opacity-100 translate-y-0"
+                            leave="transition ease-in duration-150"
+                            leaveFrom="opacity-100 translate-y-0"
+                            leaveTo="opacity-0 translate-y-1"
+                          >
+                            <Popover.Panel className="absolute left-0 z-10 mt-3 transform w-screen max-w-[300px]">
+                              <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                                <div className="relative bg-white p-4">
+                                  {products.map(item => (
+                                    <a
+                                      key={item.name}
+                                      href={item.href}
+                                      className="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50 my-1"
+                                    >
+                                      <div className="w-[40px] text-2xl text-[#6d27f9]">
+                                        {item.icon}
+                                      </div>
+                                      <div className="w-[calc(100%-40px)] pl-2">
+                                        <p className="text-sm font-medium text-gray-900">
+                                          {item.name}
+                                        </p>
+                                        <p className="text-sm text-gray-500">
+                                          {item.description}
+                                        </p>
+                                      </div>
+                                    </a>
+                                  ))}
+                                </div>
+                              </div>
+                            </Popover.Panel>
+                          </Transition>
+                        </>
+                      )}
+                    </Popover>
                     {menuNav.map((menuNav, i) => (
                       <li key={i}>
                         <Link
                           href={menuNav.url}
-                          className={`px-5 py-[10px] mx-1 rounded leading-none inline-block transition-all hover:text-[#6D27F9] ${
+                          className={`text-sm xl:text-[16px] px-2 xl:px-5 py-[10px] mx-1 rounded leading-none inline-block transition-all hover:text-[#6D27F9] ${
                             routerr.pathname == menuNav.url
                               ? "bg-[#6D27F9] text-white hover:bg-[#6D27F9] hover:text-[#fff]"
                               : ""
@@ -544,7 +602,7 @@ function Header(props) {
                     setOpen(true)
                     toggleSmallMenu(false)
                   }}
-                  className="xl:hidden text-2xl flex"
+                  className="lg:hidden text-2xl flex"
                 >
                   <i className="fa-solid fa-bars"></i>
                 </button>
@@ -605,6 +663,60 @@ function Header(props) {
                       </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         <ul className="w-full">
+                          <Popover className="relative inline-block">
+                            {({ open }) => (
+                              <>
+                                <Popover.Button
+                                  className={`
+                                    ${
+                                      open
+                                        ? "bg-[#6D27F9] text-white hover:bg-[#6D27F9] hover:text-[#fff]"
+                                        : ""
+                                    }
+                                    px-5 py-[10px] rounded leading-none inline-block transition-all hover:bg-gradient-to-r hover:from-[#6D27F9] hover:to-[#9F09FB] hover:text-white`}
+                                >
+                                  <span>Products</span>
+                                  <i className="fa-solid fa-caret-down ml-2"></i>
+                                </Popover.Button>
+                                <Transition
+                                  as={Fragment}
+                                  enter="transition ease-out duration-200"
+                                  enterFrom="opacity-0 translate-y-1"
+                                  enterTo="opacity-100 translate-y-0"
+                                  leave="transition ease-in duration-150"
+                                  leaveFrom="opacity-100 translate-y-0"
+                                  leaveTo="opacity-0 translate-y-1"
+                                >
+                                  <Popover.Panel className="absolute left-0 z-10 mt-3 transform w-screen max-w-[300px]">
+                                    <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                                      <div className="relative bg-white p-4">
+                                        {products.map(item => (
+                                          <a
+                                            key={item.name}
+                                            href={item.href}
+                                            className="flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50 my-1"
+                                            onClick={() => setOpen(false)}
+                                          >
+                                            <div className="w-[40px] text-2xl text-[#6d27f9]">
+                                              {item.icon}
+                                            </div>
+                                            <div className="w-[calc(100%-40px)] pl-2">
+                                              <p className="text-sm font-medium text-gray-900">
+                                                {item.name}
+                                              </p>
+                                              <p className="text-sm text-gray-500">
+                                                {item.description}
+                                              </p>
+                                            </div>
+                                          </a>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  </Popover.Panel>
+                                </Transition>
+                              </>
+                            )}
+                          </Popover>
                           {menuNav.map((menuNav, i) => (
                             <li key={i}>
                               <Link
