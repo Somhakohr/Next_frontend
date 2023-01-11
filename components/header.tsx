@@ -204,7 +204,7 @@ function Header(props) {
     {
       name: "Marketplace",
       description: "Measure actions your users take",
-      href: "##",
+      href: "/marketplace/jobs/",
       icon: <i className="fa-solid fa-shop"></i>,
     },
     {

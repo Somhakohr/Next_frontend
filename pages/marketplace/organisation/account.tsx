@@ -1033,8 +1033,8 @@ export default function OrganisationAccount(props) {
                         plugins:
                           "autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount",
                         toolbar:
-                          "undo redo | formatselect | " +
-                          "bold italic backcolor | alignleft aligncenter " +
+                          "| formatselect | " +
+                          "bold italic forecolor backcolor | alignleft aligncenter " +
                           "alignright alignjustify | bullist numlist outdent indent | " +
                           "removeformat | help",
                         content_style:
@@ -1070,8 +1070,8 @@ export default function OrganisationAccount(props) {
                         plugins:
                           "autolink lists link image charmap print preview anchor searchreplace visualblocks code fullscreen insertdatetime media table paste code help wordcount",
                         toolbar:
-                          "undo redo | formatselect | " +
-                          "bold italic backcolor | alignleft aligncenter " +
+                          "| formatselect | " +
+                          "bold italic forecolor backcolor | alignleft aligncenter " +
                           "alignright alignjustify | bullist numlist outdent indent | " +
                           "removeformat | help",
                         content_style:
@@ -1523,9 +1523,7 @@ export default function OrganisationAccount(props) {
                           </label>
                           <div className="iconGroup right">
                             <input
-                              type={`${
-                                orgInputPass ? "text" : "password"
-                              }`}
+                              type={`${orgInputPass ? "text" : "password"}`}
                               id="orgNewPass"
                               className="w-full rounded-full border-slate-300"
                               value={pass}
@@ -1553,9 +1551,7 @@ export default function OrganisationAccount(props) {
                           </label>
                           <div className="iconGroup right">
                             <input
-                              type={`${
-                                orgInputConfPass ? "text" : "password"
-                              }`}
+                              type={`${orgInputConfPass ? "text" : "password"}`}
                               id="orgConfirmPass"
                               className="w-full rounded-full border-slate-300"
                               value={pass2}
@@ -1568,9 +1564,7 @@ export default function OrganisationAccount(props) {
                             >
                               <i
                                 className={`fa-solid text-black ${
-                                  orgInputConfPass
-                                    ? "fa-eye-slash"
-                                    : "fa-eye"
+                                  orgInputConfPass ? "fa-eye-slash" : "fa-eye"
                                 }`}
                               ></i>
                             </button>
