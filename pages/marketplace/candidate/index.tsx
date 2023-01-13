@@ -7,6 +7,7 @@ import Slider from "react-slick"
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs"
 import "react-tabs/style/react-tabs.css"
 import JobCard from "../../../components/job-card"
+import MintProfileForm from "../../../components/mint-profile-form"
 import token from "../../../public/images/token.png"
 import walletCard from "../../../public/images/wallet-card.png"
 import LaunchingSoon from "../../../public/images/Launching-Soon.png"
@@ -66,6 +67,7 @@ export default function Candidate(props) {
   const [rec, setrec] = useState([])
   const [ske, setske] = useState(true)
   const [ske2, setske2] = useState(true)
+  
 
   const learningSlides = [
     {
@@ -365,6 +367,7 @@ export default function Candidate(props) {
                 <div className="w-full md:max-w-[60%] md:pl-8">
                   <Image src={walletCard} alt="Wallet Card" />
                 </div>
+                <MintProfileForm profile={userProfile} address={address}/>
               </div>
             </div>
             <div className="mb-8 py-4 px-8 bg-white shadow-normal rounded-[20px] min-h-[506px]">
